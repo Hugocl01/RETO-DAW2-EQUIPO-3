@@ -15,7 +15,7 @@ git commit -m "Mensaje de commit"
 # Subir cambios:
 git push -u origin issue-##-descripcion
 
-#(SOLO PARA JEFE)
+# (SOLO PARA JEFE)
 ## Crear PR (CLI GitHub):
 gh pr create --title "..." --body "..." --base main --head issue-##-descripcion
 
