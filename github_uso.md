@@ -9,8 +9,24 @@ git pull origin main
 ```
 # Crear y cambiar a la rama:
 ```
-git checkout -b issue-##-descripcion
+La rama se crea desde project
+![image](https://github.com/user-attachments/assets/7f9fa8a0-3d41-49f9-8c82-5247c5c6fcb7)
+B - para Back
+F - para Front
+
+Para acceder a la rama creada
+![image](https://github.com/user-attachments/assets/d94e991f-73ce-4a1a-a86c-fdaa2962820e)
+
 ```
+
+# Comandos a tener en cuenta:
+
+```
+git status
+
+Te dara el nombre de la rama y los cambios o adiciones al proyecto.
+```
+
 # Confirmar cambios:
 ```
 git add .
@@ -18,20 +34,5 @@ git commit -m "Mensaje de commit"
 ```
 # Subir cambios:
 ```
-git push -u origin issue-##-descripcion
-```
-# (SOLO PARA JEFE)
-## Crear PR (CLI GitHub):
-```
-gh pr create --title "..." --body "..." --base main --head issue-##-descripcion
-```
-## Merge PR (CLI GitHub):
-```
-gh pr merge --merge
-```
-
-## Eliminar rama remota y local:
-```
-git push origin --delete issue-##-descripcion
-git branch -d issue-##-descripcion
+git push -u origin "nombre de la rama"
 ```
