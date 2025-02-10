@@ -1,23 +1,27 @@
-# Resumen de Acciones con Git
+# Clonar (SOLO UNA VEZ PARA TENER EL PROYECTO):
+git clone <URL>
 
-## Realizar este proceso para cada funcionalidad en React | Laravel
+# Actualizar rama principal (CADA VEZ QUE SE HAGA UNA FUNCIONALIDAD O CAMBIO):
+git checkout main
+git pull origin main
 
-### Crear una nueva rama
-```sh
-git checkout -b "resumen_accion"
+# Crear y cambiar a la rama:
+git checkout -b issue-##-descripcion
 
-```
+# Confirmar cambios:
+git add .
+git commit -m "Mensaje de commit"
 
-### Subir rama
-```sh
-git fetch
+# Subir cambios:
+git push -u origin issue-##-descripcion
 
-git merge
+#(SOLO PARA JEFE)
+## Crear PR (CLI GitHub):
+gh pr create --title "..." --body "..." --base main --head issue-##-descripcion
 
-git add -A
+## Merge PR (CLI GitHub):
+gh pr merge --merge
 
-git commit -m "resumen de lo que sea"
-
-git push origin "resumen_accion"
-
-pull request
+## Eliminar rama remota y local:
+git push origin --delete issue-##-descripcion
+git branch -d issue-##-descripcion
