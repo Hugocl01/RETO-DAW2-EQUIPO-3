@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
@@ -29,6 +28,7 @@ class LoginController extends Controller
      *         description="Login correcto y token generado",
      *         @OA\JsonContent(
      *             @OA\Property(property="Usuario", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Juan Pérez"),
      *                 @OA\Property(property="email", type="string", example="prueba@prueba.es")
      *             ),
@@ -39,7 +39,7 @@ class LoginController extends Controller
      *         response=401,
      *         description="No autorizado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="No autorizado")
+     *             @OA\Property(property="message", type="string", example="Credenciales incorrectas")
      *         )
      *     ),
      *     @OA\Response(
@@ -67,20 +67,15 @@ class LoginController extends Controller
             ], 401);
         }
 
-        // Eliminar y Generar el token
+        // Generar un token seguro usando Sanctum
         $usuario->tokens()->delete();
-        $token = $usuario->createToken('acceso_api')->plainTextToken;
-
-        // Guardar el token en cada Login
-        $usuario->update([
-            'token' => $token
-        ]);
+        $token = $usuario->createToken('auth_token', ['*'], now()->addDay())->plainTextToken;
 
         return response()->json([
             'status' => 'success',
             'Usuario' => [
                 'id' => $usuario->id,
-                'name' => $usuario->name,
+                'name' => $usuario->nombre_completo,
                 'email' => $usuario->email,
             ],
             'token' => $token
