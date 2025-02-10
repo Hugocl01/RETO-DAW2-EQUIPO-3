@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('activo')->default(1);
 
-            // Token
-            $table->string('token')->nullable();
-
             // Claves foraneas
             $table->unsignedBigInteger('perfil_id');
             $table->foreign('perfil_id')
