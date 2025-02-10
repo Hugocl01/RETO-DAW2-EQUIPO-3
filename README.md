@@ -15,16 +15,13 @@ git checkout main
 git pull origin main
 ```
 ## Crear y cambiar a la rama:
-```
+
 La rama se crea desde project
-![image](https://github.com/user-attachments/assets/7f9fa8a0-3d41-49f9-8c82-5247c5c6fcb7)
+
 B - para Back
 F - para Front
 
 Para acceder a la rama creada
-![image](https://github.com/user-attachments/assets/d94e991f-73ce-4a1a-a86c-fdaa2962820e)
-
-```
 
 ## Comandos a tener en cuenta:
 
