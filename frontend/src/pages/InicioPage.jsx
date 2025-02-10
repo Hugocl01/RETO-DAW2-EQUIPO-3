@@ -1,8 +1,10 @@
 function InicioPage() {
 
     return (
-        <>Pagina de inicio</>
+        <div>
+            Pagina de inicio
+        </div>
     );
 }
 
-export default InicioPage();
+export default InicioPage;

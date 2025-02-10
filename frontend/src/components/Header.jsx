@@ -12,15 +12,13 @@ function Header() {
                     </Link>
 
                     <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><Link href="#" className="nav-link px-2 link-secondary">Overview</Link></li>
-                        <li><Link href="#" className="nav-link px-2 link-body-emphasis">Inventory</Link></li>
-                        <li><Link href="#" className="nav-link px-2 link-body-emphasis">Customers</Link></li>
-                        <li><Link href="#" className="nav-link px-2 link-body-emphasis">Products</Link></li>
+                        <li><Link href="/" className="nav-link px-2 link-body-emphasis">Inicio</Link></li>
+                        <li><Link href="/equipos" className="nav-link px-2 link-body-emphasis">Equipos</Link></li>
+                        <li><Link href="/torneo" className="nav-link px-2 link-body-emphasis">Torneo</Link></li>
+                        <li><Link href="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
+                        <li><Link href="/galeria" className="nav-link px-2 link-body-emphasis">Galeria</Link></li>
+                        <li><Link href="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
                     </ul>
-
-                    <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input type="search" className="form-control" placeholder="Search..." aria-label="Search" />
-                    </form>
 
                     <div className="dropdown text-end">
                         <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
