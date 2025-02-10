@@ -27,6 +27,7 @@ F - para Front
 Para acceder a la rama creada:
 
 ![ver](411725938-d94e991f-73ce-4a1a-a86c-fdaa2962820e.png)
+
 ## Comandos a tener en cuenta:
 
 ```
