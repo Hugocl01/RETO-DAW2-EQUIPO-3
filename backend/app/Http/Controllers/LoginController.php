@@ -80,7 +80,7 @@ class LoginController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'Usuario' => [
+            'usuario' => [
                 'id' => $usuario->id,
                 'name' => $usuario->nombre_completo,
                 'email' => $usuario->email,

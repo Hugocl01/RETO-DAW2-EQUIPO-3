@@ -10,7 +10,7 @@ class Ong extends Model
     protected $table = 'ongs';
     protected $fillable = [
         'nombre',
-        'landingPage',
+        'landing_page',
         'usuario_creador_id',
         'usuario_modificador_id',
         'fecha_creacion',

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PerfilRequest;
 use App\Models\Perfil;
+use App\Http\Resources\PerfilResource;
 
 class PerfilController extends Controller
 {
     public function index()
     {
-        $perfiles = Perfil::all();
+        $perfiles = Perfil::select('id', 'tipo')->get();
 
         if ($perfiles->isEmpty()) {
             return response()->json([
@@ -20,24 +21,19 @@ class PerfilController extends Controller
 
         return response()->json([
             'status'   => 'success',
-            'perfiles' => $perfiles->map(function ($perfil) {
-                return [
-                    'id'   => $perfil->id,
-                    'tipo' => $perfil->tipo,
-                ];
-            }),
+            'perfiles' => PerfilResource::collection($perfiles)
         ], 200);
     }
 
     public function edit(PerfilRequest $request, Perfil $p)
     {
         $data = $request->only(['tipo']);
-        $p->tipo = $data['tipo'];
 
-        if ($p->save()) {
+        if ($p->update($data)) {
             return response()->json([
-                'message' => 'Se ha modificado el perfil',
-                'perfil'  => $p
+                'status'  => 'success',
+                'message' => 'Perfil actualizado correctamente',
+                'perfil'  => new PerfilResource($p)
             ], 200);
         }
 
@@ -54,8 +50,9 @@ class PerfilController extends Controller
 
         if ($p) {
             return response()->json([
+                'status'  => 'success',
                 'message' => 'Perfil creado correctamente',
-                'perfil'  => $p
+                'perfil'  => new PerfilResource($p)
             ], 201);
         }
 
@@ -69,6 +66,7 @@ class PerfilController extends Controller
     {
         if ($p->delete()) {
             return response()->json([
+                'status'  => 'success',
                 'message' => 'Perfil eliminado correctamente.'
             ], 200);
         }
