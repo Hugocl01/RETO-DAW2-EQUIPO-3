@@ -42,11 +42,10 @@ function Header() {
                                 <img src="https://github.com/mdo.png" alt="Perfil de usuario" width="32" height="32" className="rounded-circle" />
                             </a>
                             <ul className="dropdown-menu text-small">
-                                <li><a className="dropdown-item" href="#">Nuevo proyecto...</a></li>
                                 <li><a className="dropdown-item" href="#">Configuración</a></li>
                                 <li><Link to="/perfil" className="dropdown-item">Perfil</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" onClick={logout}>Cerrar sesión</a></li>
+                                <li><a className="dropdown-item" href="" onClick={logout}>Cerrar sesión</a></li>
                             </ul>
                         </div>
                     ) : (
