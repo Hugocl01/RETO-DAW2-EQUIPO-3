@@ -1,4 +1,5 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+import axios from 'axios';
 
 /**
  * Contexto para gestionar la seguridad de la aplicación.
@@ -20,11 +21,36 @@ const SeguridadContext = createContext();
  * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de seguridad.
  */
 function SeguridadProvider({ children }) {
-    
+    const [auth, setAuth] = useState(false);
+
+    const login = async (email, password) => {
+        console.log(email, password);
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/login', {
+                "email": email,
+                "password": password
+            });
+            console.log(response.data); // Manejar la respuesta
+            setAuth(true);
+        } catch (error) {
+            if (error.response) {
+                // La solicitud fue realizada y el servidor respondió con un estado de error
+                console.log('Error en la respuesta:', error.response.data);
+            } else if (error.request) {
+                // La solicitud fue realizada pero no se recibió respuesta
+                console.log('Error en la solicitud:', error.request);
+            } else {
+                // Algo sucedió al configurar la solicitud que lanzó un error
+                console.log('Error:', error.message);
+            }
+        }
+    };
+
     return (
         <SeguridadContext.Provider
             value={{
                 // Aquí puedes agregar la lógica de seguridad (por ejemplo: autenticación, estado de sesión, etc.)
+                auth, login,
             }}
         >
             {children}
