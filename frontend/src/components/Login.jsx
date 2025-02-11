@@ -23,9 +23,9 @@ function Login() {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault;
-        login(formData.email, formData.password);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await login(formData.email, formData.password);
     };
 
     return (

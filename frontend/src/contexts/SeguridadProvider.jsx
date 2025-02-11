@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import axios from 'axios';
+import api from "../services/api.js";
 
 /**
  * Contexto para gestionar la seguridad de la aplicación.
@@ -25,22 +25,22 @@ function SeguridadProvider({ children }) {
 
     const login = async (email, password) => {
         console.log(email, password);
+        
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login', {
-                "email": email,
-                "password": password
+            const response = await api.post('/login', {
+                email: email,
+                password: password
             });
             console.log(response.data); // Manejar la respuesta
-            setAuth(true);
+            // Aquí puedes realizar acciones adicionales con los datos recibidos
+            return response.data; // Devuelve los datos de respuesta
         } catch (error) {
+            console.log(error);
             if (error.response) {
-                // La solicitud fue realizada y el servidor respondió con un estado de error
                 console.log('Error en la respuesta:', error.response.data);
             } else if (error.request) {
-                // La solicitud fue realizada pero no se recibió respuesta
                 console.log('Error en la solicitud:', error.request);
             } else {
-                // Algo sucedió al configurar la solicitud que lanzó un error
                 console.log('Error:', error.message);
             }
         }
