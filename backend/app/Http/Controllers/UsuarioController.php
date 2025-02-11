@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UsuarioRequest;
 use App\Http\Resources\UsuarioResource;
 
+use function PHPUnit\Framework\isNull;
+use function PHPUnit\Framework\isTrue;
+
 class UsuarioController extends Controller
 {
     public function index()
@@ -26,7 +29,7 @@ class UsuarioController extends Controller
         ], 200);
     }
 
-    public function edit(UsuarioRequest $request, Usuario $u)
+    public function update(UsuarioRequest $request, Usuario $u)
     {
         $data = $request->only(['nombre_completo', 'email', 'perfil_id', 'activo']);
 
@@ -65,24 +68,20 @@ class UsuarioController extends Controller
         ], 400);
     }
 
-    public function updateActivo(UsuarioRequest $request, Usuario $u)
+    public function updateActivo($id)
     {
-        $data = $request->only(['activo']);
-        $u->activo = $data['activo'];
+        $u = Usuario::findOrFail($id);
 
-        $msg = $u->activo ? 'El usuario ha sido activado' : 'El usuario ha sido desactivado';
+        $nuevoEstado = !$u->activo;
 
-        if ($u->save()) {
-            return response()->json([
-                'status' => 'success',
-                'message' => $msg,
-                'usuario' => new UsuarioResource($u)
-            ], 200);
-        }
+        // Actualiza el campo 'activo' con el nuevo estado.
+        $u->update([
+            'activo' => $nuevoEstado,
+        ]);
 
         return response()->json([
-            'status' => 'error',
-            'message' => 'No se pudo actualizar el estado del usuario.'
-        ], 500);
+            'status'  => 'success',
+            'message' => $nuevoEstado ? 'El usuario ha sido activado' : 'El usuario ha sido desactivado'
+        ], 200);
     }
 }
