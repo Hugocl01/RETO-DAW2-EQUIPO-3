@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout.jsx";
+import BaseLayout from "../layouts/BaseLayout.jsx";
 import InicioPage from "../pages/InicioPage.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import EquiposPage from "../pages/EquiposPage.jsx";
@@ -8,6 +9,7 @@ import OrganizacionPage from "../pages/OrganizacionPage.jsx";
 import GaleriaPage from "../pages/GaleriaPage.jsx";
 import InscribirsePage from "../pages/InscribirsePage.jsx";
 import PerfilPage from "../pages/PerfilPage.jsx";
+import LoginPage from "../pages/LoginPage.jsx";
 
 /**
  * Componente de enrutamiento principal de la aplicación.
@@ -32,6 +34,11 @@ function AppEnrutador() {
                     <Route path="galeria" element={<GaleriaPage />} />
                     <Route path="inscribirse" element={<InscribirsePage />} />
                     <Route path="perfil" element={<PerfilPage />} />
+                </Route>
+
+                <Route path="/" element={<BaseLayout />}>
+                    {/* Página de Login */}
+                    <Route path="login" element={<LoginPage />} />
 
                     {/* Página de error para rutas no encontradas */}
                     <Route path="*" element={<ErrorPage />} />
