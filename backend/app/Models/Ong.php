@@ -11,6 +11,10 @@ class Ong extends Model
     protected $fillable = [
         'nombre',
         'landingPage',
+        'usuario_creador_id',
+        'usuario_modificador_id',
+        'fecha_creacion',
+        'fecha_modificacion',
     ];
 
     public function donacion()

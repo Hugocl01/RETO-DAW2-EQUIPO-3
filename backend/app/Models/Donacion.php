@@ -4,14 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Donacion extends Model
 {
+    use HasFactory;
     protected $table = 'donaciones';
     protected $fillable = [
         'ong_id',
         'kilos',
-        'importe'
+        'importe',
+        'usuario_creador_id',
+        'usuario_modificador_id',
+        'fecha_creacion',
+        'fecha_modificacion',
     ];
 
     public function ong()

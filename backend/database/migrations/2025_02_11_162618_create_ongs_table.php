@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('ongs', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 45);
-            $table->string('landingPage', 45);
-            $table->unsignedBigInteger('usuario_creador_id');
+            $table->string('landingPage', 100)->nullable();
+            $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->default(now());
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
+            $table->timestamps();
         });
     }
 
