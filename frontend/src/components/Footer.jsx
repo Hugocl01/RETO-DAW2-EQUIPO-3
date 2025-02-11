@@ -6,6 +6,7 @@
  * @returns {JSX.Element} Elemento JSX que representa el pie de página.
  */
 function Footer() {
+    
     return (
         <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 

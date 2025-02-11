@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element} Elemento JSX que representa el encabezado de la aplicación.
  */
 function Header() {
+    
     return (
         <header>
             <div className="container">
