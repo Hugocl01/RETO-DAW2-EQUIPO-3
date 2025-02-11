@@ -2,7 +2,7 @@ function Login() {
 
     return (
         <form>
-            <img className="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
+            <i className="bi bi-bootstrap-fill"></i>
             <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
             <div className="form-floating">
