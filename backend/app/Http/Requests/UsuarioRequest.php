@@ -19,11 +19,17 @@ class UsuarioRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Si estamos en la ruta 'usuarios.updateActivo', solo validamos el campo 'activo'
+        if ($this->isMethod('put') && $this->route('usuario')) {
+            return [
+                'activo' => 'required|boolean'
+            ];
+        }
+
         return [
-            'nombre_Completo' => 'required|string|min:3|max:45',
+            'nombre_completo' => 'required|string|min:3|max:45',
             'email' => 'required|email',
             'password' => 'required|string|min:8',
-            'activo' => 'required|boolean',
             'perfil' => 'required'
         ];
     }
@@ -34,15 +40,16 @@ class UsuarioRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nombre_Completo.required' => 'El nombre completo es obligatorio.',
-            'nombre_Completo.min' => 'El nombre no puede tener menos de 3 caracteres',
-            'nombre_Completo.max' => 'El nombre no puede tener mas de 45 caracteres',
+            'nombre_completo.required' => 'El nombre completo es obligatorio.',
+            'nombre_completo.min' => 'El nombre no puede tener menos de 3 caracteres.',
+            'nombre_completo.max' => 'El nombre no puede tener más de 45 caracteres.',
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'El correo electrónico no es válido.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'activo.required' => 'Este campo tiene es obligatorio',
-            'perfil.required' => 'El perfil debe ser seleccionado',
+            'activo.required' => 'Este campo es obligatorio.',
+            'activo.boolean' => 'El estado debe ser verdadero o falso.',
+            'perfil.required' => 'El perfil debe ser seleccionado.',
         ];
     }
 }
