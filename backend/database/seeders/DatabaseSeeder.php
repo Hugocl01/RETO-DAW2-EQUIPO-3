@@ -16,8 +16,12 @@ class DatabaseSeeder extends Seeder
     {
         DB::table('usuarios')->delete();
         DB::table('perfiles')->delete();
+        DB::table('ongs')->delete();
+        DB::table('donaciones')->delete();
 
         $this->call(PerfilSeeder::class);
         $this->call(UsuarioSeeder::class);
+        $this->call(OngSeeder::class);
+        $this->call(DonacionesSeeder::class);
     }
 }

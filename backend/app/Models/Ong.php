@@ -5,25 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Perfil extends Model
+class Ong extends Model
 {
-    protected $table = 'perfiles';
-
+    protected $table = 'ongs';
     protected $fillable = [
-        'tipo',
+        'nombre',
+        'landingPage',
         'usuario_creador_id',
         'usuario_modificador_id',
         'fecha_creacion',
         'fecha_modificacion',
     ];
 
-    public function usuarios()
+    public function donacion()
     {
-        return $this->HasMany(Usuario::class, 'perfil_id');
+        return $this->hasMany(Donacion::class);
     }
 
-
-    // Creacion y Modificacion de perfiles
     protected static function boot()
     {
         parent::boot();
