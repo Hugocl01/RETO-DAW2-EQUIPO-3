@@ -5,19 +5,19 @@ function Header() {
         <header>
             <div className="container">
                 <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <Link href="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <Link to="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
                         <svg className="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
                             <use xlinkHref="#bootstrap"></use>
                         </svg>
                     </Link>
 
                     <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><Link href="/" className="nav-link px-2 link-body-emphasis">Inicio</Link></li>
-                        <li><Link href="/equipos" className="nav-link px-2 link-body-emphasis">Equipos</Link></li>
-                        <li><Link href="/torneo" className="nav-link px-2 link-body-emphasis">Torneo</Link></li>
-                        <li><Link href="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
-                        <li><Link href="/galeria" className="nav-link px-2 link-body-emphasis">Galeria</Link></li>
-                        <li><Link href="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
+                        <li><Link to="/" className="nav-link px-2 link-body-emphasis">Inicio</Link></li>
+                        <li><Link to="/equipos" className="nav-link px-2 link-body-emphasis">Equipos</Link></li>
+                        <li><Link to="/torneo" className="nav-link px-2 link-body-emphasis">Torneo</Link></li>
+                        <li><Link to="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
+                        <li><Link to="/galeria" className="nav-link px-2 link-body-emphasis">Galeria</Link></li>
+                        <li><Link to="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
                     </ul>
 
                     <div className="dropdown text-end">
