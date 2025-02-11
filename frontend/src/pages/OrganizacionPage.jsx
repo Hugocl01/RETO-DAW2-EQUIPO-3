@@ -1,3 +1,9 @@
+/**
+ * Página de Organización.
+ * 
+ * @component
+ * @returns {JSX.Element} - Renderiza la página de organización.
+ */
 function OrganizacionPage() {
 
     return (

@@ -1,7 +1,7 @@
 /**
  * Página de Equipos.
  *
- * Esta página renderiza el componente de listado de equipos (`ListaEquipos`),
+ * Esta página renderiza el componente de listado de equipos (`ListaEquipos`).
  *
  * @component
  * @returns {JSX.Element} - La estructura de la página de equipos.
