@@ -36,6 +36,7 @@ function AppEnrutador() {
                     <Route path="perfil" element={<PerfilPage />} />
                 </Route>
 
+                {/* Layout alternativo */}
                 <Route path="/" element={<BaseLayout />}>
                     {/* Página de Login */}
                     <Route path="login" element={<LoginPage />} />
