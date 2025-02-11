@@ -63,8 +63,15 @@ class LoginController extends Controller
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Credenciales incorrectas'
+                'message' => 'Credenciales incorrectas.'
             ], 401);
+        }
+
+        if (empty($usuario->activo)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Este usuario esta inactivo.'
+            ], 403);
         }
 
         // Generar un token seguro usando Sanctum
