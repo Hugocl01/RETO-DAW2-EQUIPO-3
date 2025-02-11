@@ -7,6 +7,7 @@ import TorneoPage from "../pages/TorneoPage.jsx";
 import OrganizacionPage from "../pages/OrganizacionPage.jsx";
 import GaleriaPage from "../pages/GaleriaPage.jsx";
 import InscribirsePage from "../pages/InscribirsePage.jsx";
+import PerfilPage from "../pages/PerfilPage.jsx";
 
 /**
  * Componente de enrutamiento principal de la aplicación.
@@ -30,6 +31,7 @@ function AppEnrutador() {
                     <Route path="organizacion" element={<OrganizacionPage />} />
                     <Route path="galeria" element={<GaleriaPage />} />
                     <Route path="inscribirse" element={<InscribirsePage />} />
+                    <Route path="perfil" element={<PerfilPage />} />
 
                     {/* Página de error para rutas no encontradas */}
                     <Route path="*" element={<ErrorPage />} />

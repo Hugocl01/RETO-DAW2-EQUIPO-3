@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element} Elemento JSX que representa el encabezado de la aplicación.
  */
 function Header() {
-    
+
     return (
         <header>
             <div className="container">
@@ -39,7 +39,7 @@ function Header() {
                         <ul className="dropdown-menu text-small">
                             <li><a className="dropdown-item" href="#">Nuevo proyecto...</a></li>
                             <li><a className="dropdown-item" href="#">Configuración</a></li>
-                            <li><a className="dropdown-item" href="#">Perfil</a></li>
+                            <li><Link to="/perfil" className="dropdown-item">Perfil</Link></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><a className="dropdown-item" href="#">Cerrar sesión</a></li>
                         </ul>
