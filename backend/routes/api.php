@@ -12,4 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/login',LoginController::class);
 
 
-Route::apiResource('usuario', UsuarioController::class)->except('store', 'edit', 'desactivate');
+Route::get('/usuarios',[UsuarioController::class, 'index']);
+Route::put('/usuarios/{Usuario}',[UsuarioController::class, 'updateActivo']);
+Route::post('/usuarios',[UsuarioController::class, 'store']);
+Route::put('/usuarios',[UsuarioController::class, 'edit']);
