@@ -1,19 +1,13 @@
 import { useContext, useState } from "react";
 import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
 
-/**
- * Componente de formulario de inicio de sesión.
- * Permite a los usuarios ingresar su correo electrónico y contraseña para autenticarse.
- * 
- * @component
- * @returns {JSX.Element} Elemento JSX que representa el formulario de inicio de sesión.
- */
 function Login() {
     const { login } = useContext(SeguridadContext);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,13 +19,21 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(formData.email, formData.password);
+        setError(null); // Resetea error antes de intentar el login
+
+        const result = await login(formData.email, formData.password);
+
+        if (!result.success) {
+            setError(result.error);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <i className="bi bi-bootstrap-fill"></i>
             <h1 className="h3 mb-3 fw-normal">Iniciar sesión</h1>
+
+            {error && <div className="alert alert-danger">{error}</div>}
 
             <div className="form-floating">
                 <input type="email" className="form-control" id="floatingInput" name="email" placeholder="correo@ejemplo.com" onChange={handleChange} required />

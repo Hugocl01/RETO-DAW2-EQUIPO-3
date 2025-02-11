@@ -51,12 +51,15 @@ function SeguridadProvider({ children }) {
     }, []);
 
     /**
-     * Inicia sesión con las credenciales del usuario.
-     * 
+     * Inicia sesión con las credenciales del usuario y almacena el estado de autenticación.
+     * Guarda el token y los datos del usuario en el estado global y en `sessionStorage`.
+     *
      * @async
      * @function
      * @param {string} email - Correo electrónico del usuario.
      * @param {string} password - Contraseña del usuario.
+     * @returns {Promise<{ success: boolean, error?: string }>} - Objeto con `success: true` si la autenticación fue exitosa, o `success: false` con un mensaje de error en `error`.
+     *
      */
     const login = async (email, password) => {
         try {
@@ -65,19 +68,37 @@ function SeguridadProvider({ children }) {
             if (response.data.status === "success") {
                 const { token, usuario } = response.data;
 
-                // Guardar en el estado global
+                // Guarda en el estado global
                 setSeguridad({
                     auth: true,
                     user: usuario,
                     token: token
                 });
 
-                // Guardar en sessionStorage
+                // Guarda en sessionStorage
                 sessionStorage.setItem("token", token);
                 sessionStorage.setItem("user", JSON.stringify(usuario));
+
+                return { success: true };
             }
         } catch (error) {
-            console.error("Error en la autenticación", error);
+            let errorMessage = "Error desconocido";
+
+            if (error.response) {
+                if (error.response.status === 401) {
+                    errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+                } else if (error.response.status === 500) {
+                    errorMessage = "Error interno del servidor. Inténtalo más tarde.";
+                } else {
+                    errorMessage = error.response.data.message || "Error en la autenticación.";
+                }
+            } else if (error.request) {
+                errorMessage = "No se pudo conectar con el servidor.";
+            } else {
+                errorMessage = error.message;
+            }
+
+            return { success: false, error: errorMessage };
         }
     };
 
