@@ -10,7 +10,7 @@ import { SeguridadContext } from "../contexts/SeguridadProvider";
  * @returns {JSX.Element} Elemento JSX que representa el encabezado de la aplicación.
  */
 function Header() {
-    const { seguridad } = useContext(SeguridadContext); // Obtiene el estado de seguridad del contexto
+    const { seguridad, logout } = useContext(SeguridadContext); // Obtiene el estado de seguridad del contexto
 
     return (
         <header>
@@ -46,7 +46,7 @@ function Header() {
                                 <li><a className="dropdown-item" href="#">Configuración</a></li>
                                 <li><Link to="/perfil" className="dropdown-item">Perfil</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" href="#">Cerrar sesión</a></li>
+                                <li><a className="dropdown-item" onClick={logout}>Cerrar sesión</a></li>
                             </ul>
                         </div>
                     ) : (

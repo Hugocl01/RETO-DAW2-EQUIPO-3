@@ -1,13 +1,24 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { SeguridadContext } from "../contexts/SeguridadProvider.jsx"
+import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
 
-
-function RutaPrivada({children}) {
+/**
+ * Componente de ruta privada.
+ * 
+ * Verifica si el usuario está autenticado. Si está autenticado, renderiza los componentes hijos, 
+ * de lo contrario, redirige al login.
+ * 
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Los componentes hijos que se mostrarán si el usuario está autenticado.
+ * @param {string} [props.redirectTo="/login"] - Ruta a la que se redirige si no está autenticado.
+ * @returns {JSX.Element} - Componente de ruta privada con redirección condicional.
+ */
+function RutaPrivada({ children, redirectTo = "/login" }) {
     const { auth } = useContext(SeguridadContext);
-    
-    // En caso de que el usuario no este autenticado redirige al login
-    return auth ? children : <Navigate to="/login" />
+
+    // Si el usuario no está autenticado, redirige al login (o a la ruta proporcionada)
+    return auth ? children : <Navigate to={redirectTo} />;
 }
 
 export default RutaPrivada;
