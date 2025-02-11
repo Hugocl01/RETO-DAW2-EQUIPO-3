@@ -26,7 +26,7 @@ class Usuario extends Authenticatable
 
     public function perfil()
     {
-        return $this->hasOne(Perfil::class,'perfil_id');
+        return $this->hasOne(Perfil::class, 'perfil_id');
     }
 
     // Creacion y Modificacion de usuarios
