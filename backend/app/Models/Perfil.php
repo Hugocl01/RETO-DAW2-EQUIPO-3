@@ -13,10 +13,6 @@ class Perfil extends Model
 
     protected $fillable = [
         'tipo',
-        'usuario_creador_id',
-        'usuario_modificador_id',
-        'fecha_creacion',
-        'fecha_modificacion',
     ];
 
     public function usuarios()

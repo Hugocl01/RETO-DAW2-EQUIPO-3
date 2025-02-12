@@ -25,51 +25,64 @@ class PerfilController extends Controller
         ], 200);
     }
 
-
-
-    public function edit(PerfilRequest $request, Perfil $perfil)
-    {
-        $data = $request->only(['tipo']);
-
-        if ($perfil->update($data)) {
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Perfil actualizado correctamente',
-                'perfil'  => new PerfilResource($perfil)
-            ], 200);
-        }
-
-        return response()->json([
-            'status'  => 'error',
-            'message' => 'No se ha podido actualizar el perfil.'
-        ], 400);
-    }
-
     public function store(PerfilRequest $request)
     {
-        $data = $request->only(['tipo']);
-        $p = Perfil::create($data);
+        $data = $request->validated();
 
-        if ($p) {
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Perfil creado correctamente',
-                'perfil'  => new PerfilResource($p)
-            ], 201);
+        $perfil = Perfil::create([
+            'tipo' => $data['tipo']
+        ]);
+
+        // Si se incluyen secciones en el request, las sincronizamos
+        if (isset($data['secciones'])) {
+            $perfil->secciones()->sync($data['secciones']);
         }
 
+        // Recargamos la relación para incluirla en la respuesta
+        $perfil->load('secciones');
+
         return response()->json([
-            'status'  => 'error',
-            'message' => 'No se ha podido crear el perfil.'
-        ], 400);
+            'status'  => 'success',
+            'message' => 'Perfil creado correctamente',
+            'perfil'  => new PerfilResource($perfil)
+        ], 201);
     }
 
-    public function destroy(Perfil $perfil)
+
+    public function update(PerfilRequest $request, Perfil $perfile)
     {
-        if ($perfil->delete()) {
+        $data = $request->validated();
+
+        $perfile->update([
+            'tipo' => $data['tipo'],
+        ]);
+
+        // Sincroniza las secciones si vienen en el request
+        if (isset($data['secciones'])) {
+            // Usamos directamente el array de enteros
+            $perfile->secciones()->sync($data['secciones']);
+        }
+
+
+        // Volvemos a cargar la relación para que el recurso la incluya actualizada
+        $perfile->load('secciones');
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Perfil actualizado correctamente',
+            'perfil'  => new PerfilResource($perfile)
+        ], 200);
+    }
+
+    public function destroy(Perfil $perfile)
+    {
+        // Opcional: Desasocia las secciones relacionadas si es necesario
+        $perfile->secciones()->detach();
+
+        if ($perfile->delete()) {
             return response()->json([
                 'status'  => 'success',
-                'message' => 'Perfil eliminado correctamente.'
+                'message' => 'Perfil eliminado correctamente'
             ], 200);
         }
 
