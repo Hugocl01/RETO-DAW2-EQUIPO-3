@@ -9,7 +9,9 @@ class DonacionController extends Controller
 {
     public function index()
     {
-        $donaciones = Donacion::select('id','ong_id','kilos','importe')->get();
+        $donaciones = Donacion::with('ong')
+            ->select('id','ong_id','kilos','importe')
+            ->get();
 
         if ($donaciones->isEmpty()) {
             return response()->json([

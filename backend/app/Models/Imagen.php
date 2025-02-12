@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
 
 class Imagen extends Model
 {
-    use Auditable;
-
+    use Auditable, HasFactory;
+  
     protected $table = 'imagenes';
 
     protected $fillable = [
         'ruta',
         'nombre',
+        'tipo_entidad',
         'equipo_id',
         'jugador_id',
         'partido_id',

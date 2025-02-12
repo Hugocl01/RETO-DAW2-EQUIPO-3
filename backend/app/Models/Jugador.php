@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
 
 class Jugador extends Model
 {
-    use Auditable;
+    use Auditable, HasFactory;
 
     protected $table = 'jugadores';
 
     protected $fillable = [
         'equipo_id',
         'nombre_completo',
-        'tipos_id',
+        'capitan',
         'estudio_id',
         'dni',
         'email',

@@ -11,7 +11,7 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\FamiliaController;
 use App\http\Controllers\SeccionController;
 use App\http\Controllers\PerfilController;
-
+use App\http\Controllers\DonacionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,3 +31,4 @@ Route::apiResource('equipos', EquipoController::class);
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('secciones', SeccionController::class);
 Route::apiResource('perfiles', PerfilController::class);
+Route::apiResource('donaciones', DonacionController::class);

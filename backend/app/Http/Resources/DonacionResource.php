@@ -16,7 +16,7 @@ class DonacionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'ong_id' => $this->ong_id,
+            'ong' => new OngResource($this->whenLoaded('ong')),
             'kilos' => $this->kilos,
             'importe' => $this->importe,
         ];
