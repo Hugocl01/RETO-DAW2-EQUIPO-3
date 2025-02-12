@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout.jsx";
 import BaseLayout from "../layouts/BaseLayout.jsx";
 import InicioPage from "../pages/InicioPage.jsx";
@@ -12,6 +12,8 @@ import PerfilPage from "../pages/PerfilPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RutaPrivada from "../components/RutaPrivada.jsx";
 import DetallesEquipoPage from "../pages/DetallesEquipoPage.jsx";
+import AdministracionPage from "../pages/AdministracionPages/AdministracionPage.jsx";
+import AdminEntidadPage from "../pages/AdministracionPages/AdminEntidadPage.jsx";
 
 /**
  * Componente de enrutamiento principal de la aplicación.
@@ -31,12 +33,18 @@ function AppEnrutador() {
 
                     {/* Otras páginas */}
                     <Route path="equipos" element={<EquiposPage />} />
-                    <Route path="equipos/:id" element={<DetallesEquipoPage/>}></Route>
+                    <Route path="equipos/:nombreEquipo" element={<DetallesEquipoPage/>}></Route>
                     <Route path="torneo" element={<TorneoPage />} />
                     <Route path="organizacion" element={<OrganizacionPage />} />
                     <Route path="galeria" element={<GaleriaPage />} />
                     <Route path="inscribirse" element={<InscribirsePage />} />
                     <Route path="perfil" element={<RutaPrivada><PerfilPage /></RutaPrivada>} />
+
+                    {/* Agrupación de rutas privadas para administración */}
+                    <Route path="administracion" element={<RutaPrivada usuarioPermitido="administrador"><Outlet /></RutaPrivada>}>
+                        <Route index element={<AdministracionPage />} />
+                        <Route path=":entidad" element={<AdminEntidadPage />} />
+                    </Route>
                 </Route>
 
                 {/* Layout alternativo */}

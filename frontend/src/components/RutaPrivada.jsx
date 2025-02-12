@@ -14,11 +14,15 @@ import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
  * @param {string} [props.redirectTo="/login"] - Ruta a la que se redirige si no está autenticado.
  * @returns {JSX.Element} - Componente de ruta privada con redirección condicional.
  */
-function RutaPrivada({ children, redirectTo = "/login" }) {
-    const { auth } = useContext(SeguridadContext);
+function RutaPrivada({ children, usuarioPermitido, redirectTo = "/login" }) {
+    const { seguridad, cargando } = useContext(SeguridadContext);
+
+    if (cargando) {
+        return <div>Cargando...</div>;
+    }
 
     // Si el usuario no está autenticado, redirige al login (o a la ruta proporcionada)
-    return auth ? children : <Navigate to={redirectTo} />;
+    return seguridad.user.perfil.tipo == usuarioPermitido ? children : <Navigate to={redirectTo} />;
 }
 
 export default RutaPrivada;
