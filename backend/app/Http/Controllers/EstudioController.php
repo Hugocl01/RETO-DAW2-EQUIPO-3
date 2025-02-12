@@ -3,21 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudio;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\EstudioRequest;
 use App\Http\Resources\EstudioResource;
 
 class EstudioController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
+
+        $estudios = Estudio::with('ciclo', 'centro')
+            ->select('id', 'curso', 'centro_id', 'ciclo_id')
+            ->get();
+
+        if ($estudios->isEmpty()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'No se han encontrado estudios registrados.'
+            ], 404);
+        }
+
         return response()->json([
             'status' => 'success',
-            'estudios' => EstudioResource::collection(Estudio::all())
+            'estudios' => EstudioResource::collection($estudios)
         ]);
     }
 
-    public function store(EstudioRequest $request): JsonResponse
+    public function store(EstudioRequest $request)
     {
         $estudio = Estudio::create($request->validated());
 
@@ -28,7 +39,7 @@ class EstudioController extends Controller
         ], 201);
     }
 
-    public function destroy(Estudio $estudio): JsonResponse
+    public function destroy(Estudio $estudio)
     {
         $estudio->delete();
 
