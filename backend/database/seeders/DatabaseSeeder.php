@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,27 +12,40 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('usuarios')->delete();
-        DB::table('perfiles')->delete();
-        DB::table('ongs')->delete();
-        DB::table('donaciones')->delete();
-        DB::table('estudios')->delete();
-        DB::table('equipos')->delete();
-        DB::table('ciclos')->delete();
-        DB::table('familias')->delete();
-        DB::table('centros')->delete();
-        DB::table('estado_inscripciones')->delete();
+        // Deshabilitamos temporalmente las restricciones de clave foránea
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
+        // Limpiar tablas y reiniciar IDs
+        DB::table('usuarios')->truncate();
+        DB::table('perfiles')->truncate();
+        DB::table('ongs')->truncate();
+        DB::table('donaciones')->truncate();
+        DB::table('estudios')->truncate();
+        DB::table('equipos')->truncate();
+        DB::table('ciclos')->truncate();
+        DB::table('familias')->truncate();
+        DB::table('centros')->truncate();
+        DB::table('estado_inscripciones')->truncate();
+        DB::table('secciones')->truncate(); // Añadimos secciones
+        DB::table('perfiles_secciones')->truncate(); // Relación de perfiles con secciones
 
-        $this->call(PerfilSeeder::class);
-        $this->call(UsuarioSeeder::class);
-        $this->call(OngSeeder::class);
-        $this->call(DonacionesSeeder::class);
-        $this->call(FamiliaSeeder::class);
-        $this->call(CicloSeeder::class);
-        $this->call(CentroSeeder::class);
-        $this->call(EstudioSeeder::class);
-        $this->call(EquipoSeeder::class);
-        $this->call(EstadoInscripcionSeeder::class);
+        // Volvemos a habilitar las restricciones de clave foránea
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // Llamar a los Seeders en el orden correcto
+        $this->call([
+            PerfilSeeder::class,
+            UsuarioSeeder::class,
+            OngSeeder::class,
+            DonacionesSeeder::class,
+            FamiliaSeeder::class,
+            CicloSeeder::class,
+            CentroSeeder::class,
+            EstudioSeeder::class,
+            EquipoSeeder::class,
+            EstadoInscripcionSeeder::class,
+            SeccionesSeeder::class, // Añadimos el seeder de secciones
+            PerfilSeccionSeeder::class, // Añadimos el seeder que vincula perfiles con secciones
+        ]);
     }
 }

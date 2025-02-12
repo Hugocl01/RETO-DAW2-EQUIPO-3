@@ -13,7 +13,7 @@ class UsuarioResource extends JsonResource
             'id' => $this->id,
             'nombre_completo' => $this->nombre_completo,
             'email' => $this->email,
-            'perfil_id' => $this->perfil_id,
+            'perfil' => new PerfilResource($this->whenLoaded('perfil')),
             'activo' => $this->activo,
         ];
     }

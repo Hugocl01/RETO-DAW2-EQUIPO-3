@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Donacion extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
     protected $table = 'donaciones';
     protected $fillable = [
         'ong_id',
@@ -25,18 +25,4 @@ class Donacion extends Model
         return $this->belongsTo(Ong::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }

@@ -10,8 +10,9 @@ class PerfilResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'   => $this->id,
-            'tipo' => $this->tipo,
+            'id'        => $this->id,
+            'tipo'      => $this->tipo,
+            'secciones' => SeccionResource::collection($this->whenLoaded('secciones')),
         ];
     }
 }

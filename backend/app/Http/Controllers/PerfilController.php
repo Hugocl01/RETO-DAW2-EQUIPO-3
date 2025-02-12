@@ -10,7 +10,7 @@ class PerfilController extends Controller
 {
     public function index()
     {
-        $perfiles = Perfil::select('id', 'tipo')->get();
+        $perfiles = Perfil::with('secciones')->select('id', 'tipo')->get();
 
         if ($perfiles->isEmpty()) {
             return response()->json([
@@ -24,6 +24,8 @@ class PerfilController extends Controller
             'perfiles' => PerfilResource::collection($perfiles)
         ], 200);
     }
+
+
 
     public function edit(PerfilRequest $request, Perfil $perfil)
     {

@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 
 class Acta extends Model
 {
+    use Auditable;
+
     protected $table = 'actas';
+
     protected $fillable = [
         'partido_id',
         'jugador_id',
@@ -35,18 +38,4 @@ class Acta extends Model
         return $this->hasOne(Incidencia::class, 'incidencia_id');
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }
