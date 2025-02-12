@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
 
 class Incidencia extends Model
 {
-    use Auditable;
+    use Auditable, HasFactory;
 
     protected $table = 'incidendias';
-
+  
     protected $fillable = [
         'tipo',
         'usuario_creador_id',

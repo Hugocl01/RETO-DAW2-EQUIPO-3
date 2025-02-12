@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
 
 class Partido extends Model
 {
-    use Auditable;
-
+    use Auditable, HasFactory;
+  
     protected $table = 'partidos';
 
     protected $fillable = [
