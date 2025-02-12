@@ -40,7 +40,7 @@ function SeguridadProvider({ children }) {
      * 
      * @type {boolean}
      */
-    const [cargando, setCargando] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     /**
      * Carga los datos de sesión almacenados en `sessionStorage` cuando la aplicación se inicia.
@@ -57,7 +57,7 @@ function SeguridadProvider({ children }) {
             });
         }
 
-        setCargando(false);
+        setLoading(false);
     }, []);
 
     /**
@@ -130,7 +130,7 @@ function SeguridadProvider({ children }) {
     };
 
     return (
-        <SeguridadContext.Provider value={{ seguridad, login, logout, cargando }}>
+        <SeguridadContext.Provider value={{ seguridad, login, logout, loading }}>
             {children}
         </SeguridadContext.Provider>
     );
