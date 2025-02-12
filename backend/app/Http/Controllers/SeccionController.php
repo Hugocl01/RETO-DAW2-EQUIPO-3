@@ -15,6 +15,13 @@ class SeccionController extends Controller
     {
         $secciones = Seccion::all();
 
+        if ($secciones->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No hay equipos registrados.'
+            ], 404);
+        }
+
         return response()->json([
             'status' => 'success',
             'secciones' => SeccionResource::collection($secciones)

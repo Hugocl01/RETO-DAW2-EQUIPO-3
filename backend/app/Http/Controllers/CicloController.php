@@ -11,9 +11,20 @@ class CicloController extends Controller
 {
     public function index(): JsonResponse
     {
+        $ciclos = Ciclo::with('familia')
+            ->select('id', 'nombre', 'familia_id')
+            ->get();
+
+        if ($ciclos->isEmpty()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'No se han encontrado ciclos.'
+            ], 404);
+        }
+
         return response()->json([
             'status' => 'success',
-            'ciclos' => CicloResource::collection(Ciclo::all())
+            'ciclos' => CicloResource::collection($ciclos)
         ]);
     }
 

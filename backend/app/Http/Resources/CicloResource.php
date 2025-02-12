@@ -17,7 +17,7 @@ class CicloResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'familia_id' => $this->familia_id,
+            'familia' => new FamiliaResource($this->whenLoaded('familia')),
         ];
     }
 }

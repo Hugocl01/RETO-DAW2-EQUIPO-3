@@ -15,7 +15,7 @@ class PerfilController extends Controller
         if ($perfiles->isEmpty()) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'No se han encontrado perfiles.'
+                'message' => 'No se han encontrado perfiles registrados.'
             ], 404);
         }
 
