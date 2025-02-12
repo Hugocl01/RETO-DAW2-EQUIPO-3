@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import $negocio from "../core/negocio";
 import Equipo from "../components/Equipo"; 
+import api from "../services/api";
 
 /**
  * Página del Listado de Equipos
@@ -24,8 +25,10 @@ function EquiposPage() {
   useEffect(() => {
     const obtenerListadoEquipos = async () => {
       try {
-        const resultado = await $negocio.obtenerEquipos();
-        setEquipos(resultado);
+        const resultado = await api.get('/equipos');
+        if(resultado.data.status === "success"){
+          setEquipos(resultado.data.equipos);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -36,10 +39,10 @@ function EquiposPage() {
 
   /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
-   * @param {String} nombreEquipo 
+   * @param {int} id
    */
-  function navegarDetalleEquipo(nombreEquipo) {
-    navegar(`/equipos/${nombreEquipo}`);
+  function navegarDetalleEquipo(id) {
+    navegar(`/equipos/${id}`);
   }
 
   return (
@@ -64,8 +67,8 @@ function EquiposPage() {
              */}
             {equipos.map((equipo) => (
               <Equipo
-                key={equipo.idEquipo}
-                nombre={equipo.equipo}
+                key={equipo.id}
+                equipoObtenido={equipo}
                 fnNavegar={navegarDetalleEquipo}
               />
             ))}
@@ -75,9 +78,9 @@ function EquiposPage() {
         /**
          * Mientras cargue los equipos mostrará este mensaje
          */
-        <section className="container text-center">
+        
           <p>Cargando Equipos...</p>
-        </section>
+        
       )}
     </>
   );
