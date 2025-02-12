@@ -25,15 +25,15 @@ class PerfilController extends Controller
         ], 200);
     }
 
-    public function edit(PerfilRequest $request, Perfil $p)
+    public function edit(PerfilRequest $request, Perfil $perfil)
     {
         $data = $request->only(['tipo']);
 
-        if ($p->update($data)) {
+        if ($perfil->update($data)) {
             return response()->json([
                 'status'  => 'success',
                 'message' => 'Perfil actualizado correctamente',
-                'perfil'  => new PerfilResource($p)
+                'perfil'  => new PerfilResource($perfil)
             ], 200);
         }
 
@@ -62,9 +62,9 @@ class PerfilController extends Controller
         ], 400);
     }
 
-    public function destroy(Perfil $p)
+    public function destroy(Perfil $perfil)
     {
-        if ($p->delete()) {
+        if ($perfil->delete()) {
             return response()->json([
                 'status'  => 'success',
                 'message' => 'Perfil eliminado correctamente.'
