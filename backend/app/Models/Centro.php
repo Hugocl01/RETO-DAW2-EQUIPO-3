@@ -10,7 +10,8 @@ class Centro extends Model
     protected $table = 'centros';
 
     protected $fillable = [
-        'nombre'
+        'nombre',
+        'landing_page'
     ];
 
     public function estudios()
