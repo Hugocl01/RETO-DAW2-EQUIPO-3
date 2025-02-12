@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PatrocinadorEquipo extends Model
 {
+    use HasFactory;
     protected $table = 'patrocinadores_equipos';
     protected $fillable = [
         'patrocinador_id',

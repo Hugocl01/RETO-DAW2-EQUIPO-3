@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Jugador extends Model
 {
+    use HasFactory;
     protected $table = 'jugadores';
     protected $fillable = [
         'equipo_id',
         'nombre_completo',
-        'tipos_id',
+        'capitan',
         'estudio_id',
         'dni',
         'email',

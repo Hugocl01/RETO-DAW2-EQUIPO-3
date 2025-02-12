@@ -24,7 +24,17 @@ class DatabaseSeeder extends Seeder
         DB::table('familias')->delete();
         DB::table('centros')->delete();
         DB::table('estado_inscripciones')->delete();
-
+        DB::table('incidencias')->delete();
+        DB::table('inscripciones')->delete();
+        DB::table('retos')->delete();
+        DB::table('patrocinadores')->delete();
+        DB::table('patrocinadores_equipos')->delete();
+        DB::table('jugadores')->delete();
+        DB::table('pabellones')->delete();
+        DB::table('partidos')->delete();
+        DB::table('actas')->delete();
+        DB::table('publicaciones')->delete();
+        DB::table('imagenes')->delete();
 
         $this->call(PerfilSeeder::class);
         $this->call(UsuarioSeeder::class);
@@ -36,5 +46,16 @@ class DatabaseSeeder extends Seeder
         $this->call(EstudioSeeder::class);
         $this->call(EquipoSeeder::class);
         $this->call(EstadoInscripcionSeeder::class);
+        $this->call(IncidenciaSeeder::class);      
+        $this->call(InscripcionSeeder::class);     
+        $this->call(RetoSeeder::class); 
+        $this->call(PatrocinadorSeeder::class); 
+        $this->call(PatrocinadorEquipoSeeder::class);
+        $this->call(JugadorSeeder::class);  
+        $this->call(PabellonSeeder::class);  
+        $this->call(PartidoSeeder::class);
+        $this->call(ActaSeeder::class);  
+        $this->call(PublicacionSeeder::class); 
+        $this->call(ImagenSeeder::class);     
     }
 }

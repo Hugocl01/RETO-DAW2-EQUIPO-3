@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reto extends Model
 {
+    use HasFactory;
     protected $table = 'retos';
     protected $fillable = [
         'titulo',

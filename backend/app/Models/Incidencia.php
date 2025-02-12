@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Incidencia extends Model
 {
-    protected $table = 'incidendias';
+    use HasFactory;
+    protected $table = 'incidencias';
     protected $fillable = [
         'tipo',
         'usuario_creador_id',

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Partido extends Model
 {
+    use HasFactory;
     protected $table = 'partidos';
     protected $fillable = [
         'equipo_local_id',
