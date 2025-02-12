@@ -14,13 +14,20 @@ return new class extends Migration
         Schema::create('actas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('partido_id');
-            $table->foreign('partido_id')->references('id')->on('partidos')->onDelete('cascade');
+            $table->foreign('partido_id')
+                ->references('id')
+                ->on('partidos')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('jugador_id')->nullable();
-            $table->foreign('jugador_id')->references('id')->on('jugadores')->onDelete('cascade');
-
+            $table->foreign('jugador_id')
+                ->references('id')
+                ->on('jugadores')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('incidencia_id')->nullable();
-            $table->foreign('incidencia_id')->references('id')->on('incidencias')->onDelete('cascade');
-
+            $table->foreign('incidencia_id')
+                ->references('id')
+                ->on('incidencias')
+                ->onDelete('cascade');
             $table->time('hora')->nullable();
             $table->longText('comentario')->nullable();
 

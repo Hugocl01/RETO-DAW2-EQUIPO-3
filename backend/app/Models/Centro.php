@@ -16,12 +16,12 @@ class Centro extends Model
 
     public function estudios()
     {
-        return $this->hasMany(Estudio::class,'centro_id');
+        return $this->hasMany(Estudio::class, 'centro_id');
     }
 
     public function equipos()
     {
-        return $this->hasMany(Equipo::class,'centro_id');
+        return $this->hasMany(Equipo::class, 'centro_id');
     }
 
     // Creacion y Modificacion de perfiles

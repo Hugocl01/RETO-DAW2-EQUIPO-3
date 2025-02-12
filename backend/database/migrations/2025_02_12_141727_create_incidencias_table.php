@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('incidencias', function (Blueprint $table) {
             $table->id();
             $table->string('tipo', 45);
+
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();

@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('donaciones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ong_id');
-            $table->foreign('ong_id')->references('id')->on('ongs')->onDelete('cascade');
+            $table->foreign('ong_id')
+                ->references('id')
+                ->on('ongs')
+                ->onDelete('cascade');
             $table->integer('kilos')->nullable();
             $table->decimal('importe', 12, 2)->nullable();
+
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->default(now());
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();

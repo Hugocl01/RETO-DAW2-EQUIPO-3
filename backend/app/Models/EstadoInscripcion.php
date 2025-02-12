@@ -5,20 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Familia extends Model
+class EstadoInscripcion extends Model
 {
-    protected $table = 'familias';
-
+    protected $table = 'estado_inscripciones';
     protected $fillable = [
-        'nombre',
+        'estado'
     ];
 
-    public function ciclos()
-    {
-        $this->hasMany(Ciclo::class, 'familia_id');
-    }
-
-    // Creacion y Modificacion de perfiles
     protected static function boot()
     {
         parent::boot();
