@@ -15,8 +15,15 @@ return new class extends Migration
             $table->id();
             $table->longText('comentarios');
             $table->unsignedBigInteger('equipo_id');
-            $table->foreign('equipo_id')->references('id')->on('equipos')->onDelete('cascade');
-            $table->enum('estado', ['pendiente', 'aprobada', 'rechazada']);
+            $table->foreign('equipo_id')
+                ->references('id')
+                ->on('equipos')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('estado_id');
+            $table->foreign('estado_id')
+                ->references('id')
+                ->on('estado_inscripciones')
+                ->onDelete('cascade');
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();

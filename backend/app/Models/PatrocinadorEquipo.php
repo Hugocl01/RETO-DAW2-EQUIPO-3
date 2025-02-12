@@ -5,20 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Familia extends Model
+class PatrocinadorEquipo extends Model
 {
-    protected $table = 'familias';
-
+    protected $table = 'patrocinadores_equipos';
     protected $fillable = [
-        'nombre',
+        'patrocinador_id',
+        'equipo_id',
+        'usuario_creador_id',
+        'fecha_creacion',
+        'usuario_modificador_id',
+        'fecha_modificacion'
     ];
 
-    public function ciclos()
+    public function patrocinador()
     {
-        $this->hasMany(Ciclo::class, 'familia_id');
+        return $this->belongsTo(Patrocinador::class);
     }
 
-    // Creacion y Modificacion de perfiles
+    public function equipo()
+    {
+        return $this->belongsTo(Equipo::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -15,7 +15,7 @@ return new class extends Migration
             // Datos centros
             $table->id();
             $table->string('nombre');
-            $table->string('landing_page');
+            $table->string('landing_page')->nullable();
 
             // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();

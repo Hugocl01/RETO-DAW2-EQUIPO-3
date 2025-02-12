@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 45);
             $table->string('direccion', 45)->nullable();
+
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();

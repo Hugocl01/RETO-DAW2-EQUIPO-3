@@ -17,12 +17,12 @@ class Estudio extends Model
 
     public function centro()
     {
-        return $this->belongsTo(Centro::class,'centro_id');
+        return $this->belongsTo(Centro::class, 'centro_id');
     }
 
     public function ciclo()
     {
-        return $this->belongsTo(Ciclo::class,'ciclo_id');
+        return $this->belongsTo(Ciclo::class, 'ciclo_id');
     }
 
     // Creacion y Modificacion de perfiles

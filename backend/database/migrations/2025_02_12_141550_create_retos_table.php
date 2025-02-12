@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('titulo', 45);
             $table->longText('texto');
             $table->unsignedBigInteger('estudio_id');
-            $table->foreign('estudio_id')->references('id')->on('estudios')->onDelete('cascade');
+            $table->foreign('estudio_id')
+                ->references('id')
+                ->on('estudios')
+                ->onDelete('cascade');
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();

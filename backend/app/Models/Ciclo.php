@@ -16,7 +16,7 @@ class Ciclo extends Model
 
     public function familia()
     {
-        return $this->belongsTo(Familia::class,'familia_id');
+        return $this->belongsTo(Familia::class, 'familia_id');
     }
 
     // Creacion y Modificacion de perfiles

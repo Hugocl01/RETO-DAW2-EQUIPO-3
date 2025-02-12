@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patrocinadores', function (Blueprint $table) {
+        Schema::create('estado_inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 45);
-            $table->string('landing_page', 45)->nullable();
+            $table->string('estado', 45);
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
-            $table->timestamp('fecha_creacion')->useCurrent()->nullable();
+            $table->timestamp('fecha_creacion')->default(now());
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
-            $table->timestamp('fecha_modificacion')->useCurrentOnUpdate()->nullable();
+            $table->timestamp('fecha_modificacion')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patrocinadores');
+        Schema::dropIfExists('estado-inscripciones');
+        Schema::dropIfExists('estado_inscripciones');
     }
 };

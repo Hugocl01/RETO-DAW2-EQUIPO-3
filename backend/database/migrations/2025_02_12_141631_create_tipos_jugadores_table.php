@@ -9,14 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('patrocinadores_equipos', function (Blueprint $table) {
+        Schema::create('tipos_jugadores', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('patrocinador_id');
-            $table->foreign('patrocinador_id')->references('id')->on('patrocinadores')->onDelete('cascade');
-            $table->unsignedBigInteger('equipo_id');
-            $table->foreign('equipo_id')->references('id')->on('equipos')->onDelete('cascade');
+            $table->string('tipo', 45);
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
@@ -26,8 +23,12 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('patrocinadores_equipos');
+        Schema::dropIfExists('tipos-jugadores');
+        Schema::dropIfExists('tipos_jugadores');
     }
 };
