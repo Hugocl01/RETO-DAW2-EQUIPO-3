@@ -14,13 +14,13 @@ class EstadoInscripcionSeeder extends Seeder
     public function run(): void
     {
         EstadoInscripcion::create([
-            'tipo' => 'pendiente'
+            'estado' => 'pendiente'
         ]);
         EstadoInscripcion::create([
-            'tipo' => 'aprobada'
+            'estado' => 'aprobada'
         ]);
         EstadoInscripcion::create([
-            'tipo' => 'rechazada'
+            'estado' => 'rechazada'
         ]);
     }
 }
