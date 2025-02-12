@@ -15,12 +15,18 @@ class Equipo extends Model
     protected $fillable = [
         'nombre',
         'centro_id',
-        'grupo'
+        'grupo',
+        'usuario_id'
     ];
 
     public function centro()
     {
         return $this->belongsTo(Centro::class, 'centro_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
     // Creacion y Modificacion de perfiles

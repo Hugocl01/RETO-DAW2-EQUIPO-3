@@ -1,3 +1,5 @@
+import Inicio from "../components/Inicio.jsx";
+
 /**
  * Página de Inicio.
  * 
@@ -7,9 +9,7 @@
 function InicioPage() {
 
     return (
-        <div>
-            Pagina de inicio
-        </div>
+        <Inicio />
     );
 }
 

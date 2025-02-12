@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('perfiles', function (Blueprint $table) {
             $table->id();
             $table->string('tipo');
+
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent();
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();

@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\PerfilResource;
+
 
 class LoginController extends Controller
 {
@@ -84,7 +87,7 @@ class LoginController extends Controller
                 'id' => $usuario->id,
                 'name' => $usuario->nombre_completo,
                 'email' => $usuario->email,
-                'perfil' => $usuario->perfil
+                'perfil' => new PerfilResource($usuario->perfil)
             ],
             'token' => $token
         ]);

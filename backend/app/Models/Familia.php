@@ -15,7 +15,7 @@ class Familia extends Model
 
     public function ciclos()
     {
-        $this->hasMany(Ciclo::class,'familia_id');
+        $this->hasMany(Ciclo::class, 'familia_id');
     }
 
     // Creacion y Modificacion de perfiles

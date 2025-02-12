@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\CentroResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EquipoResource extends JsonResource
@@ -17,8 +18,9 @@ class EquipoResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'centro_id' => $this->centro_id,
-            'grupo' => $this->grupo
+            'centro' => new CentroResource($this->centro),
+            'grupo' => $this->grupo,
+            'entrenador' => [$this->usuario->id, $this->usuario->nombre_completo]
         ];
     }
 }

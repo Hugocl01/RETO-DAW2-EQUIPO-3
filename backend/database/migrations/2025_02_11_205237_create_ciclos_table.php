@@ -21,7 +21,6 @@ return new class extends Migration
                 ->on('familias')
                 ->onDelete('restrict');
 
-
             // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
