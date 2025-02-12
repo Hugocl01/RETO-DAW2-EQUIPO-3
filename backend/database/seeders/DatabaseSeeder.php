@@ -52,16 +52,16 @@ class DatabaseSeeder extends Seeder
         $this->call(EstudioSeeder::class);
         $this->call(EquipoSeeder::class);
         $this->call(EstadoInscripcionSeeder::class);
-        $this->call(IncidenciaSeeder::class);      
-        $this->call(InscripcionSeeder::class);     
-        $this->call(RetoSeeder::class); 
-        $this->call(PatrocinadorSeeder::class); 
+        $this->call(IncidenciaSeeder::class);
+        $this->call(InscripcionSeeder::class);
+        $this->call(RetoSeeder::class);
+        $this->call(PatrocinadorSeeder::class);
         $this->call(PatrocinadorEquipoSeeder::class);
-        $this->call(JugadorSeeder::class);  
-        $this->call(PabellonSeeder::class);  
+        $this->call(JugadorSeeder::class);
+        $this->call(PabellonSeeder::class);
         $this->call(PartidoSeeder::class);
-        $this->call(ActaSeeder::class);  
-        $this->call(PublicacionSeeder::class); 
-        $this->call(ImagenSeeder::class); 
+        $this->call(ActaSeeder::class);
+        $this->call(PublicacionSeeder::class);
+        $this->call(ImagenSeeder::class);
     }
 }
