@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         DB::table('ciclos')->delete();
         DB::table('familias')->delete();
         DB::table('centros')->delete();
+        DB::table('estado_inscripciones')->delete();
 
         $this->call(PerfilSeeder::class);
         $this->call(UsuarioSeeder::class);
@@ -33,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CentroSeeder::class);
         $this->call(EstudioSeeder::class);
         $this->call(EquipoSeeder::class);
+        $this->call(EstadoInscripcionSeeder::class);
     }
 }
