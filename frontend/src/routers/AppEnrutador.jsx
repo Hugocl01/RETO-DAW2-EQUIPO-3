@@ -12,6 +12,7 @@ import PerfilPage from "../pages/PerfilPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RutaPrivada from "../components/RutaPrivada.jsx";
 import DetallesEquipoPage from "../pages/DetallesEquipoPage.jsx";
+import AdministracionPage from "../pages/AdministracionPage.jsx";
 
 /**
  * Componente de enrutamiento principal de la aplicación.
@@ -37,6 +38,7 @@ function AppEnrutador() {
                     <Route path="galeria" element={<GaleriaPage />} />
                     <Route path="inscribirse" element={<InscribirsePage />} />
                     <Route path="perfil" element={<RutaPrivada><PerfilPage /></RutaPrivada>} />
+                    <Route path="administracion" element={<RutaPrivada><AdministracionPage /></RutaPrivada>} />
                 </Route>
 
                 {/* Layout alternativo */}

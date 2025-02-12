@@ -35,6 +35,14 @@ function SeguridadProvider({ children }) {
     });
 
     /**
+     * Estado que indica si la autenticación está siendo verificada.
+     * Se usa para evitar desincronización y la redirección prematura antes de que se carguen los datos de sesión.
+     * 
+     * @type {boolean}
+     */
+    const [cargando, setCargando] = useState(true);
+
+    /**
      * Carga los datos de sesión almacenados en `sessionStorage` cuando la aplicación se inicia.
      */
     useEffect(() => {
@@ -48,6 +56,8 @@ function SeguridadProvider({ children }) {
                 token: storedToken
             });
         }
+
+        setCargando(false);
     }, []);
 
     /**
@@ -120,7 +130,7 @@ function SeguridadProvider({ children }) {
     };
 
     return (
-        <SeguridadContext.Provider value={{ seguridad, login, logout }}>
+        <SeguridadContext.Provider value={{ seguridad, login, logout, cargando }}>
             {children}
         </SeguridadContext.Provider>
     );

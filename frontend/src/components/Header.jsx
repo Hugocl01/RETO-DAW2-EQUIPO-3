@@ -44,7 +44,7 @@ function Header() {
                             <ul className="dropdown-menu text-small">
                                 <li><h2 className="dropdown-header">{seguridad.user.name}</h2></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" href="#">Configuración</a></li>
+                                <li><Link to="/administracion" className="dropdown-item">Administración</Link></li>
                                 <li><Link to="/perfil" className="dropdown-item">Perfil</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><a className="dropdown-item" href="" onClick={logout}>Cerrar sesión</a></li>

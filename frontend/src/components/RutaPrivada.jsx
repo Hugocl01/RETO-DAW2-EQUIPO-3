@@ -15,10 +15,14 @@ import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
  * @returns {JSX.Element} - Componente de ruta privada con redirección condicional.
  */
 function RutaPrivada({ children, redirectTo = "/login" }) {
-    const { auth } = useContext(SeguridadContext);
+    const { seguridad, cargando } = useContext(SeguridadContext);
+
+    if (cargando) {
+        return <div>Cargando...</div>;
+    }
 
     // Si el usuario no está autenticado, redirige al login (o a la ruta proporcionada)
-    return auth ? children : <Navigate to={redirectTo} />;
+    return seguridad.auth ? children : <Navigate to={redirectTo} />;
 }
 
 export default RutaPrivada;
