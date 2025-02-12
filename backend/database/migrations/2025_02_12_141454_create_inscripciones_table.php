@@ -9,15 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('centros', function (Blueprint $table) {
-            // Datos centros
+        Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('landing_page');
+            $table->longText('comentarios');
+            $table->unsignedBigInteger('equipo_id');
+            $table->foreign('equipo_id')->references('id')->on('equipos')->onDelete('cascade');
+            $table->enum('estado', ['pendiente', 'aprobada', 'rechazada']);
 
-            // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
@@ -26,11 +26,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('centros');
+        Schema::dropIfExists('inscripciones');
     }
 };

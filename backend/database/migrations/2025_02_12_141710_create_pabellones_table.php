@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('centros', function (Blueprint $table) {
-            // Datos centros
+        Schema::create('pabellones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('landing_page');
-
-            // Creaciones y modificaciones
+            $table->string('nombre', 45);
+            $table->string('direccion', 45)->nullable();
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
             $table->unsignedBigInteger('usuario_modificador_id')->nullable();
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('centros');
+        Schema::dropIfExists('pabellones');
     }
 };
