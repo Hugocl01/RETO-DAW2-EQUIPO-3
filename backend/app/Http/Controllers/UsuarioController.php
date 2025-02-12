@@ -29,15 +29,15 @@ class UsuarioController extends Controller
         ], 200);
     }
 
-    public function update(UsuarioRequest $request, Usuario $u)
+    public function update(UsuarioRequest $request, Usuario $usuario)
     {
         $data = $request->only(['nombre_completo', 'email', 'perfil_id', 'activo']);
 
-        if ($u->update($data)) {
+        if ($usuario->update($data)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Usuario actualizado correctamente',
-                'usuario' => new UsuarioResource($u)
+                'usuario' => new UsuarioResource($usuario)
             ], 200);
         }
 
@@ -68,14 +68,13 @@ class UsuarioController extends Controller
         ], 400);
     }
 
-    public function updateActivo($id)
+    public function updateActivo(Usuario $usuario)
     {
-        $u = Usuario::findOrFail($id);
 
-        $nuevoEstado = !$u->activo;
+        $nuevoEstado = !$usuario->activo;
 
         // Actualiza el campo 'activo' con el nuevo estado.
-        $u->update([
+        $usuario->update([
             'activo' => $nuevoEstado,
         ]);
 
