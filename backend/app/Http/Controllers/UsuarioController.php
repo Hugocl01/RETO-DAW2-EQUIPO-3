@@ -14,7 +14,9 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id', 'activo')->get();
+        $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id', 'activo')
+                   ->with('perfil.secciones')
+                   ->get();
 
         if ($usuarios->isEmpty()) {
             return response()->json([

@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 
 class Imagen extends Model
 {
+    use Auditable;
+
     protected $table = 'imagenes';
+
     protected $fillable = [
         'ruta',
         'nombre',
@@ -64,18 +67,4 @@ class Imagen extends Model
         return $this->belongsTo(Publicacion::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }

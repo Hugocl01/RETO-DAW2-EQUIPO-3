@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable
 {
 
-    use HasApiTokens;
+    use HasApiTokens, Auditable;
 
     protected $table = 'usuarios';
 
@@ -29,19 +29,4 @@ class Usuario extends Authenticatable
         return $this->belongsTo(Perfil::class, 'perfil_id');
     }
 
-    // Creacion y Modificacion de usuarios
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }

@@ -3,27 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 
 class EstadoInscripcion extends Model
 {
+    use Auditable;
+
     protected $table = 'estado_inscripciones';
+
     protected $fillable = [
         'estado'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }
