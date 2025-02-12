@@ -18,6 +18,7 @@ class EquipoFactory extends Factory
             'nombre' => $this->faker->word(), // Genera un nombre aleatorio
             'centro_id' => 2, // Asigna un centro_id aleatorio (asumiendo que hay un modelo Centro)
             'grupo' => $this->faker->randomElement(['A', 'B']), // Selecciona una letra aleatoria para grupo
+            'usuario_id' => 2
         ];
     }
 }

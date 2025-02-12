@@ -17,6 +17,7 @@ class EquipoRequest extends FormRequest
             'nombre' => 'required|string|max:255|unique:equipos,nombre',
             'centro_id' => 'required|exists:centros,id',
             'grupo' => 'required|string|max:1|in:A,B',
+            'usuario_id' => 'required|exists:usuarios,id'
         ];
     }
 
@@ -33,6 +34,8 @@ class EquipoRequest extends FormRequest
             'grupo.string' => 'El grupo debe ser una cadena de texto.',
             'grupo.max' => 'El grupo debe ser una sola letra.',
             'grupo.in' => 'El grupo debe ser A o B',
+            'centro_id.required' => 'El entrenador es obligatorio.',
+            'centro_id.exists' => 'El entrenador seleccionado no es válido.',
         ];
     }
 }

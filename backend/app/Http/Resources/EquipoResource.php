@@ -19,7 +19,8 @@ class EquipoResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'centro' => new CentroResource($this->centro),
-            'grupo' => $this->grupo
+            'grupo' => $this->grupo,
+            'entrenador' => [$this->usuario->id, $this->usuario->nombre_completo]
         ];
     }
 }

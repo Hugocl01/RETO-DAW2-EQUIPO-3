@@ -11,7 +11,7 @@ class EquipoController extends Controller
 {
     public function index(): JsonResponse
     {
-        $equipos = Equipo::select('id', 'nombre', 'centro_id', 'grupo')->get();
+        $equipos = Equipo::select('id', 'nombre', 'centro_id', 'grupo', 'usuario_id')->get();
 
         if ($equipos->isEmpty()) {
             return response()->json([
@@ -34,20 +34,9 @@ class EquipoController extends Controller
         ], 200);
     }
 
-
-
-
     public function update(EquipoRequest $request, Equipo $equipo): JsonResponse
     {
-        $data = $request->only(['nombre', 'centro_id', 'grupo']);
-
-        // Validación adicional para asegurar que 'grupo' sea 'A' o 'B'
-        if (!in_array($data['grupo'], ['A', 'B'])) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Grupo debe ser A o B.'
-            ], 400);
-        }
+        $data = $request->only(['nombre', 'centro_id', 'grupo', 'usuario_id']);
 
         if ($equipo->update($data)) {
             return response()->json([
@@ -65,7 +54,7 @@ class EquipoController extends Controller
 
     public function store(EquipoRequest $request): JsonResponse
     {
-        $data = $request->only(['nombre', 'centro_id', 'grupo']);
+        $data = $request->only(['nombre', 'centro_id', 'grupo', 'usuario_id']);
 
         $e = Equipo::create($data);
 

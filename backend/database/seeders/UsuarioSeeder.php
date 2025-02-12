@@ -20,5 +20,21 @@ class UsuarioSeeder extends Seeder
             'usuario_creador_id' => 1,
             'perfil_id' => 1,
         ]);
+
+        Usuario::create([
+            'nombre_completo' => 'Hugo Cayon',
+            'email' => 'admin@admin.es',
+            'password' => bcrypt('adminadmin'),
+            'usuario_creador_id' => 1,
+            'perfil_id' => 2,
+        ]);
+
+        Usuario::create([
+            'nombre_completo' => 'Paula Rivero',
+            'email' => 'admin2@admin.es',
+            'password' => bcrypt('adminadmin'),
+            'usuario_creador_id' => 1,
+            'perfil_id' => 2,
+        ]);
     }
 }
