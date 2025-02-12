@@ -31,7 +31,7 @@ function AppEnrutador() {
 
                     {/* Otras páginas */}
                     <Route path="equipos" element={<EquiposPage />} />
-                    <Route path="equipos/:nombreEquipo" element={<DetallesEquipoPage/>}></Route>
+                    <Route path="equipos/:id" element={<DetallesEquipoPage/>}></Route>
                     <Route path="torneo" element={<TorneoPage />} />
                     <Route path="organizacion" element={<OrganizacionPage />} />
                     <Route path="galeria" element={<GaleriaPage />} />

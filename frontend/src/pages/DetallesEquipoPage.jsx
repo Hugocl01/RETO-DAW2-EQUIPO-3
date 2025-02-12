@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import $negocio from "../core/negocio";
+import api from "../services/api";
 
 /**
  * Página de Detalles del Equipo
@@ -11,7 +12,7 @@ function DetallesEquipoPage() {
     /**
      * Recogemos el valor que vendrá en el header
      */
-  const { nombreEquipo } = useParams();
+  const { id } = useParams();
 
   /**
    * Estado para el equipo a mostrar
@@ -24,14 +25,16 @@ function DetallesEquipoPage() {
   useEffect(() => {
     const obtenerEquipo = async () => {
       try {
-        const resultado = await $negocio.obtenerEquipoPorNombre(nombreEquipo);
-        setEquipo(resultado);
+        const resultado=await api.get(`/equipos/${id}`);
+        if(resultado.data.status === 'success'){
+          setEquipo(resultado.data.equipo);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     obtenerEquipo();
-  }, [nombreEquipo]);
+  }, [id,equipo]);
 
   return (
     <>
@@ -47,10 +50,10 @@ function DetallesEquipoPage() {
               
               {/**Sección de info de equipo */}
               <section id="infoEquipo" className="col-md-6">
-                <h2>Equipo {nombreEquipo}</h2>
+                <h2>Equipo {equipo.nombre}</h2>
 
                 <div>
-                  <p>Entrenador: {equipo.entrenador.nombre}</p>
+                  <p>Entrenador: </p>
                 </div>
 
                 <div>
@@ -64,6 +67,7 @@ function DetallesEquipoPage() {
                 <div>
                   <p>Ciclo Formativo: {equipo.ciclo_formativo}</p>
                   <p>Familia: {equipo.familia_ciclo}</p>
+                  <p>Grupo: {equipo.grupo}</p>
                 </div>
               </section>
 
