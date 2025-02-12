@@ -84,6 +84,7 @@ class LoginController extends Controller
                 'id' => $usuario->id,
                 'name' => $usuario->nombre_completo,
                 'email' => $usuario->email,
+                'perfil' => $usuario->perfil()
             ],
             'token' => $token
         ]);
