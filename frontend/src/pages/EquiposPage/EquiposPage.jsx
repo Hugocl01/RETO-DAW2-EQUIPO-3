@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import $negocio from "../core/negocio";
-import Equipo from "../components/Equipo"; 
-import api from "../services/api";
+import Equipo from "../../components/Equipo"; 
+import api from "../../services/api.js";
 
 /**
  * Página del Listado de Equipos
