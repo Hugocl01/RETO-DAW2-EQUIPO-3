@@ -20,8 +20,6 @@ function RutaPrivada({ children, usuarioPermitido, redirectTo = "/login" }) {
     if (cargando) {
         return <div>Cargando...</div>;
     }
-    console.log(usuarioPermitido)
-    console.log()
 
     // Si el usuario no está autenticado, redirige al login (o a la ruta proporcionada)
     return seguridad.user.perfil.tipo == usuarioPermitido ? children : <Navigate to={redirectTo} />;

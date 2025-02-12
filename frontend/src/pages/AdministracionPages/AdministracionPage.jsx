@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Administracion from "../components/Administracion";
+import Administracion from "../../components/Administracion";
 
 function AdministracionPage() {
 
