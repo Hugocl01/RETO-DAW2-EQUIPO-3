@@ -10,9 +10,7 @@ class Jugador extends Model
     protected $table = 'jugadores';
     protected $fillable = [
         'equipo_id',
-        'nombre',
-        'apellido1',
-        'apellido2',
+        'nombre_completo',
         'tipos_id',
         'estudio_id',
         'dni',
@@ -26,17 +24,12 @@ class Jugador extends Model
 
     public function equipo()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Equipo::class, 'equipo_id');
     }
 
     public function estudio()
     {
-        return $this->belongsTo(Estudio::class);
-    }
-
-    public function tipo()
-    {
-        return $this->belongsTo(TipoJugador::class);
+        return $this->belongsTo(Estudio::class, 'estudio_id');
     }
 
     protected static function boot()

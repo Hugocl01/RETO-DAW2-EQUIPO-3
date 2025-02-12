@@ -18,14 +18,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('equipos')
                 ->onDelete('cascade');
-            $table->string('nombre', 45);
-            $table->string('apellido1', 45)->nullable();
-            $table->string('apellido2', 45)->nullable();
-            $table->unsignedBigInteger('tipos_id')->nullable();
-            $table->foreign('tipos_id')
-                ->references('id')
-                ->on('tipos_jugadores')
-                ->onDelete('cascade');
+            $table->string('nombre_completo', 70);
+            $table->boolean('capitan');
             $table->unsignedBigInteger('estudio_id')->nullable();
             $table->foreign('estudio_id')
                 ->references('id')

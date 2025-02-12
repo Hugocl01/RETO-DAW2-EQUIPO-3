@@ -17,10 +17,6 @@ class Inscripcion extends Model
         'usuario_modificador_id',
         'fecha_modificacion'
     ];
-    public function equipo()
-    {
-        return $this->belongsTo(Equipo::class);
-    }
 
     public function equipo()
     {
