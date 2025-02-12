@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import $negocio from "../core/negocio";
-import api from "../services/api";
+import api from "../../services/api.js";
 
 /**
  * Página de Detalles del Equipo

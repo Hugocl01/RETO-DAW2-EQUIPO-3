@@ -1,793 +1,363 @@
-const equipos = [
+const jugadores=[
   {
-    idEquipo: 1,
-    equipo: "Equipo 1",
-    entrenador: {
-      id: 1,
-      nombre: "Carlos Pérez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Juan García",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Pedro Martínez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "José López",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Miguel Rodríguez",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "David Sánchez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Antonio Fernández",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Santiago Torres",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Raúl Díaz",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Carlos González",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Luis Martínez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Juan Pérez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador A",
-    ciclo_formativo: "Técnico Deportivo en Fútbol",
-    familia_ciclo: "Deportes",
+    "id_jugador": 1,
+    "nombre": "Juan",
+    "primer_apellido": "Pérez",
+    "segundo_apellido": "García",
+    "tipo": "jugador",
+    "goles_marcados": 12,
+    "equipo": {
+      "id_equipo": 1,
+      "nombre": "Equipo A"
+    }
   },
   {
-    idEquipo: 2,
-    equipo: "Equipo 2",
-    entrenador: {
-      id: 2,
-      nombre: "María González",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Luis Herrera",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Felipe Álvarez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Alberto Ruiz",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Javier Moreno",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Pedro Romero",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Manuel Vázquez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Sergio Gómez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Carlos Pérez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Raúl Sánchez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "José Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Ángel Martín",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador B",
-    ciclo_formativo: "Técnico en Gestión de Fútbol",
-    familia_ciclo: "Deportes",
+    "id_jugador": 2,
+    "nombre": "Carlos",
+    "primer_apellido": "López",
+    "segundo_apellido": "Martínez",
+    "tipo": "jugador",
+    "goles_marcados": 8,
+    "equipo": {
+      "id_equipo": 1,
+      "nombre": "Equipo A"
+    }
   },
   {
-    idEquipo: 3,
-    equipo: "Equipo 3",
-    entrenador: {
-      id: 3,
-      nombre: "José Rodríguez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Andrés Torres",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Iván Sánchez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Ricardo Díaz",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Juan Martínez",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Álvaro Gómez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Pedro González",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Carlos Fernández",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Luis Ramírez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Santiago Morales",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "David Ruiz",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Marco Pérez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador C",
-    ciclo_formativo: "Gestión de Eventos Deportivos",
-    familia_ciclo: "Deportes",
+    "id_jugador": 3,
+    "nombre": "Pedro",
+    "primer_apellido": "Ramírez",
+    "segundo_apellido": "Sánchez",
+    "tipo": "jugador",
+    "goles_marcados": 5,
+    "equipo": {
+      "id_equipo": 1,
+      "nombre": "Equipo A"
+    }
   },
   {
-    idEquipo: 4,
-    equipo: "Equipo 4",
-    entrenador: {
-      id: 4,
-      nombre: "Laura Martínez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Carlos López",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Javier García",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Rubén Sánchez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Tomás Díaz",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Francisco Ramírez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Pedro Díaz",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Alfonso Torres",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Ricardo Morales",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "José Herrera",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Francisco Pérez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Manuel Sánchez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador D",
-    ciclo_formativo: "Técnico Superior en Deportes",
-    familia_ciclo: "Deportes",
+    "id_jugador": 4,
+    "nombre": "Luis",
+    "primer_apellido": "González",
+    "segundo_apellido": "Hernández",
+    "tipo": "jugador",
+    "goles_marcados": 9,
+    "equipo": {
+      "id_equipo": 1,
+      "nombre": "Equipo A"
+    }
   },
   {
-    idEquipo: 5,
-    equipo: "Equipo 5",
-    entrenador: {
-      id: 5,
-      nombre: "Miguel Ángel Ramos",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Carlos Torres",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Alberto Martínez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Tomás Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Víctor Morales",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "José López",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Miguel Pérez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Raúl Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Carlos Díaz",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Luis González",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Álvaro Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Juan Sánchez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador E",
-    ciclo_formativo: "Técnico en Gestión Deportiva",
-    familia_ciclo: "Deportes",
+    "id_jugador": 5,
+    "nombre": "David",
+    "primer_apellido": "Fernández",
+    "segundo_apellido": "Pérez",
+    "tipo": "jugador",
+    "goles_marcados": 6,
+    "equipo": {
+      "id_equipo": 1,
+      "nombre": "Equipo A"
+    }
   },
   {
-    idEquipo: 6,
-    equipo: "Equipo 6",
-    entrenador: {
-      id: 6,
-      nombre: "José Luis Fernández",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Antonio Ruiz",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Ricardo González",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Carlos Torres",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Esteban Moreno",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Juan José Pérez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Miguel Ángel González",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Luis Alfredo Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Javier Torres",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Pedro Morales",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Francisco González",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Manuel Herrera",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador F",
-    ciclo_formativo: "Técnico Superior en Deportes de Equipo",
-    familia_ciclo: "Deportes",
+    "id_jugador": 6,
+    "nombre": "José",
+    "primer_apellido": "Gómez",
+    "segundo_apellido": "Vázquez",
+    "tipo": "jugador",
+    "goles_marcados": 4,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
   },
   {
-    idEquipo: 7,
-    equipo: "Equipo 7",
-    entrenador: {
-      id: 7,
-      nombre: "Ana García",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Fernando Díaz",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Carlos Pérez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Juan Martínez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "David Sánchez",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Antonio Gómez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Santiago Fernández",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "José Luis Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Juan Carlos Torres",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Ricardo Pérez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Miguel Hernández",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Ángel López",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador G",
-    ciclo_formativo: "Técnico en Actividades Físicas y Deportivas",
-    familia_ciclo: "Deportes",
+    "id_jugador": 7,
+    "nombre": "Javier",
+    "primer_apellido": "Díaz",
+    "segundo_apellido": "Ruiz",
+    "tipo": "jugador",
+    "goles_marcados": 7,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
   },
   {
-    idEquipo: 8,
-    equipo: "Equipo 8",
-    entrenador: {
-      id: 8,
-      nombre: "Luis Pérez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Tomás López",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Juan Fernández",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Sergio Pérez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "Pedro Fernández",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Raúl Sánchez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "José Martínez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Alberto Torres",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Álvaro González",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Ricardo Morales",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Carlos Hernández",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Felipe Rodríguez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador H",
-    ciclo_formativo: "Técnico Superior en Actividades Físicas y Deportivas",
-    familia_ciclo: "Deportes",
+    "id_jugador": 8,
+    "nombre": "Fernando",
+    "primer_apellido": "Martín",
+    "segundo_apellido": "Gómez",
+    "tipo": "jugador",
+    "goles_marcados": 5,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
   },
   {
-    idEquipo: 9,
-    equipo: "Equipo 9",
-    entrenador: {
-      id: 9,
-      nombre: "Raúl Sánchez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Mario Martínez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Andrés Ramírez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Francisco Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "José García",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Luis Jiménez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Antonio Pérez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "Sergio Ramírez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Carlos Díaz",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Miguel Rodríguez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Felipe Martínez",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Juan Díaz",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador I",
-    ciclo_formativo: "Técnico Deportivo en Futbol Base",
-    familia_ciclo: "Deportes",
+    "id_jugador": 9,
+    "nombre": "Antonio",
+    "primer_apellido": "Jiménez",
+    "segundo_apellido": "Morales",
+    "tipo": "jugador",
+    "goles_marcados": 10,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
   },
   {
-    idEquipo: 10,
-    equipo: "Equipo 10",
-    entrenador: {
-      id: 10,
-      nombre: "Sofía Martínez",
-    },
-    jugadores: [
-      {
-        id: 1,
-        nombre_completo: "Ricardo López",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 2,
-        nombre_completo: "Carlos Gómez",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 3,
-        nombre_completo: "Pedro Díaz",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 4,
-        nombre_completo: "José Martínez",
-        posicion: "Portero",
-        capitan: false,
-      },
-      {
-        id: 5,
-        nombre_completo: "Antonio Fernández",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 6,
-        nombre_completo: "Juan Luis Fernández",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 7,
-        nombre_completo: "José Antonio González",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 8,
-        nombre_completo: "Santiago Hernández",
-        posicion: "Centrocampista",
-        capitan: false,
-      },
-      {
-        id: 9,
-        nombre_completo: "Luis Ramírez",
-        posicion: "Delantero",
-        capitan: false,
-      },
-      {
-        id: 10,
-        nombre_completo: "Javier González",
-        posicion: "Defensa",
-        capitan: false,
-      },
-      {
-        id: 11,
-        nombre_completo: "Andrés Sánchez",
-        posicion: "Portero",
-        capitan: true,
-      },
-    ],
-    patrocinador: "Patrocinador J",
-    ciclo_formativo: "Técnico en Gestión Deportiva",
-    familia_ciclo: "Deportes",
+    "id_jugador": 10,
+    "nombre": "Miguel",
+    "primer_apellido": "Ruiz",
+    "segundo_apellido": "López",
+    "tipo": "jugador",
+    "goles_marcados": 2,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
   },
-];
-export default equipos;
+  {
+    "id_jugador": 11,
+    "nombre": "Rafael",
+    "primer_apellido": "Pérez",
+    "segundo_apellido": "Sánchez",
+    "tipo": "jugador",
+    "goles_marcados": 11,
+    "equipo": {
+      "id_equipo": 2,
+      "nombre": "Equipo B"
+    }
+  },
+  {
+    "id_jugador": 12,
+    "nombre": "Raúl",
+    "primer_apellido": "Serrano",
+    "segundo_apellido": "Vidal",
+    "tipo": "jugador",
+    "goles_marcados": 1,
+    "equipo": {
+      "id_equipo": 3,
+      "nombre": "Equipo C"
+    }
+  },
+  {
+    "id_jugador": 13,
+    "nombre": "Sergio",
+    "primer_apellido": "Torres",
+    "segundo_apellido": "Muñoz",
+    "tipo": "jugador",
+    "goles_marcados": 4,
+    "equipo": {
+      "id_equipo": 3,
+      "nombre": "Equipo C"
+    }
+  },
+  {
+    "id_jugador": 14,
+    "nombre": "Iván",
+    "primer_apellido": "Álvarez",
+    "segundo_apellido": "Ruiz",
+    "tipo": "jugador",
+    "goles_marcados": 9,
+    "equipo": {
+      "id_equipo": 3,
+      "nombre": "Equipo C"
+    }
+  },
+  {
+    "id_jugador": 15,
+    "nombre": "Enrique",
+    "primer_apellido": "García",
+    "segundo_apellido": "López",
+    "tipo": "jugador",
+    "goles_marcados": 3,
+    "equipo": {
+      "id_equipo": 3,
+      "nombre": "Equipo C"
+    }
+  },
+  {
+    "id_jugador": 16,
+    "nombre": "Manuel",
+    "primer_apellido": "Martínez",
+    "segundo_apellido": "Moreno",
+    "tipo": "jugador",
+    "goles_marcados": 6,
+    "equipo": {
+      "id_equipo": 3,
+      "nombre": "Equipo C"
+    }
+  },
+  {
+    "id_jugador": 17,
+    "nombre": "Antonio",
+    "primer_apellido": "Ruiz",
+    "segundo_apellido": "García",
+    "tipo": "jugador",
+    "goles_marcados": 12,
+    "equipo": {
+      "id_equipo": 4,
+      "nombre": "Equipo D"
+    }
+  },
+  {
+    "id_jugador": 18,
+    "nombre": "Carlos",
+    "primer_apellido": "Vázquez",
+    "segundo_apellido": "Torres",
+    "tipo": "jugador",
+    "goles_marcados": 5,
+    "equipo": {
+      "id_equipo": 4,
+      "nombre": "Equipo D"
+    }
+  },
+  {
+    "id_jugador": 19,
+    "nombre": "Luis",
+    "primer_apellido": "Sánchez",
+    "segundo_apellido": "Jiménez",
+    "tipo": "jugador",
+    "goles_marcados": 3,
+    "equipo": {
+      "id_equipo": 4,
+      "nombre": "Equipo D"
+    }
+  },
+  {
+    "id_jugador": 20,
+    "nombre": "José",
+    "primer_apellido": "Morales",
+    "segundo_apellido": "Torres",
+    "tipo": "jugador",
+    "goles_marcados": 8,
+    "equipo": {
+      "id_equipo": 4,
+      "nombre": "Equipo D"
+    }
+  },
+  {
+    "id_jugador": 21,
+    "nombre": "Miguel",
+    "primer_apellido": "Cruz",
+    "segundo_apellido": "Hernández",
+    "tipo": "jugador",
+    "goles_marcados": 2,
+    "equipo": {
+      "id_equipo": 4,
+      "nombre": "Equipo D"
+    }
+  },
+  {
+    "id_jugador": 22,
+    "nombre": "Juan",
+    "primer_apellido": "Gómez",
+    "segundo_apellido": "Vázquez",
+    "tipo": "jugador",
+    "goles_marcados": 4,
+    "equipo": {
+      "id_equipo": 5,
+      "nombre": "Equipo E"
+    }
+  },
+  {
+    "id_jugador": 23,
+    "nombre": "Javier",
+    "primer_apellido": "Martín",
+    "segundo_apellido": "López",
+    "tipo": "jugador",
+    "goles_marcados": 5,
+    "equipo": {
+      "id_equipo": 5,
+      "nombre": "Equipo E"
+    }
+  },
+  {
+    "id_jugador": 24,
+    "nombre": "Fernando",
+    "primer_apellido": "Hernández",
+    "segundo_apellido": "González",
+    "tipo": "jugador",
+    "goles_marcados": 6,
+    "equipo": {
+      "id_equipo": 5,
+      "nombre": "Equipo E"
+    }
+  },
+  {
+    "id_jugador": 25,
+    "nombre": "Raúl",
+    "primer_apellido": "Ruiz",
+    "segundo_apellido": "Torres",
+    "tipo": "jugador",
+    "goles_marcados": 7,
+    "equipo": {
+      "id_equipo": 5,
+      "nombre": "Equipo E"
+    }
+  },
+  {
+    "id_jugador": 26,
+    "nombre": "Sergio",
+    "primer_apellido": "Díaz",
+    "segundo_apellido": "Morales",
+    "tipo": "jugador",
+    "goles_marcados": 8,
+    "equipo": {
+      "id_equipo": 5,
+      "nombre": "Equipo E"
+    }
+  },
+  {
+    "id_jugador": 27,
+    "nombre": "Álvaro",
+    "primer_apellido": "Serrano",
+    "segundo_apellido": "Vázquez",
+    "tipo": "jugador",
+    "goles_marcados": 1,
+    "equipo": {
+      "id_equipo": 6,
+      "nombre": "Equipo F"
+    }
+  },
+  {
+    "id_jugador": 28,
+    "nombre": "Tomás",
+    "primer_apellido": "Hernández",
+    "segundo_apellido": "Gómez",
+    "tipo": "jugador",
+    "goles_marcados": 2,
+    "equipo": {
+      "id_equipo": 6,
+      "nombre": "Equipo F"
+    }
+  },
+  {
+    "id_jugador": 29,
+    "nombre": "Felipe",
+    "primer_apellido": "Vázquez",
+    "segundo_apellido": "Ruiz",
+    "tipo": "jugador",
+    "goles_marcados": 5,
+    "equipo": {
+      "id_equipo": 6,
+      "nombre": "Equipo F"
+    }
+  },
+  {
+    "id_jugador": 30,
+    "nombre": "Víctor",
+    "primer_apellido": "Jiménez",
+    "segundo_apellido": "Torres",
+    "tipo": "capitán",
+    "goles_marcados": 15,
+    "equipo": {
+      "id_equipo": 6,
+      "nombre": "Equipo F"
+    }
+  }
+]
+export default jugadores;

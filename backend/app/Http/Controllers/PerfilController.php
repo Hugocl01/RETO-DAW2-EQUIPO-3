@@ -10,12 +10,12 @@ class PerfilController extends Controller
 {
     public function index()
     {
-        $perfiles = Perfil::select('id', 'tipo')->get();
+        $perfiles = Perfil::with('secciones')->select('id', 'tipo')->get();
 
         if ($perfiles->isEmpty()) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'No se han encontrado perfiles.'
+                'message' => 'No se han encontrado perfiles registrados.'
             ], 404);
         }
 
@@ -24,6 +24,8 @@ class PerfilController extends Controller
             'perfiles' => PerfilResource::collection($perfiles)
         ], 200);
     }
+
+
 
     public function edit(PerfilRequest $request, Perfil $perfil)
     {

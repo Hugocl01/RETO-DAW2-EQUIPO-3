@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Auditable;
 
 class Pabellon extends Model
 {
-    use HasFactory;
+    use Auditable, HasFactory;
+
     protected $table = 'pabellones';
+
     protected $fillable = [
         'nombre',
         'direccion',
@@ -19,19 +21,4 @@ class Pabellon extends Model
         'fecha_modificacion'
     ];
 
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
-    }
 }

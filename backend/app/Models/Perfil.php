@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\Auditable;
 
 class Perfil extends Model
 {
+    use Auditable;
+
     protected $table = 'perfiles';
 
     protected $fillable = [
@@ -22,20 +24,11 @@ class Perfil extends Model
         return $this->HasMany(Usuario::class, 'perfil_id');
     }
 
-
-    // Creacion y Modificacion de perfiles
-    protected static function boot()
+    /**
+     * Relación con secciones (muchos a muchos)
+     */
+    public function secciones()
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->usuario_creador_id = Auth::id();
-            $model->fecha_creacion = now();
-        });
-
-        static::updating(function ($model) {
-            $model->usuario_modificador_id = Auth::id();
-            $model->fecha_modificacion = now();
-        });
+        return $this->belongsToMany(Seccion::class, 'perfiles_secciones', 'perfil_id', 'seccion_id');
     }
 }

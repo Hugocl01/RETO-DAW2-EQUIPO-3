@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,28 +12,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('usuarios')->delete();
-        DB::table('perfiles')->delete();
-        DB::table('ongs')->delete();
-        DB::table('donaciones')->delete();
-        DB::table('estudios')->delete();
-        DB::table('equipos')->delete();
-        DB::table('ciclos')->delete();
-        DB::table('familias')->delete();
-        DB::table('centros')->delete();
-        DB::table('estado_inscripciones')->delete();
-        DB::table('incidencias')->delete();
-        DB::table('inscripciones')->delete();
-        DB::table('retos')->delete();
-        DB::table('patrocinadores')->delete();
-        DB::table('patrocinadores_equipos')->delete();
-        DB::table('jugadores')->delete();
-        DB::table('pabellones')->delete();
-        DB::table('partidos')->delete();
-        DB::table('actas')->delete();
-        DB::table('publicaciones')->delete();
-        DB::table('imagenes')->delete();
+        // Deshabilitamos temporalmente las restricciones de clave foránea
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
+        // Limpiar tablas y reiniciar IDs
+        DB::table('usuarios')->truncate();
+        DB::table('perfiles')->truncate();
+        DB::table('ongs')->truncate();
+        DB::table('donaciones')->truncate();
+        DB::table('estudios')->truncate();
+        DB::table('equipos')->truncate();
+        DB::table('ciclos')->truncate();
+        DB::table('familias')->truncate();
+        DB::table('centros')->truncate();
+        DB::table('estado_inscripciones')->truncate();
+        DB::table('incidencias')->truncate();
+        DB::table('inscripciones')->truncate();
+        DB::table('retos')->truncate();
+        DB::table('patrocinadores')->truncate();
+        DB::table('patrocinadores_equipos')->truncate();
+        DB::table('jugadores')->truncate();
+        DB::table('pabellones')->truncate();
+        DB::table('partidos')->truncate();
+        DB::table('actas')->truncate();
+        DB::table('publicaciones')->truncate();
+        DB::table('imagenes')->truncate();
+
+        // Volvemos a habilitar las restricciones de clave foránea
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // Llamar a los Seeders en el orden correcto
         $this->call(PerfilSeeder::class);
         $this->call(UsuarioSeeder::class);
         $this->call(OngSeeder::class);
@@ -56,6 +62,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PartidoSeeder::class);
         $this->call(ActaSeeder::class);  
         $this->call(PublicacionSeeder::class); 
-        $this->call(ImagenSeeder::class);     
+        $this->call(ImagenSeeder::class); 
     }
 }

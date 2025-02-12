@@ -40,3 +40,4 @@ function JugadorLabel(esCapitan) {
         </div>
     )
 }
+export default JugadorLabel;
