@@ -1,3 +1,4 @@
+import Partidos from "../components/Partidos.jsx";
 /**
  * Página de Torneo.
  * 
@@ -7,9 +8,7 @@
 function TorneoPage() {
 
     return (
-        <>
-            Pagina del torneo
-        </>
+        <Partidos />
     );
 }
 export default TorneoPage;

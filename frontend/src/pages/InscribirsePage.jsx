@@ -1,3 +1,5 @@
+import Inscribirse from "../components/Inscribirse.jsx";
+
 /**
  * Página de Inscribirse.
  * 
@@ -7,9 +9,7 @@
 function InscribirsePage() {
 
     return (
-        <>
-            Pagina inscribirse
-        </>
+        <Inscribirse />
     )
 }
 
