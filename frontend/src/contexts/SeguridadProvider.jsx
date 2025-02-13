@@ -80,7 +80,6 @@ function SeguridadProvider({ children }) {
 
                 // Guarda en el estado global
                 setSeguridad({
-                    auth: true,
                     user: usuario,
                     token: token
                 });
@@ -89,6 +88,7 @@ function SeguridadProvider({ children }) {
                 sessionStorage.setItem("token", token);
                 sessionStorage.setItem("user", JSON.stringify(usuario));
 
+                console.log(usuario);
                 return { success: true };
             }
         } catch (error) {
@@ -119,7 +119,6 @@ function SeguridadProvider({ children }) {
     */
     const logout = () => {
         setSeguridad({
-            auth: false,
             user: null,
             token: null
         });

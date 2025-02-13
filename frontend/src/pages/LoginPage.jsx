@@ -19,7 +19,7 @@ function LoginPage() {
 
     useEffect(() => {
         // Si ya está logueado, redirige a la página principal
-        if (seguridad?.auth) {
+        if (seguridad?.user) {
             navigate("/"); // Redirige a la página principal
         }
     }, [seguridad, navigate]);
@@ -27,7 +27,7 @@ function LoginPage() {
     return (
         <>
             {/* Si no está autenticado, muestra el formulario de login */}
-            {!seguridad?.auth && <Login />}
+            {!seguridad?.user && <Login />}
         </>
     );
 }
