@@ -30,6 +30,7 @@ class SeccionesSeeder extends Seeder
             ['nombre' => 'Ciclos', 'descripcion' => 'Ciclos de FP que participan en los retos.'],
             ['nombre' => 'Centros', 'descripcion' => 'Centros educativos que participan en el torneo.'],
             ['nombre' => 'Estudios', 'descripcion' => 'Cursos asociados a los centros que participan en los retos.'],
+            ['nombre' => 'Inscripciones', 'descripcion' => 'Inscripciones de equipos para ser aprobadas o rechazadas']
         ];
 
         DB::table('secciones')->insert(array_map(function ($seccion) {
