@@ -1,4 +1,4 @@
-import { useCrud } from "../../hooks/useCrud";
+import { useCrud } from "../../hooks/usePerfiles";
 
 const PerfilesCRUD = () => {
 
