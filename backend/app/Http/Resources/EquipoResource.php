@@ -23,7 +23,12 @@ class EquipoResource extends JsonResource
             'entrenador' => [
                 $this->usuario->id,
                 $this->usuario->nombre_completo
-            ]
+            ],
+            'jugadores' => $this->jugadores->where('equipo_id', $this->id)->map(function ($jugador) {
+                return [
+                    new JugadorResource($jugador)
+                ];
+            })->values()
         ];
     }
 }
