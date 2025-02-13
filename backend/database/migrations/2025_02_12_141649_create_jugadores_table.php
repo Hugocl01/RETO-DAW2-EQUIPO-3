@@ -20,6 +20,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('nombre_completo', 70);
             $table->boolean('capitan');
+            $table->boolean('activo')->default(true);
             $table->unsignedBigInteger('estudio_id')->nullable();
             $table->foreign('estudio_id')
                 ->references('id')

@@ -16,6 +16,7 @@ class Jugador extends Model
         'equipo_id',
         'nombre_completo',
         'capitan',
+        'activo',
         'estudio_id',
         'dni',
         'email',
@@ -35,5 +36,4 @@ class Jugador extends Model
     {
         return $this->belongsTo(Estudio::class, 'estudio_id');
     }
-
 }
