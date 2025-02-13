@@ -13,6 +13,7 @@ use App\http\Controllers\SeccionController;
 use App\http\Controllers\PerfilController;
 use App\http\Controllers\DonacionController;
 use App\http\Controllers\JugadorController;
+use App\http\Controllers\InscripcionController;
 
 
 Route::get('/user', function (Request $request) {
@@ -54,4 +55,7 @@ Route::apiResource('secciones', SeccionController::class);
 Route::apiResource('perfiles', PerfilController::class);
 Route::apiResource('donaciones', DonacionController::class);
 Route::apiResource('jugadores', JugadorController::class);
+Route::apiResource('inscripciones', InscripcionController::class);
+Route::put('inscripciones/{inscripcion}/activo', [InscripcionController::class, 'updateActivo']);
+
 

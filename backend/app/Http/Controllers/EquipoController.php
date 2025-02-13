@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
-use App\Models\Jugador;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EquipoInscripcionMail;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\EquipoRequest;
 use App\Http\Resources\EquipoResource;
@@ -56,12 +57,15 @@ class EquipoController extends Controller
             }
         }
 
+        // Crear la inscripción asociada al equipo
         if ($equipo) {
             $equipo->inscripcion()->create([
                 'comentarios' => 'Primera Entrada',
-                'equipo_id' => $equipo->id,
-                'estado_id' => 1,
+                'estado_id'   => 1,
             ]);
+
+            // Enviar correo al administrador (o a quien corresponda)
+            Mail::to('eloycuesta@hotmail.es')->send(new EquipoInscripcionMail($equipo));
         }
 
         // Recargar la relación jugadores para incluirla en la respuesta
@@ -73,6 +77,7 @@ class EquipoController extends Controller
             'equipo'  => new EquipoResource($equipo)
         ], 201);
     }
+
 
 
     public function update(EquipoRequest $request, Equipo $equipo): JsonResponse
