@@ -20,7 +20,6 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('nombre_completo', 70);
             $table->boolean('capitan');
-            $table->boolean('activo')->default(true);
             $table->unsignedBigInteger('estudio_id')->nullable();
             $table->foreign('estudio_id')
                 ->references('id')
@@ -29,6 +28,7 @@ return new class extends Migration
             $table->string('dni', 9)->nullable();
             $table->string('email', 45)->nullable();
             $table->string('telefono', 45)->nullable();
+            $table->boolean('activo')->default(0);
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();

@@ -20,12 +20,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('centros')
                 ->onDelete('restrict');
-            $table->char('grupo', 1);
+            $table->char('grupo', 1)->nullable();
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')
                 ->references('id')
                 ->on('usuarios')
                 ->onDelete('restrict');
+            $table->boolean('activo')->default(0);
 
             // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();

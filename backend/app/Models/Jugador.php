@@ -16,15 +16,11 @@ class Jugador extends Model
         'equipo_id',
         'nombre_completo',
         'capitan',
-        'activo',
         'estudio_id',
         'dni',
         'email',
         'telefono',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
+        'activo',
     ];
 
     // Relationship with Equipo

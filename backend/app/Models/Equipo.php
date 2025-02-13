@@ -16,7 +16,8 @@ class Equipo extends Model
         'nombre',
         'centro_id',
         'grupo',
-        'usuario_id'
+        'usuario_id',
+        'activo'
     ];
 
     public function centro()
@@ -32,6 +33,11 @@ class Equipo extends Model
     public function jugadores()
     {
         return $this->hasMany(Jugador::class);
+    }
+
+    public function inscripcion()
+    {
+        return $this->hasOne(Inscripcion::class);
     }
 
     public function statsEquipo(): array
