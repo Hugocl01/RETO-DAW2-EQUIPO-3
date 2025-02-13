@@ -16,10 +16,6 @@ class Inscripcion extends Model
         'comentarios',
         'equipo_id',
         'estado_id',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
     public function equipo()

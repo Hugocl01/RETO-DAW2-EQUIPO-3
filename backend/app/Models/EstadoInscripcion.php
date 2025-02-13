@@ -15,4 +15,9 @@ class EstadoInscripcion extends Model
         'estado'
     ];
 
+    public function inscripcion()
+    {
+        return $this->hasOne(Inscripcion::class, 'estado_id');
+    }
+
 }

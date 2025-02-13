@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,13 +14,13 @@ class JugadorFactory extends Factory
     public function definition()
     {
         return [
-            'equipo_id' => Equipo::inRandomOrder()->first()->id ?? Equipo::factory(),  
-            'nombre_completo' => $this->faker->name(), 
-            'capitan' => $this->faker->numberBetween(0, 1),  
-            'estudio_id' => Estudio::inRandomOrder()->first()->id ?? Estudio::factory(), 
-            'dni' => $this->faker->regexify('[0-9]{8}[A-Z]{1}') ,  
-            'email' => $this->faker->unique()->safeEmail(), 
-            'telefono' => $this->faker->phoneNumber(),  
+            'equipo_id' => Equipo::inRandomOrder()->first()->id ?? Equipo::factory(),
+            'nombre_completo' => $this->faker->name(),
+            'capitan' => $this->faker->numberBetween(0, 1),
+            'estudio_id' => Estudio::inRandomOrder()->first()->id ?? Estudio::factory(),
+            'dni' => $this->faker->regexify('[0-9]{8}[A-Z]{1}'),
+            'email' => $this->faker->unique()->safeEmail(),
+            'telefono' => $this->faker->phoneNumber(),
             'usuario_creador_id' => 1
         ];
     }
