@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "../services/api";
 import AdministracionMenu from "../components/MenuAdministracion";
 import UsuariosCRUD from "../components/crud/UsuariosCRUD";
 import PerfilesCRUD from "../components/crud/PerfilesCRUD";
@@ -8,8 +9,24 @@ import CentrosCRUD from "../components/crud/CentrosCRUD";
 import CiclosCRUD from "../components/crud/CiclosCRUD";
 
 function AdministracionPage() {
-    // 'usuarios' es el CRUD por defecto
-    const [entidadSeleccionada, setEntidadSeleccionada] = useState("usuarios");
+    const [secciones, setSecciones] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [entidadSeleccionada, setEntidadSeleccionada] = useState("usuarios"); // "usuarios" por defecto
+
+    useEffect(() => {
+        const fetchSecciones = async () => {
+            try {
+                const response = await api.get('/secciones');
+                setSecciones(response.data.secciones || []);
+            } catch (error) {
+                console.error("Error al obtener secciones:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSecciones();
+    }, []);
 
     // Función para renderizar el CRUD según la entidad seleccionada
     const renderCRUD = () => {
@@ -32,14 +49,12 @@ function AdministracionPage() {
     };
 
     return (
-        <div className="container mt-4">
-            <h2 className="text-center">Panel de Administración</h2>
+        <div className="d-flex">
+            <AdministracionMenu secciones={secciones} loading={loading} onSelect={setEntidadSeleccionada} />
 
-            {/* Menú separado en su propio componente */}
-            <AdministracionMenu onSelect={setEntidadSeleccionada} />
-
-            {/* Renderizado del CRUD según la entidad seleccionada */}
-            {renderCRUD()}
+            <div className="flex-grow-1 p-4">
+                {renderCRUD()}
+            </div>
         </div>
     );
 }

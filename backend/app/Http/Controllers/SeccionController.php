@@ -18,7 +18,7 @@ class SeccionController extends Controller
         if ($secciones->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No hay equipos registrados.'
+                'message' => 'No hay secciones registradas.'
             ], 404);
         }
 
