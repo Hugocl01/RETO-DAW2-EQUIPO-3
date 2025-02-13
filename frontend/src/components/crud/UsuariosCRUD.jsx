@@ -1,4 +1,4 @@
-import { useCrud } from "../../hooks/useUsuarios";
+import { useUsuarios } from "../../hooks/useUsuarios";
 
 const UsuariosCRUD = () => {
 
