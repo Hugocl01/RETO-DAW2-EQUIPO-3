@@ -16,7 +16,7 @@ class Acta extends Model
         'partido_id',
         'jugador_id',
         'incidencia_id',
-        'hora',
+        'tiempo',
         'comentario',
         'usuario_creador_id',
         'fecha_creacion',
@@ -38,5 +38,4 @@ class Acta extends Model
     {
         return $this->hasOne(Incidencia::class, 'incidencia_id');
     }
-
 }
