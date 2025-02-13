@@ -33,4 +33,32 @@ class Equipo extends Model
     {
         return $this->hasMany(Jugador::class);
     }
+
+    public function statsEquipo(): array
+    {
+        // Obtener todos los jugadores del equipo
+        $jugadores = $this->jugadores;
+
+        // Inicializar contadores
+        $totalGoles = 0;
+        $totalTarjetasAmarillas = 0;
+        $totalTarjetasRojas = 0;
+        $totalFaltas = 0;
+
+        // Recorrer cada jugador y sumar sus estadísticas
+        foreach ($jugadores as $jugador) {
+            $stats = $jugador->statsJugador();
+            $totalGoles += $stats['goles'];
+            $totalTarjetasAmarillas += $stats['tarjetas_amarillas'];
+            $totalTarjetasRojas += $stats['tarjetas_rojas'];
+            $totalFaltas += $stats['faltas'];
+        }
+
+        return [
+            'goles'             => $totalGoles,
+            'tarjetas_amarillas' => $totalTarjetasAmarillas,
+            'tarjetas_rojas'     => $totalTarjetasRojas,
+            'faltas'             => $totalFaltas,
+        ];
+    }
 }
