@@ -25,8 +25,27 @@ Route::put('usuarios/{usuario}/activo', [UsuarioController::class, 'updateActivo
 
 // Rutas de la API
 Route::apiResource('ciclos', CicloController::class);
+/*
+Route::get('ciclos/todos', [CicloController::class, 'index']);
+Route::get('ciclos/{ciclo}', [CicloController::class, 'show']);
+Route::post('ciclos/crear', [CicloController::class, 'store']);
+Route::put('ciclos/actualizar/{ciclo}', [CicloController::class, 'update']);
+Route::delete('ciclos/eliminar/{ciclo}', [CicloController::class, 'destroy']);*/
+
 Route::apiResource('centros', CentroController::class);
+/*
+Route::get('centros/todos', [CentroController::class, 'index']);
+Route::get('centros/{centro}', [CentroController::class, 'show']);
+Route::post('centros/crear', [CentroController::class, 'store']);
+Route::put('centros/actualizar/{centro}', [CentroController::class, 'update']);
+Route::delete('centros/eliminar/{centro}', [CentroController::class, 'destroy']);
+*/
 Route::apiResource('estudios', EstudioController::class);
+/*
+Route::get('estudios/todos', [EstudioController::class, 'index']);
+Route::post('estudios/crear', [EstudioController::class, 'store']);
+Route::delete('estudios/eliminar/{centro}', [EstudioController::class, 'destroy']);*/
+
 Route::apiResource('equipos', EquipoController::class);
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('secciones', SeccionController::class);
