@@ -2,10 +2,10 @@ import { useState } from "react";
 import AdministracionMenu from "../components/MenuAdministracion";
 import UsuariosCRUD from "../components/crud/UsuariosCRUD";
 import PerfilesCRUD from "../components/crud/PerfilesCRUD";
-//import PabellonesCRUD from "../components/crud/PabellonesCRUD";
-//import PatrocinadoresCRUD from "../components/crud/PatrocinadoresCRUD";
-//import CentrosCRUD from "../components/crud/CentrosCRUD";
-//import CiclosCRUD from "../components/crud/CiclosCRUD";
+import PabellonesCRUD from "../components/crud/PabellonesCRUD";
+import PatrocinadoresCRUD from "../components/crud/PatrocinadoresCRUD";
+import CentrosCRUD from "../components/crud/CentrosCRUD";
+import CiclosCRUD from "../components/crud/CiclosCRUD";
 
 function AdministracionPage() {
     // 'usuarios' es el CRUD por defecto
