@@ -35,7 +35,7 @@ function Header() {
                     </ul>
 
                     {/* Menú desplegable de usuario cuando está autenticado */}
-                    {seguridad.auth ? (
+                    {seguridad.user ? (
                         <div className="dropdown text-end">
                             <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 {/* Imagen del perfil de usuario */}
