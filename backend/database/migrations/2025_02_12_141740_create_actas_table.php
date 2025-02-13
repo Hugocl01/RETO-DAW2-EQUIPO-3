@@ -28,7 +28,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('incidencias')
                 ->onDelete('cascade');
-            $table->time('hora')->nullable();
+            $table->integer('tiempo');
             $table->longText('comentario')->nullable();
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
