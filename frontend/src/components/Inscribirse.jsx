@@ -1,13 +1,25 @@
 import { useState } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
+import { validarNombreCompleto, validarTelefono, validarDNI } from "./Validaciones.js";
 
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
-    const [capitanId, setCapitanId] = useState(null); 
+    const [capitanId, setCapitanId] = useState(null);
+    const [erroresEquipos, setErrores] = useState({
+        nombre: "",
+        entrenador: ""
+    });
+
+    const [erroresJugadores, setErroresJ] = useState({
+
+    });
+
 
     // agregar jugador 
     const agregarJugador = () => {
         setJugadores([...jugadores, { id: jugadores.length }]);
+        
+        console.log(jugadores);
     };
 
     // eliminar jugador 
@@ -19,13 +31,14 @@ function Inscribirse() {
         if (capitanId === id) {
             setCapitanId(null);
         }
+
     };
 
 
     const handleSetCapitan = (id) => {
         // si el jugador que se esta marcando ya es el capitan permitir desmarcarlo
         if (capitanId === id) {
-            setCapitanId(null); 
+            setCapitanId(null);
         } else {
             // si ya existe un capitan, mostramos un mensaje de alerta
             if (capitanId !== null) {
@@ -36,7 +49,34 @@ function Inscribirse() {
             }
         }
     };
-    
+
+    /*const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const nombre = document.querySelector('input[name="nombre"]');
+        if (!validarNombreCompleto(nombre)) {
+            erroresFormulario.nombre = "* Este campo es obligatorio";
+        }
+        let errores = [];
+
+        for(let i=0; i < jugadores.length; i++) {
+            let jugador = document.getElementById(i);
+            console.log(jugador);
+            let errorJugador= {
+                id: i,
+                nombre: validarNombreCompleto(jugador.querySelector('[name="nombre"]').value),
+                ciclo: jugador.querySelector('[name="ciclo"]').value ?? "El campo es obligatorio",
+                dni: validarDNI(jugador.querySelector('[name="dni"]').value),
+                email: jugador.querySelector('[name="email"]').value ?? "El campo es obligatorio",
+                telefono: validarTelefono(jugador.querySelector('[name="telf"]').value)
+            };
+
+            errores.push(errorJugador);
+            console.log(errores);
+        }
+        
+    };*/
+
 
     return (
         //contenedor principal
@@ -54,13 +94,13 @@ function Inscribirse() {
                     <div className="row mt-3">
                         <div className="col d-flex align-items-center gap-2 mb-5">
                             <label className="mb-0">Nombre: *</label>
-                            <input type="text" className="form-control w-60" />
+                            <input type="text" className="form-control w-50 mx-2" />
                             <span className="text-danger small"></span>
                         </div>
 
                         <div className="col d-flex align-items-center gap-2 mb-5">
                             <label className="mb-0">Entrenador: *</label>
-                            <select className="form-select w-60" aria-label="Default select example">
+                            <select className="form-select w-75 mx-2" aria-label="Default select example">
                                 <option>Entrenador 1</option>
                                 <option>Entrenador 2</option>
                                 <option>Entrenador 3</option>
@@ -94,9 +134,16 @@ function Inscribirse() {
                         esCapitan={capitanId === jugador.id}
                         onRemove={eliminarJugador}
                         onSetCapitan={handleSetCapitan}
-                        isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}  // Deshabilitar checkbox si ya hay un capitán
+                        isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}  // deshabilitar checkbox si ya hay un capitán
                     />
                 ))}
+
+                <button type="submit"
+                    className="bg-secondary text-white w-25 mb-5 ms-4 rounded py-2 border-2"
+                    >
+                    <i class="bi bi-send-fill m-2"></i>
+                    Enviar
+                </button>
             </div>
         </div>
     );
