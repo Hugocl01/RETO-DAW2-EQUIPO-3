@@ -18,8 +18,7 @@ function AdministracionMenu({ secciones, loading, onSelect }) {
                 <ul className="list-group">
                     {secciones.length > 0 ? (
                         secciones.map((seccion) => (
-                            <li key={seccion.id} className="list-group-item" onClick={() => handleSelect(seccion.nombre)}>
-
+                            <li key={seccion.id} className="list-group-item" onClick={() => handleSelect(seccion)}>
                                 {seccion.nombre}
                             </li>
                         ))
