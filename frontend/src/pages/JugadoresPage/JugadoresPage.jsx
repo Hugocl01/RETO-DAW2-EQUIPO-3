@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import $negocio from "../../core/negocio";
 import Jugador from "../../components/Jugador";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner"
 
 function JugadoresPage() {
-  const [jugadores, setJugadores] = useState([]);
+  const [jugadores, setJugadores] = useState();
   const navegar = useNavigate();
 
   /**En cuanto cargue el componente, se ejecutará la carga de los jugadores */
@@ -21,6 +22,13 @@ function JugadoresPage() {
   }, []);
 
   /**
+   * Mientras carga los jugadores, muestro el spinner
+   */
+  if(!jugadores){
+    return <Spinner></Spinner>
+  }
+
+  /**
    * Redirige al detalle del jugador
    * @param {int} id 
    */
@@ -30,7 +38,6 @@ function JugadoresPage() {
 
   return (
     <>
-      {jugadores? (
         <section>
           <div className="container-fluid w-75">
             <h2 className="my-4">Lista de Jugadores</h2>
@@ -61,9 +68,6 @@ function JugadoresPage() {
             </div>
           </div>
         </section>
-      ) : (
-        <p>No se encontraron jugadores.</p>
-      )}
     </>
   );
 }
