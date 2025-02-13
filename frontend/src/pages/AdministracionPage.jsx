@@ -13,8 +13,8 @@ function AdministracionPage() {
     useEffect(() => {
         const fetchSecciones = async () => {
             try {
-                const response = await api.get(`/secciones/${seguridad.user.perfil.id}`);
-                setSecciones(response.data.secciones || []);
+                const response = await api.get(`/perfiles/${seguridad.user.perfil.id}`);
+                setSecciones(response.data.perfiles.secciones || []);
             } catch (error) {
                 console.error("Error al obtener secciones:", error);
             } finally {
