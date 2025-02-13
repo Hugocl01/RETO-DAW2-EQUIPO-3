@@ -23,7 +23,15 @@ class EquipoResource extends JsonResource
                 'id'     => $this->usuario->id,
                 'nombre' => $this->usuario->nombre_completo,
             ] : null,
-            'jugadores'  => JugadorResource::collection($this->jugadores),
+            'Jugadores'  => [
+                'jugador' => $this->jugadores->map(function ($jugador) {
+                    return [
+                        'id'     => $jugador->id,
+                        'nombre' => $jugador->nombre_completo,
+                    ];
+                }),
+            ],
+            'stats'     => $this->statsEquipo(),
         ];
     }
 }
