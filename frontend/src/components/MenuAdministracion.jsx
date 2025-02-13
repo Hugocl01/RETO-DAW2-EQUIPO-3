@@ -1,13 +1,35 @@
-function AdministracionMenu({ onSelect }) {
+import { useState } from "react";
+
+function AdministracionMenu({ secciones, loading, onSelect }) {
+    const [selectedSeccion, setSelectedSeccion] = useState("");
+
+    const handleSelect = (seccion) => {
+        setSelectedSeccion(seccion);
+        onSelect(seccion);
+    };
+
     return (
-        <div className="d-flex flex-wrap justify-content-center gap-3 my-4">
-            <button onClick={() => onSelect("usuarios")} className="btn btn-primary">Usuarios</button>
-            <button onClick={() => onSelect("perfiles")} className="btn btn-primary">Perfiles</button>
-            <button onClick={() => onSelect("pabellones")} className="btn btn-primary">Pabellones</button>
-            <button onClick={() => onSelect("patrocinadores")} className="btn btn-primary">Patrocinadores</button>
-            <button onClick={() => onSelect("centros")} className="btn btn-primary">Centros</button>
-            <button onClick={() => onSelect("ciclos")} className="btn btn-primary">Ciclos</button>
-        </div>
+        <aside className="p-3 border-end bg-light" style={{ minWidth: "240px", height: "100vh" }}>
+            <h4 className="text-center">Administración</h4>
+
+            {loading ? (
+                <p className="text-center">Cargando secciones...</p>
+            ) : (
+                <ul className="list-group">
+                    {secciones.length > 0 ? (
+                        secciones.map((seccion) => (
+                            <li key={seccion.id} className="list-group-item" onClick={() => handleSelect(seccion)}>
+                                {seccion.nombre}
+                            </li>
+                        ))
+                    ) : (
+                        <li className="list-group-item text-center text-muted">
+                            No hay secciones disponibles
+                        </li>
+                    )}
+                </ul>
+            )}
+        </aside>
     );
 }
 
