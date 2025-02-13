@@ -1,43 +1,98 @@
+import { useState } from "react";
 
-function JugadorLabel(esCapitan) {
+function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled }) {
+    const [isCapitanState, setIsCapitanState] = useState(esCapitan);
+    
+    // handle para mostrar el confirm al eliminar el jugador
+    const handleRemove = () => {
+        if (window.confirm("¿Seguro que quieres eliminar el jugador?")) {
+            onRemove(id);
+        }
+    };
+
+    const handleCapitanChange = () => {
+        // si ya existe un capitan, no permitimos marcar este jugador como capitan
+        if (isCapitanDisabled) {
+            return; // no hace nada si el checkbox esta deshabilitado
+        }
+    
+        // si no esta deshabilitado cambiamos el estado para marcar o desmarcarlo como capitan
+        onSetCapitan(id); // actualiza el capitan de el padre
+        setIsCapitanState(!isCapitanState); // cambia el estado del capitan localmente
+    };
+    
+
     return (
+        // contenedor principal del jugador
         <div className="d-flex justify-content-flex align-items-center">
-            <div className="card p-4 mb-4 bg-light col-11">
-                <h5 className="w-100 bg-secondary p-2 text-white rounded">Jugador 1</h5>
-                <div className="row">
-                    <div className="col d-flex align-items-center gap-3 mb-3">
-                        <label className="mb-0 mt-2">Nombre:</label>
+            {/* cabecera del jugador */}
+            <div className="card p-3 mb-4 bg-light col-11">
+                {/* titulo de jugador*/}
+                <div className="w-100 bg-secondary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
+                    <h5 className="m-0">Jugador {id + 1}</h5>
+
+                    {/* checkbox de capitan */}
+                    <div className="form-check form-switch d-flex align-items-center">
+                        <input
+                            className="form-check-input me-2"
+                            type="checkbox"
+                            role="switch"
+                            id={`capitan-${id}`}
+                            checked={isCapitanState}
+                            onChange={handleCapitanChange}
+                            disabled={isCapitanDisabled}  // Deshabilitar si ya hay un capitán
+                        />
+                        <label className="form-check-label" htmlFor={`capitan-${id}`}>
+                            Capitán
+                        </label>
+                    </div>
+                </div>
+
+                {/* primera fila de campos */}
+                <div className="row mt-3">
+                    <div className="col d-flex flex-column align-items-start gap-2 mb-5">
+                        <label className="mb-0">Nombre: *</label>
                         <input type="text" className="form-control w-50" />
                     </div>
-                    <div className="col d-flex align-items-center gap-3 mb-3">
-                        <label className="mb-0 mt-2">Primer apellido:</label>
+                    <div className="col d-flex flex-column align-items-start gap-2 mb-5">
+                        <label className="mb-0">Primer apellido: *</label>
                         <input type="text" className="form-control w-75" />
                     </div>
-                    <div className="col d-flex align-items-center gap-3 mb-3">
-                        <label className="mb-0 mt-2">Segundo apellido:</label>
-                        <input type="text" className="form-control w-75" />
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col d-flex align-items-center gap-3 mb-3">
-                        <label className="mb-0 mt-2">Ciclo formativo:</label>
-                        <input type="text" className="form-control w-75" />
-                    </div>
-                    <div className="col d-flex align-items-center gap-3 mb-3">
-                        <label className="mb-0 mt-2">DNI:</label>
+                    <div className="col d-flex flex-column align-items-start gap-2 mb-5">
+                        <label className="mb-0">Segundo apellido: *</label>
                         <input type="text" className="form-control w-75" />
                     </div>
                 </div>
 
+                {/* si es capitan añade los campos necesarios */}
+                {isCapitanState && (
+                    <div className="row mt-3">
+                        <div className="col d-flex flex-column align-items-start gap-2 mb-4">
+                            <label className="mb-0">DNI: *</label>
+                            <input type="text" className="form-control w-50" />
+                        </div>
+                        <div className="col d-flex flex-column align-items-start gap-2 mb-4">
+                            <label className="mb-0">Email: *</label>
+                            <input type="email" className="form-control w-75" />
+                        </div>
+                        <div className="col d-flex flex-column align-items-start gap-2 mb-4">
+                            <label className="mb-0">Teléfono: *</label>
+                            <input type="tel" className="form-control w-50" />
+                        </div>
+                    </div>
+                )}
             </div>
+            
+            {/* boton para eliminar el jugador */}
             <div>
                 <i
-                    className="bi bi-trash text-danger fs-4 m-5 cursor-pointer"
-                    style={{ cursor: "pointer" }}>
-                </i>
+                    className="bi bi-trash text-danger fs-4 m-5"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleRemove}
+                ></i>
             </div>
         </div>
-    )
+    );
 }
+
 export default JugadorLabel;
