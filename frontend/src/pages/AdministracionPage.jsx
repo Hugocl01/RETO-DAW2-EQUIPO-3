@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SeguridadContext } from "../contexts/SeguridadProvider";
 import api from "../services/api";
 import AdministracionMenu from "../components/MenuAdministracion";
 import Crud from "../components/Crud";
@@ -7,11 +8,12 @@ function AdministracionPage() {
     const [secciones, setSecciones] = useState([]);
     const [loading, setLoading] = useState(true);
     const [entidadSeleccionada, setEntidadSeleccionada] = useState(null);
+    const { seguridad } = useContext(SeguridadContext);
 
     useEffect(() => {
         const fetchSecciones = async () => {
             try {
-                const response = await api.get('/secciones');
+                const response = await api.get(`/secciones/${seguridad.user.perfil.id}`);
                 setSecciones(response.data.secciones || []);
             } catch (error) {
                 console.error("Error al obtener secciones:", error);

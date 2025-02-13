@@ -140,7 +140,7 @@ function AppEnrutador() {
           <Route
             path="administracion"
             element={
-              <RutaPrivada usuarioPermitido="administrador">
+              <RutaPrivada>
                 <Suspense fallback={<Spinner />}>
                   <AdministracionPage />
                 </Suspense>
