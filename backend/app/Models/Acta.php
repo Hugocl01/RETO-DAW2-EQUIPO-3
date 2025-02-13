@@ -36,6 +36,7 @@ class Acta extends Model
 
     public function incidencia()
     {
-        return $this->hasOne(Incidencia::class, 'incidencia_id');
+        return $this->belongsTo(Incidencia::class, 'incidencia_id');
     }
+
 }

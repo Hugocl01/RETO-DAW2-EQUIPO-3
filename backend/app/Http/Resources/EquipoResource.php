@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\CentroResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EquipoResource extends JsonResource
@@ -16,19 +15,15 @@ class EquipoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'nombre' => $this->nombre,
-            'centro' => new CentroResource($this->centro),
-            'grupo' => $this->grupo,
-            'entrenador' => [
-                $this->usuario->id,
-                $this->usuario->nombre_completo
-            ],
-            'jugadores' => $this->jugadores->where('equipo_id', $this->id)->map(function ($jugador) {
-                return [
-                    new JugadorResource($jugador)
-                ];
-            })->values()
+            'id'         => $this->id,
+            'nombre'     => $this->nombre,
+            'centro'     => $this->centro ? new CentroResource($this->centro) : null,
+            'grupo'      => $this->grupo,
+            'entrenador' => $this->usuario ? [
+                'id'     => $this->usuario->id,
+                'nombre' => $this->usuario->nombre_completo,
+            ] : null,
+            'jugadores'  => JugadorResource::collection($this->jugadores),
         ];
     }
 }

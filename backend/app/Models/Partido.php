@@ -9,7 +9,7 @@ use App\Traits\Auditable;
 class Partido extends Model
 {
     use Auditable, HasFactory;
-  
+
     protected $table = 'partidos';
 
     protected $fillable = [
