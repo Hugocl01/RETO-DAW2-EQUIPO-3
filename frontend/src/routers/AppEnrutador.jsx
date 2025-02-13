@@ -12,8 +12,7 @@ import PerfilPage from "../pages/PerfilPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RutaPrivada from "../components/RutaPrivada.jsx";
 import DetallesEquipoPage from "../pages/EquiposPage/DetallesEquipoPage.jsx";
-import AdministracionPage from "../pages/AdministracionPages/AdministracionPage.jsx";
-import AdminEntidadPage from "../pages/AdministracionPages/AdminEntidadPage.jsx";
+import AdministracionPage from "../pages/AdministracionPage.jsx";
 import JugadoresPage from "../pages/JugadoresPage/JugadoresPage.jsx";
 import DetalleJugadorPage from "../pages/JugadoresPage/DetalleJugadorPage.jsx";
 
@@ -34,10 +33,10 @@ function AppEnrutador() {
                     <Route index element={<InicioPage />} />
 
                     {/* Otras páginas */}
-                    <Route path="equipos" element={<EquiposPage/>} />
-                    <Route path="equipos/:nombreEquipo" element={<DetallesEquipoPage/>}></Route>
-                    <Route path="jugadores/" element={<JugadoresPage/>}></Route>
-                    <Route path="jugadores/:id" element={<DetalleJugadorPage/>}></Route>
+                    <Route path="equipos" element={<EquiposPage />} />
+                    <Route path="equipos/:nombreEquipo" element={<DetallesEquipoPage />}></Route>
+                    <Route path="jugadores/" element={<JugadoresPage />}></Route>
+                    <Route path="jugadores/:id" element={<DetalleJugadorPage />}></Route>
                     <Route path="torneo" element={<TorneoPage />} />
                     <Route path="organizacion" element={<OrganizacionPage />} />
                     <Route path="galeria" element={<GaleriaPage />} />
@@ -45,10 +44,7 @@ function AppEnrutador() {
                     <Route path="perfil" element={<RutaPrivada><PerfilPage /></RutaPrivada>} />
 
                     {/* Agrupación de rutas privadas para administración */}
-                    <Route path="administracion" element={<RutaPrivada usuarioPermitido="administrador"><Outlet /></RutaPrivada>}>
-                        <Route index element={<AdministracionPage />} />
-                        <Route path=":entidad" element={<AdminEntidadPage />} />
-                    </Route>
+                    <Route path="administracion" element={<RutaPrivada usuarioPermitido="administrador"><AdministracionPage /></RutaPrivada>} />
                 </Route>
 
                 {/* Layout alternativo */}
