@@ -32,13 +32,13 @@ class SeccionesSeeder extends Seeder
             ['nombre' => 'Estudios', 'descripcion' => 'Cursos asociados a los centros que participan en los retos.'],
         ];
 
-        foreach ($secciones as $seccion) {
-            DB::table('secciones')->insert([
+        DB::table('secciones')->insert(array_map(function ($seccion) {
+            return [
                 'nombre' => $seccion['nombre'],
                 'descripcion' => $seccion['descripcion'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]);
-        }
+            ];
+        }, $secciones));
     }
 }
