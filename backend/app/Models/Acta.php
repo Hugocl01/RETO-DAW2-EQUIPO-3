@@ -3,27 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
 
 class Acta extends Model
 {
-    use Auditable, HasFactory;
-
-    protected $table = 'actas';
+    use Auditable;
 
     protected $fillable = [
         'partido_id',
         'jugador_id',
         'incidencia_id',
-        'tiempo',
+        'minuto',
         'comentario',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
+    // Relaciones
     public function partido()
     {
         return $this->belongsTo(Partido::class, 'partido_id');
@@ -38,5 +32,4 @@ class Acta extends Model
     {
         return $this->belongsTo(Incidencia::class, 'incidencia_id');
     }
-
 }
