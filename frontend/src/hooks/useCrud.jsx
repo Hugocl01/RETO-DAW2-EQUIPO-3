@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
 import api from "../services/api";
+import { generateSlug } from "../utils/stringUtils";
 
 /**
  * Hook genérico para gestionar cualquier entidad con operaciones CRUD.
  * 
- * @param {string} entidad - Nombre de la entidad (ej: "usuarios", "perfiles").
+ * @param {string} seccion - Nombre de la entidad (ej: "usuarios", "perfiles").
  * @returns {Object} - Estado y funciones para gestionar la entidad.
  */
-export const useCrud = (entidad) => {
+export const useCrud = (seccion) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [columns, setColumns] = useState([]);
 
-    // Función para obtener todos los registros de la entidad
+    // Función para obtener todos los registros de la seccion
     const fetchItems = async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/${entidad.nombre.toLowerCase()}`);
+            console.log('nombre: ', seccion.nombre.toLowerCase())
+            const response = await api.get(`/${generateSlug(seccion.nombre)}`);
             console.log("Respuesta de la API:", response); // Verifica la respuesta
 
             // Ahora accedemos a la propiedad correcta: 'equipos'
@@ -32,7 +34,6 @@ export const useCrud = (entidad) => {
             } else {
                 setColumns([]); // Si no hay datos, aseguramos que columns sea un arreglo vacío
             }
-
         } catch (err) {
             if (err.response) {
                 const errorMessage = err.response.data.message || "Error desconocido al obtener los datos.";
@@ -47,10 +48,10 @@ export const useCrud = (entidad) => {
 
     // Cargar los items cuando se seleccione la entidad
     useEffect(() => {
-        if (entidad) {
+        if (seccion) {
             fetchItems();
         }
-    }, [entidad]);
+    }, [seccion]);
 
     return {
         items,
