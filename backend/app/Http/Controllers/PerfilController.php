@@ -25,6 +25,17 @@ class PerfilController extends Controller
         ], 200);
     }
 
+    public function show(Perfil $perfile)
+    {
+        $perfile = Perfil::with('secciones')
+            ->select('id', 'tipo')
+            ->findOrFail($perfile->id);
+        return response()->json([
+            'status'   => 'success',
+            'perfiles' => new PerfilResource($perfile)
+        ], 200);
+    }
+
     public function store(PerfilRequest $request)
     {
         $data = $request->validated();
