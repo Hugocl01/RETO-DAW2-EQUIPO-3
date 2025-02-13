@@ -1,3 +1,5 @@
+import Galeria from "../components/Galeria.jsx";
+
 /**
  * Página de Galeria.
  * 
@@ -7,9 +9,7 @@
 function GaleriaPage() {
 
     return (
-        <>
-            Pagina galeria
-        </>
+        <Galeria />
     )
 }
 
