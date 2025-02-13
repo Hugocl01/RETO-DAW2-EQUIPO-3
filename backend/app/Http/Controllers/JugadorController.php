@@ -11,7 +11,7 @@ class JugadorController extends Controller
 {
     public function index(): JsonResponse
     {
-        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'grupo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono')->get();
+        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono')->get();
 
         if ($jugadores->isEmpty()) {
             return response()->json([
@@ -22,39 +22,39 @@ class JugadorController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'equipos' => JugadorResource::collection($jugadores)
+            'jugadores' => JugadorResource::collection($jugadores)
         ], 200);
     }
 
-    public function show(Jugador $jugador): JsonResponse
+    public function show(Jugador $jugadore): JsonResponse
     {
         return response()->json([
             'status' => 'success',
-            'equipo' => new JugadorResource($jugador)
+            'jugador' => new JugadorResource($jugadore)
         ], 200);
     }
 
-    public function update(JugadorRequest $request, Jugador $jugador): JsonResponse
+    public function update(JugadorRequest $request, Jugador $jugadore): JsonResponse
     {
         $data = $request->only(['equipo_id', 'nombre_completo', 'grupo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono']);
 
-        if ($jugador->update($data)) {
+        if ($jugadore->update($data)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Equipo actualizado correctamente',
-                'equipo' => new JugadorResource($jugador)
+                'jugador' => new JugadorResource($jugadore)
             ], 200);
         }
 
         return response()->json([
             'status' => 'error',
-            'message' => 'No se ha podido actualizar el equipo.'
+            'jugador' => 'No se ha podido actualizar el equipo.'
         ], 400);
     }
 
-    public function activar(Jugador $jugador): JsonResponse
+    public function activar(Jugador $jugadore): JsonResponse
     {
-        $jugador->delete();
+        $jugadore->delete();
 
         return response()->json([
             'status' => 'success',

@@ -11,7 +11,9 @@ class EquipoController extends Controller
 {
     public function index(): JsonResponse
     {
-        $equipos = Equipo::select('id', 'nombre', 'centro_id', 'grupo', 'usuario_id')->get();
+        $equipos = Equipo::with(['centro', 'usuario', 'jugadores'])
+            ->select('id', 'nombre', 'centro_id', 'grupo', 'usuario_id')
+            ->get();
 
         if ($equipos->isEmpty()) {
             return response()->json([
@@ -25,6 +27,7 @@ class EquipoController extends Controller
             'equipos' => EquipoResource::collection($equipos)
         ], 200);
     }
+
 
     public function show(Equipo $equipo): JsonResponse
     {

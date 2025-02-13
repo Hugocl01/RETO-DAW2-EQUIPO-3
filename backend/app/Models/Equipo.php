@@ -26,7 +26,11 @@ class Equipo extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'usuario_id'); // o el modelo que represente al entrenador
     }
 
+    public function jugadores()
+    {
+        return $this->hasMany(Jugador::class);
+    }
 }
