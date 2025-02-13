@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import api from "../../services/api.js";
+import Spinner from "../../components/Spinner.jsx";
 
 /**
  * Página de Detalles del Equipo
- * @returns 
+ * @returns
  */
 
 function DetallesEquipoPage() {
-    /**
-     * Recogemos el valor que vendrá en el header
-     */
-  const { id } = useParams();
+ 
+  /**
+   * Con esto, obtengo la ruta con el location
+   */
+  const location = useLocation(); 
+
 
   /**
    * Estado para el equipo a mostrar
@@ -19,13 +22,16 @@ function DetallesEquipoPage() {
   const [equipo, setEquipo] = useState();
 
   /**
-   * Se ejecutará cuando haya cambios en el nombre que pasemos en el header 
+   * Se ejecutará cuando haya cambios en el nombre que pasemos en el header
    */
   useEffect(() => {
     const obtenerEquipo = async () => {
       try {
-        const resultado=await api.get(`/equipos/${id}`);
-        if(resultado.data.status === 'success'){
+        /**
+         * Implemento el location para que me devuelva la ruta en la que nos encontramos
+         */
+        const resultado = await api.get(location.pathname);
+        if (resultado.data.status === "success") {
           setEquipo(resultado.data.equipo);
         }
       } catch (error) {
@@ -33,26 +39,22 @@ function DetallesEquipoPage() {
       }
     };
     obtenerEquipo();
-  }, [id,equipo]);
+  }, [location]);
+
+  if(!equipo){
+    return <Spinner></Spinner>
+  }
 
   return (
     <>
-    {
-        /**
-         * Se ejecutará en cuanto cargue el equipo
-         */
-    }
-      {equipo ? (
-        <>
           <section className="container-fluid">
             <div className="row">
-              
               {/**Sección de info de equipo */}
               <section id="infoEquipo" className="col-md-6">
                 <h2>Equipo {equipo.nombre}</h2>
 
                 <div>
-                  <p>Entrenador: </p>
+                  <p>Entrenador: {equipo.entrenador[1]} </p>
                 </div>
 
                 <div>
@@ -64,8 +66,7 @@ function DetallesEquipoPage() {
                 </div>
 
                 <div>
-                  <p>Ciclo Formativo: {equipo.ciclo_formativo}</p>
-                  <p>Familia: {equipo.familia_ciclo}</p>
+                  <p>Centro: {equipo.centro.nombre}</p>
                   <p>Grupo: {equipo.grupo}</p>
                 </div>
               </section>
@@ -76,15 +77,6 @@ function DetallesEquipoPage() {
               </section>
             </div>
           </section>
-        </>
-      ) : (
-        <>
-        {/**
-         * Se ejecutará mientras cargue el equipo
-         */}
-        <p>Cargando Equipo</p>
-        </>
-      )}
     </>
   );
 }
