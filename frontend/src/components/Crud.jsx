@@ -8,6 +8,12 @@ function Crud({ seccion }) {
         deleteItem(id);
     };
 
+    // Recomendación: Verificar que 'seccion' tenga la estructura adecuada
+    console.log('Sección:', seccion);
+    
+    // Verifica si las columnas están siendo correctamente definidas
+    console.log('Columnas:', columns);
+
     // Manejo de la carga
     if (loading) {
         return <p>Cargando...</p>;
@@ -25,6 +31,18 @@ function Crud({ seccion }) {
 
     // Si 'seccion' no tiene la propiedad 'nombre', podemos mostrar un mensaje por defecto
     const sectionTitle = seccion.nombre || 'Entidad'; // Asegúrate de que 'nombre' esté disponible
+
+    const renderColumnValue = (column, item) => {
+        const value = item[column];
+        if (typeof value === 'object') {
+            // Si el valor es un objeto, mostramos solo una propiedad específica o lo convertimos a JSON
+            if (value && value.nombre) {
+                return value.nombre; // Si el objeto tiene una propiedad 'nombre', la mostramos
+            }
+            return JSON.stringify(value); // Si no tiene 'nombre', mostramos todo el objeto serializado
+        }
+        return value; // Si no es un objeto, devolvemos el valor tal cual
+    };
 
     return (
         <>
@@ -54,11 +72,7 @@ function Crud({ seccion }) {
                                 {/* Renderizamos los valores de cada propiedad de cada objeto */}
                                 {columns.map((column) => (
                                     <td key={column}>
-                                        {/* Aseguramos que item[column] no sea un objeto */}
-                                        {typeof item[column] === 'object' 
-                                            ? JSON.stringify(item[column]) // Si es un objeto, lo convertimos a string
-                                            : item[column] // Si es un valor primitivo, lo mostramos directamente
-                                        }
+                                        {renderColumnValue(column, item)} {/* Usamos la función para renderizar el valor */}
                                     </td>
                                 ))}
                                 <td>
