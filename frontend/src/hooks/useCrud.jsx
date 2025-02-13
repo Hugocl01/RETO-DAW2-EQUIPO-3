@@ -18,19 +18,28 @@ export const useCrud = (entidad) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/${entidad}`);
-            const entityData = response.data[entidad] || [];
+            const response = await api.get(`/${entidad.nombre.toLowerCase()}`);
+            console.log("Respuesta de la API:", response); // Verifica la respuesta
+
+            // Ahora accedemos a la propiedad correcta: 'equipos'
+            const entityData = response.data.equipos || [];  // Cambié aquí para acceder a 'equipos'
             setItems(entityData);
 
-            // Aseguramos que solo establecemos las columnas si los datos no están vacíos
+            // Si hay datos, establecemos las columnas
             if (entityData.length > 0) {
                 const columnKeys = Object.keys(entityData[0]);
                 setColumns(columnKeys);
             } else {
                 setColumns([]); // Si no hay datos, aseguramos que columns sea un arreglo vacío
             }
+
         } catch (err) {
-            setError("Error al obtener los datos.");
+            if (err.response) {
+                const errorMessage = err.response.data.message || "Error desconocido al obtener los datos.";
+                setError(errorMessage);
+            } else {
+                setError("Error de red o no se pudo conectar con la API.");
+            }
         } finally {
             setLoading(false);
         }
@@ -47,7 +56,7 @@ export const useCrud = (entidad) => {
         items,
         loading,
         error,
-        columns,  // Añadimos las columnas al retorno
+        columns,
         fetchItems,
     };
 };
