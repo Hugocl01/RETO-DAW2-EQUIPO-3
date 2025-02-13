@@ -12,7 +12,7 @@ function Jugador({ jugador, fnNavegar }) {
      * Manejador para el click
      */
     function handleClick(){
-        fnNavegar;
+        fnNavegar(jugador.id_jugador);
     }
   return (
     <div className="row border-bottom py-2" onClick={handleClick}>

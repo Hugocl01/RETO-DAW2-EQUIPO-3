@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Equipo from "../../components/Equipo"; 
+import Equipo from "../../components/Equipo";
 import api from "../../services/api.js";
+import Spinner from "../../components/Spinner.jsx";
 
 /**
  * Página del Listado de Equipos
  */
 function EquiposPage() {
-    /**
-     * Estado para manejar los equipos
-     */
-  const [equipos, setEquipos] = useState([]);
+  /**
+   * Estado para manejar los equipos
+   */
+  const [equipos, setEquipos] = useState();
 
   /**
    * Sirve para redireción de páginas
    */
   const navegar = useNavigate();
-
 
   /**
    * Cargará los equipos en cuantos se cargue el componente
@@ -24,8 +24,8 @@ function EquiposPage() {
   useEffect(() => {
     const obtenerListadoEquipos = async () => {
       try {
-        const resultado = await api.get('/equipos');
-        if(resultado.data.status === "success"){
+        const resultado = await api.get("/equipos");
+        if (resultado.data.status === "success") {
           setEquipos(resultado.data.equipos);
         }
       } catch (error) {
@@ -37,6 +37,13 @@ function EquiposPage() {
   }, []);
 
   /**
+   * Mientras no estén cargados los equipos, muestre un spinner
+   */
+  if(!equipos){
+    return <Spinner></Spinner>
+  }
+
+  /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
    * @param {int} id
    */
@@ -46,10 +53,6 @@ function EquiposPage() {
 
   return (
     <>
-     {/**
-      * En cuanto cargue los equipos se mostrará la página
-      */}
-      {equipos ? (
         <section className="container-fluid py-5">
           <div className="row mb-4">
             <div className="col-12 text-center">
@@ -73,14 +76,6 @@ function EquiposPage() {
             ))}
           </div>
         </section>
-      ) : (
-        /**
-         * Mientras cargue los equipos mostrará este mensaje
-         */
-        
-          <p>Cargando Equipos...</p>
-        
-      )}
     </>
   );
 }
