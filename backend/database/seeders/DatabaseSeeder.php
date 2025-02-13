@@ -12,56 +12,51 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Deshabilitamos temporalmente las restricciones de clave foránea
+        // Mostrar mensaje en la consola
+        $this->command->info('Desactivando restricciones de clave foránea...');
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        // Limpiar tablas y reiniciar IDs
-        DB::table('usuarios')->truncate();
-        DB::table('perfiles')->truncate();
-        DB::table('ongs')->truncate();
-        DB::table('donaciones')->truncate();
-        DB::table('estudios')->truncate();
-        DB::table('equipos')->truncate();
-        DB::table('ciclos')->truncate();
-        DB::table('familias')->truncate();
-        DB::table('centros')->truncate();
-        DB::table('estado_inscripciones')->truncate();
-        DB::table('incidencias')->truncate();
-        DB::table('inscripciones')->truncate();
-        DB::table('retos')->truncate();
-        DB::table('patrocinadores')->truncate();
-        DB::table('patrocinadores_equipos')->truncate();
-        DB::table('jugadores')->truncate();
-        DB::table('pabellones')->truncate();
-        DB::table('partidos')->truncate();
-        DB::table('actas')->truncate();
-        DB::table('publicaciones')->truncate();
-        DB::table('imagenes')->truncate();
+        // Truncar tablas para reiniciar IDs
+        $tables = [
+            'usuarios', 'perfiles', 'ongs', 'donaciones', 'estudios', 'equipos',
+            'ciclos', 'familias', 'centros', 'estado_inscripciones', 'incidencias',
+            'inscripciones', 'retos', 'patrocinadores', 'patrocinadores_equipos',
+            'jugadores', 'pabellones', 'partidos', 'actas', 'publicaciones', 'imagenes'
+        ];
 
-        // Volvemos a habilitar las restricciones de clave foránea
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+
+        // Volver a activar restricciones de clave foránea
+        $this->command->info('Activando restricciones de clave foránea...');
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Llamar a los Seeders en el orden correcto
-        $this->call(PerfilSeeder::class);
-        $this->call(UsuarioSeeder::class);
-        $this->call(OngSeeder::class);
-        $this->call(DonacionesSeeder::class);
-        $this->call(FamiliaSeeder::class);
-        $this->call(CicloSeeder::class);
-        $this->call(CentroSeeder::class);
-        $this->call(EstudioSeeder::class);
-        $this->call(EquipoSeeder::class);
-        $this->call(EstadoInscripcionSeeder::class);
-        $this->call(IncidenciaSeeder::class);
-        $this->call(InscripcionSeeder::class);
-        $this->call(RetoSeeder::class);
-        $this->call(PatrocinadorSeeder::class);
-        $this->call(PatrocinadorEquipoSeeder::class);
-        $this->call(JugadorSeeder::class);
-        $this->call(PabellonSeeder::class);
-        $this->call(PartidoSeeder::class);
-        $this->call(ActaSeeder::class);
-        $this->call(PublicacionSeeder::class);
-        $this->call(ImagenSeeder::class);
+        // Ejecutar los seeders en el orden adecuado
+        $this->call([
+            PerfilSeeder::class,
+            SeccionesSeeder::class,
+            PerfilSeccionSeeder::class,
+            UsuarioSeeder::class,
+            OngSeeder::class,
+            DonacionesSeeder::class,
+            FamiliaSeeder::class,
+            CicloSeeder::class,
+            CentroSeeder::class,
+            EstudioSeeder::class,
+            EquipoSeeder::class,
+            EstadoInscripcionSeeder::class,
+            IncidenciaSeeder::class,
+            InscripcionSeeder::class,
+            RetoSeeder::class,
+            PatrocinadorSeeder::class,
+            PatrocinadorEquipoSeeder::class,
+            JugadorSeeder::class,
+            PabellonSeeder::class,
+            PartidoSeeder::class,
+            ActaSeeder::class,
+            PublicacionSeeder::class,
+            ImagenSeeder::class,
+        ]);
     }
 }
