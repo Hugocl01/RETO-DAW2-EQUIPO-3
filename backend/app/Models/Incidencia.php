@@ -10,8 +10,8 @@ class Incidencia extends Model
 {
     use Auditable, HasFactory;
 
-    protected $table = 'incidendias';
-  
+    protected $table = 'incidencias';
+
     protected $fillable = [
         'tipo',
         'usuario_creador_id',

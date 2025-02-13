@@ -21,17 +21,17 @@ class IncidenciaSeeder extends Seeder
             "Gol anulado por falta",
             "Penal anotado",
             "Penal fallado",
-            
+
             // 🟨🟥 Tarjetas
             "Tarjeta amarilla",
             "Tarjeta roja",
             "Doble amarilla y expulsión",
-            
+
             // 🔄 Cambios
             "Cambio de jugador (entra un suplente)",
             "Cambio por lesión",
             "Cambio táctico",
-            
+
             // ❌ Faltas y sanciones
             "Falta cometida",
             "Falta recibida",
@@ -39,7 +39,7 @@ class IncidenciaSeeder extends Seeder
             "Juego peligroso",
             "Protesta al árbitro",
             "Retraso en la reanudación del juego",
-            
+
             // 🏃‍♂️ Jugadas importantes
             "Asistencia de gol",
             "Tiro al palo",
@@ -50,27 +50,27 @@ class IncidenciaSeeder extends Seeder
             "Fuera de juego",
             "Balón despejado",
             "Pase clave",
-            
+
             // 🏥 Lesiones y asistencias médicas
             "Jugador lesionado",
             "Jugador atendido por el médico",
             "Jugador sale por lesión",
             "Jugador regresa tras atención médica",
-            
+
             // 🎥 VAR y decisiones arbitrales
             "Revisión VAR - Posible gol",
             "Revisión VAR - Posible penal",
             "Revisión VAR - Posible tarjeta roja",
             "Revisión VAR - Gol anulado",
             "Revisión VAR - Penal confirmado",
-            
+
             // ⏱️ Tiempos y eventos de partido
             "Inicio del partido",
             "Final del primer tiempo",
             "Inicio del segundo tiempo",
             "Tiempo añadido",
             "Final del partido",
-            
+
             // 🚀 Otros eventos destacados
             "Pelota fuera del estadio",
             "Afición invade el campo",
@@ -80,7 +80,7 @@ class IncidenciaSeeder extends Seeder
         ];
         foreach ($incidencias as $value) {
             Incidencia::create([
-                'tipo'=>$value
+                'tipo' => $value
             ]);
         }
     }
