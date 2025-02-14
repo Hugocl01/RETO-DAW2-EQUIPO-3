@@ -9,17 +9,13 @@ use App\Traits\Auditable;
 class Reto extends Model
 {
     use Auditable, HasFactory;
-  
+
     protected $table = 'retos';
 
     protected $fillable = [
         'titulo',
         'texto',
         'estudio_id',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
     public function estudio()
