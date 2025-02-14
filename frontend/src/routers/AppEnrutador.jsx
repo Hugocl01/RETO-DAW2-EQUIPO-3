@@ -22,8 +22,8 @@ const LoginPage = lazy(() => import("../pages/LoginPage.jsx"));
 const AdministracionPage = lazy(() =>
   import("../pages/AdministracionPage.jsx")
 );
-const JugadoresPage = lazy(() =>
-  import("../pages/JugadoresPage/JugadoresPage.jsx")
+const EstadisticasPage = lazy(() =>
+  import("../pages/EstadisticasPage.jsx")
 );
 const DetalleJugadorPage = lazy(() =>
   import("../pages/JugadoresPage/DetalleJugadorPage.jsx")
@@ -70,7 +70,7 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="equipos/:id"
+            path="estadisticas/equipos/:id"
             element={
               <Suspense fallback={<Spinner />}>
                 <DetallesEquipoPage />
@@ -78,10 +78,26 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="jugadores/"
+            path="estadisticas/"
             element={
               <Suspense fallback={<Spinner />}>
-                <JugadoresPage />
+                <EstadisticasPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="estadisticas/jugadores/:id"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetalleJugadorPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="equipos/:id"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetallesEquipoPage />
               </Suspense>
             }
           />

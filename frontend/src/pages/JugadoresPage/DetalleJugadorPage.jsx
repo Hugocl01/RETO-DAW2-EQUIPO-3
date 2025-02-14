@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import $negocio from "../../core/negocio";
+import { useLocation, useParams } from "react-router-dom";
+import api from "../../services/api";
+import Spinner from "../../components/Spinner";
 
 function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
   const { id } = useParams();
+  const [cargando,setCargando]=useState(true);
 
-
-/**Cuando cambie el id del jugador, se ejecutará */
+  /**Cuando cambie el id del jugador, se ejecutará */
   useEffect(() => {
     const obtenerJugador = async () => {
       try {
-        let idJugador = parseInt(id);
-        const resultado = await $negocio.obtenerJugadorPorId(idJugador);
-        console.log(resultado);
-        setJugador(resultado);
+        const resultado = await api.get(`jugadores/${id}`);
+        if(resultado.data.status==="success"){
+          setJugador(resultado.data.jugador);
+          setCargando(false);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -22,9 +24,12 @@ function DetalleJugadorPage() {
     obtenerJugador();
   }, [id]);
 
+  if(cargando){
+    return <Spinner></Spinner>
+  }
+
   return (
     <>
-      {jugador ? (
         <div className="container-fluid w-75 my-5">
           <div className="card">
             <div className="card-header bg-primary text-white">
@@ -40,14 +45,30 @@ function DetalleJugadorPage() {
                     Información Personal
                   </h3>
                   <p className="card-text">
-                    <strong>Nombre Completo:</strong> {jugador.nombre}{" "}
-                    {jugador.primer_apellido} {jugador.segundo_apellido}
+                    <strong>Nombre Completo:</strong>
+                    {jugador.nombre_completo}
+                  </p>
+                  {jugador.capitan === 1 ? (
+                    <p className="card-text">
+                      <strong>Capitan:</strong> {jugador.equipo.nombre}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+
+                  <p className="card-text">
+                    <strong>Goles Marcados:</strong> {jugador.stats.goles}
                   </p>
                   <p className="card-text">
-                    <strong>Tipo:</strong> {jugador.tipo}
+                    <strong>Tarjetas Amarillas: </strong> {jugador.stats.tarjetas_amarillas}
                   </p>
+
                   <p className="card-text">
-                    <strong>Goles Marcados:</strong> {jugador.goles_marcados}
+                    <strong>Tarjetas Rojas: </strong> {jugador.stats.tarjetas_rojas}
+                  </p>
+
+                  <p className="card-text">
+                    <strong>Email:</strong> {jugador.email}
                   </p>
                   <p className="card-text">
                     <strong>Equipo:</strong> {jugador.equipo.nombre}
@@ -68,11 +89,6 @@ function DetalleJugadorPage() {
             </div>
           </div>
         </div>
-      ) : (
-        <div className="container my-5">
-          <p>Cargando detalles...</p>
-        </div>
-      )}
     </>
   );
 }
