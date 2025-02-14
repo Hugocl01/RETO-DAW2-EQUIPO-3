@@ -33,13 +33,21 @@ class SeccionesSeeder extends Seeder
             ['nombre' => 'Inscripciones', 'descripcion' => 'Inscripciones de equipos para ser aprobadas o rechazadas']
         ];
 
-        DB::table('secciones')->insert(array_map(function ($seccion) {
-            return [
+        foreach ($secciones as $seccion) {
+            $seccionId = DB::table('secciones')->insertGetId([
                 'nombre' => $seccion['nombre'],
                 'descripcion' => $seccion['descripcion'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ];
-        }, $secciones));
+            ]);
+
+            // Insertar la acción 'index' para cada sección
+            DB::table('acciones')->insert([
+                'nombre' => 'index',
+                'seccion_id' => $seccionId,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
     }
 }

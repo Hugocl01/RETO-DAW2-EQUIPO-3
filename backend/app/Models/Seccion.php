@@ -24,4 +24,10 @@ class Seccion extends Model
     {
         return $this->belongsToMany(Perfil::class, 'perfiles_secciones');
     }
+
+    public function acciones()
+    {
+        return $this->hasMany(Accion::class);
+    }
+
 }
