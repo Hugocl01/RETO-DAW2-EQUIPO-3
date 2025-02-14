@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled, errores }) {
+function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled, errores, ciclos }) {
     return (
         <div className="d-flex justify-content-flex align-items-center">
             <div className="card p-3 mb-4 bg-light col-11" id={`jugador-${id}`}>
@@ -28,19 +28,14 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                     </div>
                     <div className="col">
                         <label>Ciclo: *</label>
+
                         <select className="form-select" name="ciclo">
-                            <option value="">Selecciona...</option>
-                            <option>Ciclo 1</option>
-                            <option>Ciclo 2</option>
-                        </select>
-                        {/*
-                            <select className="form-select" name="ciclo">
-                                <option value="">Selecciona un ciclo</option>
-                                {ciclos.map((ciclo) => (
+                            <option value="">Selecciona un ciclo</option>
+                            {ciclos.map((ciclo) => (
                                 <option key={ciclo.id} value={ciclo.id}>{ciclo.nombre}</option>
-                                ))}
-                            </select>
-                        */}
+                            ))}
+                        </select>
+
                         <span className="text-danger small">{errores?.ciclo}</span>
                     </div>
                 </div>
