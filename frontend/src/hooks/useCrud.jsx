@@ -19,11 +19,12 @@ export const useCrud = (seccion) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/${generateSlug(seccion.nombre)}`);
+            const entidadNombre = generateSlug(seccion.nombre)
+            const response = await api.get(`/${entidadNombre}`);
             console.log("Respuesta de la API:", response); // Verifica la respuesta
 
             // Ahora accedemos a la propiedad correcta: 'equipos'
-            const entityData = response.data.equipos || [];  // Cambié aquí para acceder a 'equipos'
+            const entityData = response.data[entidadNombre] || [];  // Cambié aquí para acceder a 'equipos'
             setItems(entityData);
 
             // Si hay datos, establecemos las columnas
