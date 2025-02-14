@@ -13,7 +13,7 @@ class SeccionController extends Controller
      */
     public function index(): JsonResponse
     {
-        $secciones = Seccion::all();
+        $secciones = Seccion::with('acciones')->get();
 
         if ($secciones->isEmpty()) {
             return response()->json([
@@ -24,7 +24,8 @@ class SeccionController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'secciones' => SeccionResource::collection($secciones)
+            'secciones' => SeccionResource::collection($secciones),
+
         ], 200);
     }
 }

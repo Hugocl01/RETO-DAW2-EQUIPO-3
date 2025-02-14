@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SeccionResource extends JsonResource
+class AccionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class SeccionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->id,
-            'nombre'     => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'acciones'   => AccionResource::collection($this->acciones), // Devuelve las acciones asociadas
+            'id'     => $this->id,
+            'nombre' => $this->nombre,
         ];
     }
 }
