@@ -1,4 +1,4 @@
-const jugadores=[
+const jugadores = [
   {
     "id_jugador": 1,
     "nombre": "Juan",
@@ -6,6 +6,8 @@ const jugadores=[
     "segundo_apellido": "García",
     "tipo": "jugador",
     "goles_marcados": 12,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 1,
       "nombre": "Equipo A"
@@ -18,6 +20,8 @@ const jugadores=[
     "segundo_apellido": "Martínez",
     "tipo": "jugador",
     "goles_marcados": 8,
+    "tarjetas_amarillas": 3,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 1,
       "nombre": "Equipo A"
@@ -30,6 +34,8 @@ const jugadores=[
     "segundo_apellido": "Sánchez",
     "tipo": "jugador",
     "goles_marcados": 5,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 1,
       "nombre": "Equipo A"
@@ -42,6 +48,8 @@ const jugadores=[
     "segundo_apellido": "Hernández",
     "tipo": "jugador",
     "goles_marcados": 9,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 1,
     "equipo": {
       "id_equipo": 1,
       "nombre": "Equipo A"
@@ -54,6 +62,8 @@ const jugadores=[
     "segundo_apellido": "Pérez",
     "tipo": "jugador",
     "goles_marcados": 6,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 1,
       "nombre": "Equipo A"
@@ -66,6 +76,8 @@ const jugadores=[
     "segundo_apellido": "Vázquez",
     "tipo": "jugador",
     "goles_marcados": 4,
+    "tarjetas_amarillas": 4,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -78,6 +90,8 @@ const jugadores=[
     "segundo_apellido": "Ruiz",
     "tipo": "jugador",
     "goles_marcados": 7,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -90,6 +104,8 @@ const jugadores=[
     "segundo_apellido": "Gómez",
     "tipo": "jugador",
     "goles_marcados": 5,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -102,6 +118,8 @@ const jugadores=[
     "segundo_apellido": "Morales",
     "tipo": "jugador",
     "goles_marcados": 10,
+    "tarjetas_amarillas": 3,
+    "tarjetas_rojas": 1,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -114,6 +132,8 @@ const jugadores=[
     "segundo_apellido": "López",
     "tipo": "jugador",
     "goles_marcados": 2,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -126,6 +146,8 @@ const jugadores=[
     "segundo_apellido": "Sánchez",
     "tipo": "jugador",
     "goles_marcados": 11,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 2,
       "nombre": "Equipo B"
@@ -138,6 +160,8 @@ const jugadores=[
     "segundo_apellido": "Vidal",
     "tipo": "jugador",
     "goles_marcados": 1,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 3,
       "nombre": "Equipo C"
@@ -150,6 +174,8 @@ const jugadores=[
     "segundo_apellido": "Muñoz",
     "tipo": "jugador",
     "goles_marcados": 4,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 3,
       "nombre": "Equipo C"
@@ -162,6 +188,8 @@ const jugadores=[
     "segundo_apellido": "Ruiz",
     "tipo": "jugador",
     "goles_marcados": 9,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 3,
       "nombre": "Equipo C"
@@ -174,6 +202,8 @@ const jugadores=[
     "segundo_apellido": "López",
     "tipo": "jugador",
     "goles_marcados": 3,
+    "tarjetas_amarillas": 3,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 3,
       "nombre": "Equipo C"
@@ -186,6 +216,8 @@ const jugadores=[
     "segundo_apellido": "Moreno",
     "tipo": "jugador",
     "goles_marcados": 6,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 3,
       "nombre": "Equipo C"
@@ -198,6 +230,8 @@ const jugadores=[
     "segundo_apellido": "García",
     "tipo": "jugador",
     "goles_marcados": 12,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 1,
     "equipo": {
       "id_equipo": 4,
       "nombre": "Equipo D"
@@ -210,6 +244,8 @@ const jugadores=[
     "segundo_apellido": "Torres",
     "tipo": "jugador",
     "goles_marcados": 5,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 4,
       "nombre": "Equipo D"
@@ -222,6 +258,8 @@ const jugadores=[
     "segundo_apellido": "Jiménez",
     "tipo": "jugador",
     "goles_marcados": 3,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 4,
       "nombre": "Equipo D"
@@ -234,6 +272,8 @@ const jugadores=[
     "segundo_apellido": "Torres",
     "tipo": "jugador",
     "goles_marcados": 8,
+    "tarjetas_amarillas": 4,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 4,
       "nombre": "Equipo D"
@@ -246,6 +286,8 @@ const jugadores=[
     "segundo_apellido": "Hernández",
     "tipo": "jugador",
     "goles_marcados": 2,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 4,
       "nombre": "Equipo D"
@@ -258,6 +300,8 @@ const jugadores=[
     "segundo_apellido": "Vázquez",
     "tipo": "jugador",
     "goles_marcados": 4,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 1,
     "equipo": {
       "id_equipo": 5,
       "nombre": "Equipo E"
@@ -270,6 +314,8 @@ const jugadores=[
     "segundo_apellido": "López",
     "tipo": "jugador",
     "goles_marcados": 5,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 5,
       "nombre": "Equipo E"
@@ -282,6 +328,8 @@ const jugadores=[
     "segundo_apellido": "González",
     "tipo": "jugador",
     "goles_marcados": 6,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 5,
       "nombre": "Equipo E"
@@ -294,6 +342,8 @@ const jugadores=[
     "segundo_apellido": "Torres",
     "tipo": "jugador",
     "goles_marcados": 7,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 5,
       "nombre": "Equipo E"
@@ -306,6 +356,8 @@ const jugadores=[
     "segundo_apellido": "Morales",
     "tipo": "jugador",
     "goles_marcados": 8,
+    "tarjetas_amarillas": 3,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 5,
       "nombre": "Equipo E"
@@ -318,6 +370,8 @@ const jugadores=[
     "segundo_apellido": "Vázquez",
     "tipo": "jugador",
     "goles_marcados": 1,
+    "tarjetas_amarillas": 0,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 6,
       "nombre": "Equipo F"
@@ -330,6 +384,8 @@ const jugadores=[
     "segundo_apellido": "Gómez",
     "tipo": "jugador",
     "goles_marcados": 2,
+    "tarjetas_amarillas": 2,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 6,
       "nombre": "Equipo F"
@@ -342,6 +398,8 @@ const jugadores=[
     "segundo_apellido": "Ruiz",
     "tipo": "jugador",
     "goles_marcados": 5,
+    "tarjetas_amarillas": 1,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 6,
       "nombre": "Equipo F"
@@ -354,10 +412,13 @@ const jugadores=[
     "segundo_apellido": "Torres",
     "tipo": "capitán",
     "goles_marcados": 15,
+    "tarjetas_amarillas": 4,
+    "tarjetas_rojas": 0,
     "equipo": {
       "id_equipo": 6,
       "nombre": "Equipo F"
     }
   }
-]
+];
+
 export default jugadores;

@@ -1,26 +1,19 @@
+
+
 import React from "react";
 
 /**
- * Componente Equipo
+ * Componente Jugador
  * @param {JSON} jugador
- * @param {fnNavegar} fnNavegar función para navegar a los detalles del jugador
  * @returns 
  */
-function Jugador({ jugador, fnNavegar }) {
-
-    /**
-     * Manejador para el click
-     */
-    function handleClick(){
-        fnNavegar(jugador.id_jugador);
-    }
+function Jugador({ jugador }) {
   return (
-    <div className="row border-bottom py-2" onClick={handleClick}>
-      <div className="col-3 text-center">{jugador.nombre}</div>
-      <div className="col-3 text-center">
-        {jugador.primer_apellido} {jugador.segundo_apellido}
-      </div>
-      <div className="col-3 text-center">{jugador.goles_marcados}</div>
+    <div className="row border-bottom py-2">
+      <div className="col-3 text-center">{jugador.nombre_completo}</div>
+      <div className="col-2 text-center">{jugador.stats.tarjetas_amarillas}</div>
+      <div className="col-2 text-center">{jugador.stats.tarjetas_rojas}</div>
+      <div className="col-2 text-center">{jugador.stats.goles}</div>
       <div className="col-3 text-center">{jugador.equipo.nombre}</div>
     </div>
   );
