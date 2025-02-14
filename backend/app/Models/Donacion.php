@@ -14,15 +14,10 @@ class Donacion extends Model
         'ong_id',
         'kilos',
         'importe',
-        'usuario_creador_id',
-        'usuario_modificador_id',
-        'fecha_creacion',
-        'fecha_modificacion',
     ];
 
     public function ong()
     {
         return $this->belongsTo(Ong::class);
     }
-
 }

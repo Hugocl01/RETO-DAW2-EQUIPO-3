@@ -15,10 +15,6 @@ class PatrocinadorEquipo extends Model
     protected $fillable = [
         'patrocinador_id',
         'equipo_id',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
     public function patrocinador()
@@ -30,5 +26,4 @@ class PatrocinadorEquipo extends Model
     {
         return $this->belongsTo(Equipo::class);
     }
-
 }

@@ -15,10 +15,5 @@ class Pabellon extends Model
     protected $fillable = [
         'nombre',
         'direccion',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
-
 }

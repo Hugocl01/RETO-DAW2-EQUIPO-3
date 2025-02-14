@@ -5,6 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+/**
+ * @OA\Schema(
+ *     schema="Ciclo",
+ *     type="object",
+ *     title="Ciclo",
+ *     required={"nombre","familia_id"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         description="ID único del ciclo",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="nombre",
+ *         type="string",
+ *         description="Nombre del ciclo",
+ *         example="CFGS Estética Integral y Bienestar"
+ *     ),
+ *     @OA\Property(
+ *         property="familia_id",
+ *         type="string",
+ *         description="ID de la familia a la que pertenece el ciclo",
+ *         example="3"
+ *     )
+ * )
+ */
 class Ciclo extends Model
 {
     use Auditable;
@@ -20,5 +46,4 @@ class Ciclo extends Model
     {
         return $this->belongsTo(Familia::class, 'familia_id');
     }
-
 }

@@ -2,13 +2,597 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API Logueo",
-        "description": "API de login",
+        "description": "Endpoints para gestión de logueo",
         "contact": {
             "email": "email@gmail.com"
         },
         "version": "1.0"
     },
     "paths": {
+        "/api/centros": {
+            "get": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Obtener todos los centros",
+                "description": "Obtener todos los centros.",
+                "operationId": "a7653c35a4aa97a7263acc503920a9f0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de centros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "centros": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Centro"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Crear un nuevo centro",
+                "description": "Crear un nuevo centro.",
+                "operationId": "d0c406bf4ae94023a3a6eedbdae8d700",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Centro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Centro creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Centro creado correctamente"
+                                        },
+                                        "centro": {
+                                            "$ref": "#/components/schemas/Centro"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/centros/{centro}": {
+            "get": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Obtener un centro por su ID",
+                "description": "Obtener un centro por su ID.",
+                "operationId": "671271fd5a2ec64c5e1b823284846b84",
+                "parameters": [
+                    {
+                        "name": "centro",
+                        "in": "path",
+                        "description": "ID del centro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Centro encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "centro": {
+                                            "$ref": "#/components/schemas/Centro"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Centro no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Actualizar un centro existente",
+                "description": "Actualizar un centro existente.",
+                "operationId": "d3aa01ff8a640945f53e5d39f66c9c0e",
+                "parameters": [
+                    {
+                        "name": "centro",
+                        "in": "path",
+                        "description": "ID del centro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Centro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Centro actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Centro actualizado correctamente"
+                                        },
+                                        "centro": {
+                                            "$ref": "#/components/schemas/Centro"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Centro no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Eliminar un centro",
+                "description": "Eliminar un centro.",
+                "operationId": "a5b02ec108078c2c02e5dff997d608fd",
+                "parameters": [
+                    {
+                        "name": "centro",
+                        "in": "path",
+                        "description": "ID del centro",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Centro eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Centro eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Centro no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/ciclos": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Obtener todos los ciclos",
+                "description": "Obtener todos los centros.",
+                "operationId": "ffdf1a6300cf31a30058bb102f590b2b",
+                "responses": {
+                    "200": {
+                        "description": "Lista de ciclos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "ciclos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ciclo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Crear un nuevo ciclo",
+                "description": "Crear un nuevo centro.",
+                "operationId": "1ff86a016f04d50d7efa454f39e7b522",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ciclo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ciclo creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ciclo creado correctamente"
+                                        },
+                                        "ciclo": {
+                                            "$ref": "#/components/schemas/Ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/ciclos/{ciclo}": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Obtener un ciclo por su ID",
+                "description": "Obtener un centro por su ID.",
+                "operationId": "4dd18399873330f7744d07c720decd24",
+                "parameters": [
+                    {
+                        "name": "ciclo",
+                        "in": "path",
+                        "description": "ID del ciclo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ciclo encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "ciclo": {
+                                            "$ref": "#/components/schemas/Ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Actualizar un ciclo existente",
+                "description": "Actualizar un ciclo existente.",
+                "operationId": "eef6459adf0390a343dafd8e5feec1a1",
+                "parameters": [
+                    {
+                        "name": "ciclo",
+                        "in": "path",
+                        "description": "ID del ciclo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ciclo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ciclo actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ciclo actualizado correctamente"
+                                        },
+                                        "ciclo": {
+                                            "$ref": "#/components/schemas/Ciclo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Eliminar un ciclo",
+                "description": "Eliminar un ciclo.",
+                "operationId": "6d1d5d827e6427dfb4a88f9c68f80777",
+                "parameters": [
+                    {
+                        "name": "ciclo",
+                        "in": "path",
+                        "description": "ID del ciclo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ciclo eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ciclo eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/estudios": {
+            "get": {
+                "tags": [
+                    "Estudios"
+                ],
+                "summary": "Obtener todos los estudios",
+                "description": "Obtener todos los estudios.",
+                "operationId": "7bfc4a20c752bcd8205c74276c133f89",
+                "responses": {
+                    "200": {
+                        "description": "Lista de estudios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "estudios": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Estudio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Estudios"
+                ],
+                "summary": "Crear un nuevo estudio",
+                "description": "Crear un nuevo estudio.",
+                "operationId": "4c8f14a984dcc830d618859629dff5cd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Estudio"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Estudio creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudio creado correctamente"
+                                        },
+                                        "estudio": {
+                                            "$ref": "#/components/schemas/Estudio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/estudios/{estudio}": {
+            "delete": {
+                "tags": [
+                    "Estudios"
+                ],
+                "summary": "Eliminar un estudio",
+                "description": "Eliminar un estudio.",
+                "operationId": "c2551d884eb988632527c002eee23f83",
+                "parameters": [
+                    {
+                        "name": "estudio",
+                        "in": "path",
+                        "description": "ID del estudio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estudio eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Estudio eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estudio no encontrado"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -135,9 +719,276 @@
                     }
                 }
             }
+        },
+        "/api/usuarios": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Listar usuarios",
+                "operationId": "e9d4d8b419dbef04b5748fbf9ccf3881",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay usuarios registrados"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Crear un usuario",
+                "operationId": "4e9dbcbdaaaf9faab196a82d5cbaea23",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente"
+                    },
+                    "400": {
+                        "description": "No se ha podido crear el usuario"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/{id}": {
+            "put": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Actualizar un usuario",
+                "operationId": "27ac608b6dd8b8e7c7c45b10c5210b3e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado correctamente"
+                    },
+                    "400": {
+                        "description": "Error al actualizar el usuario"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/{id}/activo": {
+            "patch": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Activar o desactivar un usuario",
+                "operationId": "88488c999153bd541af54a929f58d5cf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del usuario actualizado correctamente"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Centro": {
+                "title": "Centro",
+                "required": [
+                    "nombre"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del centro",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del centro",
+                        "type": "string",
+                        "example": "Centro de Salud A"
+                    },
+                    "landing_page": {
+                        "description": "URL de la página de aterrizaje del centro",
+                        "type": "string",
+                        "example": "https://centrosaluda.com"
+                    }
+                },
+                "type": "object"
+            },
+            "Ciclo": {
+                "title": "Ciclo",
+                "required": [
+                    "nombre",
+                    "familia_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del ciclo",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del ciclo",
+                        "type": "string",
+                        "example": "CFGS Estética Integral y Bienestar"
+                    },
+                    "familia_id": {
+                        "description": "ID de la familia a la que pertenece el ciclo",
+                        "type": "string",
+                        "example": "3"
+                    }
+                },
+                "type": "object"
+            },
+            "Estudio": {
+                "title": "Estudio",
+                "required": [
+                    "centro_id",
+                    "ciclo_id",
+                    "curso"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del estudio",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "centro_id": {
+                        "description": "ID del centro asociado al estudio",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ciclo_id": {
+                        "description": "ID del ciclo asociado con el estudio",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "curso": {
+                        "description": "Grado del estudio",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "Usuario": {
+                "title": "Usuario",
+                "description": "Modelo de usuario",
+                "required": [
+                    "nombre_completo",
+                    "email",
+                    "perfil_id",
+                    "activo"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre_completo": {
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "juan@example.com"
+                    },
+                    "perfil_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "activo": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "usuario_creador_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "usuario_modificador_id": {
+                        "type": "integer",
+                        "example": 6
+                    },
+                    "fecha_creacion": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-14T10:00:00Z"
+                    },
+                    "fecha_modificacion": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-02-14T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            }
         }
     },
     "tags": [
+        {
+            "name": "Centros",
+            "description": "Operaciones relacionadas con los centros"
+        },
+        {
+            "name": "Ciclos",
+            "description": "Operaciones relacionadas con los ciclos"
+        },
+        {
+            "name": "Estudios",
+            "description": "Operaciones relacionadas con los estudios"
+        },
+        {
+            "name": "Usuarios",
+            "description": "Endpoints para gestión de usuarios"
+        },
         {
             "name": "login",
             "description": "login"

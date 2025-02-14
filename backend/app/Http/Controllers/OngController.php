@@ -5,8 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Ong;
 use App\Http\Resources\OngResource;
 
+/**
+ * OA\Tag(
+ *     name="Ong",
+ *     description="Operaciones relacionadas con las ongs"
+ * )
+ */
 class OngController extends Controller
 {
+    /**
+     * Obtener todas las ongs.
+     *
+     * OA\Get(
+     *     path="/api/ongs",
+     *     summary="Obtener todas las ongs",
+     *     tags={"Ongs"},
+     *     OA\Response(
+     *         response=200,
+     *         description="Lista de ongs",
+     *         OA\JsonContent(
+     *             type="object",
+     *             OA\Property(property="status", type="string", example="success"),
+     *             OA\Property(
+     *                 property="ongs",
+     *                 type="array",
+     *                 OA\Items(ref="#/components/schemas/Ong")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $ongs = Ong::select('id', 'nombre', 'landing_page')->get();
