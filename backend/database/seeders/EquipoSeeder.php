@@ -12,6 +12,14 @@ class EquipoSeeder extends Seeder
      */
     public function run(): void
     {
-        Equipo::factory()->count(10)->create(); // Genera 10 equipos de prueba
+        // Crear 5 equipos para el grupo A
+        Equipo::factory()->count(5)->create([
+            'grupo' => 'A'
+        ]);
+
+        // Crear 5 equipos para el grupo B
+        Equipo::factory()->count(5)->create([
+            'grupo' => 'B'
+        ]);
     }
 }
