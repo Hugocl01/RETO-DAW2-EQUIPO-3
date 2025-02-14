@@ -29,6 +29,7 @@ function Header() {
                         <li><Link to="/" className="nav-link px-2 link-body-emphasis">Inicio</Link></li>
                         <li><Link to="/equipos" className="nav-link px-2 link-body-emphasis">Equipos</Link></li>
                         <li><Link to="/torneo" className="nav-link px-2 link-body-emphasis">Torneo</Link></li>
+                        <li><Link to="/clasificacion" className="nav-link px-2 link-body-emphasis">Clasificacion</Link></li>
                         <li><Link to="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
                         <li><Link to="/galeria" className="nav-link px-2 link-body-emphasis">Galería</Link></li>
                         <li><Link to="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
