@@ -7,7 +7,11 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\PerfilResource;
 
-
+/**
+ * @OA\Info(title="API Logueo", version="1.0",description="API de login",
+ * @OA\Server(url="http://localhost:8000"),
+ * @OA\Contact(email="email@gmail.com"))
+ */
 class LoginController extends Controller
 {
     /**
