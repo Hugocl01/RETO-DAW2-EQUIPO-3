@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
 import { validarNombre, errorNombre, validarDNI, errorDNI, validarTelefono, errorTelefono, validarEmail, errorEmail } from "./Validaciones.js";
-//import api from "../../services/api.js";
+import api from "../services/api.js";
+import Spinner from "../components/Spinner.jsx";
 
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
@@ -9,6 +10,7 @@ function Inscribirse() {
     const [erroresEquipos, setErroresEquipos] = useState({ nombre: "", entrenador: "" });
     const [erroresJugadores, setErroresJugadores] = useState({});
     const [ciclos, setCiclos] = useState([]);
+    const [centros, setCentros] = useState([]);
 
     //agregar jugador
     const agregarJugador = () => {
@@ -75,7 +77,7 @@ function Inscribirse() {
             if (!validarNombre(nombre)) {
                 errorJugador["nombre"] = errorNombre(nombre);
                 esValido = false;
-            } 
+            }
 
             // validar ciclo 
             if (!ciclo.trim()) {
@@ -116,31 +118,33 @@ function Inscribirse() {
         }
     };
 
-    /*
+
     //solicitud a la api
     useEffect(() => {
-        const obtenerCiclos = async () => {
-          try {
-            const respuesta = await api.get("/ciclos"); // Solicitud a la API para obtener ciclos
-            if (respuesta.data.status === "success") {
-              setCiclos(respuesta.data.ciclos); // Guarda los ciclos en el estado
-            }
-          } catch (error) {
-            console.error("Error al obtener los ciclos:", error);
-          }
-        };
-      
-        obtenerCiclos();
-      }, []);
-    */
+        const obtenerDatos = async () => {
+            try {
+                const respuestaCiclos = await api.get("/ciclos");
+                if (respuestaCiclos.data.status === "success") {
+                    setCiclos(respuestaCiclos.data.ciclos);
+                }
 
-    /*
+                const respuestaCentros = await api.get("/centros");
+                if (respuestaCentros.data.status === "success") {
+                    setCentros(respuestaCentros.data.centros);
+                }
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+            }
+        };
+
+        obtenerDatos();
+    }, []);
+
+
     // si no se han cargado los ciclos mostrar el spinner
     if (!ciclos.length) {
         return <Spinner />;
     }
-    */
-
 
     return (
         <div className="container mt-4">
@@ -162,10 +166,20 @@ function Inscribirse() {
                             </select>
                             <span className="text-danger small">{erroresEquipos.entrenador}</span>
                         </div>
+                        <div className="col">
+                            <label>Centro: *</label>
+                            <select className="form-select" name="ciclo">
+                                <option value="">Selecciona un ciclo</option>
+                                {centros.map((centro) => (
+                                    <option key={centro.nombre} value={centro.nombre}>{centro.nombre}</option>
+                                ))}
+                            </select>
+                            <span className="text-danger small"></span>
+                        </div>
                     </div>
                 </div>
                 <button className="btn btn-secondary ms-3 mb-4 w-25" onClick={agregarJugador}>
-                    <i class="bi bi-plus-circle-fill m-2"></i>
+                    <i className="bi bi-plus-circle-fill m-2"></i>
                     Añadir Jugador</button>
                 {jugadores.map((jugador) => (
                     <JugadorLabel
@@ -176,11 +190,11 @@ function Inscribirse() {
                         onSetCapitan={handleSetCapitan}
                         isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}
                         errores={erroresJugadores[jugador.id] || {}}
-                        /*ciclos={ciclos}*/
+                        ciclos={ciclos}
                     />
                 ))}
                 <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
-                    <i class="bi bi-send-fill m-2"></i>
+                    <i className="bi bi-send-fill m-2"></i>
                     Enviar</button>
             </div>
         </div>
