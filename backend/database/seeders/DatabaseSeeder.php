@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         // Ejecutar los seeders en el orden adecuado
         $this->call([
             PerfilSeeder::class,
-            SeccionesSeeder::class,
+            SeccionSeeder::class,
             PerfilSeccionSeeder::class,
             UsuarioSeeder::class,
             OngSeeder::class,

@@ -18,7 +18,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('perfiles')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('seccion_id');
+            $table->unsignedBigInteger('seccion_id')->nullable();
             $table->foreign('seccion_id')
                 ->references('id')
                 ->on('secciones')
