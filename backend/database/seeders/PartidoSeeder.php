@@ -9,6 +9,6 @@ class PartidoSeeder extends Seeder
 {
     public function run()
     {
-        Partido::factory()->count(10)->create();
+        Partido::factory()->count(50)->create();
     }
 }

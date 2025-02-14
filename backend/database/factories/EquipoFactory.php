@@ -3,22 +3,29 @@
 namespace Database\Factories;
 
 use App\Models\Equipo;
+use App\Models\Jugador;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Equipo>
- */
 class EquipoFactory extends Factory
 {
-    protected $model = Equipo::class; // Asocia el Factory con el modelo Equipo
+    protected $model = Equipo::class;
 
     public function definition()
     {
         return [
-            'nombre' => $this->faker->word(), // Genera un nombre aleatorio
-            'centro_id' => 2, // Asigna un centro_id aleatorio (asumiendo que hay un modelo Centro)
-            'grupo' => $this->faker->randomElement(['A', 'B']), // Selecciona una letra aleatoria para grupo
+            'nombre' => $this->faker->word(),
+            'centro_id' => 2,
+            'grupo' => $this->faker->randomElement(['A', 'B']),
             'usuario_id' => 2
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Equipo $equipo) {
+            Jugador::factory()->count(10)->create([
+                'equipo_id' => $equipo->id
+            ]);
+        });
     }
 }
