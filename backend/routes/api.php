@@ -14,7 +14,9 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\DonacionController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\InscripcionController;
-use App\Http\Controllers\RetoController; // Si lo necesitas
+use App\Http\Controllers\RetoController;
+use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\ClasificacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +72,13 @@ Route::apiResource('jugadores', JugadorController::class);
 
 // Retos
 Route::apiResource('retos', RetoController::class);
+
+// Partidos
+Route::apiResource('partidos', PartidoController::class);
+
+// Clasificaciones
+Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
+Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
 
 // Inscripciones
 Route::apiResource('inscripciones', InscripcionController::class);
