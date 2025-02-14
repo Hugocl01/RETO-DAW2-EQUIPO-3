@@ -1,3 +1,6 @@
+import InfoTorneo from "../components/InfoTorneo";
+import Retos from "../components/Retos";
+
 /**
  * Página de Organización.
  * 
@@ -8,7 +11,8 @@ function OrganizacionPage() {
 
     return (
         <>
-            Pagina organizacion
+            <Retos />
+            <InfoTorneo />
         </>
     );
 }
