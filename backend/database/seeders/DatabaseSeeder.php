@@ -51,10 +51,8 @@ class DatabaseSeeder extends Seeder
             RetoSeeder::class,
             PatrocinadorSeeder::class,
             PatrocinadorEquipoSeeder::class,
-            JugadorSeeder::class,
             PabellonSeeder::class,
             PartidoSeeder::class,
-            ActaSeeder::class,
             PublicacionSeeder::class,
             ImagenSeeder::class,
         ]);
