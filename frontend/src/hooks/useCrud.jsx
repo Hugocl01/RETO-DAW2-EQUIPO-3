@@ -19,7 +19,6 @@ export const useCrud = (seccion) => {
         setLoading(true);
         setError(null);
         try {
-            console.log('nombre: ', seccion.nombre.toLowerCase())
             const response = await api.get(`/${generateSlug(seccion.nombre)}`);
             console.log("Respuesta de la API:", response); // Verifica la respuesta
 
@@ -60,4 +59,4 @@ export const useCrud = (seccion) => {
         columns,
         fetchItems,
     };
-};
+}

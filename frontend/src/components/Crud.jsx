@@ -1,18 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCrud } from "../hooks/useCrud";
+import EditForm from "./EditForm";
 
 function Crud({ seccion }) {
     const { items, loading, error, columns, deleteItem } = useCrud(seccion);
+    const [editingItem, setEditingItem] = useState(null); // Estado para manejar el item que se está editando
 
     const handleDelete = (id) => {
         deleteItem(id);
     };
 
-    // Recomendación: Verificar que 'seccion' tenga la estructura adecuada
-    console.log('Sección:', seccion);
-    
-    // Verifica si las columnas están siendo correctamente definidas
-    console.log('Columnas:', columns);
+    const handleEdit = (item) => {
+        setEditingItem(item); // Establecer el item que se va a editar
+    };
+
+    const handleSave = (updatedItem) => {
+        // Aquí puedes manejar la lógica para guardar los cambios
+        // Por ejemplo, hacer una solicitud a la API para actualizar el item.
+        console.log("Guardar item actualizado:", updatedItem);
+        setEditingItem(null); // Cerrar el formulario de edición
+    };
+
+    const handleCancel = () => {
+        setEditingItem(null); // Cerrar el formulario de edición sin guardar
+    };
+
+    // Filtrar columnas que contengan objetos o arrays de objetos
+    const filteredColumns = columns.filter((column) => {
+        return !items.some((item) => {
+            const value = item[column];
+            return (typeof value === "object" && value !== null); // Excluir columnas que contengan objetos
+        });
+    });
+
+    const renderColumnValue = (column, item) => {
+        const value = item[column];
+
+        // Si el valor es un objeto, no mostrar nada
+        if (typeof value === "object" && value !== null) {
+            return null; // No se mostrará el valor si es un objeto
+        }
+
+        return value ?? "N/A"; // Manejo de valores nulos o indefinidos
+    };
 
     // Manejo de la carga
     if (loading) {
@@ -24,76 +54,66 @@ function Crud({ seccion }) {
         return <p>{error}</p>;
     }
 
-    // Si no hay columnas, mostramos un mensaje
-    if (!columns.length) {
+    // Si no hay columnas disponibles después del filtrado
+    if (!filteredColumns.length) {
         return <p>No se han encontrado columnas disponibles para esta entidad.</p>;
     }
 
-    // Si 'seccion' no tiene la propiedad 'nombre', podemos mostrar un mensaje por defecto
-    const sectionTitle = seccion.nombre || 'Entidad'; // Asegúrate de que 'nombre' esté disponible
-
-    const renderColumnValue = (column, item) => {
-        const value = item[column];
-        if (typeof value === 'object') {
-            // Si el valor es un objeto, mostramos solo una propiedad específica o lo convertimos a JSON
-            if (value && value.nombre) {
-                return value.nombre; // Si el objeto tiene una propiedad 'nombre', la mostramos
-            }
-            return JSON.stringify(value); // Si no tiene 'nombre', mostramos todo el objeto serializado
-        }
-        return value; // Si no es un objeto, devolvemos el valor tal cual
-    };
+    const sectionTitle = seccion.nombre || 'Entidad'; // Asegurar título
 
     return (
         <>
-            <h3>{sectionTitle}</h3>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        {/* Renderizamos los encabezados de la tabla basados en las propiedades de la entidad */}
-                        {columns.map((column) => (
-                            <th key={column}>
-                                {column.charAt(0).toUpperCase() + column.slice(1)}
-                            </th>
-                        ))}
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {items.length === 0 ? (
-                        <tr>
-                            <td colSpan={columns.length + 1} className="text-center">
-                                No hay registros disponibles
-                            </td>
-                        </tr>
-                    ) : (
-                        items.map((item) => (
-                            <tr key={item.id}>
-                                {/* Renderizamos los valores de cada propiedad de cada objeto */}
-                                {columns.map((column) => (
-                                    <td key={column}>
-                                        {renderColumnValue(column, item)} {/* Usamos la función para renderizar el valor */}
-                                    </td>
+            {editingItem ? (
+                <EditForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
+            ) : (
+                <>
+                    <h3>{sectionTitle}</h3>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                {filteredColumns.map((column) => (
+                                    <th key={column}>
+                                        {column.charAt(0).toUpperCase() + column.slice(1)}
+                                    </th>
                                 ))}
-                                <td>
-                                    <button
-                                        className="btn btn-primary btn-sm"
-                                        onClick={() => handleEdit(item.id)}
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        className="btn btn-danger btn-sm ms-2"
-                                        onClick={() => handleDelete(item.id)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
+                                <th>Acciones</th>
                             </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {items.length === 0 ? (
+                                <tr>
+                                    <td colSpan={filteredColumns.length + 1} className="text-center">
+                                        No hay registros disponibles
+                                    </td>
+                                </tr>
+                            ) : (
+                                items.map((item) => (
+                                    <tr key={item.id}>
+                                        {filteredColumns.map((column) => {
+                                            const value = renderColumnValue(column, item);
+                                            return <td key={column}>{value}</td>;
+                                        })}
+                                        <td>
+                                            <button
+                                                className="btn btn-primary btn-sm"
+                                                onClick={() => handleEdit(item)}
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="btn btn-danger btn-sm ms-2"
+                                                onClick={() => handleDelete(item.id)}
+                                            >
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </>
+            )}
         </>
     );
 }
