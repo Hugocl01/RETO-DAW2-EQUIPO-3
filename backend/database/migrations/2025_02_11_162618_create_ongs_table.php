@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ongs', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 45);
-            $table->string('landing_page', 100)->nullable();
+            $table->string('landing_page', 100);
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->default(now());

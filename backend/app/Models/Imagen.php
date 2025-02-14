@@ -9,7 +9,7 @@ use App\Traits\Auditable;
 class Imagen extends Model
 {
     use Auditable, HasFactory;
-  
+
     protected $table = 'imagenes';
 
     protected $fillable = [
@@ -24,10 +24,6 @@ class Imagen extends Model
         'ong_id',
         'publicacion_id',
         'pabellon_id',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
     public function equipo()
@@ -68,5 +64,4 @@ class Imagen extends Model
     {
         return $this->belongsTo(Publicacion::class);
     }
-
 }

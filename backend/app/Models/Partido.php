@@ -20,10 +20,6 @@ class Partido extends Model
         'goles_local',
         'goles_visitante',
         'pabellon_id',
-        'usuario_creador_id',
-        'fecha_creacion',
-        'usuario_modificador_id',
-        'fecha_modificacion'
     ];
 
     public function equipoLocal()
@@ -40,5 +36,4 @@ class Partido extends Model
     {
         return $this->belongsTo(Pabellon::class);
     }
-
 }
