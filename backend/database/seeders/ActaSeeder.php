@@ -9,7 +9,7 @@ class ActaSeeder extends Seeder
 {
     public function run()
     {
-        Acta::factory(10)->create();
+        Acta::factory(1000)->create();
     }
 }
 
