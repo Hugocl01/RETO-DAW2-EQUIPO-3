@@ -18,7 +18,7 @@ function Inicio() {
                         <div class="carousel-item active" data-bs-interval="10000">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img2.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img2.png" />
                                     <h3>Noticia 1</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
@@ -35,7 +35,7 @@ function Inicio() {
                         <div class="carousel-item" data-bs-interval="2000">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img4.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img4.png" />
                                     <h3>Noticia 2</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
@@ -53,7 +53,7 @@ function Inicio() {
                         <div class="carousel-item">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img2.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img2.png" />
                                     <h3>Noticia 3</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
@@ -92,7 +92,7 @@ function Inicio() {
                         <div class="carousel-item active" data-bs-interval="10000">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img2.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img2.png" />
                                     <h3>Reto 1</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
@@ -109,7 +109,7 @@ function Inicio() {
                         <div class="carousel-item" data-bs-interval="2000">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img4.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img4.png" />
                                     <h3>Reto 2</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
@@ -127,7 +127,7 @@ function Inicio() {
                         <div class="carousel-item">
                             <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
                                 <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                    <img className="mb-4 w-50" src="../src/assets/imagenes/img2.png" />
+                                    <img className="mb-4 w-50 mt-3" src="../src/assets/imagenes/img2.png" />
                                     <h3>Reto 3</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                         Necessitatibus vel repellendus perspiciatis aspernatur!
