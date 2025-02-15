@@ -15,7 +15,6 @@ class SeccionSeeder extends Seeder
     {
         $secciones = [
             ['nombre' => 'Equipos', 'descripcion' => 'Gestión de los equipos participantes en el torneo.'],
-            ['nombre' => 'Patrocinadores', 'descripcion' => 'Información sobre los patrocinadores del torneo.'],
             ['nombre' => 'Jugadores', 'descripcion' => 'Gestión de los jugadores y roles dentro de los equipos.'],
             ['nombre' => 'Partidos', 'descripcion' => 'Registro de los partidos, horarios y resultados.'],
             ['nombre' => 'Actas', 'descripcion' => 'Registro de incidencias ocurridas durante los partidos.'],
