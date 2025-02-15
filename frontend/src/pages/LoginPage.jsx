@@ -25,10 +25,10 @@ function LoginPage() {
     }, [seguridad, navigate]);
 
     return (
-        <div className="d-flex align-items-center align-content-center justify-content-center py-4">
+        <>
             {/* Si no está autenticado, muestra el formulario de login */}
             {!seguridad?.user && <Login />}
-        </div>
+        </>
     );
 }
 

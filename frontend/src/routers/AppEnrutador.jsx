@@ -16,7 +16,6 @@ const DetallesEquipoPage = lazy(() =>
 const TorneoPage = lazy(() => import("../pages/TorneoPage.jsx"));
 const ClasificaciónPage = lazy(() => import("../pages/ClasificacionPage.jsx"));
 const OrganizacionPage = lazy(() => import("../pages/OrganizacionPage.jsx"));
-const RetoPage = lazy(() => import("../pages/RetoPage.jsx"));
 const GaleriaPage = lazy(() => import("../pages/GaleriaPage.jsx"));
 const InscribirsePage = lazy(() => import("../pages/InscribirsePage.jsx"));
 const PerfilPage = lazy(() => import("../pages/PerfilPage.jsx"));
@@ -132,14 +131,6 @@ function AppEnrutador() {
             element={
               <Suspense fallback={<Spinner />}>
                 <OrganizacionPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="organizacion/retos/:id"
-            element={
-              <Suspense fallback={<Spinner />}>
-                <RetoPage />
               </Suspense>
             }
           />
