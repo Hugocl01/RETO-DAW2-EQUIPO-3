@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('dni', 9)->nullable();
             $table->string('email', 45)->nullable();
             $table->string('telefono', 45)->nullable();
-            $table->boolean('activo')->default(0);
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();
