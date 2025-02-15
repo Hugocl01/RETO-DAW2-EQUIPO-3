@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled, errores, ciclos }) {
+function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled, errores, estudios }) {
     return (
         <div className="d-flex justify-content-flex align-items-center">
             <div className="card p-3 mb-4 bg-light col-11" id={`jugador-${id}`}>
@@ -23,20 +23,23 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                 <div className="row mt-3">
                     <div className="col">
                         <label>Nombre Completo: *</label>
-                        <input type="text" className="form-control" name="nombre" />
+                        <input type="text" className="form-control" name="nombre_completo" />
                         <span className="text-danger small">{errores?.nombre}</span>
                     </div>
                     <div className="col">
-                        <label>Ciclo: *</label>
+                        <label>Estudio: *</label>
 
-                        <select className="form-select" name="ciclo">
-                            <option value="">Selecciona un ciclo</option>
-                            {ciclos.map((ciclo) => (
-                                <option key={ciclo.id} value={ciclo.id}>{ciclo.nombre}</option>
+                        <select className="form-select" name="estudio_id">
+                            <option value="">Selecciona un estudio</option>
+                            {estudios.map((estudio) => (
+                                <option key={estudio.id} value={estudio.id}>
+                                    {estudio.ciclo.nombre} - Curso {estudio.curso}
+                                </option>
                             ))}
                         </select>
 
-                        <span className="text-danger small">{errores?.ciclo}</span>
+
+                        <span className="text-danger small">{errores?.estudio}</span>
                     </div>
                 </div>
 
