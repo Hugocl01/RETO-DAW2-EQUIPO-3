@@ -30,6 +30,7 @@ function DetalleJugadorPage() {
 
   return (
     <>
+      <title>Detalles de jugador</title>
         <div className="container-fluid w-75 my-5">
           <div className="card">
             <div className="card-header bg-primary text-white">
