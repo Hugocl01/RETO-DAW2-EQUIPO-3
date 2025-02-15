@@ -1,11 +1,12 @@
-function Selector({ opciones, valor = 0 }) {
-
+function Selector({ opciones, valor = 0, onSelect }) {
     return (
-        <select name="" id="" value={valor}>
-            <option value="0" selected disabled>Seleccione una opción</option>
-            {opciones.map((opcion) => {
-                <opcion value={opcion.id}>{opcion.nombre}</opcion>
-            })}
+        <select value={valor} onChange={(e) => onSelect(e.target.value)}>
+            <option value="0" disabled>Seleccione una opción</option>
+            {opciones.map((opcion) => (
+                <option key={opcion.id} value={opcion.id}>
+                    {opcion.nombre}
+                </option>
+            ))}
         </select>
     );
 }
