@@ -3,9 +3,13 @@ import Carousel from './Carousel';
 
 import { useState, useEffect } from 'react';
 
+import api from "../services/api.js";
+import Spinner from "../components/Spinner.jsx";
+
 function Inicio() {
     //arrays para los carruseles
     const [donaciones, setDonaciones] = useState([]);
+    //const [patrocinadores, setPatrocinadores] = useState([]);
 
     const noticias = [
         {
@@ -49,20 +53,43 @@ function Inicio() {
             try {
                 const respuesta = await api.get("/donaciones");
                 if (respuesta.data.status === "success") {
-                    setDonaciones(respuesta.data.ciclos);
+                    setDonaciones(respuesta.data.donaciones);
                 }
             } catch (error) {
-                console.error("Error al obtener los ciclos:", error);
+                console.error("Error al obtener las donaciones:", error);
             }
         };
 
         obtenerDonaciones();
+
+        /*const obtenerPatrocinadores = async () => {
+            try {
+                const respuesta = await api.get("/patrocinadores");
+                if (respuesta.data.status === "success") {
+                    setPatrocinadores(respuesta.data.patrocinadores);
+                }
+            } catch (error) {
+                console.error("Error al obtener los patrocinadores:", error);
+            }
+        };
+
+        obtenerPatrocinadores();
+        */
     }, []);
 
     function totalDonado() {
-        return donaciones.reduce((total, donacion) => total + donacion.importe, 0);
+        if (!donaciones || donaciones.length === 0) {
+            return 0;
+        }
+
+        let totalDonado = 0;
+        donaciones.forEach(donacion => {
+            totalDonado += parseFloat(donacion.importe);
+        });
+
+        return totalDonado.toFixed(2);
     }
-    
+
 
     return (
         <div className="d-flex flex-column min-vh-100">
@@ -86,15 +113,17 @@ function Inicio() {
                     <div className="row row-cols-1 row-cols-md-2 g-4">
                         <div className="col">
                             <div className="bg-light p-3 rounded-2 text-center">
-                                <h2>Total donado</h2>
-                                <h1>{totalDonado()}</h1>
+                                <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
+                                <h2>Total Recaudado</h2>
+                                <h1 className='text-success fw-bold'>{totalDonado()}€</h1>
                             </div>
                         </div>
 
                         <div className="col">
                             <div className="bg-light p-3 rounded-2 text-center">
-                                <h2>Info y enlace a donar</h2>
-                                <button className="btn btn-primary mt-2">Donar</button>
+                                <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
+                                <h2>Como Donar</h2>
+                                <button className="btn btn-primary mt-2 rounded-pill">Donar</button>
                             </div>
                         </div>
                     </div>
@@ -105,6 +134,17 @@ function Inicio() {
                 <div className="d-flex flex-column justify-content-center align-items-center mb-5">
                     <h1 className="text-center mb-4">Patrocinadores</h1>
                     <div className="d-flex flex-wrap justify-content-center align-items-center gap-4">
+                        {/*
+                        {patrocinadores.map((patrocinador) => (
+                            <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
+                                <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                                    <img src="#" className="w-25" alt={patrocinador.nombre} />
+                                    <p className="fw-bold">{patrocinador.nombre}</p>
+                                </a>
+                            </div>
+
+                        ))}
+                        */}
                         <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
                             <p>Patrocinador 1</p>
                         </div>
