@@ -20,7 +20,7 @@ class PartidoFactory extends Factory
             'equipo_local_id' => Equipo::inRandomOrder()->first()->id ?? Equipo::factory(),
             'equipo_visitante_id' => Equipo::inRandomOrder()->first()->id ?? Equipo::factory(),
             'fecha' => $this->faker->date(),
-            'hora' => $this->faker->time(),
+            'tiempo' => $this->faker->numberBetween(0, 20),
             'goles_local' => $this->faker->numberBetween(0, 5),
             'goles_visitante' => $this->faker->numberBetween(0, 5),
             'pabellon_id' => Pabellon::inRandomOrder()->first()->id ?? Pabellon::factory(),

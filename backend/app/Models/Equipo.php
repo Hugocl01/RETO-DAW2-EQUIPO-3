@@ -6,6 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+/**
+ * @OA\Schema(
+ *     schema="Equipo",
+ *     title="Equipo",
+ *     description="Modelo de equipo",
+ *     @OA\Property(property="id", type="integer", description="ID único del equipo"),
+ *     @OA\Property(property="nombre", type="string", description="Nombre del equipo"),
+ *     @OA\Property(property="centro_id", type="integer", description="ID del centro"),
+ *     @OA\Property(property="grupo", type="string", description="Grupo del equipo"),
+ *     @OA\Property(property="usuario_id", type="integer", description="ID del entrenador"),
+ *     @OA\Property(property="activo", type="boolean", description="Si el equipo está activo"),
+ *     @OA\Property(
+ *         property="stats",
+ *         type="object",
+ *         @OA\Property(property="goles", type="integer", description="Total de goles"),
+ *         @OA\Property(property="tarjetas_amarillas", type="integer", description="Total de tarjetas amarillas"),
+ *         @OA\Property(property="tarjetas_rojas", type="integer", description="Total de tarjetas rojas"),
+ *         @OA\Property(property="faltas", type="integer", description="Total de faltas")
+ *     )
+ * )
+ */
 class Equipo extends Model
 {
     use HasFactory, Auditable;

@@ -6,8 +6,37 @@ use App\Http\Requests\PerfilRequest;
 use App\Models\Perfil;
 use App\Http\Resources\PerfilResource;
 
+
+/**
+ * @OA\Tag(
+ *     name="Perfiles",
+ *     description="Operaciones relacionadas con los perfiles"
+ * )
+ */
 class PerfilController extends Controller
 {
+    /**
+     * Obtener todos los centros.
+     *
+     * @OA\Get(
+     *     path="/api/perfiles",
+     *     summary="Obtener todos los perfiles",
+     *     tags={"Perfiles"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de perfiles",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="perfiles",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Perfil")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $perfiles = Perfil::with('secciones')->select('id', 'tipo')->get();
@@ -25,6 +54,38 @@ class PerfilController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtener un perfil por su ID.
+     *
+     * @OA\Get(
+     *     path="/api/perfiles/{perfil}",
+     *     summary="Obtener un perfil por su ID",
+     *     tags={"Perfiles"},
+     *     @OA\Parameter(
+     *         name="perfil",
+     *         in="path",
+     *         description="ID del perfil",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="perfil",
+     *                 ref="#/components/schemas/Perfil"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Perfil no encontrado"
+     *     )
+     * )
+     */
     public function show(Perfil $perfile)
     {
         $perfile = Perfil::with('secciones')
@@ -36,6 +97,36 @@ class PerfilController extends Controller
         ], 200);
     }
 
+    /**
+     * Crear un nuevo perfil.
+     *
+     * @OA\Post(
+     *     path="/api/perfiles",
+     *     summary="Crear un nuevo perfil",
+     *     tags={"Perfiles"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Perfil")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Perfil creado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Perfil creado correctamente"),
+     *             @OA\Property(
+     *                 property="perfil",
+     *                 ref="#/components/schemas/Perfil"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la validación de datos"
+     *     )
+     * )
+     */
     public function store(PerfilRequest $request)
     {
         $data = $request->validated();
@@ -59,7 +150,47 @@ class PerfilController extends Controller
         ], 201);
     }
 
-
+    /**
+     * Actualizar un perfil existente.
+     *
+     * @OA\Put(
+     *     path="/api/perfiles/{perfil}",
+     *     summary="Actualizar un perfil existente",
+     *     tags={"Perfiles"},
+     *     @OA\Parameter(
+     *         name="perfil",
+     *         in="path",
+     *         description="ID del perfil",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Perfil")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil actualizado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Perfil actualizado correctamente"),
+     *             @OA\Property(
+     *                 property="perfil",
+     *                 ref="#/components/schemas/Perfil"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la validación de datos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Perfil no encontrado"
+     *     )
+     * )
+     */
     public function update(PerfilRequest $request, Perfil $perfile)
     {
         $data = $request->validated();
@@ -85,6 +216,35 @@ class PerfilController extends Controller
         ], 200);
     }
 
+    /**
+     * Eliminar un perfil.
+     *
+     * @OA\Delete(
+     *     path="/api/perfiles/{perfil}",
+     *     summary="Eliminar un perfil",
+     *     tags={"Perfiles"},
+     *     @OA\Parameter(
+     *         name="perfil",
+     *         in="path",
+     *         description="ID del perfil",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil eliminado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Perfil eliminado correctamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Perfil no encontrado"
+     *     )
+     * )
+     */
     public function destroy(Perfil $perfile)
     {
         // Opcional: Desasocia las secciones relacionadas si es necesario

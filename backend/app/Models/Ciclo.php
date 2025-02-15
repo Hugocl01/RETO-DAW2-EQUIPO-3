@@ -25,7 +25,7 @@ use App\Traits\Auditable;
  *     ),
  *     @OA\Property(
  *         property="familia_id",
- *         type="string",
+ *         type="integer",
  *         description="ID de la familia a la que pertenece el ciclo",
  *         example="3"
  *     )

@@ -5,6 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+
+/**
+ * @OA\Schema(
+ *     schema="Perfil",
+ *     type="object",
+ *     title="Perfil",
+ *     required={"tipo"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         description="ID único del perfil",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="tipo",
+ *         type="string",
+ *         description="Nombre del tipo de usuario",
+ *         example="administrador"
+ *     )
+ * )
+ */
 class Perfil extends Model
 {
     use Auditable;

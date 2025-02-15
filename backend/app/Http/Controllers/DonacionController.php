@@ -5,8 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Donacion;
 use App\Http\Resources\DonacionResource;
 
+/**
+ * @OA\Tag(
+ *     name="Donaciones",
+ *     description="Operaciones relacionadas con las donaciones"
+ * )
+ */
 class DonacionController extends Controller
 {
+    /**
+     * Obtener todas las donaciones.
+     *
+     * @OA\Get(
+     *     path="/api/donaciones",
+     *     summary="Obtener todos los donaciones",
+     *     tags={"Donaciones"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de donaciones",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="donaciones",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Donacion")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $donaciones = Donacion::with('ong')
