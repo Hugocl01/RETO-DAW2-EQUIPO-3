@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AdministracionMenu({ secciones, loading, onSelect }) {
     const [selectedSeccion, setSelectedSeccion] = useState("");
+
+    // Hacer que la primera vez que veamos el menu cargue por defecto la primera seccion
+    useEffect(() => {
+        if (secciones.length > 0) {
+            setSelectedSeccion(secciones[0]);  // También actualizamos el estado local
+            onSelect(secciones[0]);
+        }
+    }, [secciones]); // Se ejecuta cuando `secciones` cambia
 
     const handleSelect = (seccion) => {
         setSelectedSeccion(seccion);
@@ -18,7 +26,11 @@ function AdministracionMenu({ secciones, loading, onSelect }) {
                 <ul className="list-group">
                     {secciones.length > 0 ? (
                         secciones.map((seccion) => (
-                            <li key={seccion.id} className="list-group-item" onClick={() => handleSelect(seccion)}>
+                            <li
+                                key={seccion.id}
+                                className={`list-group-item ${selectedSeccion?.id === seccion.id ? "active" : ""} cursor-pointer`} 
+                                role="button"
+                                onClick={() => handleSelect(seccion)}>
                                 {seccion.nombre}
                             </li>
                         ))
