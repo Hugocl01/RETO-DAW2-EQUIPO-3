@@ -16,8 +16,8 @@ class EstudioResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'centro' => new CentroResource($this->centro),
-            'ciclo' => new CicloResource($this->ciclo),
+            'centro' => $this->centro->nombre,
+            'ciclo' => $this->ciclo->nombre,
             'curso' => $this->curso,
         ];
     }

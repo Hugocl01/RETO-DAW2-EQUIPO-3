@@ -37,12 +37,12 @@ class SeccionSeeder extends Seeder
             'Equipos' => ['index', 'show', 'store', 'update', 'destroy'],
             'Estudios' => ['index', 'store', 'destroy'],
             'Familias' => ['index', 'store', 'update', 'destroy'],
-            'Inscripciones' => ['index', 'updateActivo'],
-            'Jugadores' => ['index', 'show', 'update', 'activar'],
+            'Inscripciones' => ['index'],
+            'Jugadores' => ['index', 'show', 'update'],
             'Perfiles' => ['index', 'show', 'store', 'update', 'destroy'],
             'Retos' => ['index', 'show', 'store', 'update', 'destroy'],
             'Secciones' => ['index'],
-            'Usuarios' => ['index', 'update', 'store', 'updateActivo'],
+            'Usuarios' => ['index', 'update', 'store'],
         ];
 
         foreach ($secciones as $seccion) {

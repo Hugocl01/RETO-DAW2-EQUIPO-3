@@ -17,7 +17,7 @@ class CentroResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'landing_page' => $this->landing_page,
+            'página web' => $this->landing_page,
         ];
     }
 }
