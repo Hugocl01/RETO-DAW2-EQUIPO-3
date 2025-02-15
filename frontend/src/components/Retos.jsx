@@ -5,11 +5,9 @@ import imagenPrueba from "../assets/imagenes/img2.png"
 
 function Retos() {
     const [retos, setRetos] = useState([]);
-    const [selectedReto, setSelectedReto] = useState(null);
-    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        const fetchSecciones = async () => {
+        const fetchRetos = async () => {
             try {
                 const response = await api.get('/retos');
                 setRetos(response.data.retos || []);
@@ -18,30 +16,19 @@ function Retos() {
             }
         };
 
-        fetchSecciones();
+        fetchRetos();
     }, []);
-
-    const handleSelectReto = (reto) => {
-        setSelectedReto(reto);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedReto(null);
-    };
 
     return (
         <div className="container mt-4">
             <h1>Listado de Retos</h1>
             <div className="row">
                 {retos.map((reto) => (
-                    <div className="col-md-4 mb-3" key={reto.id}>
-                        <div
-                            className="card"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleSelectReto(reto)}
-                        >
+                    <div
+                        to={`retos/${reto.id}`}
+                        className="col-md-4 mb-3"
+                        key={reto.id}>
+                        <div className="card h-100">
                             <img src={imagenPrueba} className='card-img-top' alt="reto.titulo" />
                             <div className="card-body">
                                 <h5 className="card-title">{reto.titulo}</h5>
@@ -52,7 +39,7 @@ function Retos() {
                                 </p>
                                 {/* Botón "Ver Detalles" redirige la page de Reto */}
                                 <Link
-                                    to={`/retos/${reto.id}`}
+                                    to={`retos/${reto.id}`}
                                     className="btn btn-primary"
                                 >
                                     Ver Detalles
