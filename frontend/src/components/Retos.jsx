@@ -7,7 +7,7 @@ function Retos() {
     const [retos, setRetos] = useState([]);
 
     useEffect(() => {
-        const fetchSecciones = async () => {
+        const fetchRetos = async () => {
             try {
                 const response = await api.get('/retos');
                 setRetos(response.data.retos || []);
@@ -16,7 +16,7 @@ function Retos() {
             }
         };
 
-        fetchSecciones();
+        fetchRetos();
     }, []);
 
     return (
@@ -24,7 +24,10 @@ function Retos() {
             <h1>Listado de Retos</h1>
             <div className="row">
                 {retos.map((reto) => (
-                    <div className="col-md-4 mb-3" key={reto.id}>
+                    <div
+                        to={`retos/${reto.id}`}
+                        className="col-md-4 mb-3"
+                        key={reto.id}>
                         <div className="card h-100">
                             <img src={imagenPrueba} className='card-img-top' alt="reto.titulo" />
                             <div className="card-body">
