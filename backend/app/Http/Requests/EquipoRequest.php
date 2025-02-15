@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Usuario;
 
 class EquipoRequest extends FormRequest
 {
@@ -14,18 +15,14 @@ class EquipoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Equipo
             'nombre'                      => 'required|string|max:255|unique:equipos,nombre',
-            'centro_id'                      => 'required|exists:centros,id',
-
-            // Entrenador
-            'entrenador_nombre_completo'  => 'required|string|max:255|min:3',
-            'entrenador_email'            => 'required|string|email',
-
-            'jugadores'                   => 'required|array|min:10',
+            'centro_id'                   => 'required|exists:centros,id',
+            'usuario_id'                  => 'required|exists:usuarios,id',
+            'jugadores'                   => 'required|array|min:6',
             'jugadores.*.nombre_completo' => 'required|string|min:3|max:70',
             'jugadores.*.capitan'         => 'required|integer',
             'jugadores.*.estudio_id'      => 'nullable|integer|exists:estudios,id',
+
             // Validar DNI del capitán
             'jugadores.*.dni'             => [
                 'string',
@@ -45,56 +42,47 @@ class EquipoRequest extends FormRequest
             'nombre.string'                        => 'El nombre del equipo debe ser una cadena de texto.',
             'nombre.max'                           => 'El nombre del equipo no puede superar los 255 caracteres.',
             'nombre.unique'                        => 'El nombre del equipo ya está en uso.',
-            'centro_id.required'                      => 'El centro educativo es obligatorio.',
-            'centro_id.exists'                        => 'El centro seleccionado no es válido.',
+            'centro_id.required'                   => 'El centro educativo es obligatorio.',
+            'centro_id.exists'                     => 'El centro seleccionado no es válido.',
 
-            'entrenador_nombre_completo.required'  => 'El entrenador es obligatorio.',
-            'entrenador_nombre_completo.string'    => 'El nombre del entrenador debe ser una cadena de texto.',
-            'entrenador_email.required'            => 'El email del entrenador es obligatorio',
-            'entrenador_email.string'              => 'El email debe ser una cadena de texto',
-            'entrenador_email.email'               => 'El email debe ser una dirección de correo válida',
-
-            'jugadores.required' => 'Se requiere al menos un jugador.',
-            'jugadores.array'    => 'Los jugadores deben enviarse en un arreglo.',
-            'jugadores.min'      => 'Se requiere al menos 10 jugadores.',
-
-            'jugadores.*.nombre_completo.required' => 'El nombre completo del jugador es obligatorio.',
+            'usuario_id.required'                  => 'El entrenador es obligatorio.',
+            'usuario_id.exists'                    => 'El entrenador seleccionado no es válido.',
+            'jugadores.required'                   => 'Se requiere al menos un jugador.',
+            'jugadores.array'                      => 'Los jugadores deben ser enviados en un arreglo.',
+            'jugadores.min'                        => 'Se requiere al menos un jugador.',
+            'jugadores.*.equipo_id.integer'        => 'El id del equipo tiene que ser un entero.',
+            'jugadores.*.nombre_completo.required' => 'El nombre completo es obligatorio.',
             'jugadores.*.nombre_completo.string'   => 'El nombre completo debe ser una cadena de texto.',
             'jugadores.*.nombre_completo.min'      => 'El nombre completo debe tener al menos 3 caracteres.',
             'jugadores.*.nombre_completo.max'      => 'El nombre completo no puede superar los 70 caracteres.',
-
             'jugadores.*.capitan.required'         => 'El campo capitán es obligatorio.',
-            'jugadores.*.capitan.integer'          => 'El campo capitán debe ser un número entero.',
-
-            'jugadores.*.estudio_id.integer'       => 'El identificador del estudio debe ser un número entero.',
+            'jugadores.*.capitan.integer'          => 'El campo capitán debe ser un entero.',
+            'jugadores.*.estudio_id.integer'       => 'El id del estudio debe ser un entero.',
             'jugadores.*.estudio_id.exists'        => 'El estudio seleccionado no es válido.',
-
             'jugadores.*.dni.string'               => 'El DNI debe ser una cadena de texto.',
             'jugadores.*.dni.size'                 => 'El DNI debe tener exactamente 9 caracteres.',
             'jugadores.*.dni.regex'                => 'El DNI debe contener 8 dígitos seguidos de una letra.',
             'jugadores.*.dni.unique'               => 'El DNI ya está registrado.',
-
             'jugadores.*.email.string'             => 'El email debe ser una cadena de texto.',
             'jugadores.*.email.email'              => 'El email debe ser una dirección de correo válida.',
             'jugadores.*.email.unique'             => 'El email ya está registrado.',
-
             'jugadores.*.telefono.string'          => 'El teléfono debe ser una cadena de texto.',
             'jugadores.*.telefono.size'            => 'El teléfono debe tener exactamente 9 caracteres.',
         ];
     }
 
+    /**
+     * Agregamos validaciones adicionales para comprobar
+     * que el usuario indicado tenga perfil de entrenador (perfil_id == 2).
+     */
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $jugadores = $this->input('jugadores');
-            // Contar cuántos jugadores tienen 'capitan' igual a true
-            $capitanes = collect($jugadores)->filter(function ($jugador) {
-                // Convertimos a boolean para asegurarnos
-                return isset($jugador['capitan']) && (bool)$jugador['capitan'] === true;
-            })->count();
-
-            if ($capitanes !== 1) {
-                $validator->errors()->add('jugadores', 'Debe de haner una unidad de capitán en el equipo.');
+            if ($this->has('usuario_id')) {
+                $u = Usuario::find($this->usuario_id);
+                if (!$u || $u->perfil_id != 2) {
+                    $validator->errors()->add('usuario_id', 'El usuario debe ser un entrenador.');
+                }
             }
         });
     }

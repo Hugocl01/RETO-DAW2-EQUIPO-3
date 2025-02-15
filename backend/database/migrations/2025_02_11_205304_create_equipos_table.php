@@ -21,7 +21,7 @@ return new class extends Migration
                 ->on('centros')
                 ->onDelete('restrict');
             $table->char('grupo', 1)->nullable();
-            $table->unsignedBigInteger('usuario_id')->nullable();
+            $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')
                 ->references('id')
                 ->on('usuarios')

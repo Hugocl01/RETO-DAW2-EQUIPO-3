@@ -117,7 +117,7 @@ class PartidoController extends Controller
             'equipo_local_id' => 'required|exists:equipos,id',
             'equipo_visitante_id' => 'required|exists:equipos,id',
             'fecha' => 'required|date',
-            'tiempo' => 'required',
+            'hora' => 'required',
             'goles_local' => 'nullable|integer|min:0',
             'goles_visitante' => 'nullable|integer|min:0',
             'estado' => 'required|in:programado,en_curso,finalizado'
@@ -180,7 +180,7 @@ class PartidoController extends Controller
             'equipo_local_id' => 'exists:equipos,id',
             'equipo_visitante_id' => 'exists:equipos,id',
             'fecha' => 'date',
-            'tiempo' => 'string',
+            'hora' => 'string',
             'goles_local' => 'nullable|integer|min:0',
             'goles_visitante' => 'nullable|integer|min:0',
             'estado' => 'in:programado,en_curso,finalizado'
