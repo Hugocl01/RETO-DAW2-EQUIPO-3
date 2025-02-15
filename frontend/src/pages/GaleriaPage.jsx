@@ -9,7 +9,10 @@ import Galeria from "../components/Galeria.jsx";
 function GaleriaPage() {
 
     return (
-        <Galeria />
+        <>
+            <title>Galería</title>
+            <Galeria />
+        </>
     )
 }
 

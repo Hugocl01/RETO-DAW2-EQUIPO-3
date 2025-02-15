@@ -2,6 +2,7 @@ function RetoPage() {
 
     return (
         <>
+            <title>Reto</title>
             pagina de reto
         </>
     );

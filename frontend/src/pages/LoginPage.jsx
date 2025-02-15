@@ -26,6 +26,7 @@ function LoginPage() {
 
     return (
         <>
+            <title>Inicar sesión</title>
             {/* Si no está autenticado, muestra el formulario de login */}
             {!seguridad?.user && <Login />}
         </>

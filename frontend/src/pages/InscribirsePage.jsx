@@ -9,7 +9,10 @@ import Inscribirse from "../components/Inscribirse.jsx";
 function InscribirsePage() {
 
     return (
-        <Inscribirse />
+        <>
+            <title>Formilario de inscripción</title>
+            <Inscribirse />
+        </>
     )
 }
 

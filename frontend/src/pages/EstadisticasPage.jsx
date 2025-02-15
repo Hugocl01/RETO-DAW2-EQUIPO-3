@@ -21,6 +21,7 @@ function EstadisticasPage() {
   }
   return (
     <>
+      <title>Estadisticas</title>
       <section className="container-fluid w-75">
         <div className="row">
           <h2 className="col-12 text-center">Estadísticas</h2>

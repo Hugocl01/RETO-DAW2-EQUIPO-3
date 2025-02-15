@@ -9,7 +9,10 @@ import Inicio from "../components/Inicio.jsx";
 function InicioPage() {
 
     return (
-        <Inicio />
+        <>
+            <title>Inicio</title>
+            <Inicio />
+        </>
     );
 }
 

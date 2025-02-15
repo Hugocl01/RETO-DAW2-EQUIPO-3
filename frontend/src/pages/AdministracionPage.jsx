@@ -30,6 +30,7 @@ function AdministracionPage() {
     }
     return (
         <div className="d-flex">
+            <title>Adminstración</title>
             <AdministracionMenu secciones={secciones} loading={loading} onSelect={handleLoad} />
 
             <div className="flex-grow-1 p-4">

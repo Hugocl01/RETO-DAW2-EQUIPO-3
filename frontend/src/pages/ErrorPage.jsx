@@ -11,9 +11,10 @@ import Error from "../components/Error.jsx";
 function ErrorPage() {
 
     return (
-        <div>
+        <>
+            <title>Error 404</title>
             <Error />
-        </div>
+        </>
     );
 }
 
