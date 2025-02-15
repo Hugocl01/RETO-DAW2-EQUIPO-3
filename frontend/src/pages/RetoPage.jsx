@@ -17,6 +17,7 @@ function RetoPage() {
         };
 
         fetchRetos();
+        console.log(reto)
     }, []);
 
     return (
@@ -24,13 +25,19 @@ function RetoPage() {
             <h1>{reto.titulo}</h1>
             <p>{reto.texto}</p>
 
-            <h3>Información del Estudio</h3>
-            <p><strong>Centro:</strong> {reto.estudio.centro.nombre}</p>
-            <p>
-                <strong>Web del Centro:</strong> <a href={reto.estudio.centro.landing_page} target="_blank" rel="noopener noreferrer">{reto.estudio.centro.landing_page}</a>
-            </p>
-            <p><strong>Ciclo:</strong> {reto.estudio.ciclo.nombre}</p>
-            <p><strong>Curso:</strong> {reto.estudio.curso}</p>
+            {reto.estudio && reto.estudio.centro ? (
+                <>
+                    <h3>Información del Estudio</h3>
+                    <p><strong>Centro:</strong> {reto.estudio.centro.nombre}</p>
+                    <p>
+                        <strong>Web del Centro:</strong> <a href={reto.estudio.centro.landing_page} target="_blank" rel="noopener noreferrer">Web de {reto.estudio.centro.nombre}</a>
+                    </p>
+                    <p><strong>Ciclo:</strong> {reto.estudio.ciclo.nombre}</p>
+                    <p><strong>Curso:</strong> {reto.estudio.curso}</p>
+                </>
+            ) : (
+                <p>No hay información de estudio disponible.</p>
+            )}
         </div>
     );
 }
