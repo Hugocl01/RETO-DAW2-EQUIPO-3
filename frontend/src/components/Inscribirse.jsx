@@ -1,35 +1,32 @@
 import { useState, useEffect } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
-import { validarNombre, errorNombre, validarDNI, errorDNI, validarTelefono, errorTelefono, validarEmail, errorEmail } from "./Validaciones.js";
 import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
 
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
     const [capitanId, setCapitanId] = useState(null);
-    const [erroresEquipos, setErroresEquipos] = useState({ nombre: "", centro: "" });
-    const [erroresEntrenador, setErroresEntrenador] = useState({ nombre: "", email: "" });
-    const [erroresJugadores, setErroresJugadores] = useState({});
-    const [ciclos, setCiclos] = useState([]);
+    const [errores, setErrores] = useState({}); // estado general para errores que vengan del backend
+    const [estudios, setEstudios] = useState([]);
     const [centros, setCentros] = useState([]);
 
-    //agregar jugador
+    // Agregar jugador
     const agregarJugador = () => {
         setJugadores([...jugadores, { id: jugadores.length }]);
     };
 
-    //eliminar jugador
+    // Eliminar jugador
     const eliminarJugador = (id) => {
-        const nuevosJugadores = jugadores.filter(jugador => jugador.id !== id)
+        const nuevosJugadores = jugadores
+            .filter((jugador) => jugador.id !== id)
             .map((jugador, index) => ({ ...jugador, id: index }));
         setJugadores(nuevosJugadores);
-
         if (capitanId === id) {
             setCapitanId(null);
         }
     };
 
-    //handle para asociar el capitan
+    // Seleccionar capitán (único)
     const handleSetCapitan = (id) => {
         if (capitanId === id) {
             setCapitanId(null);
@@ -40,109 +37,80 @@ function Inscribirse() {
         }
     };
 
-    //handle para las validaciones
-    const handleSubmit = (event) => {
+    // Manejo del envío del formulario sin validaciones en el frontend
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        //array para almacenar los errores
-        let erroresEq = {};
-        let esValido = true;
+        // Recopilar datos del equipo
+        const nombreEquipo = document.querySelector('input[name="nombre"]').value;
+        const centroSeleccionado = document.querySelector('select[name="centro"]').value;
 
-        // validar nombre del equipo
-        const nombreEquipo = document.querySelector('input[name="nombreEquipo"]').value;
-        if (!validarNombre(nombreEquipo)) {
-            erroresEq["nombre"] = errorNombre(nombreEquipo);
-            esValido = false;
-        }
+        // Recopilar datos del entrenador
+        const nombreEntrenador = document.querySelector('input[name="entrenador_nombre_completo"]').value;
+        const emailEntrenador = document.querySelector('input[name="entrenador_email"]').value;
 
-        // validar centro
-        const centro = document.querySelector('select[name="centro"]').value;
-        if (!centro) {
-            erroresEq["centro"] = "* Debes seleccionar un centro";
-            esValido = false;
-        }
-
-        let erroresEnt = {};
-        const nombreEntrenador = document.querySelector('input[name="nombreEntrenador"]').value;
-        
-        const emailEntrenador = document.querySelector('input[name="emailEntrenador"]').value;
-
-        if(!validarNombre(nombreEntrenador)) {
-            erroresEnt["nombre"] = errorNombre(nombreEntrenador);
-            esValido = false;
-        }
-
-        if(!validarEmail(emailEntrenador)) {
-            erroresEnt["email"] = errorEmail(emailEntrenador);
-            esValido = false;
-        }
-
-        let erroresJ = {};
-        jugadores.forEach((jugador) => {
-            let errorJugador = {};
+        // Recopilar datos de los jugadores
+        const jugadoresData = jugadores.map((jugador) => {
             const jugadorElem = document.getElementById(`jugador-${jugador.id}`);
+            if (!jugadorElem) return {};
 
-            if (!jugadorElem) {
-                return;
-            }
+            const nombreCompleto = jugadorElem.querySelector('[name="nombre_completo"]').value;
+            const estudio = jugadorElem.querySelector('[name="estudio_id"]').value;
 
-            const nombre = jugadorElem.querySelector('[name="nombre"]').value;
-            const ciclo = jugadorElem.querySelector('[name="ciclo"]').value;
+            // Si es el capitán, incluir campos adicionales
+            let jugadorData = {
+                nombre_completo: nombreCompleto,
+                estudio,
+            };
 
-            // validar nombre del jugador
-            if (!validarNombre(nombre)) {
-                errorJugador["nombre"] = errorNombre(nombre);
-                esValido = false;
-            }
-
-            // validar ciclo 
-            if (!ciclo.trim()) {
-                errorJugador["ciclo"] = "* Este campo es obligatorio";
-                esValido = false;
-            }
-
-            // si es capitan validar campos dni, email y telf
             if (jugador.id === capitanId) {
                 const dni = jugadorElem.querySelector('[name="dni"]').value;
                 const email = jugadorElem.querySelector('[name="email"]').value;
                 const telefono = jugadorElem.querySelector('[name="telf"]').value;
-
-                if (!validarDNI(dni)) {
-                    errorJugador["dni"] = errorDNI(dni);
-                    esValido = false;
-                }
-
-                if (!validarEmail(email)) {
-                    errorJugador["email"] = errorEmail(email);
-                    esValido = false;
-                }
-
-                if (!validarTelefono(telefono)) {
-                    errorJugador["telefono"] = errorTelefono(telefono);
-                    esValido = false;
-                }
+                jugadorData = {
+                    ...jugadorData,
+                    dni,
+                    email,
+                    telefono,
+                    capitan: 1, // marca como capitán
+                };
+            } else {
+                jugadorData = { ...jugadorData, capitan: 0 };
             }
 
-            erroresJ[jugador.id] = errorJugador;
+            return jugadorData;
         });
 
-        setErroresEquipos(erroresEq);
-        setErroresJugadores(erroresJ);
-        setErroresEntrenador(erroresEnt);
+        // Estructura final de datos a enviar (ajusta las llaves según lo que espera tu API)
+        const formData = {
+            nombre: nombreEquipo,
+            centro_id: centroSeleccionado,
+            entrenador_nombre_completo: nombreEntrenador,
+            entrenador_email: emailEntrenador,
+            jugadores: jugadoresData,
+        };
 
-        if (esValido) {
+        try {
+            const response = await api.post("/equipos", formData);
             alert("Formulario enviado correctamente");
+            // Puedes redirigir o limpiar el formulario aquí
+        } catch (error) {
+            // Manejo de errores devueltos por el backend
+            if (error.response && error.response.data && error.response.data.errors) {
+                setErrores(error.response.data.errors);
+            } else {
+                console.error("Error al enviar el formulario:", error);
+            }
         }
     };
 
-
-    //solicitud a la api
+    // Solicitar datos de estudios y centros
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
-                const respuestaCiclos = await api.get("/ciclos");
-                if (respuestaCiclos.data.status === "success") {
-                    setCiclos(respuestaCiclos.data.ciclos);
+                const respuestaEstudios = await api.get("/estudios");
+                if (respuestaEstudios.data.status === "success") {
+                    setEstudios(respuestaEstudios.data.estudios);
                 }
 
                 const respuestaCentros = await api.get("/centros");
@@ -157,9 +125,8 @@ function Inscribirse() {
         obtenerDatos();
     }, []);
 
-
-    // si no se han cargado los ciclos mostrar el spinner
-    if (!ciclos.length) {
+    // Si aún no se han cargado los estudios, mostrar un spinner
+    if (!estudios.length) {
         return <Spinner />;
     }
 
@@ -171,18 +138,24 @@ function Inscribirse() {
                     <div className="row mt-3">
                         <div className="col">
                             <label>Nombre: *</label>
-                            <input type="text" className="form-control" name="nombreEquipo" />
-                            <span className="text-danger small">{erroresEquipos["nombre"]}</span>
+                            <input type="text" className="form-control" name="nombre" />
+                            {errores.nombre && (
+                                <span className="text-danger small">{errores.nombre}</span>
+                            )}
                         </div>
                         <div className="col">
                             <label>Centro: *</label>
                             <select className="form-select" name="centro">
                                 <option value="">Selecciona un centro</option>
                                 {centros.map((centro) => (
-                                    <option key={centro.nombre} value={centro.nombre}>{centro.nombre}</option>
+                                    <option key={centro.id} value={centro.id}>
+                                        {centro.nombre}
+                                    </option>
                                 ))}
                             </select>
-                            <span className="text-danger small">{erroresEquipos.centro}</span>
+                            {errores.centro_id && (
+                                <span className="text-danger small">{errores.centro_id}</span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -192,20 +165,32 @@ function Inscribirse() {
                     <div className="row mt-3">
                         <div className="col">
                             <label>Nombre Completo: *</label>
-                            <input type="text" className="form-control" name="nombreEntrenador" />
-                            <span className="text-danger small">{erroresEntrenador["nombre"]}</span>
+                            <input type="text" className="form-control" name="entrenador_nombre_completo" />
+                            {errores["entrenador_nombre_completo"] && (
+                                <span className="text-danger small">
+                                    {errores["entrenador_nombre_completo"]}
+                                </span>
+                            )}
                         </div>
                         <div className="col">
                             <label>Email: *</label>
-                            <input type="email" className="form-control" name="emailEntrenador" />
-                            <span className="text-danger small">{erroresEntrenador["email"]}</span>
+                            <input type="email" className="form-control" name="entrenador_email" />
+                            {errores["entrenador_email"] && (
+                                <span className="text-danger small">
+                                    {errores["entrenador_email"]}
+                                </span>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                <button className="btn btn-secondary ms-3 mb-4 w-25" onClick={agregarJugador}>
+                <button
+                    className="btn btn-secondary ms-3 mb-4 w-25"
+                    onClick={agregarJugador}
+                >
                     <i className="bi bi-plus-circle-fill m-2"></i>
-                    Añadir Jugador</button>
+                    Añadir Jugador
+                </button>
                 {jugadores.map((jugador) => (
                     <JugadorLabel
                         key={jugador.id}
@@ -214,14 +199,16 @@ function Inscribirse() {
                         onRemove={eliminarJugador}
                         onSetCapitan={handleSetCapitan}
                         isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}
-                        errores={erroresJugadores[jugador.id] || {}}
-                        ciclos={ciclos}
+                        // En este ejemplo, JugadorLabel se encargará de mostrar los errores individuales si los hay
+                        errores={errores[`jugadores.${jugador.id}`] || {}}
+                        estudios={estudios}
                     />
                 ))}
-                {/*boton enviar*/}
+                {/* Botón para enviar */}
                 <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
                     <i className="bi bi-send-fill m-2"></i>
-                    Enviar</button>
+                    Enviar
+                </button>
             </div>
         </div>
     );

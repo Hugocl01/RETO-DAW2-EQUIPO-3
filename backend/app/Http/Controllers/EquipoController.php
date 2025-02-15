@@ -136,7 +136,6 @@ class EquipoController extends Controller
         $equipo = Equipo::create([
             'nombre'     => $data['nombre'],
             'centro_id'  => $data['centro_id'],
-            'usuario_id' => $data['usuario_id']
         ]);
 
         // Crear los jugadores asociados al equipo
@@ -152,6 +151,13 @@ class EquipoController extends Controller
             $equipo->inscripcion()->create([
                 'comentarios' => 'Primera Entrada',
                 'estado_id'   => 1,
+            ]);
+
+            $equipo->usuario()->create([
+                'nombre_completo' => $data['entrenador_nombre_completo'],
+                'email'           => $data['entrenador_email'],
+                'perfil'          => 2,
+                'activo'          => 0
             ]);
 
             // Enviar correo al administrador (o a quien corresponda)
