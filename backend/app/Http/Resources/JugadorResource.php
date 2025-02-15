@@ -11,7 +11,7 @@ class JugadorResource extends JsonResource
     {
         return [
             'id'              => $this->id,
-            'nombre_completo' => $this->nombre_completo,
+            'nombre' => $this->nombre_completo,
             'equipo'          => $this->equipo ? [
                 'id'     => $this->equipo->id,
                 'nombre' => $this->equipo->nombre,

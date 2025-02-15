@@ -16,7 +16,7 @@ class RetoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'titulo' => $this->titulo,
+            'título' => $this->titulo,
             'texto' => $this->texto,
             'estudio' => new EstudioResource($this->whenLoaded('estudio')),
         ];
