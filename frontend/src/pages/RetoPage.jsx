@@ -17,7 +17,6 @@ function RetoPage() {
         };
 
         fetchRetos();
-        console.log(reto)
     }, []);
 
     return (
