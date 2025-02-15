@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Partido;
-use App\Models\Equipo;
+use App\Http\Resources\PartidoResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,46 +39,38 @@ class PartidoController extends Controller
      */
     public function index()
     {
-        $partidos = Partido::with(['equipoLocal', 'equipoVisitante'])->get();
-        return response()->json($partidos);
+        $partidos = Partido::select(
+            'id',
+            'equipo_local_id',
+            'equipo_visitante_id',
+            'fecha',
+            'duracion',
+            'goles_local',
+            'goles_visitante',
+            'pabellon_id'
+        )
+            ->with(['equipoLocal', 'equipoVisitante', 'pabellon'])
+            ->get();
+
+        if ($partidos->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No hay partidos registrados.'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'partidos' => PartidoResource::collection($partidos)
+        ], 200);
     }
 
-    /**
-     * Obtener un centro por su ID.
-     *
-     * @OA\Get(
-     *     path="/api/partidos/{partido}",
-     *     summary="Obtener un partido por su ID",
-     *     tags={"Partidos"},
-     *     @OA\Parameter(
-     *         name="partido",
-     *         in="path",
-     *         description="ID del partido",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Partido encontrado",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(
-     *                 property="partido",
-     *                 ref="#/components/schemas/Partido"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Partido no encontrado"
-     *     )
-     * )
-     */
-    public function show($id)
+    public function show(Partido $partido)
     {
-        $partido = Partido::with(['equipoLocal', 'equipoVisitante'])->findOrFail($id);
-        return response()->json($partido);
+        return response()->json([
+            'status' => 'success',
+            'partidos' => new PartidoResource($partido),
+        ], 200);
     }
 
     /**
@@ -117,7 +109,7 @@ class PartidoController extends Controller
             'equipo_local_id' => 'required|exists:equipos,id',
             'equipo_visitante_id' => 'required|exists:equipos,id',
             'fecha' => 'required|date',
-            'tiempo' => 'required',
+            'duracion' => 'required',
             'goles_local' => 'nullable|integer|min:0',
             'goles_visitante' => 'nullable|integer|min:0',
             'estado' => 'required|in:programado,en_curso,finalizado'
@@ -180,7 +172,7 @@ class PartidoController extends Controller
             'equipo_local_id' => 'exists:equipos,id',
             'equipo_visitante_id' => 'exists:equipos,id',
             'fecha' => 'date',
-            'tiempo' => 'required',
+            'duracion' => 'required',
             'goles_local' => 'nullable|integer|min:0',
             'goles_visitante' => 'nullable|integer|min:0',
             'estado' => 'in:programado,en_curso,finalizado'

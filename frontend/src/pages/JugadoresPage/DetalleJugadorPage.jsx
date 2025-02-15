@@ -46,8 +46,8 @@ function DetalleJugadorPage() {
                     Información Personal
                   </h3>
                   <p className="card-text">
-                    <strong>Nombre Completo:</strong>
-                    {jugador.nombre_completo}
+                    <strong>Nombre Completo: </strong>
+                    {jugador.nombre}
                   </p>
                   {jugador.capitan === 1 ? (
                     <p className="card-text">

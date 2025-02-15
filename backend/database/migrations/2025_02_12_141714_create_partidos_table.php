@@ -24,7 +24,7 @@ return new class extends Migration
                 ->on('equipos')
                 ->onDelete('cascade');
             $table->date('fecha')->nullable();
-            $table->integer('tiempo')->nullable();
+            $table->integer('duracion')->nullable();
             $table->smallInteger('goles_local')->nullable();
             $table->smallInteger('goles_visitante')->nullable();
             $table->unsignedBigInteger('pabellon_id')->nullable();

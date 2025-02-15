@@ -37,7 +37,7 @@ use App\Traits\Auditable;
  *         example="2025-02-15"
  *     ),
  *     @OA\Property(
- *         property="tiempo",
+ *         property="duracion",
  *         type="integer",
  *         description="Minuto del partido",
  *         example=16
@@ -73,7 +73,7 @@ class Partido extends Model
         'equipo_local_id',
         'equipo_visitante_id',
         'fecha',
-        'tiempo',
+        'duracion',
         'goles_local',
         'goles_visitante',
         'pabellon_id',
@@ -92,5 +92,10 @@ class Partido extends Model
     public function pabellon()
     {
         return $this->belongsTo(Pabellon::class);
+    }
+
+    public function actas()
+    {
+        return $this->hasMany(Acta::class);
     }
 }
