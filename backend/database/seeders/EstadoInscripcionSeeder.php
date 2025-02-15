@@ -14,7 +14,10 @@ class EstadoInscripcionSeeder extends Seeder
     public function run(): void
     {
         EstadoInscripcion::create([
-            'estado' => 'pendiente'
+            'estado' => 'No Activa'
+        ]);
+        EstadoInscripcion::create([
+            'estado' => 'Activa'
         ]);
         EstadoInscripcion::create([
             'estado' => 'aprobada'

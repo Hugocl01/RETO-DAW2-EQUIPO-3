@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inscripcion;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TuNotificacionMail; // Asegúrate de crear este Mailable
 use App\Http\Resources\InscripcionResource;
+use App\Mail\EquipoInscripcionMail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 
@@ -97,41 +101,33 @@ class InscripcionController extends Controller
      *     )
      * )
      */
-    public function updateActivo(Request $request, Inscripcion $inscripcion): JsonResponse
+    public function updateActivo(Request $request, Inscripcion $inscripcion) {}
+
+    public function confirmarInscripcion(Inscripcion $inscripcion, $rol, $token)
     {
-        // Validar que se envíe el estado con los valores permitidos
-        $validated = $request->validate([
-            'estado'      => 'required|in:0,1,2',
-            'comentarios' => 'nullable|string'
-        ]);
+        if ($rol === 'Capitán') {
+            $inscripcion->confirmado_capitan = ($token == $inscripcion->token_confirmacion_capitan)
+                ? true : false;
+        } elseif ($rol === 'Entrenador') {
+            $inscripcion->confirmado_entrenador = ($token == $inscripcion->token_confirmacion_entrenador)
+                ? true : false;
+        }
+        $inscripcion->save();
 
-        // Actualizar la inscripción con el nuevo estado y comentarios (si se envían)
-        $inscripcion->update([
-            'estado_id'   => $validated['estado'],
-            'comentarios' => $validated['comentarios'] ?? $inscripcion->comentarios,
-        ]);
+        // Verificar si ambos han confirmado para cambiar el estado de la inscripción
+        if ($inscripcion->confirmado_capitan && $inscripcion->confirmado_entrenador) {
+            $inscripcion->estado_id = 2; // 2 = "activa"
+            $inscripcion->save();
 
-        // Obtener el equipo asociado a la inscripción
-        $equipo = $inscripcion->equipo;
+            $usuarios = Usuario::where('perfil_id', 4)->get();
 
-        if ($equipo) {
-            // Si la inscripción se aprueba (estado 1), marcar el equipo como activo.
-            // Si se rechaza (estado 2), marcar el equipo como inactivo.
-            // Si está pendiente (estado 0), no se modifica el campo "activo".
-            if ($validated['estado'] == 1) {
-                $equipo->update(['activo' => 1]);
-            } elseif ($validated['estado'] == 2) {
-                $equipo->update(['activo' => 0]);
+            foreach ($usuarios as $usuario) {
+                Mail::to($usuario->email)->send(new EquipoInscripcionMail($usuario));
             }
         }
 
-        // Recargar relaciones para la respuesta
-        $inscripcion->load(['equipo', 'estado']);
-
         return response()->json([
-            'status'       => 'success',
-            'message'      => 'La inscripción y el estado del equipo han sido actualizados.',
-            'inscripcion'  => new InscripcionResource($inscripcion)
-        ], 200);
+            'status'  => 'success',
+        ]);
     }
 }

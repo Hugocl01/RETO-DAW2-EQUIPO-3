@@ -7,7 +7,7 @@ Se ha registrado una nueva inscripción.
 **Centro:** {{ $equipo->centro->nombre ?? 'N/D' }}
 **Entrenador propuesto:** {{ $equipo->usuario->name ?? 'N/D' }}
 
-@component('mail::button', ['url' => url('/admin/inscripciones')])
+@component('mail::button', ['url' => url('/administracion')])
 Ver Inscripciones
 @endcomponent
 

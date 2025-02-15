@@ -26,7 +26,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('usuarios')
                 ->onDelete('restrict');
-            $table->boolean('activo')->default(0);
 
             // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();

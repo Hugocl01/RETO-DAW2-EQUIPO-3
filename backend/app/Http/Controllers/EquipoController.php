@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\EquipoInscripcionMail;
+use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\EquipoRequest;
 use App\Http\Resources\EquipoResource;
+use Illuminate\Support\Facades\DB;
+use App\Mail\EquipoConfirmacionMail;
 
 /**
  * @OA\Tag(
@@ -130,51 +133,79 @@ class EquipoController extends Controller
      */
     public function store(EquipoRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        return DB::transaction(function () use ($request) {
+            $data = $request->validated();
 
-        // Crear el equipo con los datos correspondientes
-        $equipo = Equipo::create([
-            'nombre'     => $data['nombre'],
-            'centro_id'  => $data['centro_id'],
-        ]);
-
-        // Crear los jugadores asociados al equipo
-        if (isset($data['jugadores'])) {
-            foreach ($data['jugadores'] as $jugadorData) {
-                $jugadorData['equipo_id'] = $equipo->id;
-                $equipo->jugadores()->create($jugadorData);
-            }
-        }
-
-        // Crear la inscripción asociada al equipo
-        if ($equipo) {
-            $equipo->inscripcion()->create([
-                'comentarios' => 'Primera Entrada',
-                'estado_id'   => 1,
+            // Crear el equipo
+            $equipo = Equipo::create([
+                'nombre'    => $data['nombre'],
+                'centro_id' => $data['centro_id'],
             ]);
 
+            // Variable para almacenar el email del capitán
+            $capitanEmail = null;
+
+            if (isset($data['jugadores'])) {
+                foreach ($data['jugadores'] as $jugadorData) {
+                    $jugadorData['equipo_id'] = $equipo->id;
+                    $jugador = $equipo->jugadores()->create($jugadorData);
+
+                    // Si este jugador es el capitán, guardar su email
+                    if (!empty($jugadorData['es_capitan']) && $jugadorData['es_capitan']) {
+                        $capitanEmail = $jugador->email;
+                    }
+                }
+            }
+
+            // Tokens entrenador y Capitan
+            $token_capitan = Str::random(40);
+            $token_entrenador = Str::random(40);
+
+            // Crear la inscripción
+            $equipo->inscripcion()->create([
+                'comentarios'                   => 'Primera Entrada',
+                'estado_id'                     => 1,
+                'token_confirmacion_capitan'    => $token_capitan,
+                'token_confirmacion_entrenador' => $token_entrenador
+            ]);
+
+            // Crear el usuario entrenador
             $equipo->usuario()->create([
                 'nombre_completo' => $data['entrenador_nombre_completo'],
                 'email'           => $data['entrenador_email'],
-                'perfil'          => 2,
-                'activo'          => 0
+                'password'        => null,
+                'perfil_id'          => 2,
             ]);
 
-            // Enviar correo al administrador (o a quien corresponda)
-            Mail::to('eloycuesta@hotmail.es')->send(new EquipoInscripcionMail($equipo));
-        }
+            // Enviar correo al entrenador
+            if (!empty($data['entrenador_email'])) {
+                Mail::to($data['entrenador_email'])->send(
+                    new EquipoConfirmacionMail($equipo, 'Entrenador', $token_entrenador, $data['entrenador_email'])
+                );
+            }
 
-        // Recargar la relación jugadores para incluirla en la respuesta
-        $equipo->load('jugadores');
+            // Enviar correo al capitán (si existe)
+            if (!empty($capitanEmail)) {
+                Mail::to($capitanEmail)->send(
+                    new EquipoConfirmacionMail($equipo, 'Capitán', $token_capitan, $capitanEmail)
+                );
+            }
 
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Equipo creado correctamente',
-            'equipo'  => new EquipoResource($equipo)
-        ], 201);
+            // Recargar la relación jugadores
+            $equipo->load('jugadores');
+
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Equipo creado correctamente',
+                'equipo'  => new EquipoResource($equipo)
+            ], 201);
+        });
     }
 
-/**
+
+
+
+    /**
      * Actualizar un equipo existente.
      *
      * @OA\Put(
