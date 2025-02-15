@@ -7,7 +7,8 @@ import Spinner from "../components/Spinner.jsx";
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
     const [capitanId, setCapitanId] = useState(null);
-    const [erroresEquipos, setErroresEquipos] = useState({ nombre: "", entrenador: "" });
+    const [erroresEquipos, setErroresEquipos] = useState({ nombre: "", centro: "" });
+    const [erroresEntrenador, setErroresEntrenador] = useState({ nombre: "", email: "" });
     const [erroresJugadores, setErroresJugadores] = useState({});
     const [ciclos, setCiclos] = useState([]);
     const [centros, setCentros] = useState([]);
@@ -44,20 +45,35 @@ function Inscribirse() {
         event.preventDefault();
 
         //array para almacenar los errores
-        let errores = {};
+        let erroresEq = {};
         let esValido = true;
 
         // validar nombre del equipo
         const nombreEquipo = document.querySelector('input[name="nombreEquipo"]').value;
         if (!validarNombre(nombreEquipo)) {
-            errores["nombre"] = errorNombre(nombreEquipo);
+            erroresEq["nombre"] = errorNombre(nombreEquipo);
             esValido = false;
         }
 
-        // validar entrenador
-        const entrenador = document.querySelector('select[name="entrenador"]').value;
-        if (!entrenador.trim()) {
-            errores["entrenador"] = "* Debes seleccionar un entrenador";
+        // validar centro
+        const centro = document.querySelector('select[name="centro"]').value;
+        if (!centro) {
+            erroresEq["centro"] = "* Debes seleccionar un centro";
+            esValido = false;
+        }
+
+        let erroresEnt = {};
+        const nombreEntrenador = document.querySelector('input[name="nombreEntrenador"]').value;
+        
+        const emailEntrenador = document.querySelector('input[name="emailEntrenador"]').value;
+
+        if(!validarNombre(nombreEntrenador)) {
+            erroresEnt["nombre"] = errorNombre(nombreEntrenador);
+            esValido = false;
+        }
+
+        if(!validarEmail(emailEntrenador)) {
+            erroresEnt["email"] = errorEmail(emailEntrenador);
             esValido = false;
         }
 
@@ -110,8 +126,9 @@ function Inscribirse() {
             erroresJ[jugador.id] = errorJugador;
         });
 
-        setErroresEquipos(errores);
+        setErroresEquipos(erroresEq);
         setErroresJugadores(erroresJ);
+        setErroresEntrenador(erroresEnt);
 
         if (esValido) {
             alert("Formulario enviado correctamente");
@@ -158,26 +175,34 @@ function Inscribirse() {
                             <span className="text-danger small">{erroresEquipos["nombre"]}</span>
                         </div>
                         <div className="col">
-                            <label>Entrenador: *</label>
-                            <select className="form-select" name="entrenador">
-                                <option value="">Selecciona...</option>
-                                <option>Entrenador 1</option>
-                                <option>Entrenador 2</option>
-                            </select>
-                            <span className="text-danger small">{erroresEquipos.entrenador}</span>
-                        </div>
-                        <div className="col">
                             <label>Centro: *</label>
-                            <select className="form-select" name="ciclo">
-                                <option value="">Selecciona un ciclo</option>
+                            <select className="form-select" name="centro">
+                                <option value="">Selecciona un centro</option>
                                 {centros.map((centro) => (
                                     <option key={centro.nombre} value={centro.nombre}>{centro.nombre}</option>
                                 ))}
                             </select>
-                            <span className="text-danger small"></span>
+                            <span className="text-danger small">{erroresEquipos.centro}</span>
                         </div>
                     </div>
                 </div>
+
+                <h5 className="m-0 bg-secondary py-2 px-3 text-white rounded">Entrenador</h5>
+                <div className="mb-1 p-3">
+                    <div className="row mt-3">
+                        <div className="col">
+                            <label>Nombre Completo: *</label>
+                            <input type="text" className="form-control" name="nombreEntrenador" />
+                            <span className="text-danger small">{erroresEntrenador["nombre"]}</span>
+                        </div>
+                        <div className="col">
+                            <label>Email: *</label>
+                            <input type="email" className="form-control" name="emailEntrenador" />
+                            <span className="text-danger small">{erroresEntrenador["email"]}</span>
+                        </div>
+                    </div>
+                </div>
+
                 <button className="btn btn-secondary ms-3 mb-4 w-25" onClick={agregarJugador}>
                     <i className="bi bi-plus-circle-fill m-2"></i>
                     Añadir Jugador</button>
@@ -193,6 +218,7 @@ function Inscribirse() {
                         ciclos={ciclos}
                     />
                 ))}
+                {/*boton enviar*/}
                 <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
                     <i className="bi bi-send-fill m-2"></i>
                     Enviar</button>
