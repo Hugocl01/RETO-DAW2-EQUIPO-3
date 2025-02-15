@@ -3,66 +3,53 @@ import { useCrud } from "../hooks/useCrud";
 import EditForm from "./EditForm";
 
 function Crud({ seccion }) {
-    const { items, loading, error, columns, deleteItem } = useCrud(seccion);
-    const [editingItem, setEditingItem] = useState(null); // Estado para manejar el item que se está editando
-    const [paginaActual, setPaginaActual] = useState(1); // Pagina actual donde se encuentra el usuario
-    const itemsPorPagina = 12; // Numero de items que aparece en la pagina
-    const totalPaginas = Math.ceil(items.length / itemsPorPagina); // Numero total de paginas de la seccion
+    if (!seccion) {
+        return <p>Selecciona una sección para mostrar los datos.</p>;
+    }
 
-    const handleDelete = (id) => {
-        deleteItem(id);
-    };
+    const {
+        items, loading, error, columns, 
+        deleteItem, createItem, updateItem, activateItem
+    } = useCrud(seccion);
 
-    const handleEdit = (item) => {
-        setEditingItem(item);// Establecer el item que se va a editar
-    };
+    const [editingItem, setEditingItem] = useState(null);
+    const [newItem, setNewItem] = useState({});
+    const [paginaActual, setPaginaActual] = useState(1);
+    const itemsPorPagina = 12;
+    const totalPaginas = Math.ceil(items.length / itemsPorPagina);
 
+    const handleDelete = (id) => deleteItem(id);
+    const handleEdit = (item) => setEditingItem(item);
     const handleSave = (updatedItem) => {
-        // Aquí puedes manejar la lógica para guardar los cambios
-        // Por ejemplo, hacer una solicitud a la API para actualizar el item.
-        console.log("Guardar item actualizado:", updatedItem);
+        updateItem(updatedItem.id, updatedItem);
         setEditingItem(null);
     };
+    const handleCancel = () => setEditingItem(null);
+    const handleActivate = (id) => activateItem(id);
 
-    const handleCancel = () => {
-        setEditingItem(null); // Cerrar el formulario de edición sin guardar
+    const handleNewItemChange = (e) => {
+        setNewItem({ ...newItem, [e.target.name]: e.target.value });
     };
 
-    // Filtrar columnas que contengan objetos o arrays de objetos
-    const filteredColumns = columns.filter((column) => {
-        return !items.some((item) => {
-            const value = item[column];
-            return (typeof value === "object" && value !== null);// Excluir columnas que contengan objetos
-        });
-    });
+    const handleCreate = () => {
+        createItem(newItem);
+        setNewItem({});
+    };
+
+    const filteredColumns = columns.filter((column) => 
+        !items.some((item) => typeof item[column] === "object" && item[column] !== null)
+    );
 
     const renderColumnValue = (column, item) => {
         const value = item[column];
-        // Si el valor es un objeto, no mostrar nada
-        if (typeof value === "object" && value !== null) {
-            return null; // No se mostrará el valor si es un objeto
-        }
-        return value ?? "N/A"; // Manejo de valores nulos o indefinidos
+        return typeof value === "object" && value !== null ? null : value ?? "N/A";
     };
 
-    // Manejo de la carga
-    if (loading) {
-        return <p>Cargando...</p>;
-    }
+    const indiceInicio = (paginaActual - 1) * itemsPorPagina;
+    const itemsPaginados = items.slice(indiceInicio, indiceInicio + itemsPorPagina);
 
-    // Manejo de errores
-    if (error) {
-        return <p>{error}</p>;
-    }
-
-    // Si no hay columnas disponibles después del filtrado
-    if (!filteredColumns.length) {
-        return <p>No se han encontrado columnas disponibles para esta entidad.</p>;
-    }
-
-    const sectionTitle = seccion.nombre || 'Entidad'; // Asegurar título
-    const indiceInicio = (paginaActual - 1) * itemsPorPagina; //Inicio de los componentes que salen
-    const itemsPaginados = items.slice(indiceInicio, indiceInicio + itemsPorPagina); //Items que saldran en la pantalla
+    if (loading) return <p>Cargando...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
         <>
@@ -70,11 +57,29 @@ function Crud({ seccion }) {
                 <EditForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
             ) : (
                 <>
-                    <h3>{sectionTitle}</h3>
+                    <h3>{seccion.nombre || 'Entidad'}</h3>
+                    
+                    {/* Formulario para crear un nuevo registro */}
+                    {seccion.acciones?.some(a => a.nombre === "store") && (
+                        <div>
+                            {filteredColumns.map(column => (
+                                <input
+                                    key={column}
+                                    name={column}
+                                    placeholder={column}
+                                    value={newItem[column] || ""}
+                                    onChange={handleNewItemChange}
+                                />
+                            ))}
+                            <button onClick={handleCreate}>Crear</button>
+                        </div>
+                    )}
+
+                    {/* Tabla con datos */}
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                {filteredColumns.map((column) => (
+                                {filteredColumns.map(column => (
                                     <th key={column}>{column.charAt(0).toUpperCase() + column.slice(1)}</th>
                                 ))}
                                 <th>Acciones</th>
@@ -82,30 +87,47 @@ function Crud({ seccion }) {
                         </thead>
                         <tbody>
                             {itemsPaginados.length === 0 ? (
-                                <tr>
-                                    <td colSpan={filteredColumns.length + 1} className="text-center">
-                                        No hay registros disponibles
-                                    </td>
-                                </tr>
+                                <tr><td colSpan={filteredColumns.length + 1}>No hay registros disponibles</td></tr>
                             ) : (
-                                itemsPaginados.map((item) => (
+                                itemsPaginados.map(item => (
                                     <tr key={item.id}>
-                                        {filteredColumns.map((column) => (
+                                        {filteredColumns.map(column => (
                                             <td key={column}>{renderColumnValue(column, item)}</td>
                                         ))}
                                         <td>
-                                            <button className="btn btn-primary btn-sm" onClick={() => handleEdit(item)}>Editar</button>
-                                            <button className="btn btn-danger btn-sm ms-2" onClick={() => handleDelete(item.id)}>Eliminar</button>
+                                            {seccion.acciones?.some(a => a.nombre === "update") && (
+                                                <button onClick={() => handleEdit(item)}>Editar</button>
+                                            )}
+                                            {seccion.acciones?.some(a => a.nombre === "destroy") && (
+                                                <button onClick={() => handleDelete(item.id)}>Eliminar</button>
+                                            )}
+                                            {seccion.acciones?.some(a => a.nombre === "activar") && (
+                                                <button onClick={() => handleActivate(item.id)}>Activar</button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))
                             )}
                         </tbody>
                     </table>
+
+                    {/* Paginación */}
                     <div className="d-flex justify-content-center mt-4">
-                        <button className="btn btn-primary me-2" onClick={() => setPaginaActual(paginaActual - 1)} disabled={paginaActual === 1}>Anterior</button>
+                        <button 
+                            className="btn btn-primary me-2" 
+                            onClick={() => setPaginaActual(paginaActual - 1)} 
+                            disabled={paginaActual === 1}
+                        >
+                            Anterior
+                        </button>
                         <span className="align-self-center">Página {paginaActual} de {totalPaginas}</span>
-                        <button className="btn btn-primary ms-2" onClick={() => setPaginaActual(paginaActual + 1)} disabled={paginaActual === totalPaginas}>Siguiente</button>
+                        <button 
+                            className="btn btn-primary ms-2" 
+                            onClick={() => setPaginaActual(paginaActual + 1)} 
+                            disabled={paginaActual === totalPaginas}
+                        >
+                            Siguiente
+                        </button>
                     </div>
                 </>
             )}

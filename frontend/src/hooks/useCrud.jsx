@@ -69,7 +69,7 @@ export const useCrud = (seccion) => {
     // Activar o desactivar usuario/inscripción (acciones personalizadas)
     const activateItem = async (id) => {
         try {
-            await api.patch(`/${entidadNombre}/${id}/activar`);
+            await api.put(`/${entidadNombre}/${id}/activo`);
             fetchItems();
         } catch (err) {
             setError(err.response?.data?.message || "Error al activar.");
