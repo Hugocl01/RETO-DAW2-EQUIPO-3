@@ -15,6 +15,7 @@ function Crud({ seccion }) {
     const [editingItem, setEditingItem] = useState(null);
     const [newItem, setNewItem] = useState({});
     const [paginaActual, setPaginaActual] = useState(1);
+    const [isCreating, setIsCreating] = useState(false); // Nueva variable de estado para el formulario de creación
     const itemsPorPagina = 12;
     const totalPaginas = Math.ceil(items.length / itemsPorPagina);
 
@@ -34,11 +35,12 @@ function Crud({ seccion }) {
     const handleCreate = () => {
         createItem(newItem);
         setNewItem({});
+        setIsCreating(false); // Cerrar el formulario de creación después de guardar
     };
 
     const filteredColumns = columns.filter((column) => 
-        !items.some((item) => typeof item[column] === "object" && item[column] !== null)
-    );
+        column !== 'id' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
+    ); // Excluir 'id' de las columnas visibles
 
     const renderColumnValue = (column, item) => {
         const value = item[column];
@@ -55,24 +57,23 @@ function Crud({ seccion }) {
         <>
             {editingItem ? (
                 <EditForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
+            ) : isCreating ? (
+                <CreateForm 
+                    columns={filteredColumns} 
+                    onSave={handleCreate} 
+                    onCancel={() => setIsCreating(false)} 
+                    newItem={newItem} 
+                    onChange={handleNewItemChange} 
+                />
             ) : (
                 <>
                     <h3>{seccion.nombre || 'Entidad'}</h3>
                     
-                    {/* Formulario para crear un nuevo registro */}
+                    {/* Botón de crear entidad */}
                     {seccion.acciones?.some(a => a.nombre === "store") && (
-                        <div>
-                            {filteredColumns.map(column => (
-                                <input
-                                    key={column}
-                                    name={column}
-                                    placeholder={column}
-                                    value={newItem[column] || ""}
-                                    onChange={handleNewItemChange}
-                                />
-                            ))}
-                            <button onClick={handleCreate}>Crear</button>
-                        </div>
+                        <button onClick={() => setIsCreating(true)} className="btn btn-success">
+                            Crear {seccion.nombre || 'Entidad'}
+                        </button>
                     )}
 
                     {/* Tabla con datos */}
