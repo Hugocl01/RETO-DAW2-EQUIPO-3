@@ -15,12 +15,10 @@ class ActaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'jugador' => new JugadorResource($this->jugador),
-            'incidencia' => [
-                $this->incidencia->id,
-                $this->incidencia->tipo
-            ]
+            'id'         => $this->id,
+            'jugador'    => $this->jugador->nombre_completo,
+            'incidencia' => $this->incidencia->tipo,
+            'minuto'     => $this->minuto
         ];
     }
 }

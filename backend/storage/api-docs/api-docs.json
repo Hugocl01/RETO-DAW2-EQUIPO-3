@@ -2636,7 +2636,7 @@
                         "format": "date",
                         "example": "2025-02-15"
                     },
-                    "tiempo": {
+                    "duracion": {
                         "description": "Minuto del partido",
                         "type": "integer",
                         "example": 16

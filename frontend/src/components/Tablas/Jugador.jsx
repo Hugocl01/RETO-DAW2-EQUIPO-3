@@ -29,7 +29,7 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
           onClick={handleClickNavegarEquipo}
         />
         <Tooltip id="imgEquipo"></Tooltip>
-        <p className="mx-3">{jugador.nombre_completo}</p>
+        <p className="mx-3">{jugador.nombre}</p>
       </div>
       <div className="col-3 text-center">{jugador.stats.goles}</div>
       <div className="col-3 text-center">
