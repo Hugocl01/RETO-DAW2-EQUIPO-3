@@ -71,6 +71,13 @@ class LoginController extends Controller
     {
         $usuario = Usuario::where('email', $request->email)->first();
 
+        if (empty($usuario->activo) || empty($usuario->password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Este usuario esta inactivo.'
+            ], 403);
+        }
+
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return response()->json([
                 'status' => 'error',

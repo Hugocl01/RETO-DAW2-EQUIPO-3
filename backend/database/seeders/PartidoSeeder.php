@@ -28,7 +28,7 @@ class PartidoSeeder extends Seeder
                             'equipo_local_id'     => $equipos[$i]->id,
                             'equipo_visitante_id' => $equipos[$j]->id,
                             'fecha' => now()->addDays(1),
-                            'hora' => now()->addHours(1),
+                            'tiempo' => random_int(1,20),
                         ]);
                     }
                 }
