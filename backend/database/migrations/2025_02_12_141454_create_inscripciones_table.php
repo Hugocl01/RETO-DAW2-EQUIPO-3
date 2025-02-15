@@ -24,9 +24,9 @@ return new class extends Migration
                 ->references('id')
                 ->on('estado_inscripciones')
                 ->onDelete('cascade');
-            $table->boolean('confirmado_capitan')->default('false');
+            $table->boolean('confirmado_capitan')->default(0);
             $table->string('token_confirmacion_capitan')->nullable();
-            $table->boolean('confirmado_entrenador')->default('false');
+            $table->boolean('confirmado_entrenador')->default(0);
             $table->string('token_confirmacion_entrenador')->nullable();
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
