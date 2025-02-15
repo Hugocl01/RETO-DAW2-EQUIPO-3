@@ -8,7 +8,7 @@ function Crud({ seccion }) {
     }
 
     const {
-        items, loading, error, columns, 
+        items, loading, error, columns,
         deleteItem, createItem, updateItem, activateItem
     } = useCrud(seccion);
 
@@ -38,7 +38,7 @@ function Crud({ seccion }) {
         setIsCreating(false); // Cerrar el formulario de creación después de guardar
     };
 
-    const filteredColumns = columns.filter((column) => 
+    const filteredColumns = columns.filter((column) =>
         column !== 'id' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
     ); // Excluir 'id' de las columnas visibles
 
@@ -58,17 +58,17 @@ function Crud({ seccion }) {
             {editingItem ? (
                 <EditForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
             ) : isCreating ? (
-                <CreateForm 
-                    columns={filteredColumns} 
-                    onSave={handleCreate} 
-                    onCancel={() => setIsCreating(false)} 
-                    newItem={newItem} 
-                    onChange={handleNewItemChange} 
+                <CreateForm
+                    columns={filteredColumns}
+                    onSave={handleCreate}
+                    onCancel={() => setIsCreating(false)}
+                    newItem={newItem}
+                    onChange={handleNewItemChange}
                 />
             ) : (
                 <>
                     <h3>{seccion.nombre || 'Entidad'}</h3>
-                    
+
                     {/* Botón de crear entidad */}
                     {seccion.acciones?.some(a => a.nombre === "store") && (
                         <button onClick={() => setIsCreating(true)} className="btn btn-success">
@@ -112,24 +112,26 @@ function Crud({ seccion }) {
                         </tbody>
                     </table>
 
-                    {/* Paginación */}
-                    <div className="d-flex justify-content-center mt-4">
-                        <button 
-                            className="btn btn-primary me-2" 
-                            onClick={() => setPaginaActual(paginaActual - 1)} 
-                            disabled={paginaActual === 1}
-                        >
-                            Anterior
-                        </button>
-                        <span className="align-self-center">Página {paginaActual} de {totalPaginas}</span>
-                        <button 
-                            className="btn btn-primary ms-2" 
-                            onClick={() => setPaginaActual(paginaActual + 1)} 
-                            disabled={paginaActual === totalPaginas}
-                        >
-                            Siguiente
-                        </button>
-                    </div>
+                    {/* Paginación (solo se muestra si hay datos) */}
+                    {items.length > 0 && (
+                        <div className="d-flex justify-content-center mt-4">
+                            <button
+                                className="btn btn-primary me-2"
+                                onClick={() => setPaginaActual(paginaActual - 1)}
+                                disabled={paginaActual === 1}
+                            >
+                                Anterior
+                            </button>
+                            <span className="align-self-center">Página {paginaActual} de {totalPaginas}</span>
+                            <button
+                                className="btn btn-primary ms-2"
+                                onClick={() => setPaginaActual(paginaActual + 1)}
+                                disabled={paginaActual === totalPaginas}
+                            >
+                                Siguiente
+                            </button>
+                        </div>
+                    )}
                 </>
             )}
         </>

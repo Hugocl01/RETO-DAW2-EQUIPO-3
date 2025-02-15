@@ -12,8 +12,6 @@ export const useCrud = (seccion) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [columns, setColumns] = useState([]);
-
-    console.log(seccion)
     const entidadNombre = generateSlug(seccion.nombre); // Convertir a slug
 
     // Obtener todos los registros de la sección (index)
