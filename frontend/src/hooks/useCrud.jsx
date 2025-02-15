@@ -3,9 +3,8 @@ import api from "../services/api";
 import { generateSlug } from "../utils/stringUtils";
 
 /**
- * Hook genérico para gestionar cualquier entidad con operaciones CRUD.
- * 
- * @param {string} seccion - Nombre de la entidad (ej: "usuarios", "perfiles").
+ * Hook para gestionar operaciones CRUD dinámicamente.
+ * @param {Object} seccion - Información de la entidad (ej: {nombre: "Equipos", acciones: [...]})
  * @returns {Object} - Estado y funciones para gestionar la entidad.
  */
 export const useCrud = (seccion) => {
@@ -14,43 +13,71 @@ export const useCrud = (seccion) => {
     const [error, setError] = useState(null);
     const [columns, setColumns] = useState([]);
 
-    // Función para obtener todos los registros de la seccion
+    console.log(seccion)
+    const entidadNombre = generateSlug(seccion.nombre); // Convertir a slug
+
+    // Obtener todos los registros de la sección (index)
     const fetchItems = async () => {
         setLoading(true);
         setError(null);
         try {
-            const entidadNombre = generateSlug(seccion.nombre)
             const response = await api.get(`/${entidadNombre}`);
-            console.log("Respuesta de la API:", response); // Verifica la respuesta
+            setItems(response.data[entidadNombre] || []);
 
-            // Ahora accedemos a la propiedad correcta: 'equipos'
-            const entityData = response.data[entidadNombre] || [];  // Cambié aquí para acceder a 'equipos'
-            setItems(entityData);
-
-            // Si hay datos, establecemos las columnas
-            if (entityData.length > 0) {
-                const columnKeys = Object.keys(entityData[0]);
-                setColumns(columnKeys);
+            if (response.data[entidadNombre]?.length > 0) {
+                setColumns(Object.keys(response.data[entidadNombre][0]));
             } else {
-                setColumns([]); // Si no hay datos, aseguramos que columns sea un arreglo vacío
+                setColumns([]);
             }
         } catch (err) {
-            if (err.response) {
-                const errorMessage = err.response.data.message || "Error desconocido al obtener los datos.";
-                setError(errorMessage);
-            } else {
-                setError("Error de red o no se pudo conectar con la API.");
-            }
+            setError(err.response?.data?.message || "Error de red.");
         } finally {
             setLoading(false);
         }
     };
 
-    // Cargar los items cuando se seleccione la entidad
-    useEffect(() => {
-        if (seccion) {
-            fetchItems();
+    // Crear nuevo registro (store)
+    const createItem = async (newItem) => {
+        try {
+            await api.post(`/${entidadNombre}`, newItem);
+            fetchItems(); // Recargar la lista
+        } catch (err) {
+            setError(err.response?.data?.message || "Error al crear el registro.");
         }
+    };
+
+    // Actualizar un registro (update)
+    const updateItem = async (id, updatedItem) => {
+        try {
+            await api.put(`/${entidadNombre}/${id}`, updatedItem);
+            fetchItems();
+        } catch (err) {
+            setError(err.response?.data?.message || "Error al actualizar.");
+        }
+    };
+
+    // Eliminar un registro (destroy)
+    const deleteItem = async (id) => {
+        try {
+            await api.delete(`/${entidadNombre}/${id}`);
+            fetchItems();
+        } catch (err) {
+            setError(err.response?.data?.message || "Error al eliminar.");
+        }
+    };
+
+    // Activar o desactivar usuario/inscripción (acciones personalizadas)
+    const activateItem = async (id) => {
+        try {
+            await api.put(`/${entidadNombre}/${id}/activo`);
+            fetchItems();
+        } catch (err) {
+            setError(err.response?.data?.message || "Error al activar.");
+        }
+    };
+
+    useEffect(() => {
+        if (seccion) fetchItems();
     }, [seccion]);
 
     return {
@@ -59,5 +86,9 @@ export const useCrud = (seccion) => {
         error,
         columns,
         fetchItems,
+        createItem,
+        updateItem,
+        deleteItem,
+        activateItem,
     };
-}
+};

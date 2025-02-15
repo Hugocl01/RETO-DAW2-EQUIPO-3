@@ -8,6 +8,7 @@ function PerfilPage() {
 
     return (
         <>
+            <title>Perfil</title>
             Pagina del perfil de usuario
         </>
     );

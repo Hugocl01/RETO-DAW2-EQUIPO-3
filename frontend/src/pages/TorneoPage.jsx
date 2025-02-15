@@ -8,7 +8,10 @@ import Partidos from "../components/Partidos.jsx";
 function TorneoPage() {
 
     return (
-        <Partidos />
+        <>
+            <title>Torneo</title>
+            <Partidos />
+        </>
     );
 }
 export default TorneoPage;

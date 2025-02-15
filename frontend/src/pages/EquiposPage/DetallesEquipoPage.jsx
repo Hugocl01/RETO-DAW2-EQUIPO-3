@@ -21,7 +21,7 @@ function DetallesEquipoPage() {
 
   const [cargando, setCargando] = useState(true);
 
-  const navegar=useNavigate();
+  const navegar = useNavigate();
 
   /**
    * Se ejecutará cuando haya cambios en el nombre que pasemos en el header
@@ -49,14 +49,15 @@ function DetallesEquipoPage() {
     return <Spinner></Spinner>;
   }
 
-   /**
-   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
-   */
-   function navegarDetalleJugador(idJugador){
+  /**
+  * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
+  */
+  function navegarDetalleJugador(idJugador) {
     navegar(`/jugadores/${idJugador}`)
   }
   return (
     <>
+      <title>Detalles del Equipo</title>
       <section className="container-fluid">
         <div className="row">
           {/**Sección de info de equipo */}
@@ -72,7 +73,7 @@ function DetallesEquipoPage() {
                 src={"../../src/assets/imagenes/img1.jpg"}
                 alt="imagenPatrocinador"
                 className="img-fluid"
-                style={{width:"50%"}}
+                style={{ width: "50%" }}
               />
             </div>
 
@@ -90,12 +91,12 @@ function DetallesEquipoPage() {
                 <div className="row">
                   {equipo.Jugadores.jugador.map((valor, index) => (
                     <div key={index} className="col-md-3 mb-2">
-                      <div className="card h-100" onClick={()=>navegarDetalleJugador(valor.id)}>
+                      <div className="card h-100" onClick={() => navegarDetalleJugador(valor.id)}>
                         <img
                           src={"../../src/assets/imagenes/img1.jpg"}
                           alt="imagenJugador"
                           className="card-img-top img-fluid"
-                          style={{ objectFit: "cover", height: "75%" }} 
+                          style={{ objectFit: "cover", height: "75%" }}
                         />
                         <div className="card-body d-flex flex-column">
                           <p className="card-text mt-auto text-center">

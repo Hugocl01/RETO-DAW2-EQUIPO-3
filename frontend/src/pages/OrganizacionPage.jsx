@@ -11,6 +11,7 @@ function OrganizacionPage() {
 
     return (
         <>
+            <title>Organización</title>
             <Retos />
             <InfoTorneo />
         </>

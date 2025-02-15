@@ -3,7 +3,10 @@ import Clasificacion from "../components/Clasificacion.jsx";
 function ClasificacionPage() {
 
     return (
-        <Clasificacion />
+        <>
+            <title>Clasificación</title>
+            <Clasificacion />
+        </>
     );
 }
 
