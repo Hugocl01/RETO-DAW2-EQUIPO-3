@@ -467,6 +467,325 @@
                 }
             }
         },
+        "/api/clasificacion/grupo-a": {
+            "get": {
+                "tags": [
+                    "Clasificaciones"
+                ],
+                "summary": "Retorna la clasificación del Grupo A",
+                "description": "Obtiene la clasificación completa del Grupo A de un torneo.",
+                "operationId": "grupoA",
+                "responses": {
+                    "200": {
+                        "description": "Clasificación del Grupo A obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClasificacionA"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/clasificacion/grupo-b": {
+            "get": {
+                "tags": [
+                    "Clasificaciones"
+                ],
+                "summary": "Retorna la clasificación del Grupo B",
+                "description": "Obtiene la clasificación completa del Grupo B de un torneo.",
+                "operationId": "grupoB",
+                "responses": {
+                    "200": {
+                        "description": "Clasificación del Grupo B obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ClasificacionB"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/donaciones": {
+            "get": {
+                "tags": [
+                    "Donaciones"
+                ],
+                "summary": "Obtener todos los donaciones",
+                "description": "Obtener todas las donaciones.",
+                "operationId": "09b45d42e458d712cd419db36c17eeb9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de donaciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "donaciones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Donacion"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/equipos": {
+            "get": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Obtener todos los equipos",
+                "description": "Obtener todos los equipos.",
+                "operationId": "70ebc1e663c58216e080e7eabfb8e4ee",
+                "responses": {
+                    "200": {
+                        "description": "Lista de equipos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "equipos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Equipo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Crear un nuevo equipo",
+                "description": "Crear un nuevo centro.",
+                "operationId": "1ee5d4a14f7fdc446bbbd3190be811a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Equipo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Equipo creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Equipo creado correctamente"
+                                        },
+                                        "equipo": {
+                                            "$ref": "#/components/schemas/Equipo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/equipos/{equipo}": {
+            "get": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Obtener un equipo por su ID",
+                "description": "Obtener un centro por su ID.",
+                "operationId": "17d7066072f1ebc24758f3a0a01cbe2b",
+                "parameters": [
+                    {
+                        "name": "equipo",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Equipo encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "equipo": {
+                                            "$ref": "#/components/schemas/Equipo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipo no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Actualizar un equipo existente",
+                "description": "Actualizar un equipo existente.",
+                "operationId": "2bcbcd8b0ff795b5ca0a80158500d6da",
+                "parameters": [
+                    {
+                        "name": "equipo",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Equipo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Equipo actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Equipo actualizado correctamente"
+                                        },
+                                        "equipo": {
+                                            "$ref": "#/components/schemas/Equipo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Ciclo no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Eliminar un equipo",
+                "description": "Eliminar un equipo.",
+                "operationId": "b3cfe6bdab129ffb88ceafeb6a737094",
+                "parameters": [
+                    {
+                        "name": "equipo",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Equipo eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Equipo eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipo no encontrado"
+                    }
+                }
+            }
+        },
         "/api/estudios": {
             "get": {
                 "tags": [
@@ -593,10 +912,493 @@
                 }
             }
         },
+        "/api/familias": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Obtener todos los familias",
+                "description": "Obtener todas las familias.",
+                "operationId": "edd5027b516710936f866b84deaaf72c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de familias",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "familias": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Familia"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Crear un nuevo familia",
+                "description": "Crear una nueva familia.",
+                "operationId": "458cbb1ab4e0a6eb58ad576ed5a048fe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Familia"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Familia creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Familia creado correctamente"
+                                        },
+                                        "familia": {
+                                            "$ref": "#/components/schemas/Familia"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/familias/{familia}": {
+            "put": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Actualizar un familiass existente",
+                "description": "Actualizar una familia existente.",
+                "operationId": "88b40b64910ee6714b361e97be366216",
+                "parameters": [
+                    {
+                        "name": "familia",
+                        "in": "path",
+                        "description": "ID del familia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Familia"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Familia actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Familia actualizado correctamente"
+                                        },
+                                        "familia": {
+                                            "$ref": "#/components/schemas/Familia"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Familia no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Eliminar un familia",
+                "description": "Eliminar una familia.",
+                "operationId": "8b777a325c4ef2117a8d4345afc3b28e",
+                "parameters": [
+                    {
+                        "name": "familia",
+                        "in": "path",
+                        "description": "ID del familia",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Familia eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Familia eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Familia no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/inscripciones": {
+            "get": {
+                "tags": [
+                    "Inscripciones"
+                ],
+                "summary": "Obtener todas las inscripciones",
+                "description": "Obtener todas las centros.",
+                "operationId": "32430190a83b3e7d02fd0b80ff16641f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de inscripciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "inscripciones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Inscripcion"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/inscripciones/{inscripcion}": {
+            "put": {
+                "tags": [
+                    "Inscripciones"
+                ],
+                "summary": "Actualizar una inscripcion existente",
+                "description": "Actualizar una inscripcion existente.",
+                "operationId": "5b773971dbfb51da5efc6e49ecce5ce8",
+                "parameters": [
+                    {
+                        "name": "inscripcion",
+                        "in": "path",
+                        "description": "ID del inscripcion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Inscripcion"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inscripcion actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Inscripcion actualizada correctamente"
+                                        },
+                                        "inscripcion": {
+                                            "$ref": "#/components/schemas/Inscripcion"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Inscripcion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/jugadores": {
+            "get": {
+                "tags": [
+                    "Jugadores"
+                ],
+                "summary": "Obtener todos los jugadores",
+                "description": "Obtener todos los jugadores.",
+                "operationId": "93e8e84ce05149424e21af1b85d996b7",
+                "responses": {
+                    "200": {
+                        "description": "Lista de jugadores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "jugadores": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Jugador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/jugadores/{jugador}": {
+            "get": {
+                "tags": [
+                    "Jugadores"
+                ],
+                "summary": "Obtener un jugador por su ID",
+                "description": "Obtener un jugador por su ID.",
+                "operationId": "76e166b1fd06e024ef84591f196f27af",
+                "parameters": [
+                    {
+                        "name": "jugador",
+                        "in": "path",
+                        "description": "ID del jugador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Jugador encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "jugador": {
+                                            "$ref": "#/components/schemas/Jugador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Jugador no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Jugadores"
+                ],
+                "summary": "Actualizar un jugador existente",
+                "description": "Actualizar un jugador existente.",
+                "operationId": "a566f2efffbabd831b07880e45ac5685",
+                "parameters": [
+                    {
+                        "name": "jugador",
+                        "in": "path",
+                        "description": "ID del jugador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Jugador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Jugador actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Jugador actualizado correctamente"
+                                        },
+                                        "jugador": {
+                                            "$ref": "#/components/schemas/Jugador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Jugador no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/jugadores/{jugadore}/activar": {
+            "put": {
+                "tags": [
+                    "Jugadores"
+                ],
+                "summary": "Activar / Desactivar un jugador existente",
+                "description": "Activar / Desactivar un jugador existente.",
+                "operationId": "67f92133d3f3089bf81a7fae84d94d9e",
+                "parameters": [
+                    {
+                        "name": "jugador",
+                        "in": "path",
+                        "description": "ID del jugador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Jugador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Jugador activado / desactivado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Jugador actualizado correctamente"
+                                        },
+                                        "jugador": {
+                                            "$ref": "#/components/schemas/Jugador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Jugador no encontrado"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
-                    "login"
+                    "Login"
                 ],
                 "summary": "Login",
                 "description": "Login del usuario y generación de token",
@@ -710,6 +1512,727 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/partidos": {
+            "get": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Obtener todos los partidos",
+                "description": "Obtener todos los centros.",
+                "operationId": "b43fc01333c208a642fc831977f258bc",
+                "responses": {
+                    "200": {
+                        "description": "Lista de partidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "partidos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Partido"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Crear un nuevo partido",
+                "description": "Crear un nuevo centro.",
+                "operationId": "0f5ffa8bee14eff46ddd306771264556",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Partido"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Partido creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partido creado correctamente"
+                                        },
+                                        "partido": {
+                                            "$ref": "#/components/schemas/Partido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/partidos/{partido}": {
+            "get": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Obtener un partido por su ID",
+                "description": "Obtener un centro por su ID.",
+                "operationId": "0e0ff8595f76aee308b97f71fe05cd1e",
+                "parameters": [
+                    {
+                        "name": "partido",
+                        "in": "path",
+                        "description": "ID del partido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partido encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "partido": {
+                                            "$ref": "#/components/schemas/Partido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Partido no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Actualizar un partido existente",
+                "description": "Actualizar un partido existente.",
+                "operationId": "63ca8d98a4f70dd30bc532b97f0e6239",
+                "parameters": [
+                    {
+                        "name": "partido",
+                        "in": "path",
+                        "description": "ID del partido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Partido"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Partido actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partido actualizado correctamente"
+                                        },
+                                        "partido": {
+                                            "$ref": "#/components/schemas/Partido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Partido no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Eliminar un partido",
+                "description": "Eliminar un partido.",
+                "operationId": "6ca749b06d0ef378d9451bc64bf04895",
+                "parameters": [
+                    {
+                        "name": "partido",
+                        "in": "path",
+                        "description": "ID del partido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partido eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partido eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Partido no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/perfiles": {
+            "get": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Obtener todos los perfiles",
+                "description": "Obtener todos los centros.",
+                "operationId": "168eeb32344719d52e2ad92ca3738b6b",
+                "responses": {
+                    "200": {
+                        "description": "Lista de perfiles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "perfiles": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Perfil"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Crear un nuevo perfil",
+                "description": "Crear un nuevo perfil.",
+                "operationId": "1aa34a3c60628019d24bf33fb89cb71f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Perfil"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Perfil creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Perfil creado correctamente"
+                                        },
+                                        "perfil": {
+                                            "$ref": "#/components/schemas/Perfil"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/perfiles/{perfil}": {
+            "get": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Obtener un perfil por su ID",
+                "description": "Obtener un perfil por su ID.",
+                "operationId": "688f1ae97c1d94cb3864415bf94b571a",
+                "parameters": [
+                    {
+                        "name": "perfil",
+                        "in": "path",
+                        "description": "ID del perfil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "perfil": {
+                                            "$ref": "#/components/schemas/Perfil"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Perfil no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Actualizar un perfil existente",
+                "description": "Actualizar un perfil existente.",
+                "operationId": "bee069ae20ff3c30c6e008634794465f",
+                "parameters": [
+                    {
+                        "name": "perfil",
+                        "in": "path",
+                        "description": "ID del perfil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Perfil"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Perfil actualizado correctamente"
+                                        },
+                                        "perfil": {
+                                            "$ref": "#/components/schemas/Perfil"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Perfil no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Eliminar un perfil",
+                "description": "Eliminar un perfil.",
+                "operationId": "45e087e10bd2fe77fd703a18ef8699e3",
+                "parameters": [
+                    {
+                        "name": "perfil",
+                        "in": "path",
+                        "description": "ID del perfil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Perfil eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Perfil no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/retos": {
+            "get": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Obtener todos los retos",
+                "description": "Obtener todos los centros.",
+                "operationId": "3e455cca76ddb74214b0c9525defa05f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de retos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "retos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Reto"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Crear un nuevo reto",
+                "description": "Crear un nuevo centro.",
+                "operationId": "fe7f9f9c7cd5c156b40164bd6c8490bb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reto creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reto creado correctamente"
+                                        },
+                                        "reto": {
+                                            "$ref": "#/components/schemas/Reto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/retos/{reto}": {
+            "get": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Obtener un reto por su ID",
+                "description": "Obtener un centro por su ID.",
+                "operationId": "771e4d85276179007813223400266dc9",
+                "parameters": [
+                    {
+                        "name": "reto",
+                        "in": "path",
+                        "description": "ID del reto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reto encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "reto": {
+                                            "$ref": "#/components/schemas/Reto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Reto no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Actualizar un reto existente",
+                "description": "Actualizar un reto existente.",
+                "operationId": "97055e6aa10bcf0e3bc529cd02c6c30b",
+                "parameters": [
+                    {
+                        "name": "reto",
+                        "in": "path",
+                        "description": "ID del reto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Reto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reto actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reto actualizado correctamente"
+                                        },
+                                        "reto": {
+                                            "$ref": "#/components/schemas/Reto"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "404": {
+                        "description": "Reto no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Eliminar un reto",
+                "description": "Eliminar un reto.",
+                "operationId": "ab520caaaa757cef282b43855cc86adc",
+                "parameters": [
+                    {
+                        "name": "reto",
+                        "in": "path",
+                        "description": "ID del reto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reto eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reto eliminado correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Reto no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/secciones": {
+            "get": {
+                "tags": [
+                    "Secciones"
+                ],
+                "summary": "Obtener todos los secciones",
+                "description": "Obtener todas las secciones.",
+                "operationId": "f56617df03d1667944591521ec888aa0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de secciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "secciones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Seccion"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -881,8 +2404,98 @@
                     },
                     "familia_id": {
                         "description": "ID de la familia a la que pertenece el ciclo",
-                        "type": "string",
+                        "type": "integer",
                         "example": "3"
+                    }
+                },
+                "type": "object"
+            },
+            "ClasificacionA": {
+                "title": "ClasificacionA",
+                "type": "object"
+            },
+            "ClasificacionB": {
+                "title": "ClasificacionB",
+                "type": "object"
+            },
+            "Donacion": {
+                "title": "Donacion",
+                "required": [
+                    "ong_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la donacion",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ong_id": {
+                        "description": "ID relacionado a la ong asociada",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "kilos": {
+                        "description": "Numero entero de los kilos",
+                        "type": "integer",
+                        "example": "36"
+                    },
+                    "importe": {
+                        "description": "Importe total de la donacion",
+                        "type": "number",
+                        "format": "double",
+                        "example": "23.96"
+                    }
+                },
+                "type": "object"
+            },
+            "Equipo": {
+                "title": "Equipo",
+                "description": "Modelo de equipo",
+                "properties": {
+                    "id": {
+                        "description": "ID único del equipo",
+                        "type": "integer"
+                    },
+                    "nombre": {
+                        "description": "Nombre del equipo",
+                        "type": "string"
+                    },
+                    "centro_id": {
+                        "description": "ID del centro",
+                        "type": "integer"
+                    },
+                    "grupo": {
+                        "description": "Grupo del equipo",
+                        "type": "string"
+                    },
+                    "usuario_id": {
+                        "description": "ID del entrenador",
+                        "type": "integer"
+                    },
+                    "activo": {
+                        "description": "Si el equipo está activo",
+                        "type": "boolean"
+                    },
+                    "stats": {
+                        "properties": {
+                            "goles": {
+                                "description": "Total de goles",
+                                "type": "integer"
+                            },
+                            "tarjetas_amarillas": {
+                                "description": "Total de tarjetas amarillas",
+                                "type": "integer"
+                            },
+                            "tarjetas_rojas": {
+                                "description": "Total de tarjetas rojas",
+                                "type": "integer"
+                            },
+                            "faltas": {
+                                "description": "Total de faltas",
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -914,6 +2527,209 @@
                         "description": "Grado del estudio",
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "Familia": {
+                "title": "Familia",
+                "required": [
+                    "nombre"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la familia",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre de la familia",
+                        "type": "string",
+                        "example": "CFGS Estética Integral y Bienestar"
+                    }
+                },
+                "type": "object"
+            },
+            "Inscripcion": {
+                "title": "Inscripcion",
+                "required": [
+                    "comentarios",
+                    "equipo_id",
+                    "estado_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la inscripcion",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "comentarios": {
+                        "description": "Contenido adicional de la inscripcion",
+                        "type": "string",
+                        "example": "Componentes con gran posibilidad de aceptacion"
+                    },
+                    "equipo_id": {
+                        "description": "ID del equipo asociado a la inscripcion",
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "estado_id": {
+                        "description": "ID del estado de la inscripcion",
+                        "type": "integer",
+                        "example": "3"
+                    }
+                },
+                "type": "object"
+            },
+            "Jugador": {
+                "title": "Jugador",
+                "required": [
+                    "equipo_id",
+                    "nombre_completo",
+                    "capitan"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del ciclo",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "equipo_id": {
+                        "description": "ID relacionado con el equipo del jugador",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre_completo": {
+                        "description": "Nombre completo del jugador",
+                        "type": "string",
+                        "example": "Rodolfo Abascal De la Guerra"
+                    },
+                    "capitan": {
+                        "description": "Campo para saber quien es el capitan del equipo",
+                        "type": "boolean",
+                        "example": "true"
+                    }
+                },
+                "type": "object"
+            },
+            "Partido": {
+                "title": "Partido",
+                "properties": {
+                    "id": {
+                        "description": "ID único del ciclo",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "equipo_local_id": {
+                        "description": "ID del equipo local",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "equipo_visitante_id": {
+                        "description": "ID del equipo visitante",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "fecha": {
+                        "description": "Fecha del partido",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-02-15"
+                    },
+                    "tiempo": {
+                        "description": "Minuto del partido",
+                        "type": "integer",
+                        "example": 16
+                    },
+                    "goles_local": {
+                        "description": "Goles del equipo local",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "goles_visitante": {
+                        "description": "Goles del equipo visitante",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "pabellon_id": {
+                        "description": "ID del pabellón donde se juega el partido",
+                        "type": "integer",
+                        "example": 101
+                    }
+                },
+                "type": "object"
+            },
+            "Perfil": {
+                "title": "Perfil",
+                "required": [
+                    "tipo"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del perfil",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tipo": {
+                        "description": "Nombre del tipo de usuario",
+                        "type": "string",
+                        "example": "administrador"
+                    }
+                },
+                "type": "object"
+            },
+            "Reto": {
+                "title": "Reto",
+                "required": [
+                    "titulo",
+                    "texto",
+                    "estudio_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del reto",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "titulo": {
+                        "description": "Titulo del reto",
+                        "type": "string",
+                        "example": "Primer gol del torneo"
+                    },
+                    "texto": {
+                        "description": "Contenido del reto",
+                        "type": "string",
+                        "example": "Empezando todos los partidos a la vez el equipo que marque el primer gol gana el reto"
+                    },
+                    "estudio_id": {
+                        "description": "ID relacionado con el estudio asociado al reto",
+                        "type": "string",
+                        "example": "3"
+                    }
+                },
+                "type": "object"
+            },
+            "Seccion": {
+                "title": "Seccion",
+                "required": [
+                    "nombre",
+                    "familia_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la seccion",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre de la seccion",
+                        "type": "string",
+                        "example": "Equipos"
+                    },
+                    "descripcion": {
+                        "description": "Descripcion de lo que representa la seccion",
+                        "type": "string",
+                        "example": "Gestión de los equipos participantes en el torneo."
                     }
                 },
                 "type": "object"
@@ -982,16 +2798,56 @@
             "description": "Operaciones relacionadas con los ciclos"
         },
         {
+            "name": "Clasificaciones",
+            "description": "Operaciones relacionadas con los clasificaciones"
+        },
+        {
+            "name": "Donaciones",
+            "description": "Operaciones relacionadas con las donaciones"
+        },
+        {
+            "name": "Equipos",
+            "description": "Operaciones relacionadas con los equipos"
+        },
+        {
             "name": "Estudios",
             "description": "Operaciones relacionadas con los estudios"
         },
         {
-            "name": "Usuarios",
-            "description": "Endpoints para gestión de usuarios"
+            "name": "Familias",
+            "description": "Operaciones relacionadas con las familias"
         },
         {
-            "name": "login",
-            "description": "login"
+            "name": "Inscripciones",
+            "description": "Operaciones relacionadas con las inscripciones"
+        },
+        {
+            "name": "Jugadores",
+            "description": "Operaciones relacionadas con los jugadores"
+        },
+        {
+            "name": "Login",
+            "description": "Operaciones relacionadas con el logueo"
+        },
+        {
+            "name": "Partidos",
+            "description": "Operaciones relacionadas con los partidos"
+        },
+        {
+            "name": "Perfiles",
+            "description": "Operaciones relacionadas con los perfiles"
+        },
+        {
+            "name": "Retos",
+            "description": "Operaciones relacionadas con los retos"
+        },
+        {
+            "name": "Secciones",
+            "description": "Operaciones relacionadas con los secciones"
+        },
+        {
+            "name": "Usuarios",
+            "description": "Endpoints para gestión de usuarios"
         }
     ]
 }

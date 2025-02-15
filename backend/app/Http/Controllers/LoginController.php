@@ -10,7 +10,11 @@ use App\Http\Resources\PerfilResource;
 /**
  * @OA\Info(title="API Logueo", version="1.0",description="Endpoints para gestión de logueo",
  * @OA\Server(url="http://localhost:8000"),
- * @OA\Contact(email="email@gmail.com"))
+ * @OA\Contact(email="email@gmail.com")),
+ * @OA\Tag(
+ *     name="Login",
+ *     description="Operaciones relacionadas con el logueo"
+ * )
  */
 class LoginController extends Controller
 {
@@ -20,7 +24,7 @@ class LoginController extends Controller
      *     summary="Login",
      *     description="Login del usuario y generación de token",
      *     operationId="login",
-     *     tags={"login"},
+     *     tags={"Login"},
      *     @OA\RequestBody(
      *         required=true,
      *         description="Datos del usuario para autenticación",

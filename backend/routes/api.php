@@ -69,6 +69,7 @@ Route::apiResource('donaciones', DonacionController::class);
 
 // Jugadores
 Route::apiResource('jugadores', JugadorController::class);
+Route::put('jugadores/{jugadore}/activar', [UsuarioController::class, 'activar']);
 
 // Retos
 Route::apiResource('retos', RetoController::class);
