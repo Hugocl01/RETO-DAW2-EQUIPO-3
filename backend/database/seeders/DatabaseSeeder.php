@@ -53,8 +53,6 @@ class DatabaseSeeder extends Seeder
             PatrocinadorEquipoSeeder::class,
             PabellonSeeder::class,
             PartidoSeeder::class,
-            PublicacionSeeder::class,
-            ImagenSeeder::class,
 
             // Semi y Final
             SemifinalFinalSeeder::class,

@@ -2,66 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
+use Illuminate\Database\Eloquent\Model;
 
 class Imagen extends Model
 {
-    use Auditable, HasFactory;
+    use Auditable;
 
     protected $table = 'imagenes';
 
     protected $fillable = [
-        'ruta',
         'nombre',
-        'tipo_entidad',
-        'equipo_id',
-        'jugador_id',
-        'partido_id',
-        'patrocinador_id',
-        'reto_id',
-        'ong_id',
-        'publicacion_id',
-        'pabellon_id',
+        'ruta_fichero',
+        'imageable_id',
+        'imageable_type',
     ];
 
-    public function equipo()
+    // Relación inversa: la imagen pertenece a "algo" (publicación, equipo, etc.)
+    public function imageable()
     {
-        return $this->belongsTo(Equipo::class);
-    }
-
-    public function partido()
-    {
-        return $this->belongsTo(Partido::class);
-    }
-
-    public function patrocinador()
-    {
-        return $this->belongsTo(Patrocinador::class);
-    }
-
-    public function jugador()
-    {
-        return $this->belongsTo(Jugador::class);
-    }
-
-    public function reto()
-    {
-        return $this->belongsTo(Reto::class);
-    }
-
-    public function ong()
-    {
-        return $this->belongsTo(Ong::class);
-    }
-
-    public function pabellon()
-    {
-        return $this->belongsTo(Pabellon::class);
-    }
-    public function publicacion()
-    {
-        return $this->belongsTo(Publicacion::class);
+        return $this->morphTo();
     }
 }

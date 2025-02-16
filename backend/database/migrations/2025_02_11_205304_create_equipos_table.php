@@ -15,6 +15,7 @@ return new class extends Migration
             // Datos equipos
             $table->id();
             $table->string('nombre');
+            $table->string('slug')->nullable()->unique();
             $table->unsignedBigInteger('centro_id');
             $table->foreign('centro_id')
                 ->references('id')

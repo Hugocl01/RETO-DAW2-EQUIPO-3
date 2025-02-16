@@ -104,6 +104,10 @@ class Partido extends Model
         return $this->hasMany(Acta::class);
     }
 
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 
     public function calcularGanador()
     {

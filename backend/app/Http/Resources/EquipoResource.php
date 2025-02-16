@@ -15,19 +15,16 @@ class EquipoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'         => $this->id,
             'nombre'     => $this->nombre,
-            'centro'     => $this->centro ? new CentroResource($this->centro) : null,
+            'slug'       => $this->slug,
+            'centro'     => $this->centro->nombre,
             'grupo'      => $this->grupo,
-            'entrenador' => $this->usuario ? [
-                'id'     => $this->usuario->id,
-                'nombre' => $this->usuario->nombre_completo,
-            ] : null,
+            'entrenador' => $this->usuario->nombre_completo,
             'Jugadores'  => [
                 'jugador' => $this->jugadores->map(function ($jugador) {
                     return [
-                        'id'     => $jugador->id,
-                        'nombre' => $jugador->nombre_completo,
+                            'slug'   => $jugador->slug,
+                            'nombre' => $jugador->nombre_completo,
                     ];
                 }),
             ],

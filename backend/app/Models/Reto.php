@@ -55,4 +55,9 @@ class Reto extends Model
         return $this->belongsTo(Estudio::class);
     }
 
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
+
 }

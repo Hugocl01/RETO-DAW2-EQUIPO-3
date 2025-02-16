@@ -58,4 +58,9 @@ class Estudio extends Model
     {
         return $this->belongsTo(Ciclo::class, 'ciclo_id');
     }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }

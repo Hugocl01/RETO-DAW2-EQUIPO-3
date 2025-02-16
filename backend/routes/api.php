@@ -54,6 +54,7 @@ Route::apiResource('estudios', EstudioController::class);
 
 // Equipos
 Route::apiResource('equipos', EquipoController::class);
+Route::post('equipos/{equipo}/foto', [EquipoController::class, 'uploadFoto']);
 
 // Familias
 Route::apiResource('familias', FamiliaController::class);

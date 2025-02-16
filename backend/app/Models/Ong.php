@@ -46,4 +46,9 @@ class Ong extends Model
     {
         return $this->hasMany(Donacion::class);
     }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }

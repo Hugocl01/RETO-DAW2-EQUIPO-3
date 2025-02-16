@@ -2,65 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
+use Illuminate\Database\Eloquent\Model;
 
 class Publicacion extends Model
 {
-    use Auditable, HasFactory;
+    use Auditable;
 
     protected $table = 'publicaciones';
 
     protected $fillable = [
         'titulo',
-        'texto',
+        'contenido',
+        'publicacionable_id',
+        'publicacionable_type',
+        'ruta_video',
+        'ruta_audio',
         'portada',
-        'rutavideo',
-        'rutaaudio',
-        'imagen',
-        'tipo_entidad',
-        'equipo_id',
-        'partido_id',
-        'patrocinador_id',
-        'jugador_id',
-        'reto_id',
-        'ong_id',
-        'pabellon_id',
     ];
 
-    public function equipo()
+    // Relación inversa: "pertenezco a algo" (equipo, reto, etc.)
+    public function publicacionable()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->morphTo();
     }
 
-    public function partido()
+    // Si cada publicacion tiene sus imágenes
+    public function imagenes()
     {
-        return $this->belongsTo(Partido::class);
-    }
-
-    public function patrocinador()
-    {
-        return $this->belongsTo(Patrocinador::class);
-    }
-
-    public function jugador()
-    {
-        return $this->belongsTo(Jugador::class);
-    }
-
-    public function reto()
-    {
-        return $this->belongsTo(Reto::class);
-    }
-
-    public function ong()
-    {
-        return $this->belongsTo(Ong::class);
-    }
-
-    public function pabellon()
-    {
-        return $this->belongsTo(Pabellon::class);
+        return $this->morphMany(Imagen::class, 'imageable');
     }
 }

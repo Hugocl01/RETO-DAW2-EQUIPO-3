@@ -17,4 +17,9 @@ class Patrocinador extends Model
         'landing_page'
     ];
 
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
+
 }
