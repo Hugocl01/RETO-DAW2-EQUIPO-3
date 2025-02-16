@@ -47,7 +47,8 @@ class PartidoController extends Controller
             'duracion',
             'goles_local',
             'goles_visitante',
-            'pabellon_id'
+            'pabellon_id',
+            'tipo'
         )
             ->with(['equipoLocal', 'equipoVisitante', 'pabellon'])
             ->get();

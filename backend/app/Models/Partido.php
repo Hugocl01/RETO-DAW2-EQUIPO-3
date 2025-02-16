@@ -67,6 +67,10 @@ class Partido extends Model
 {
     use Auditable, HasFactory;
 
+    protected $casts = [
+        'tipo' => \App\Enums\TipoPartido::class,
+    ];
+
     protected $table = 'partidos';
 
     protected $fillable = [
@@ -77,6 +81,7 @@ class Partido extends Model
         'goles_local',
         'goles_visitante',
         'pabellon_id',
+        'tipo'
     ];
 
     public function equipoLocal()
@@ -97,5 +102,35 @@ class Partido extends Model
     public function actas()
     {
         return $this->hasMany(Acta::class);
+    }
+
+
+    public function calcularGanador()
+    {
+        // Capturamos los IDs de los equipos para usarlos dentro de los closures
+        $equipoLocalId = $this->equipo_local_id;
+        $equipoVisitanteId = $this->equipo_visitante_id;
+
+        // Contar goles para el equipo local (actas donde incidencia_id = 1)
+        $golesLocal = $this->actas()
+            ->where('incidencia_id', 1)
+            ->whereHas('jugador', function ($query) use ($equipoLocalId) {
+                $query->where('equipo_id', $equipoLocalId);
+            })->count();
+
+        // Contar goles para el equipo visitante (actas donde incidencia_id = 1)
+        $golesVisitante = $this->actas()
+            ->where('incidencia_id', 1)
+            ->whereHas('jugador', function ($query) use ($equipoVisitanteId) {
+                $query->where('equipo_id', $equipoVisitanteId);
+            })->count();
+
+        if ($golesLocal > $golesVisitante) {
+            return $equipoLocalId;
+        } elseif ($golesVisitante > $golesLocal) {
+            return $equipoVisitanteId;
+        } else {
+            return null; // En caso de empate
+        }
     }
 }

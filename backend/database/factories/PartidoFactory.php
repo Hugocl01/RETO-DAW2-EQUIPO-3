@@ -44,7 +44,7 @@ class PartidoFactory extends Factory
                 Acta::factory()->create([
                     'partido_id' => $partido->id,
                     'incidencia_id' => $this->faker->numberBetween(1, 4), // Incidencias 1 a 12
-                    'minuto' => $this->faker->numberBetween(1, 90),
+                    'minuto' => $this->faker->numberBetween(1, 19),
                     'comentario' => $this->faker->sentence(),
                     'jugador_id' => Jugador::inRandomOrder()->first()->id ?? Jugador::factory()
                 ]);
@@ -54,7 +54,7 @@ class PartidoFactory extends Factory
             Acta::factory()->create([
                 'partido_id' => $partido->id,
                 'incidencia_id' => 14,
-                'minuto' => 90,
+                'minuto' => 20,
                 'comentario' => 'Final del partido'
             ]);
         });
