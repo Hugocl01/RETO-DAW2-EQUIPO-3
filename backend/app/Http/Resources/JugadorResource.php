@@ -10,8 +10,8 @@ class JugadorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'              => $this->id,
             'nombre'          => $this->nombre_completo,
+            'slug'            => $this->slug,
             'equipo'          => $this->equipo->nombre,
             'capitan'         => $this->capitan,
             // Si la relación es belongsTo (singular), usamos new EstudioResource:

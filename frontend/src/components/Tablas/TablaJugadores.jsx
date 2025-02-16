@@ -57,17 +57,18 @@ function TablaJugadores() {
 
   /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
-   * @param {int} id
+   * @param {slug} slug
    */
-  function navegarDetalleEquipo(id) {
-    navegar(`/equipos/${id}`);
+  function navegarDetalleEquipo(slug) {
+    console.log(slug);
+    navegar(`/equipos/${slug}`);
   }
 
   /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
    */
-  function navegarDetalleJugador(idJugador){
-    navegar(`/jugadores/${idJugador}`)
+  function navegarDetalleJugador(slug){
+    navegar(`/jugadores/${slug}`)
   }
 
   /**
@@ -180,7 +181,7 @@ function TablaJugadores() {
         jugadoresPorPagina
       ).map((valor) => (
         <Jugador
-          key={valor.id}
+          key={valor.slug}
           jugador={valor}
           fnNavegarEquipo={navegarDetalleEquipo}
           fnNavegarJugador={navegarDetalleJugador}

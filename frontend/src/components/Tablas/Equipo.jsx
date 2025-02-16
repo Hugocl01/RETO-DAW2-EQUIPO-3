@@ -2,7 +2,7 @@ import { Tooltip } from "react-tooltip";
 
 function Equipo({equipo, fnNavegar}){
     function handleClickNavegar() {
-        fnNavegar(equipo.id);
+        fnNavegar(equipo.slug);
       }
       console.log(equipo)
       return (
@@ -10,7 +10,7 @@ function Equipo({equipo, fnNavegar}){
           <div className="col-3 d-flex flex-row  text-center">
             <img
               src="../src/assets/imagenes/img1.jpg"
-              alt={`imagen${equipo.nombre}`}
+              alt={`imagen${equipo.slug}`}
               style={{ width: "20%" }}
               data-tooltip-id="imgEquipo"
               data-tooltip-content={equipo.nombre}
@@ -18,7 +18,7 @@ function Equipo({equipo, fnNavegar}){
               onClick={handleClickNavegar}
             />
             <Tooltip id="imgEquipo"></Tooltip>
-            <p className="mx-3">{equipo.nombre}</p>
+            <p className="mx-3">{equipo.slug}</p>
           </div>
           <div className="col-3 text-center">{equipo.stats.goles}</div>
           <div className="col-3 text-center">

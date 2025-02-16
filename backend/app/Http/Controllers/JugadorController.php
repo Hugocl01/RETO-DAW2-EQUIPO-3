@@ -39,7 +39,7 @@ class JugadorController extends Controller
      */
     public function index(): JsonResponse
     {
-        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono')->get();
+        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono', 'slug')->get();
 
         if ($jugadores->isEmpty()) {
             return response()->json([
