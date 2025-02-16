@@ -93,17 +93,39 @@ function Inscribirse() {
                 const erroresBackend = error.response.data.errors;
 
                 Object.keys(erroresBackend).forEach((clave) => {
-                    if (clave.startsWith("jugadores")) {
-                        const jugadorId = clave.split('.')[1];
+                    // CASO 1: la key es exactamente "jugadores"
+                    if (clave === "jugadores") {
+                        // Aquí erroresBackend[clave] será tu array de mensajes genéricos
+                        // Ej: [ "Se requiere al menos 10 jugadores.", "Debe haber un capitán" ]
+                        nuevosErrores[clave] = erroresBackend[clave];
+                        return;
+                    }
+
+                    // CASO 2: la key empieza por "jugadores." (jugadores.0.nombre_completo, etc.)
+                    else if (clave.startsWith("jugadores.")) {
+                        const partes = clave.split(".");
+                        // partes[0] = "jugadores"
+                        // partes[1] = "0" (el índice del jugador)
+                        // partes[2] = "nombre_completo" (el campo)
+                        const jugadorId = partes[1];
+                        const campo = partes[2]; // "nombre_completo", "estudio_id", etc.
+
+                        // Aseguramos que exista en nuevosErrores['jugadores.X']
                         if (!nuevosErrores[`jugadores.${jugadorId}`]) {
                             nuevosErrores[`jugadores.${jugadorId}`] = {};
                         }
-                        if (clave.includes("estudio")) {
+                        // Si el campo es "estudio_id", lo metes en errores.estudio
+                        if (campo === "estudio_id") {
                             nuevosErrores[`jugadores.${jugadorId}`]["estudio"] = erroresBackend[clave][0];
                         } else {
-                            nuevosErrores[`jugadores.${jugadorId}`][clave.split('.')[2]] = erroresBackend[clave][0];
+                            // campo = "nombre_completo", "dni", "email", etc.
+                            nuevosErrores[`jugadores.${jugadorId}`][campo] = erroresBackend[clave][0];
                         }
-                    } else {
+                        return;
+                    }
+
+                    // CASO 3: resto de campos "normales"
+                    else {
                         nuevosErrores[clave] = erroresBackend[clave][0];
                     }
                 });
@@ -200,6 +222,7 @@ function Inscribirse() {
                     <i className="bi bi-plus-circle-fill m-2"></i>
                     Añadir Jugador
                 </button>
+
                 {jugadores.map((jugador, index) => (
                     <JugadorLabel
                         key={jugador.id}
@@ -214,7 +237,13 @@ function Inscribirse() {
                     />
                 ))}
 
-
+                {errores["jugadores"] && Array.isArray(errores["jugadores"]) && (
+                    errores["jugadores"].map((mensaje, i) => (
+                        <span key={i} className="text-danger small d-block">
+                            {mensaje}
+                        </span>
+                    ))
+                )}
 
                 <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
                     <i className="bi bi-send-fill m-2"></i>
