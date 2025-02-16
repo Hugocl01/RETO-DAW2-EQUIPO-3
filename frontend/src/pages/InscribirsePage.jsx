@@ -10,7 +10,7 @@ function InscribirsePage() {
 
     return (
         <>
-            <title>Formilario de inscripción</title>
+            <title>Formulario de inscripción</title>
             <Inscribirse />
         </>
     )

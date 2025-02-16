@@ -6,34 +6,33 @@ import Spinner from "../components/Spinner.jsx";
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
     const [capitanId, setCapitanId] = useState(null);
-    const [errores, setErrores] = useState({}); // estado general para errores que vengan del backend
+    const [errores, setErrores] = useState({});
     const [estudios, setEstudios] = useState([]);
     const [centros, setCentros] = useState([]);
 
     // Agregar jugador
     const agregarJugador = () => {
-        setJugadores([...jugadores, { id: jugadores.length }]);
+        setJugadores([...jugadores, { id: jugadores.length, nombre_completo: '', estudio_id: '' }]);
     };
 
-    // Eliminar jugador
+
+    // Función para eliminar jugador
     const eliminarJugador = (id) => {
-        const nuevosJugadores = jugadores
-            .filter((jugador) => jugador.id !== id)
-            .map((jugador, index) => ({ ...jugador, id: index }));
-        setJugadores(nuevosJugadores);
+        const nuevosJugadores = jugadores.filter((jugador) => jugador.id !== id);
         if (capitanId === id) {
-            setCapitanId(null);
+            setCapitanId(null); // Si el jugador eliminado era el capitán, restablecer el capitanId
         }
+        setJugadores(nuevosJugadores); // Actualiza el estado con los jugadores restantes
     };
 
-    // Seleccionar capitán (único)
+
+
+    // Seleccionar capitán
     const handleSetCapitan = (id) => {
         if (capitanId === id) {
-            setCapitanId(null);
-        } else if (capitanId !== null) {
-            alert("Solo puedes elegir un capitán");
+            setCapitanId(null);  // Desmarcar como capitán si ya es el capitán
         } else {
-            setCapitanId(id);
+            setCapitanId(id);  // Marcar como capitán
         }
     };
 
@@ -41,15 +40,12 @@ function Inscribirse() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Recopilar datos del equipo
         const nombreEquipo = document.querySelector('input[name="nombre"]').value;
         const centroSeleccionado = document.querySelector('select[name="centro"]').value;
 
-        // Recopilar datos del entrenador
         const nombreEntrenador = document.querySelector('input[name="entrenador_nombre_completo"]').value;
         const emailEntrenador = document.querySelector('input[name="entrenador_email"]').value;
 
-        // Recopilar datos de los jugadores
         const jugadoresData = jugadores.map((jugador) => {
             const jugadorElem = document.getElementById(`jugador-${jugador.id}`);
             if (!jugadorElem) return {};
@@ -57,7 +53,6 @@ function Inscribirse() {
             const nombreCompleto = jugadorElem.querySelector('[name="nombre_completo"]').value;
             const estudio = jugadorElem.querySelector('[name="estudio_id"]').value;
 
-            // Si es el capitán, incluir campos adicionales
             let jugadorData = {
                 nombre_completo: nombreCompleto,
                 estudio,
@@ -72,7 +67,7 @@ function Inscribirse() {
                     dni,
                     email,
                     telefono,
-                    capitan: 1, // marca como capitán
+                    capitan: 1,
                 };
             } else {
                 jugadorData = { ...jugadorData, capitan: 0 };
@@ -81,7 +76,6 @@ function Inscribirse() {
             return jugadorData;
         });
 
-        // Estructura final de datos a enviar (ajusta las llaves según lo que espera tu API)
         const formData = {
             nombre: nombreEquipo,
             centro_id: centroSeleccionado,
@@ -93,18 +87,34 @@ function Inscribirse() {
         try {
             const response = await api.post("/equipos", formData);
             alert("Formulario enviado correctamente");
-            // Puedes redirigir o limpiar el formulario aquí
         } catch (error) {
-            // Manejo de errores devueltos por el backend
             if (error.response && error.response.data && error.response.data.errors) {
-                setErrores(error.response.data.errors);
+                const nuevosErrores = {};
+                const erroresBackend = error.response.data.errors;
+
+                Object.keys(erroresBackend).forEach((clave) => {
+                    if (clave.startsWith("jugadores")) {
+                        const jugadorId = clave.split('.')[1];
+                        if (!nuevosErrores[`jugadores.${jugadorId}`]) {
+                            nuevosErrores[`jugadores.${jugadorId}`] = {};
+                        }
+                        if (clave.includes("estudio")) {
+                            nuevosErrores[`jugadores.${jugadorId}`]["estudio"] = erroresBackend[clave][0];
+                        } else {
+                            nuevosErrores[`jugadores.${jugadorId}`][clave.split('.')[2]] = erroresBackend[clave][0];
+                        }
+                    } else {
+                        nuevosErrores[clave] = erroresBackend[clave][0];
+                    }
+                });
+
+                setErrores(nuevosErrores);
             } else {
                 console.error("Error al enviar el formulario:", error);
             }
         }
     };
 
-    // Solicitar datos de estudios y centros
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
@@ -125,7 +135,6 @@ function Inscribirse() {
         obtenerDatos();
     }, []);
 
-    // Si aún no se han cargado los estudios, mostrar un spinner
     if (!estudios.length) {
         return <Spinner />;
     }
@@ -191,7 +200,7 @@ function Inscribirse() {
                     <i className="bi bi-plus-circle-fill m-2"></i>
                     Añadir Jugador
                 </button>
-                {jugadores.map((jugador) => (
+                {jugadores.map((jugador, index) => (
                     <JugadorLabel
                         key={jugador.id}
                         id={jugador.id}
@@ -199,12 +208,14 @@ function Inscribirse() {
                         onRemove={eliminarJugador}
                         onSetCapitan={handleSetCapitan}
                         isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}
-                        // En este ejemplo, JugadorLabel se encargará de mostrar los errores individuales si los hay
                         errores={errores[`jugadores.${jugador.id}`] || {}}
                         estudios={estudios}
+                        numeroJugador={index + 1}
                     />
                 ))}
-                {/* Botón para enviar */}
+
+
+
                 <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
                     <i className="bi bi-send-fill m-2"></i>
                     Enviar

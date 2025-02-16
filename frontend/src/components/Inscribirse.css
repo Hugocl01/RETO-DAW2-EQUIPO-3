@@ -1,0 +1,14 @@
+/* Estilo de la animación */
+@keyframes desaparecer {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+.desaparecer {
+    animation: desaparecer 0.3s ease-out forwards;
+}
