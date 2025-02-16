@@ -19,6 +19,7 @@ return new class extends Migration
                 ->on('equipos')
                 ->onDelete('cascade');
             $table->string('nombre_completo', 70);
+            $table->string('slug')->nullable()->unique();
             $table->boolean('capitan');
             $table->unsignedBigInteger('estudio_id')->nullable();
             $table->foreign('estudio_id')

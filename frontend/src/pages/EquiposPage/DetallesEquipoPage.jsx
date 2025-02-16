@@ -52,8 +52,8 @@ function DetallesEquipoPage() {
   /**
   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
   */
-  function navegarDetalleJugador(idJugador) {
-    navegar(`/jugadores/${idJugador}`)
+  function navegarDetalleJugador(slug) {
+    navegar(`/jugadores/${slug}`)
   }
   return (
     <>
@@ -65,7 +65,7 @@ function DetallesEquipoPage() {
             <h2>Equipo {equipo.nombre}</h2>
 
             <div>
-              <p>Entrenador: {equipo.entrenador.nombre} </p>
+              <p>Entrenador: {equipo.entrenador} </p>
             </div>
 
             <div>
@@ -78,7 +78,7 @@ function DetallesEquipoPage() {
             </div>
 
             <div>
-              <p>Centro: {equipo.centro.nombre}</p>
+              <p>Centro: {equipo.centro}</p>
               <p>Grupo: {equipo.grupo}</p>
             </div>
           </section>
@@ -91,7 +91,7 @@ function DetallesEquipoPage() {
                 <div className="row">
                   {equipo.Jugadores.jugador.map((valor, index) => (
                     <div key={index} className="col-md-3 mb-2">
-                      <div className="card h-100" onClick={() => navegarDetalleJugador(valor.id)}>
+                      <div className="card h-100" onClick={() => navegarDetalleJugador(valor.slug)}>
                         <img
                           src={"../../src/assets/imagenes/img1.jpg"}
                           alt="imagenJugador"

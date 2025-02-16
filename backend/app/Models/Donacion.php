@@ -53,4 +53,9 @@ class Donacion extends Model
     {
         return $this->belongsTo(Ong::class);
     }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }

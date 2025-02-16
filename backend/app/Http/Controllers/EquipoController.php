@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\EquipoRequest;
+use App\Http\Requests\ImagenRequest;
 use App\Http\Resources\EquipoResource;
 use Illuminate\Support\Facades\DB;
 use App\Mail\EquipoConfirmacionMail;
@@ -45,7 +46,7 @@ class EquipoController extends Controller
     public function index(): JsonResponse
     {
         $equipos = Equipo::with(['centro', 'usuario', 'jugadores'])
-            ->select('id', 'nombre', 'centro_id', 'grupo', 'usuario_id')
+            ->select('id', 'nombre', 'slug', 'centro_id', 'grupo', 'usuario_id')
             ->get();
 
         if ($equipos->isEmpty()) {
@@ -301,6 +302,72 @@ class EquipoController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Equipo eliminado correctamente'
+        ], 200);
+    }
+
+    /**
+     * Subir foto al equipo.
+     *
+     * @OA\Post(
+     *     path="/api/equipos/{id}/foto",
+     *     summary="Subir foto del equipo",
+     *     tags={"Equipos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del equipo",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"imagen"},
+     *                 @OA\Property(property="imagen", type="string", format="binary")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Foto de equipo subida correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Foto de equipo subida correctamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Equipo no encontrado"
+     *     )
+     * )
+     */
+    public function uploadFoto(ImagenRequest $request, $id)
+    {
+        $equipo = Equipo::findOrFail($id);
+
+        // Construir la ruta de la carpeta: uploads/equipos/2025/02/25 (por ejemplo)
+        $subcarpeta = 'equipos';
+        $fecha = date('Y/m/d');
+        $rutaCarpeta = "uploads/{$subcarpeta}/{$fecha}";
+
+        // Subir el archivo
+        $imagenFile = $request->file('imagen');
+        $rutaFichero = $imagenFile->store($rutaCarpeta, 'public');
+        // Ahora se guardará en storage/app/public/uploads/equipos/2025/02/25
+
+        // Guardar el registro en la BD
+        $equipo->imagenes()->create([
+            'nombre'       => $imagenFile->getClientOriginalName(),
+            'ruta_fichero' => $rutaFichero,
+        ]);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Foto de equipo subida correctamente',
+            'ruta'    => $rutaFichero,
         ], 200);
     }
 }

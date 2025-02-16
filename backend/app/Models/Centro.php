@@ -51,4 +51,9 @@ class Centro extends Model
     {
         return $this->hasMany(Equipo::class, 'centro_id');
     }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }

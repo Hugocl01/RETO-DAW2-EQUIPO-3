@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
+use App\Traits\HasSlug;
 
 /**
  * @OA\Schema(
@@ -29,7 +30,9 @@ use App\Traits\Auditable;
  */
 class Equipo extends Model
 {
-    use HasFactory, Auditable;
+    use HasFactory, Auditable, HasSlug;
+
+    protected $slugSource = 'nombre';
 
     protected $table = 'equipos';
 
@@ -59,6 +62,16 @@ class Equipo extends Model
     public function inscripcion()
     {
         return $this->hasOne(Inscripcion::class);
+    }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function statsEquipo(): array

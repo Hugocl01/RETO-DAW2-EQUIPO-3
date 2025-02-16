@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
+use App\Traits\HasSlug;
 
 /**
  * @OA\Schema(
@@ -40,7 +41,10 @@ use App\Traits\Auditable;
  */
 class Jugador extends Model
 {
-    use Auditable, HasFactory;
+    use Auditable, HasFactory, HasSlug;
+
+    // Indico qué campo usar para generar el slug
+    protected $slugSource = 'nombre_completo';
 
     protected $table = 'jugadores';
 
@@ -71,6 +75,12 @@ class Jugador extends Model
     {
         return $this->hasMany(Acta::class, 'jugador_id');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 
 
     // Custom method to compute stats for the player
