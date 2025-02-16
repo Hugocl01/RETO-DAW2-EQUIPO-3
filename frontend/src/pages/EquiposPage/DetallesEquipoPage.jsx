@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 
@@ -12,7 +12,7 @@ function DetallesEquipoPage() {
   /**
    * Con esto, obtengo la ruta con el location
    */
-  const { id } = useParams();
+  const location = useLocation();
 
   /**
    * Estado para el equipo a mostrar
@@ -32,7 +32,7 @@ function DetallesEquipoPage() {
         /**
          * Implemento el location para que me devuelva la ruta en la que nos encontramos
          */
-        const resultado = await api.get(`equipos/${id}`);
+        const resultado = await api.get(location.pathname);
         if (resultado.data.status === "success") {
           setCargando(false);
           console.log(resultado.data.equipo);
@@ -43,7 +43,7 @@ function DetallesEquipoPage() {
       }
     };
     obtenerEquipo();
-  }, [id]);
+  }, [location]);
 
   if (cargando) {
     return <Spinner></Spinner>;

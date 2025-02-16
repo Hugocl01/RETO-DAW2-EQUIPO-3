@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout.jsx";
 import { lazy, Suspense } from "react";
 import Spinner from "../components/Spinner.jsx";
+import PartidosPage from "../pages/PartidosPage/PartidosPage.jsx";
 
 /**
  * Utilizo al carga perezosa o diferida para cada pages
@@ -72,26 +73,10 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="estadisticas/equipos/:id"
-            element={
-              <Suspense fallback={<Spinner />}>
-                <DetallesEquipoPage />
-              </Suspense>
-            }
-          />
-          <Route
             path="estadisticas/"
             element={
               <Suspense fallback={<Spinner />}>
                 <EstadisticasPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="estadisticas/jugadores/:id"
-            element={
-              <Suspense fallback={<Spinner />}>
-                <DetalleJugadorPage />
               </Suspense>
             }
           />
@@ -115,7 +100,7 @@ function AppEnrutador() {
             path="torneo"
             element={
               <Suspense fallback={<Spinner />}>
-                <TorneoPage />
+                <PartidosPage />
               </Suspense>
             }
           />
