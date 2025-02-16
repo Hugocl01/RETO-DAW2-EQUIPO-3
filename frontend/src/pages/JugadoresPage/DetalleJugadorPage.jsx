@@ -74,7 +74,7 @@ function DetalleJugadorPage() {
                   <strong>Email:</strong> {jugador.email}
                 </p>
                 <p className="card-text">
-                  <strong>Equipo:</strong> {jugador.equipo.nombre}
+                  <strong>Equipo:</strong> {jugador.equipo}
                 </p>
               </div>
               {/*
