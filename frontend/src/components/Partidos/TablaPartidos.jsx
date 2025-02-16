@@ -1,71 +1,72 @@
 import Partido from "./Partido";
+
 /**
  * Componente para las tablas de los partidos
- * @param {*} param0 
- * @returns 
+ * @param {*} param0
+ * @returns
  */
 function TablaPartidos({ tipo, grupo, partidos }) {
   /**
-   * Si no hay partidos que salgan un mensaje
+   * Si no hay partidos, mostrar un mensaje.
    */
-  if (!partidos) {
-    return <p>No hay partidos disponibles.</p>; 
+  if (!partidos || partidos.length === 0) {
+    return <p>No hay partidos disponibles.</p>;
+  }
+/**
+ * Funcion que obtiene los partidos filtrados por si son clasificatorios o eliminatorias
+ * @param {String} tipo es el tipo de enfrentamiento, si es clasificatorio o eliminatoria
+ * @param {Int} grupo 
+ * @returns 
+ */
+  function obtenerPartidosTipo(tipo, grupo = "") {
+    let partidosFiltrados;
+
+    /**
+     * Si la opción es clasificatorio y haya seleccionado alguna opción del grupo
+     */
+    if (tipo === "clasificatorio" && grupo !== "") {
+      partidosFiltrados = partidos.filter(
+        (p) => p.tipo === tipo && p.grupo === grupo
+      );
+    }
+    /**
+     * Si el tipo es distinto a clasificatorio, es decir, eliminatorias
+     */
+    else
+      partidosFiltrados = partidos.filter(
+        (p) => p.tipo === "semifinal" || p.tipo === "final"
+      );
+
+    return partidosFiltrados;
   }
 
   return (
     <div className="container">
-      {/**
-       * Se mostrará una tabla u otra dependiendo de las selecciones en paginaPage
+      {/** 
+       * Mostrar según el tipo de partido: clasificatorio o eliminatorias 
        */}
       {tipo === "clasificatorio" ? (
         <>
           <h3>Clasificatorio</h3>
-          {/* Mostrar grupo A o B dependiendo de la selección */}
           <div>
-            {grupo === "grupoA"
-              ? partidos.fase_grupos.grupo_A.map((valor) => {
-                  return (
-                    <Partido
-                      key={valor.id}
-                      objPartido={valor}
-                    ></Partido>
-                  );
-                })
-              : partidos.fase_grupos?.grupo_B.map((valor) => {
-                  return (
-                    <Partido
-                      key={valor.id}
-                      objPartido={valor}
-                    ></Partido>
-                  );
-                })}
+            {/** 
+             * Muestro los partidos del grupo seleccionado 
+             */}
+            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
+              <Partido key={indice} tipo={tipo} objPartido={valor} />
+            ))}
           </div>
         </>
       ) : (
         <>
           <h3>Eliminatorias</h3>
           <div>
-            <div>
-              {partidos.eliminatorias.semifinales.map((valor) => {
-                return (
-                  <Partido
-                    key={valor.id}
-                    tipo={"semifinal"}
-                    objPartido={valor}
-                  ></Partido>
-                );
-              })}
-            </div>
-
-            <div>
-              {
-                <Partido
-                  key={partidos.eliminatorias.final.id}
-                  tipo={"final"}
-                  objPartido={partidos.eliminatorias.final}
-                ></Partido>
-              }
-            </div>
+            {/** 
+             * Filtro los partidos de eliminatorias 
+             **/}
+            {obtenerPartidosTipo(tipo).map((valor, indice) => (
+              <Partido key={indice} tipo={tipo} objPartido={valor} />
+            ))}
           </div>
         </>
       )}
