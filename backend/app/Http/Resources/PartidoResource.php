@@ -19,10 +19,14 @@ class PartidoResource extends JsonResource
             'duracion'          => $this->duracion,
             'goles local'       => $this->goles_local,
             'goles visitante'   => $this->goles_visitante,
-            // Se incluyen los datos de las relaciones si están cargadas
             'equipo local'      => $this->equipoLocal->nombre,
             'equipo visitante'  => $this->equipoVisitante->nombre,
             'pabellón'          => $this->pabellon->nombre,
+            'grupo' => ($this->tipo->value !== 'clasificatorio')
+                ? null
+                : $this->equipoLocal->grupo,
+
+            'tipo'              => $this->tipo,
             'actas'             => ActaResource::collection($this->actas)
         ];
     }

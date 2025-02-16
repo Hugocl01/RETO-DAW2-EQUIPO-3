@@ -23,6 +23,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('equipos')
                 ->onDelete('cascade');
+            $table->string('tipo')->default('clasificatorio');
             $table->date('fecha')->nullable();
             $table->integer('duracion')->nullable();
             $table->smallInteger('goles_local')->nullable();
