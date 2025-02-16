@@ -24,7 +24,7 @@ class EquipoRequest extends FormRequest
             'jugadores'                   => 'required|array|min:10',
             'jugadores.*.nombre_completo' => 'required|string|min:3|max:70',
             'jugadores.*.capitan'         => 'required|integer',
-            'jugadores.*.estudio_id'      => 'nullable|integer|exists:estudios,id',
+            'jugadores.*.estudio_id'      => 'required|integer|exists:estudios,id',
 
             // Validar DNI del capitán
             'jugadores.*.dni'             => [
@@ -61,6 +61,7 @@ class EquipoRequest extends FormRequest
             'jugadores.*.nombre_completo.max'      => 'El nombre completo no puede superar los 70 caracteres.',
             'jugadores.*.capitan.required'         => 'El campo capitán es obligatorio.',
             'jugadores.*.capitan.integer'          => 'El campo capitán debe ser un número entero.',
+            'jugadores.*.estudio_id.required'      => 'El estudio que cursa el jugador es obligatorio.',
             'jugadores.*.estudio_id.integer'       => 'El identificador del estudio debe ser un número entero.',
             'jugadores.*.estudio_id.exists'        => 'El estudio seleccionado no es válido.',
             'jugadores.*.dni.string'               => 'El DNI debe ser una cadena de texto.',
@@ -85,7 +86,7 @@ class EquipoRequest extends FormRequest
                 return isset($jugador['capitan']) && (bool)$jugador['capitan'] === true;
             })->count();
             if ($capitanes !== 1) {
-                $validator->errors()->add('jugadores', 'Debe de haner una unidad de capitán en el equipo.');
+                $validator->errors()->add('jugadores', 'Debe de haber una unidad de capitán en el equipo.');
             }
         });
     }
