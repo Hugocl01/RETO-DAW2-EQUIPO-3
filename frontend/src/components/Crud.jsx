@@ -9,7 +9,7 @@ function Crud({ seccion }) {
 
     const {
         items, loading, error, columns,
-        deleteItem, createItem, updateItem, activateItem
+        deleteItem, createItem, updateItem, activateItem, updateStatusItem
     } = useCrud(seccion);
 
     const [editingItem, setEditingItem] = useState(null);
@@ -30,6 +30,10 @@ function Crud({ seccion }) {
 
     const handleNewItemChange = (e) => {
         setNewItem({ ...newItem, [e.target.name]: e.target.value });
+    };
+
+    const handleUpdateStatus = (id) => {
+        updateStatusItem(id);
     };
 
     const handleCreate = () => {
@@ -104,6 +108,15 @@ function Crud({ seccion }) {
                                             )}
                                             {seccion.acciones?.some(a => a.nombre === "activar") && (
                                                 <button onClick={() => handleActivate(item.id)}>Activar</button>
+                                            )}
+                                            {/* Botón para invocar updateStatusItem */}
+                                            {seccion.acciones?.some(a => a.nombre === "cambiarEstado") && (
+                                                <button
+                                                    onClick={() => handleUpdateStatus(item.id)}
+                                                    className="btn btn-warning"
+                                                >
+                                                    Aprobar
+                                                </button>
                                             )}
                                         </td>
                                     </tr>

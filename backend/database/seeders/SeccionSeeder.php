@@ -37,7 +37,7 @@ class SeccionSeeder extends Seeder
             'Equipos' => ['index', 'show', 'store', 'update', 'destroy'],
             'Estudios' => ['index', 'store', 'destroy'],
             'Familias' => ['index', 'store', 'update', 'destroy'],
-            'Inscripciones' => ['index'],
+            'Inscripciones' => ['index', 'cambiarEstado'],
             'Jugadores' => ['index', 'show', 'update'],
             'Perfiles' => ['index', 'show', 'store', 'update', 'destroy'],
             'Retos' => ['index', 'show', 'store', 'update', 'destroy'],

@@ -64,11 +64,21 @@ export const useCrud = (seccion) => {
         }
     };
 
-    // Activar o desactivar usuario/inscripción (acciones personalizadas)
+    // Activar o desactivar usuario (acciones personalizadas)
     const activateItem = async (id) => {
         try {
             await api.put(`/${entidadNombre}/${id}/activo`);
             fetchItems();
+        } catch (err) {
+            setError(err.response?.data?.message || "Error al activar.");
+        }
+    };
+
+    // Cambiar estado a una inscripción
+    const updateStatusItem = async (id) => {
+        try {
+            await api.put(`/cambiarEstado/${id}`);
+            fetchItems(); // Corregido: se invoca la función
         } catch (err) {
             setError(err.response?.data?.message || "Error al activar.");
         }
@@ -88,5 +98,6 @@ export const useCrud = (seccion) => {
         updateItem,
         deleteItem,
         activateItem,
+        updateStatusItem,
     };
 };
