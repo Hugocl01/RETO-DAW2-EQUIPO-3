@@ -1,18 +1,17 @@
 @component('mail::message')
 # Confirmación de Inscripción
 
-Hola,
-
-Has sido asignado como **{{ $rol }}** en el equipo **"{{ $equipo->nombre }}"**.
+Te han asignado al equipo **"{{ $equipo->nombre }}"**.
 
 ### 📌 **Detalles del equipo:**
 - **Nombre del equipo:** {{ $equipo->nombre }}
 - **Centro:** {{ $equipo->centro->nombre ?? 'N/D' }}
+- **Rol:** {{ $rol }}
 
 ### 🔹 **Confirma tu inscripción**
-Por favor, confirma tu participación haciendo clic en el siguiente botón:
+Por favor, confirma tu participación en el equipo haciendo clic en el botón de abajo:
 
-@component('mail::button', ['url' => url("/confirmarInscripcion/{$inscripcion}/{$rol}/{$token}")])
+@component('mail::button', ['url' => url("/api/confirmarInscripcion/{$inscripcion->id}/{$rol}/{$token}")])
 Confirmar Inscripción
 @endcomponent
 

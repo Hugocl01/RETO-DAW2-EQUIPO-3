@@ -151,7 +151,7 @@ class EquipoController extends Controller
                     $jugador = $equipo->jugadores()->create($jugadorData);
 
                     // Si este jugador es el capitán, guardar su email
-                    if (!empty($jugadorData['es_capitan']) && $jugadorData['es_capitan']) {
+                    if (!empty($jugadorData['capitan']) && $jugadorData['capitan']) {
                         $capitanEmail = $jugador->email;
                     }
                 }

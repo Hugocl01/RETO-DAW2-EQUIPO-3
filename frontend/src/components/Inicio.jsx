@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from './Carousel';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from "react-router-dom";
 
 import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
@@ -10,6 +11,10 @@ function Inicio() {
     //arrays para los carruseles
     const [donaciones, setDonaciones] = useState([]);
     //const [patrocinadores, setPatrocinadores] = useState([]);
+
+
+    const [searchParams] = useSearchParams();
+    const status = searchParams.get("inscripcion-status"); // "success" o lo que hayas enviado
 
     const noticias = [
         {
@@ -95,6 +100,14 @@ function Inicio() {
         <div className="d-flex flex-column min-vh-100">
             <div className="imagenInicio">
                 <img src="../src/assets/imagenes/img2.png" className="w-100 h-100 vh-100 object-fit-cover" alt="..." />
+            </div>
+
+            <div>
+                {status === "success" ? (
+                    <h1>¡Inscripción confirmada!</h1>
+                ) : (
+                    <h1>Hubo un problema confirmando la inscripción</h1>
+                )}
             </div>
 
             <div className="d-flex flex-column align-items-center justify-content-center p-5">

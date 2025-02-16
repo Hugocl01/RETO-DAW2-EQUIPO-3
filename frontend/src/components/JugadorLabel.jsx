@@ -33,7 +33,7 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                             <option value="">Selecciona un estudio</option>
                             {estudios.map((estudio) => (
                                 <option key={estudio.id} value={estudio.id}>
-                                    {estudio.ciclo.nombre} - Curso {estudio.curso}
+                                    {estudio.ciclo} - Curso {estudio.curso}
                                 </option>
                             ))}
                         </select>
