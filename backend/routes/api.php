@@ -17,6 +17,7 @@ use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\RetoController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\ClasificacionController;
+use App\Models\Inscripcion;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,7 @@ Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB'])
 
 // Inscripciones
 Route::apiResource('inscripciones', InscripcionController::class);
+Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado']);
 Route::get('/confirmarInscripcion/{inscripcion}/{rol}/{token}', [InscripcionController::class, 'confirmarInscripcion'])
     ->name('confirmarInscripcion');
 

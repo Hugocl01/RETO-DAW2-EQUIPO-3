@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TuNotificacionMail; // Asegúrate de crear este Mailable
 use App\Http\Resources\InscripcionResource;
 use App\Mail\EquipoInscripcionMail;
+use App\Mail\EquipoAvisoMail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 
@@ -60,13 +61,22 @@ class InscripcionController extends Controller
         ], 200);
     }
 
-    public function cambiarEstado(Request $request, Inscripcion $inscripcion)
+    public function cambiarEstado(Inscripcion $inscripcion)
     {
-        // Asignar el nuevo estado
-        $inscripcion->estado_id = $request->input('estado');
+        $inscripcion->estado_id = 3;
 
-        // Guardar cambios
-        $inscripcion->save();
+        if ($inscripcion->save()) {
+            $usuarioEquipo = $inscripcion->equipo->usuario;
+            Mail::to($usuarioEquipo->email)->send(new EquipoAvisoMail($inscripcion));
+
+            $capitan = $inscripcion->equipo->jugadores()->where('capitan', 1)->first();
+            Mail::to($capitan->email)->send(new EquipoAvisoMail($inscripcion));
+        }
+
+        return response()->json([
+            'status'         => 'success',
+            'message'        => 'Inscripción Aprobada con éxito'
+        ], 200);
     }
 
     public function confirmarInscripcion($inscripcion, $rol, $token)
@@ -87,7 +97,7 @@ class InscripcionController extends Controller
             $inscripcion->estado_id = 2; // 2 = "activa"
             $inscripcion->save();
 
-            $usuarios = Usuario::where('perfil_id', [1,4])->get();
+            $usuarios = Usuario::where('perfil_id', [1, 4])->get();
             $equipo = $inscripcion->equipo;
 
             foreach ($usuarios as $usuario) {
