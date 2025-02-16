@@ -48,6 +48,10 @@ class Inscripcion extends Model
         'comentarios',
         'equipo_id',
         'estado_id',
+        'token_confirmacion_capitan',
+        'token_confirmacion_entrenador',
+        'confirmado_entrenador',
+        'confirmado_capitan'
     ];
 
     public function equipo()

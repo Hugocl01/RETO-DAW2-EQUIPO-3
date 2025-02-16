@@ -82,7 +82,13 @@ Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB'])
 
 // Inscripciones
 Route::apiResource('inscripciones', InscripcionController::class);
-Route::put('inscripciones/{inscripcion}/activo', [InscripcionController::class, 'updateActivo']);
+Route::get('/confirmarInscripcion/{inscripcion}/{rol}/{token}', [InscripcionController::class, 'confirmarInscripcion'])
+    ->name('confirmarInscripcion');
+
+Route::get('/inscripcion-confirmada', function () {
+    // Simplemente devolvemos una vista (que crearemos en el siguiente paso)
+    return view('inscripcion.confirmada');
+})->name('inscripcion.confirmada.view');
 
 // (Opcional) Reto
 // Route::apiResource('retos', RetoController::class);

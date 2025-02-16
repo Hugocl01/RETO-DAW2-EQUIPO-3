@@ -28,14 +28,16 @@ class EquipoConfirmacionMail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emails.equipo_confirmacion')
-                    ->subject('Confirma tu inscripción en el equipo')
-                    ->with([
-                        'equipo' => $this->equipo,
-                        'inscripcion' => $this->inscripcion,
-                        'rol' => $this->rol,
-                        'token' => $this->token,
-                        'email' => $this->email
-                    ]);
+        return $this
+            ->subject('Confirma tu inscripción en el equipo')
+            ->markdown('emails.equipo_confirmacion') // la vista Blade personalizada
+            ->with([
+                'equipo'       => $this->equipo,
+                'inscripcion'  => $this->inscripcion,
+                'rol'          => $this->rol,
+                'token'        => $this->token,
+                'email'        => $this->email,
+            ]);
     }
+
 }

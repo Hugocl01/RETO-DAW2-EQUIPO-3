@@ -69,8 +69,10 @@ class InscripcionController extends Controller
         $inscripcion->save();
     }
 
-    public function confirmarInscripcion(Inscripcion $inscripcion, $rol, $token)
+    public function confirmarInscripcion($inscripcion, $rol, $token)
     {
+        $inscripcion = Inscripcion::findOrFail($inscripcion);
+
         if ($rol === 'Capitán') {
             $inscripcion->confirmado_capitan = ($token == $inscripcion->token_confirmacion_capitan)
                 ? true : false;
@@ -85,15 +87,14 @@ class InscripcionController extends Controller
             $inscripcion->estado_id = 2; // 2 = "activa"
             $inscripcion->save();
 
-            $usuarios = Usuario::where('perfil_id', 4)->get();
+            $usuarios = Usuario::where('perfil_id', [1,4])->get();
+            $equipo = $inscripcion->equipo;
 
             foreach ($usuarios as $usuario) {
-                Mail::to($usuario->email)->send(new EquipoInscripcionMail($usuario));
+                Mail::to($usuario->email)->send(new EquipoInscripcionMail($equipo));
             }
         }
 
-        return response()->json([
-            'status'  => 'success',
-        ]);
+        return redirect()->away("http://localhost:5173/?inscripcion-status=success");
     }
 }
