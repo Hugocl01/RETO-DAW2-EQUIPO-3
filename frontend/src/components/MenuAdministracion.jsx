@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 
 function AdministracionMenu({ secciones, loading, onSelect }) {
-    const [selectedSeccion, setSelectedSeccion] = useState("");
+    const [selectedSeccion, setSelectedSeccion] = useState(null);
 
-    // Hacer que la primera vez que veamos el menu cargue por defecto la primera seccion
     useEffect(() => {
         if (secciones.length > 0) {
             const urlParams = new URLSearchParams(window.location.search);
-            const inscripciones = urlParams.get('inscripciones');
-            const defaultSeccion = (inscripciones === "true")
-                ? secciones[secciones.length - 1]
-                : secciones[0];
+            let seccionPorDefecto = secciones[0]; // Primera sección como fallback
 
-            setSelectedSeccion(defaultSeccion);
-            onSelect(defaultSeccion);
+            // Buscar si algún parámetro coincide con el nombre de una sección
+            for (const [key] of urlParams.entries()) {
+                const seccionEncontrada = secciones.find(s => s.nombre.toLowerCase() === key.toLowerCase());
+                if (seccionEncontrada) {
+                    seccionPorDefecto = seccionEncontrada;
+                    break; // Detenerse al encontrar la primera coincidencia
+                }
+            }
+
+            setSelectedSeccion(seccionPorDefecto);
+            onSelect(seccionPorDefecto);
         }
     }, [secciones]); // Se ejecuta cuando `secciones` cambia
 
