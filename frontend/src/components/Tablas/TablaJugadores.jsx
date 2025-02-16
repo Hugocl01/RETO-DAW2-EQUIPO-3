@@ -60,14 +60,14 @@ function TablaJugadores() {
    * @param {int} id
    */
   function navegarDetalleEquipo(id) {
-    navegar(`equipos/${id}`);
+    navegar(`/equipos/${id}`);
   }
 
   /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
    */
   function navegarDetalleJugador(idJugador){
-    navegar(`jugadores/${idJugador}`)
+    navegar(`/jugadores/${idJugador}`)
   }
 
   /**

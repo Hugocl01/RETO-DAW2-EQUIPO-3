@@ -5,14 +5,14 @@ import Spinner from "../../components/Spinner";
 
 function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
-  const { id } = useParams();
+  const location = useLocation();
   const [cargando,setCargando]=useState(true);
 
   /**Cuando cambie el id del jugador, se ejecutará */
   useEffect(() => {
     const obtenerJugador = async () => {
       try {
-        const resultado = await api.get(`jugadores/${id}`);
+        const resultado = await api.get(location.pathname);
         if(resultado.data.status==="success"){
           setJugador(resultado.data.jugador);
           setCargando(false);
@@ -22,7 +22,7 @@ function DetalleJugadorPage() {
       }
     };
     obtenerJugador();
-  }, [id]);
+  }, [location]);
 
   if(cargando){
     return <Spinner></Spinner>
