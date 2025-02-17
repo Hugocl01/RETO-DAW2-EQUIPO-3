@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
+use App\Traits\HasSlug;
+use Illuminate\Support\Str;
 
 /**
  * @OA\Schema(
@@ -65,7 +67,7 @@ use App\Traits\Auditable;
 
 class Partido extends Model
 {
-    use Auditable, HasFactory;
+    use Auditable, HasFactory, HasSlug;
 
     protected $casts = [
         'tipo' => \App\Enums\TipoPartido::class,
@@ -107,6 +109,27 @@ class Partido extends Model
     public function publicaciones()
     {
         return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
+
+    protected function generateSlug()
+    {
+        if (empty($this->attributes['slug'])) {
+            $fecha = $this->fecha
+            ? \Carbon\Carbon::parse($this->fecha)->format('Y-m-d')
+            : now()->format('Y-m-d');
+            // Verificamos si las relaciones están cargadas para evitar consultas innecesarias
+            $nombreEquipoLocal = $this->equipoLocal->nombre ?? 'local';
+            $nombreEquipoVisitante = $this->equipoVisitante->nombre ?? 'visitante';
+
+            // Concatenamos los valores para formar la base del slug
+            $base = "{$fecha}-{$nombreEquipoLocal}-{$nombreEquipoVisitante}";
+
+            // Generamos el slug
+            $slug = Str::slug($base, '-');
+
+            // Asignamos el slug de forma única
+            $this->attributes['slug'] = $this->makeSlugUnique($slug);
+        }
     }
 
     public function calcularGanador()

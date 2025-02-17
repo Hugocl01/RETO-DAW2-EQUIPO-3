@@ -15,6 +15,7 @@ class PartidoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'slug'              => $this->slug,
             'fecha'             => $this->fecha,
             'duracion'          => $this->duracion,
             'goles local'       => $this->goles_local,
