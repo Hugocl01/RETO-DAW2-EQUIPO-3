@@ -106,7 +106,7 @@ function Inicio() {
                 {status === "success" ? (
                     <h1>¡Inscripción confirmada!</h1>
                 ) : (
-                    <h1>Hubo un problema confirmando la inscripción</h1>
+                    ''
                 )}
             </div>
 
