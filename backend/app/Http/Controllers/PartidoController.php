@@ -41,6 +41,7 @@ class PartidoController extends Controller
     {
         $partidos = Partido::select(
             'id',
+            'slug',
             'equipo_local_id',
             'equipo_visitante_id',
             'fecha',

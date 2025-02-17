@@ -10,25 +10,29 @@ class PartidoSeeder extends Seeder
 {
     public function run()
     {
-        // Obtener todos los equipos y agruparlos por el atributo 'grupo'
+        // 1) Obtiene todos los equipos y los agrupa por 'grupo'
         $teamsByGroup = Equipo::all()->groupBy('grupo');
 
-        // Recorrer cada grupo
+        // 2) Recorre cada grupo
         foreach ($teamsByGroup as $grupo => $equipos) {
-            // Convertir a colección indexada para facilitar el acceso
+
+            // 3) Vuelve la colección indexada
             $equipos = $equipos->values();
             $count = $equipos->count();
 
-            // Para cada par de equipos del mismo grupo
+            // 4) Para cada par de equipos del mismo grupo...
             for ($i = 0; $i < $count; $i++) {
                 for ($j = $i + 1; $j < $count; $j++) {
-                    // Crear 4 partidos para este enfrentamiento
+
+                    // 5) Crea "N" partidos para el emparejamiento
+                    //    (por ahora 1, pero podrías poner 4 si lo necesitas).
                     for ($match = 0; $match < 1; $match++) {
                         Partido::factory()->create([
                             'equipo_local_id'     => $equipos[$i]->id,
                             'equipo_visitante_id' => $equipos[$j]->id,
-                            'fecha' => now()->addDays(1),
-                            'duracion' => 1,
+                            'fecha'               => now()->addDays(1)->format('Y-m-d'),
+                            'duracion'            => 20,
+                            'pabellon_id'         => 1
                         ]);
                     }
                 }

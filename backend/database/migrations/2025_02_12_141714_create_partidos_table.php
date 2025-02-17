@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('partidos', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->nullable()->unique();
             $table->unsignedBigInteger('equipo_local_id')->nullable();
             $table->foreign('equipo_local_id')
                 ->references('id')
