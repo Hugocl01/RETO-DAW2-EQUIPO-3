@@ -111,6 +111,11 @@ class Partido extends Model
         return $this->morphMany(Publicacion::class, 'publicacionable');
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected function generateSlug()
     {
         if (empty($this->attributes['slug'])) {
