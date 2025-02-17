@@ -43,18 +43,24 @@ function SeguridadProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     /**
-     * Carga los datos de sesión almacenados en `sessionStorage` cuando la aplicación se inicia.
+     * Carga los datos de sesión almacenados en `localStorage` cuando la aplicación se inicia.
      */
     useEffect(() => {
-        const storedToken = sessionStorage.getItem("token");
-        const storedUser = sessionStorage.getItem("user");
+        try {
+            const storedToken = localStorage.getItem("token");
+            const storedUser = localStorage.getItem("user");
 
-        if (storedToken && storedUser) {
-            setSeguridad({
-                auth: true,
-                user: JSON.parse(storedUser),
-                token: storedToken
-            });
+            if (storedToken && storedUser) {
+                setSeguridad({
+                    auth: true,
+                    user: JSON.parse(storedUser),
+                    token: storedToken
+                });
+            }
+        } catch (error) {
+            console.error("Error al cargar datos de sesión:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
         }
 
         setLoading(false);
@@ -62,16 +68,16 @@ function SeguridadProvider({ children }) {
 
     /**
      * Inicia sesión con las credenciales del usuario y almacena el estado de autenticación.
-     * Guarda el token y los datos del usuario en el estado global y en `sessionStorage`.
+     * Guarda el token y los datos del usuario en el estado global y en `localStorage`.
      *
      * @async
      * @function
      * @param {string} email - Correo electrónico del usuario.
      * @param {string} password - Contraseña del usuario.
      * @returns {Promise<{ success: boolean, error?: string }>} - Objeto con `success: true` si la autenticación fue exitosa, o `success: false` con un mensaje de error en `error`.
-     *
      */
     const login = async (email, password) => {
+        setLoading(true);
         try {
             const response = await api.post('/login', { email, password });
 
@@ -80,15 +86,15 @@ function SeguridadProvider({ children }) {
 
                 // Guarda en el estado global
                 setSeguridad({
+                    auth: true,
                     user: usuario,
                     token: token
                 });
 
-                // Guarda en sessionStorage
-                sessionStorage.setItem("token", token);
-                sessionStorage.setItem("user", JSON.stringify(usuario));
+                // Guarda en localStorage
+                localStorage.setItem("token", token);
+                localStorage.setItem("user", JSON.stringify(usuario));
 
-                console.log(usuario);
                 return { success: true };
             }
         } catch (error) {
@@ -109,23 +115,26 @@ function SeguridadProvider({ children }) {
             }
 
             return { success: false, error: errorMessage };
+        } finally {
+            setLoading(false);
         }
     };
 
     /**
-    * Cierra la sesión del usuario, eliminando la información de sesión.
-    * 
-    * @function
-    */
+     * Cierra la sesión del usuario, eliminando la información de sesión.
+     * 
+     * @function
+     */
     const logout = () => {
         setSeguridad({
+            auth: false,
             user: null,
             token: null
         });
 
-        // Elimina el user y el token de sessionStorage
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user");
+        // Elimina el user y el token de localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
     };
 
     return (
