@@ -55,11 +55,11 @@ function Inscribirse() {
             if (!jugadorElem) return {};
 
             const nombreCompleto = jugadorElem.querySelector('[name="nombre_completo"]').value;
-            const estudio = jugadorElem.querySelector('[name="estudio_id"]').value;
+            const estudio_id = jugadorElem.querySelector('[name="estudio_id"]').value;
 
             let jugadorData = {
                 nombre_completo: nombreCompleto,
-                estudio,
+                estudio_id,
             };
 
             if (jugador.id === capitanId) {
@@ -120,7 +120,7 @@ function Inscribirse() {
                         }
                         // Si el campo es "estudio_id", lo metes en errores.estudio
                         if (campo === "estudio_id") {
-                            nuevosErrores[`jugadores.${jugadorIndex}`]["estudio"] = erroresBackend[clave][0];
+                            nuevosErrores[`jugadores.${jugadorIndex}`]["estudio_id"] = erroresBackend[clave][0];
                         } else {
                             // campo = "nombre_completo", "dni", "email", etc.
                             nuevosErrores[`jugadores.${jugadorIndex}`][campo] = erroresBackend[clave][0];

@@ -163,7 +163,7 @@ class EquipoController extends Controller
             $token_entrenador = Str::random(40);
 
             // Crear la inscripción
-            $equipo->inscripcion()->create([
+            $entrenador = $equipo->inscripcion()->create([
                 'comentarios'                   => 'Primera Entrada',
                 'estado_id'                     => 1,
                 'token_confirmacion_capitan'    => $token_capitan,
@@ -171,12 +171,15 @@ class EquipoController extends Controller
             ]);
 
             // Crear el usuario entrenador
-            $equipo->usuario()->create([
+            $userEntrenador = $equipo->usuario()->create([
                 'nombre_completo' => $data['entrenador_nombre_completo'],
                 'email'           => $data['entrenador_email'],
                 'password'        => null,
-                'perfil_id'          => 2,
+                'perfil_id'       => 2,
             ]);
+
+            $equipo->usuario_id = $userEntrenador->id;
+            $equipo->save();
 
             // Enviar correo al entrenador
             if (!empty($data['entrenador_email'])) {

@@ -41,4 +41,9 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Perfil::class, 'perfil_id');
     }
+
+    public function equipo()
+    {
+        return $this->hasOne(Equipo::class, 'usuario_id', 'id');
+    }
 }
