@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout.jsx";
 import { lazy, Suspense } from "react";
 import Spinner from "../components/Spinner.jsx";
-import PartidosPage from "../pages/PartidosPage/PartidosPage.jsx";
 
 /**
  * Utilizo al carga perezosa o diferida para cada pages
@@ -14,7 +13,12 @@ const EquiposPage = lazy(() => import("../pages/EquiposPage/EquiposPage.jsx"));
 const DetallesEquipoPage = lazy(() =>
   import("../pages/EquiposPage/DetallesEquipoPage.jsx")
 );
-const TorneoPage = lazy(() => import("../pages/TorneoPage.jsx"));
+const PartidosPage = lazy(() =>
+  import("../pages/PartidosPage/PartidosPage.jsx")
+);
+const DetallePartidoPage = lazy(() =>
+  import("../pages/PartidosPage/DetallePartidoPage.jsx")
+);
 const ClasificaciónPage = lazy(() => import("../pages/ClasificacionPage.jsx"));
 const OrganizacionPage = lazy(() => import("../pages/OrganizacionPage.jsx"));
 const RetoPage = lazy(() => import("../pages/RetoPage.jsx"));
@@ -25,9 +29,7 @@ const LoginPage = lazy(() => import("../pages/LoginPage.jsx"));
 const AdministracionPage = lazy(() =>
   import("../pages/AdministracionPage.jsx")
 );
-const EstadisticasPage = lazy(() =>
-  import("../pages/EstadisticasPage.jsx")
-);
+const EstadisticasPage = lazy(() => import("../pages/EstadisticasPage.jsx"));
 const DetalleJugadorPage = lazy(() =>
   import("../pages/JugadoresPage/DetalleJugadorPage.jsx")
 );
@@ -97,10 +99,18 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="torneo"
+            path="partidos"
             element={
               <Suspense fallback={<Spinner />}>
                 <PartidosPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="partidos/:slig"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetallePartidoPage />
               </Suspense>
             }
           />

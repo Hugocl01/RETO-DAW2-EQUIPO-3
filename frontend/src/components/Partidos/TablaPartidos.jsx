@@ -1,4 +1,5 @@
 import Partido from "./Partido";
+import {useNavigate} from "react-router-dom"
 
 /**
  * Componente para las tablas de los partidos
@@ -6,6 +7,9 @@ import Partido from "./Partido";
  * @returns
  */
 function TablaPartidos({ tipo, grupo, partidos }) {
+
+  const navegar=useNavigate();
+
   /**
    * Si no hay partidos, mostrar un mensaje.
    */
@@ -40,6 +44,10 @@ function TablaPartidos({ tipo, grupo, partidos }) {
     return partidosFiltrados;
   }
 
+  function navegarDetalleResultado(slug){
+    navegar(`/partidos/${slug}`);
+  }
+
   return (
     <div className="container">
       {/** 
@@ -53,7 +61,7 @@ function TablaPartidos({ tipo, grupo, partidos }) {
              * Muestro los partidos del grupo seleccionado 
              */}
             {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              <Partido key={indice} tipo={tipo} objPartido={valor} />
+              <Partido key={indice} tipo={tipo} objPartido={valor} fnNavegar={navegarDetalleResultado} />
             ))}
           </div>
         </>
@@ -65,7 +73,7 @@ function TablaPartidos({ tipo, grupo, partidos }) {
              * Filtro los partidos de eliminatorias 
              **/}
             {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              <Partido key={indice} tipo={tipo} objPartido={valor} />
+              <Partido key={indice} tipo={tipo} objPartido={valor} fnNavegar={navegarDetalleResultado} />
             ))}
           </div>
         </>

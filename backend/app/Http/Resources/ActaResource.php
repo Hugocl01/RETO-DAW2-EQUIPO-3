@@ -16,8 +16,12 @@ class ActaResource extends JsonResource
     {
         return [
             'id'         => $this->id,
-            'jugador'    => $this->jugador->nombre_completo,
-            'equipo'     => $this->jugador->equipo->nombre,
+            'jugador'    => isset($this->jugador)
+            ? $this->jugador->nombre_completo
+            : null,
+            'equipo'     => isset($this->jugador)
+            ? $this->jugador->equipo->nombre
+            : null,
             'incidencia' => $this->incidencia->tipo,
             'minuto'     => $this->minuto
         ];
