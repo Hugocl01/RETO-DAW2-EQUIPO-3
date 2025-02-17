@@ -11,34 +11,60 @@ function Partido({ tipo, objPartido, fnNavegar }) {
   function handleClick() {
     fnNavegar(partido.slug);
   }
+
+  /**
+   * Creo un identificador único para los accordeones de los partidos
+   */
+  const collapseId = `collapse-${partido.slug}`;
+
   return (
-    <div className="card mb-3 shadow-sm">
-      <div className="card-header text-center bg-primary text-white">
+    <div className="accordion card mb-3 shadow-sm" id={`accordion-${partido.slug}`}>
+       {/**
+        * Cabecera
+        */}
+      <button
+        className="accordion-button card-header bg-primary text-white"
+        type="button"
+        data-bs-toggle="collapse"
+        /**Objetivo del target */
+        data-bs-target={`#${collapseId}`}
+        /**Para que de inicio no esté abierto */
+        aria-expanded="false"
+        /**Me aparezca la flecha del acordeon */
+        aria-controls={collapseId}
+      >
         {/**
-         *  Muestro el tipo de partido si no es 'clasificatorio'
+         * Muestro el tipo de partido si no es 'clasificatorio'
          */}
         {tipo !== "clasificatorio" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
-        <h5 className="m-0">{`Partido: ${partido["equipo local"]} vs ${partido["equipo visitante"]}`}</h5>
-      </div>
-      <div className="card-body">
-        <div className="row">
-          <div className="col-4 text-center">
-            <p className="display-4">{partido["goles local"]}</p>
-          </div>
-          <div className="col-4 text-center">
-            <h6>VS</h6>
-            <p className="text-muted">Resultado</p>
+        <h5 className="w-100 text-center m-0">{`Partido: ${partido["equipo local"]} vs ${partido["equipo visitante"]}`}</h5>
+      </button>
+      <div
+        id={collapseId}
+        className="accordion-collapse collapse"
+        /**Tengo que poner la clase padre para recibir la acción del collapse */
+        data-bs-parent={`#accordion-${partido.slug}`}
+      >
+        <div className="card-body">
+          <div className="row">
+            <div className="col-4 text-center">
+              <p className="display-4">{partido["goles local"]}</p>
+            </div>
+            <div className="col-4 text-center">
+              <h6>VS</h6>
+              <p className="text-muted">Resultado</p>
 
-            <i
-              className="bi bi-clipboard"
-              data-tooltip-id="actaPartido"
-              data-tooltip-content="Ver Acta"
-              onClick={handleClick}
-            ></i>
-            <Tooltip id="actaPartido"></Tooltip>
-          </div>
-          <div className="col-4 text-center">
-            <p className="display-4">{partido["goles visitante"]}</p>
+              <i
+                className="bi bi-clipboard"
+                data-tooltip-id="actaPartido"
+                data-tooltip-content="Ver Acta"
+                onClick={handleClick}
+              ></i>
+              <Tooltip id="actaPartido"></Tooltip>
+            </div>
+            <div className="col-4 text-center">
+              <p className="display-4">{partido["goles visitante"]}</p>
+            </div>
           </div>
         </div>
       </div>
