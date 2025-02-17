@@ -16,8 +16,8 @@ function Crud({ seccion }) {
     const [newItem, setNewItem] = useState({});
     const [paginaActual, setPaginaActual] = useState(1);
     const [isCreating, setIsCreating] = useState(false); // Nueva variable de estado para el formulario de creación
+    const [searchTerm, setSearchTerm] = useState(""); // Estado para el buscador
     const itemsPorPagina = 12;
-    const totalPaginas = Math.ceil(items.length / itemsPorPagina);
 
     const handleDelete = (id) => deleteItem(id);
     const handleEdit = (item) => setEditingItem(item);
@@ -27,32 +27,31 @@ function Crud({ seccion }) {
     };
     const handleCancel = () => setEditingItem(null);
     const handleActivate = (id) => activateItem(id);
+    const handleUpdateStatus = (id) => updateStatusItem(id);
 
-    const handleNewItemChange = (e) => {
-        setNewItem({ ...newItem, [e.target.name]: e.target.value });
-    };
-
-    const handleUpdateStatus = (id) => {
-        updateStatusItem(id);
-    };
-
-    const handleCreate = () => {
-        createItem(newItem);
-        setNewItem({});
-        setIsCreating(false); // Cerrar el formulario de creación después de guardar
-    };
-
+    // Excluir 'id' de las columnas visibles
     const filteredColumns = columns.filter((column) =>
         column !== 'id' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
-    ); // Excluir 'id' de las columnas visibles
+    );
+
+    console.log(columns);
 
     const renderColumnValue = (column, item) => {
         const value = item[column];
         return typeof value === "object" && value !== null ? null : value ?? "N/A";
     };
 
+    // FILTRO POR BÚSQUEDA (Solo en columnas visibles)
+    const itemsFiltrados = items.filter(item =>
+        filteredColumns.some(column =>
+            item[column]?.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(searchTerm.toLowerCase())
+        )
+    );
+
+    // PAGINACIÓN
+    const totalPaginas = Math.ceil(itemsFiltrados.length / itemsPorPagina);
     const indiceInicio = (paginaActual - 1) * itemsPorPagina;
-    const itemsPaginados = items.slice(indiceInicio, indiceInicio + itemsPorPagina);
+    const itemsPaginados = itemsFiltrados.slice(indiceInicio, indiceInicio + itemsPorPagina);
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p>{error}</p>;
@@ -67,11 +66,23 @@ function Crud({ seccion }) {
                     onSave={handleCreate}
                     onCancel={() => setIsCreating(false)}
                     newItem={newItem}
-                    onChange={handleNewItemChange}
+                    onChange={(e) => setNewItem({ ...newItem, [e.target.name]: e.target.value })}
                 />
             ) : (
                 <>
                     <h3>{seccion.nombre || 'Entidad'}</h3>
+
+                    {/* Buscador */}
+                    <input
+                        type="text"
+                        placeholder="Buscar..."
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setPaginaActual(1); // Reinicia a la primera página cuando se filtra
+                        }}
+                        className="form-control mb-3"
+                    />
 
                     {/* Botón de crear entidad */}
                     {seccion.acciones?.some(a => a.nombre === "store") && (
@@ -125,8 +136,8 @@ function Crud({ seccion }) {
                         </tbody>
                     </table>
 
-                    {/* Paginación (solo se muestra si hay datos) */}
-                    {items.length > 0 && (
+                    {/* Paginación (solo si hay datos) */}
+                    {itemsFiltrados.length > 0 && (
                         <div className="d-flex justify-content-center mt-4">
                             <button
                                 className="btn btn-primary me-2"
