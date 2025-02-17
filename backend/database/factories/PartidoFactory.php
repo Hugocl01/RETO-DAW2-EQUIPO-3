@@ -32,6 +32,7 @@ class PartidoFactory extends Factory
         return $this->afterCreating(function (Partido $partido) {
             // (1) Crear acta de inicio
             Acta::factory()->create([
+                'jugador_id'    =>null,
                 'partido_id'    => $partido->id,
                 'incidencia_id' => 13, // ejemplo de ID para "Inicio"
                 'minuto'        => 0,
@@ -74,6 +75,7 @@ class PartidoFactory extends Factory
 
             // (5) Crear acta de final
             Acta::factory()->create([
+                'jugador_id'    =>null,
                 'partido_id'    => $partido->id,
                 'incidencia_id' => 14, // ejemplo de ID para "Fin"
                 'minuto'        => $partido->duracion,
