@@ -28,11 +28,11 @@ return new class extends Migration
             // Opcional: si va a portada
             $table->boolean('portada')->default(false);
 
-            // Campos de auditoría (si los necesitas)
-            $table->unsignedBigInteger('usuario_id_creacion')->nullable();
-            $table->dateTime('fecha_creacion')->nullable();
-            $table->unsignedBigInteger('usuario_id_actualizacion')->nullable();
-            $table->dateTime('fecha_actualizacion')->nullable();
+            // Creaciones y modificaciones
+            $table->unsignedBigInteger('usuario_creador_id')->nullable();
+            $table->timestamp('fecha_creacion')->useCurrent()->nullable();
+            $table->unsignedBigInteger('usuario_modificador_id')->nullable();
+            $table->timestamp('fecha_modificacion')->useCurrentOnUpdate()->nullable();
             $table->timestamps();
         });
     }

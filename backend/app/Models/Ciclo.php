@@ -46,4 +46,14 @@ class Ciclo extends Model
     {
         return $this->belongsTo(Familia::class, 'familia_id');
     }
+
+    public function imagenes()
+    {
+        return $this->morphMany(Imagen::class, 'imagenable');
+    }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }
