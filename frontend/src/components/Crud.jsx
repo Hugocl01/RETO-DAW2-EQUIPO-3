@@ -31,7 +31,7 @@ function Crud({ seccion }) {
 
     // Excluir 'id' de las columnas visibles
     const filteredColumns = columns.filter((column) =>
-        column !== 'id' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
+        column !== 'id' && column !== 'slug' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
     );
 
     console.log(columns);
