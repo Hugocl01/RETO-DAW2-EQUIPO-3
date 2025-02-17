@@ -7,50 +7,50 @@ use Illuminate\Foundation\Http\FormRequest;
 class PublicacionRequest extends FormRequest
 {
     /**
-     * Determina si el usuario está autorizado a realizar esta petición.
+     * Determina si el usuario está autorizado a hacer este request.
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        // Si usas políticas o gates, podría ser algo como:
-        // return Auth::user()->can('crear-publicaciones');
-        // De lo contrario, return true;
+        // Aquí puedes agregar la lógica de autorización (por ejemplo, verificar roles o permisos)
         return true;
     }
 
     /**
-     * Reglas de validación.
+     * Obtén las reglas de validación que se aplican al request.
      */
-    public function rules()
+    public function rules(): array
     {
-        // Si es "store", puede que quieras la regla 'required' en 'titulo';
-        // si es "update", puede ser 'sometimes'. Ajusta según tus necesidades.
         return [
-            'titulo'    => 'required|string|max:255',
+            'titulo' => 'required|string|max:255',
             'contenido' => 'nullable|string',
-
-            // Si permites subir múltiples imágenes, vendrán en un array
-            // Ej: <input type="file" name="imagenes[]" multiple />
-            // Validamos cada imagen (imagen opcional y peso máximo 2MB por ej.)
-            'imagenes'      => 'sometimes|array',
-            'imagenes.*'    => 'image|max:2048',
-
-            // Si tienes un select para “tipo_entidad” e “entidad_id”
-            'publicacionable_type' => 'sometimes|string',
-            'publicacionable_id'   => 'sometimes|integer|exists:XXXX,id',
-            // “XXXX” = la tabla que corresponda o usa tu propia lógica en caso polimórfico
+            'publicacionable_type' => 'required|string|max:255',
+            'ruta_video' => 'nullable|string|max:255',
+            'ruta_audio' => 'nullable|string|max:255',
+            'portada' => 'sometimes|boolean',
         ];
     }
 
-    /**
-     * Mensajes de error personalizados (opcional).
-     */
-    public function messages()
+    public function messages(): array
     {
         return [
-            'titulo.required' => 'El título de la publicación es obligatorio.',
-            'titulo.max'      => 'El título no puede exceder 255 caracteres.',
-            'imagenes.*.image' => 'Cada archivo debe ser una imagen válida.',
-            'imagenes.*.max'   => 'El tamaño de cada imagen no puede sobrepasar los 2MB.',
+            'titulo.required' => 'El título es obligatorio.',
+            'titulo.string' => 'El título debe ser un texto.',
+            'titulo.max' => 'El título no debe tener más de 255 caracteres.',
+
+            'contenido.string' => 'El contenido debe ser un texto.',
+
+            'publicacionable_type.required' => 'El tipo de entidad es obligatorio.',
+            'publicacionable_type.string' => 'El tipo de entidad debe ser un texto.',
+            'publicacionable_type.max' => 'El tipo de entidad no debe tener más de 255 caracteres.',
+
+            'ruta_video.string' => 'La ruta del video debe ser un texto.',
+            'ruta_video.max' => 'La ruta del video no debe tener más de 255 caracteres.',
+
+            'ruta_audio.string' => 'La ruta del audio debe ser un texto.',
+            'ruta_audio.max' => 'La ruta del audio no debe tener más de 255 caracteres.',
+
+            'portada.boolean' => 'El valor de portada debe ser verdadero o falso.',
         ];
     }
+
 }

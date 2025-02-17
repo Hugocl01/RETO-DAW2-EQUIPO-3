@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('ruta');
 
             // Relación polimórfica -> crea imageable_id y imageable_type
-            $table->morphs('imageable');
+            $table->morphs('imagenable');
 
             // Auditoría
             $table->unsignedBigInteger('usuario_id_creacion')->nullable();

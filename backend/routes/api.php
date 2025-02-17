@@ -17,8 +17,7 @@ use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\RetoController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\ClasificacionController;
-use App\Models\Inscripcion;
-
+use App\Http\Controllers\PublicacionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -77,6 +76,10 @@ Route::apiResource('retos', RetoController::class);
 
 // Partidos
 Route::apiResource('partidos', PartidoController::class);
+
+// Publicaciones
+Route::apiResource('publicaciones', PublicacionController::class);
+Route::get('modelos', [PublicacionController::class, 'listaModelos']);
 
 // Clasificaciones
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);

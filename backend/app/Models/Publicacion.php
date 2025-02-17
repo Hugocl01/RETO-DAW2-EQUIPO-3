@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Traits\Auditable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Publicacion extends Model
 {
-    use Auditable;
+    use Auditable, HasFactory;
 
     protected $table = 'publicaciones';
 
@@ -30,6 +31,19 @@ class Publicacion extends Model
     // Si cada publicacion tiene sus imágenes
     public function imagenes()
     {
-        return $this->morphMany(Imagen::class, 'imageable');
+        return $this->morphMany(Imagen::class, 'imagenable');
+    }
+
+    /**
+     * Retorna una lista con los tipos de modelos (clases) asociados a las publicaciones.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getListaDeModelos()
+    {
+        return self::query()
+            ->select('publicacionable_type')
+            ->distinct()
+            ->pluck('publicacionable_type');
     }
 }

@@ -56,7 +56,8 @@ class DatabaseSeeder extends Seeder
 
             // Semi y Final
             SemifinalFinalSeeder::class,
-
+            PublicacionSeeder::class,
+            ImagenSeeder::class,
         ]);
     }
 }

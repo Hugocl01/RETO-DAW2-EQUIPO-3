@@ -16,4 +16,14 @@ class Pabellon extends Model
         'nombre',
         'direccion',
     ];
+
+    public function imagenes()
+    {
+        return $this->morphMany(Imagen::class, 'imagenable');
+    }
+
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 }

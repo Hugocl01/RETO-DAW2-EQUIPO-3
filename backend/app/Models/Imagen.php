@@ -14,12 +14,12 @@ class Imagen extends Model
     protected $fillable = [
         'nombre',
         'ruta_fichero',
-        'imageable_id',
-        'imageable_type',
+        'imagenable_id',
+        'imagenable_type',
     ];
 
     // Relación inversa: la imagen pertenece a "algo" (publicación, equipo, etc.)
-    public function imageable()
+    public function imagenable()
     {
         return $this->morphTo();
     }

@@ -81,7 +81,15 @@ class Jugador extends Model
         return 'slug';
     }
 
+    public function imagenes()
+    {
+        return $this->morphMany(Imagen::class, 'imagenable');
+    }
 
+    public function publicaciones()
+    {
+        return $this->morphMany(Publicacion::class, 'publicacionable');
+    }
 
     // Custom method to compute stats for the player
     public function statsJugador(): array
