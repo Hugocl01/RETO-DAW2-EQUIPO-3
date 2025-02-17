@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
 import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
@@ -9,10 +9,14 @@ function Inscribirse() {
     const [errores, setErrores] = useState({});
     const [estudios, setEstudios] = useState([]);
     const [centros, setCentros] = useState([]);
+    const [contadorJugadores, setContadorJugadores] = useState(0);
+    const idUnico = useId();
 
     // Agregar jugador
     const agregarJugador = () => {
-        setJugadores([...jugadores, { id: jugadores.length, nombre_completo: '', estudio_id: '' }]);
+        const nuevoIdJugador = `${idUnico}-${contadorJugadores}`;
+        setJugadores([...jugadores, { id: nuevoIdJugador, nombre_completo: '', estudio_id: '' }]);
+        setContadorJugadores(contadorJugadores + 1);
     };
 
 
@@ -107,19 +111,19 @@ function Inscribirse() {
                         // partes[0] = "jugadores"
                         // partes[1] = "0" (el índice del jugador)
                         // partes[2] = "nombre_completo" (el campo)
-                        const jugadorId = partes[1];
+                        const jugadorIndex = parseInt(partes[1], 10);
                         const campo = partes[2]; // "nombre_completo", "estudio_id", etc.
 
                         // Aseguramos que exista en nuevosErrores['jugadores.X']
-                        if (!nuevosErrores[`jugadores.${jugadorId}`]) {
-                            nuevosErrores[`jugadores.${jugadorId}`] = {};
+                        if (!nuevosErrores[`jugadores.${jugadorIndex}`]) {
+                            nuevosErrores[`jugadores.${jugadorIndex}`] = {};
                         }
                         // Si el campo es "estudio_id", lo metes en errores.estudio
                         if (campo === "estudio_id") {
-                            nuevosErrores[`jugadores.${jugadorId}`]["estudio"] = erroresBackend[clave][0];
+                            nuevosErrores[`jugadores.${jugadorIndex}`]["estudio"] = erroresBackend[clave][0];
                         } else {
                             // campo = "nombre_completo", "dni", "email", etc.
-                            nuevosErrores[`jugadores.${jugadorId}`][campo] = erroresBackend[clave][0];
+                            nuevosErrores[`jugadores.${jugadorIndex}`][campo] = erroresBackend[clave][0];
                         }
                         return;
                     }
@@ -129,7 +133,7 @@ function Inscribirse() {
                         nuevosErrores[clave] = erroresBackend[clave][0];
                     }
                 });
-
+                console.log("Errores procesados:", nuevosErrores);
                 setErrores(nuevosErrores);
             } else {
                 console.error("Error al enviar el formulario:", error);
@@ -231,11 +235,12 @@ function Inscribirse() {
                         onRemove={eliminarJugador}
                         onSetCapitan={handleSetCapitan}
                         isCapitanDisabled={capitanId !== null && capitanId !== jugador.id}
-                        errores={errores[`jugadores.${jugador.id}`] || {}}
+                        errores={errores[`jugadores.${index}`] || {}}
                         estudios={estudios}
                         numeroJugador={index + 1}
                     />
                 ))}
+
 
                 {errores["jugadores"] && Array.isArray(errores["jugadores"]) && (
                     errores["jugadores"].map((mensaje, i) => (
