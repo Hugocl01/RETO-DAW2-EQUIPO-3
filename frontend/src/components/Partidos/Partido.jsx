@@ -23,7 +23,7 @@ function Partido({ tipo, objPartido, fnNavegar }) {
         * Cabecera
         */}
       <button
-        className="accordion-button card-header bg-primary text-white"
+        className="accordion-button card-header bg-secondary text-white"
         type="button"
         data-bs-toggle="collapse"
         /**Objetivo del target */

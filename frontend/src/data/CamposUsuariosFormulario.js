@@ -1,26 +1,21 @@
 const camposUsuariosFormulario = [
     {
-        name: 'username',
-        label: 'Usuario',
+        name: 'nombre_completo',
+        label: 'Nombre Completo',
         type: 'text',
-        placeholder: 'Nombre de usuario'
+        placeholder: 'Ingrese su nombre completo'
+    },
+    {
+        name: 'email',
+        label: 'Correo Electrónico',
+        type: 'email',
+        placeholder: 'Ingrese su correo electrónico'
     },
     {
         name: 'password',
         label: 'Contraseña',
         type: 'password',
-        placeholder: 'Contraseña de usuario'
-    },
-    {
-        name: 'tipo',
-        label: 'Rol',
-        type: 'select',
-        placeholder: 'Seleccione el rol',
-        options: [
-            { value: 'gestion', label: 'Gestión' },
-            { value: 'medico', label: 'Médico' },
-            { value: 'admin', label: 'Administrador' }
-        ]
+        placeholder: 'Ingrese su contraseña'
     }
 ];
 
