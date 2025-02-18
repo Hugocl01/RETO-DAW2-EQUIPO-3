@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImagenRequest;
+use App\Models\Imagen;
 
 class ImagenController extends Controller
 {
@@ -44,5 +45,14 @@ class ImagenController extends Controller
             'message' => "Foto de {$model} subida correctamente.",
             'ruta'    => $rutaFichero,
         ], 200);
+    }
+
+    public function getListaImagenModelos()
+    {
+        $modelos = Imagen::getLista();
+
+        return response()->json([
+            'modelos' => $modelos,
+        ]);
     }
 }

@@ -17,6 +17,8 @@ use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\RetoController;
 use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\ClasificacionController;
+use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\PublicacionController;
 /*
 |--------------------------------------------------------------------------
@@ -81,10 +83,15 @@ Route::apiResource('retos', RetoController::class);
 
 // Partidos
 Route::apiResource('partidos', PartidoController::class);
+Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido']);
 
 // Publicaciones
 Route::apiResource('publicaciones', PublicacionController::class);
-Route::get('/lista/modelos', [PublicacionController::class, 'listaModelos']);
+Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos']);
+
+// Imagenes
+Route::apiResource('imagenes', ImagenController::class);
+Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos']);
 
 // Clasificaciones
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
@@ -101,5 +108,5 @@ Route::get('/inscripcion-confirmada', function () {
     return view('inscripcion.confirmada');
 })->name('inscripcion.confirmada.view');
 
-// (Opcional) Reto
-// Route::apiResource('retos', RetoController::class);
+// Incidencia
+Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias']);

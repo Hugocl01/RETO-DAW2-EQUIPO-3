@@ -223,4 +223,10 @@ class PartidoController extends Controller
         $partido->delete();
         return response()->json(null, 204);
     }
+
+    public function getListaTipoPartido()
+    {
+        $tipos = Partido::getLista();
+        return response()->json($tipos);
+    }
 }

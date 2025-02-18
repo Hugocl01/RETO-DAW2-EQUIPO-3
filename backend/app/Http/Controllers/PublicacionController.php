@@ -83,9 +83,9 @@ class PublicacionController extends Controller
         return response()->json(null, 204);
     }
 
-    public function listaModelos()
+    public function getListaPublicacionModelos()
     {
-        $modelos = Publicacion::getListaDeModelos();
+        $modelos = Publicacion::getLista();
 
         return response()->json([
             'modelos' => $modelos,

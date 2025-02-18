@@ -24,4 +24,12 @@ class Imagen extends Model
     {
         return $this->morphTo();
     }
+
+    public static function getLista()
+    {
+        return self::query()
+            ->select('imagenable_type')
+            ->distinct()
+            ->pluck('imagenable_type');
+    }
 }
