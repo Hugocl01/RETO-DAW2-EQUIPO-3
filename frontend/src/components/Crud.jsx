@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useCrud } from "../hooks/useCrud";
-import EditForm from "./EditForm";
+import Formulario from "./Formularios/Formulario";
+import camposFormularios from "../data/index";
 
 function Crud({ seccion }) {
     if (!seccion) {
@@ -13,42 +14,51 @@ function Crud({ seccion }) {
     } = useCrud(seccion);
 
     const [editingItem, setEditingItem] = useState(null);
-    const [newItem, setNewItem] = useState({});
+    const [isCreating, setIsCreating] = useState(false);
     const [paginaActual, setPaginaActual] = useState(1);
-    const [isCreating, setIsCreating] = useState(false); // Nueva variable de estado para el formulario de creación
-    const [searchTerm, setSearchTerm] = useState(""); // Estado para el buscador
+    const [searchTerm, setSearchTerm] = useState("");
     const itemsPorPagina = 12;
+
+    const camposFormulario = camposFormularios[seccion] || [];
 
     const handleDelete = (id) => deleteItem(id);
     const handleEdit = (item) => setEditingItem(item);
-    const handleSave = (updatedItem) => {
-        updateItem(updatedItem.id, updatedItem);
+    const handleSave = async (formData) => {
+        if (editingItem) {
+            await updateItem(editingItem.id, formData);
+        } else {
+            await createItem(formData);
+        }
         setEditingItem(null);
+        setIsCreating(false);
     };
-    const handleCancel = () => setEditingItem(null);
+
+    const handleCancel = () => {
+        setEditingItem(null);
+        setIsCreating(false);
+    };
+
     const handleActivate = (id) => activateItem(id);
     const handleUpdateStatus = (id) => updateStatusItem(id);
 
-    // Excluir 'id' de las columnas visibles
+    const handleValidarFormulario = (formData) => {
+        const errores = {};
+        if (!formData.username) errores.username = "El nombre de usuario es obligatorio.";
+        if (!formData.password) errores.password = "La contraseña es obligatoria.";
+        if (!formData.tipo) errores.tipo = "El rol es obligatorio.";
+        return errores;
+    };
+
     const filteredColumns = columns.filter((column) =>
         column !== 'id' && column !== 'slug' && !items.some((item) => typeof item[column] === "object" && item[column] !== null)
     );
-
-    console.log(columns);
-
-    const renderColumnValue = (column, item) => {
-        const value = item[column];
-        return typeof value === "object" && value !== null ? null : value ?? "N/A";
-    };
-
-    // FILTRO POR BÚSQUEDA (Solo en columnas visibles)
     const itemsFiltrados = items.filter(item =>
         filteredColumns.some(column =>
-            item[column]?.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(searchTerm.toLowerCase())
+            item[column]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
 
-    // PAGINACIÓN
+    // Paginación
     const totalPaginas = Math.ceil(itemsFiltrados.length / itemsPorPagina);
     const indiceInicio = (paginaActual - 1) * itemsPorPagina;
     const itemsPaginados = itemsFiltrados.slice(indiceInicio, indiceInicio + itemsPorPagina);
@@ -58,15 +68,13 @@ function Crud({ seccion }) {
 
     return (
         <>
-            {editingItem ? (
-                <EditForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
-            ) : isCreating ? (
-                <CreateForm
-                    columns={filteredColumns}
-                    onSave={handleCreate}
-                    onCancel={() => setIsCreating(false)}
-                    newItem={newItem}
-                    onChange={(e) => setNewItem({ ...newItem, [e.target.name]: e.target.value })}
+            {editingItem || isCreating ? (
+                <Formulario
+                    datosIniciales={editingItem}
+                    onGuardar={handleSave}
+                    camposFormulario={camposFormulario}
+                    onValidar={handleValidarFormulario}
+                    onCancelar={handleCancel}
                 />
             ) : (
                 <>
@@ -108,7 +116,7 @@ function Crud({ seccion }) {
                                 itemsPaginados.map(item => (
                                     <tr key={item.id}>
                                         {filteredColumns.map(column => (
-                                            <td key={column}>{renderColumnValue(column, item)}</td>
+                                            <td key={column}>{item[column] ?? "N/A"}</td>
                                         ))}
                                         <td>
                                             {seccion.acciones?.some(a => a.nombre === "update") && (
@@ -122,10 +130,7 @@ function Crud({ seccion }) {
                                             )}
                                             {/* Botón para invocar updateStatusItem */}
                                             {seccion.acciones?.some(a => a.nombre === "cambiarEstado") && (
-                                                <button
-                                                    onClick={() => handleUpdateStatus(item.id)}
-                                                    className="btn btn-warning"
-                                                >
+                                                <button onClick={() => handleUpdateStatus(item.id)} className="btn btn-warning">
                                                     Aprobar
                                                 </button>
                                             )}
