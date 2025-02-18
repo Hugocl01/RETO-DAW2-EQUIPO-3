@@ -20,11 +20,10 @@ return new class extends Migration
             $table->morphs('imagenable');
 
             // Auditoría
-            $table->unsignedBigInteger('usuario_id_creacion')->nullable();
-            $table->dateTime('fecha_creacion')->nullable();
-            $table->unsignedBigInteger('usuario_id_actualizacion')->nullable();
-            $table->dateTime('fecha_actualizacion')->nullable();
-
+            $table->unsignedBigInteger('usuario_creador_id')->nullable();
+            $table->timestamp('fecha_creacion')->useCurrent()->nullable();
+            $table->unsignedBigInteger('usuario_modificador_id')->nullable();
+            $table->timestamp('fecha_modificacion')->useCurrentOnUpdate()->nullable();
             $table->timestamps();
         });
     }

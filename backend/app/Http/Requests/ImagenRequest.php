@@ -6,27 +6,35 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ImagenRequest extends FormRequest
 {
-    public function authorize()
+    /**
+     * Determina si el usuario está autorizado a hacer este request.
+     */
+    public function authorize(): bool
     {
-        // return Auth::user()->can('subir-imagenes');
-        // O simplemente true si no usas roles detallados
+        // Aquí puedes agregar lógica para autorizar al usuario, por ejemplo, verificar roles o permisos.
         return true;
     }
 
-    public function rules()
+    /**
+     * Obtén las reglas de validación que se aplican al request.
+     */
+    public function rules(): array
     {
         return [
-            // si recibes solo una imagen con name="imagen"
-            'imagen' => 'required|image|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
-    public function messages()
+    /**
+     * Mensajes de validación personalizados.
+     */
+    public function messages(): array
     {
         return [
-            'imagen.required' => 'Debes seleccionar un archivo de imagen.',
-            'imagen.image'    => 'El archivo no es un formato de imagen válido.',
-            'imagen.max'      => 'La imagen no puede pesar más de 2MB.',
+            'imagen.required' => 'Es obligatorio seleccionar una imagen.',
+            'imagen.image'    => 'El archivo debe ser una imagen válida.',
+            'imagen.mimes'    => 'La imagen debe ser de tipo: jpeg, png, jpg, gif o svg.',
+            'imagen.max'      => 'La imagen no debe superar los 2048 kilobytes.',
         ];
     }
 }

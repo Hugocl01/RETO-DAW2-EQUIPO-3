@@ -40,33 +40,47 @@ class PublicacionController extends Controller
 
     public function store(PublicacionRequest $request)
     {
-        // La validación ya se realizó automáticamente.
-        // Recogemos los datos:
-        $data = $request->validated();
+        // Validación de datos
+        $validatedData = $request->validated();
 
-        // Creamos la publicación
+        // Crear la publicación
         $publicacion = Publicacion::create([
-            'titulo'    => $data['titulo'],
-            'contenido' => $data['contenido'] ?? null,
-
-            'publicacionable_id'   => $data['publicacionable_id'] ?? null,
-            'publicacionable_type' => $data['publicacionable_type'] ?? null,
-
+            'titulo'               => $validatedData['titulo'],
+            'contenido'            => $validatedData['contenido'] ?? null,
+            'publicacionable_type' => $validatedData['publicacionable_type'],
+            'publicacionable_id'   => $validatedData['publicacionable_id'],
+            'ruta_video'           => $validatedData['ruta_video'] ?? null,
+            'ruta_audio'           => $validatedData['ruta_audio'] ?? null,
+            'portada'              => $validatedData['portada'] ?? false,
         ]);
 
-        // Subir y asociar imágenes (si se enviaron)
-        if (!empty($data['imagenes'])) {
-            foreach ($data['imagenes'] as $imagenFile) {
-                $ruta = $imagenFile->store('uploads', 'public');
+        // Procesar el array de imágenes si existen
+        if ($request->hasFile('imagenes')) {
+            foreach ($request->file('imagenes') as $imagen) {
+                // Almacenar la imagen en la carpeta 'public/publicaciones/imagenes'
+                // Se asume que el disco 'public' está configurado en config/filesystems.php
+                $ruta = $imagen->store('publicaciones/imagenes', 'public');
+
+                // Crear el registro de imagen asociado mediante la relación polimórfica
                 $publicacion->imagenes()->create([
-                    'nombre'       => $imagenFile->getClientOriginalName(),
-                    'ruta_fichero' => $ruta,
+                    'ruta' => $ruta,
+                    // Aquí podrías agregar otros campos si tu modelo Imagen los requiere (por ejemplo, 'nombre')
                 ]);
             }
         }
 
-        return redirect()->route('publicaciones.index')
-            ->with('success', 'Publicación creada correctamente.');
+        // Retornar la respuesta (podrías usar un Resource para formatear la salida)
+        return response()->json([
+            'status'      => 'success',
+            'publicacion' => $publicacion,
+        ], 201);
+    }
+
+
+    public function destroy(Publicacion $publicacion)
+    {
+        $publicacion->delete();
+        return response()->json(null, 204);
     }
 
     public function listaModelos()

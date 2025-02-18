@@ -2,15 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Publicacion;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Seeder;
 
 class PublicacionSeeder extends Seeder
 {
     public function run()
     {
-        Publicacion::factory(10)->create();
+        // Crear 5 publicaciones
+        Publicacion::factory(5)->create()->each(function ($publicacion) {
+            // Para cada publicación, crear 3 imágenes usando la relación polimórfica
+            $publicacion->imagenes()->createMany(
+                \App\Models\Imagen::factory(3)->make()->toArray()
+            );
+        });
     }
 }
-
