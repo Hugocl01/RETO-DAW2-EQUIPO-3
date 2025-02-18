@@ -44,6 +44,7 @@ function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, on
     // Renderizado
     return (
         <form onSubmit={handleSubmit} className="formulario">
+            {console.log(camposFormulario)}
             {camposFormulario.map((campo) => (
                 <div key={campo.name}>
                     <label htmlFor={campo.name}>{campo.label}</label>

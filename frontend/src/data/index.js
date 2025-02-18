@@ -13,19 +13,19 @@ import CamposCentrosFormulario from "./CamposCentrosFormulario";
 import CamposEstudiosFormulario from "./CamposEstudiosFormulario";
 
 const camposFormularios = {
-    equipos: CamposEquipoFormulario,
-    jugadores: CamposJugadoresFormulario,
-    partidos: CamposPartidosFormulario,
-    publicaciones: CamposPublicacionesFormulario,
-    actas: CamposActasFormulario,
-    usuarios: CamposUsuariosFormulario,
-    retos: CamposRetosFormulario,
-    imagenes: CamposImagenesFormulario,
-    pabellones: CamposPabellonesFormulario,
-    familias: CamposFamiliasFormulario,
-    ciclos: CamposCiclosFormulario,
-    centros: CamposCentrosFormulario,
-    estudios: CamposEstudiosFormulario,
+    Equipos: CamposEquipoFormulario,
+    Jugadores: CamposJugadoresFormulario,
+    Partidos: CamposPartidosFormulario,
+    Publicaciones: CamposPublicacionesFormulario,
+    Actas: CamposActasFormulario,
+    Usuarios: CamposUsuariosFormulario,
+    Retos: CamposRetosFormulario,
+    Imagenes: CamposImagenesFormulario,
+    Pabellones: CamposPabellonesFormulario,
+    Familias: CamposFamiliasFormulario,
+    Ciclos: CamposCiclosFormulario,
+    Centros: CamposCentrosFormulario,
+    Estudios: CamposEstudiosFormulario,
 };
 
 export default camposFormularios;
