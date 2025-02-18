@@ -2,7 +2,7 @@ import api from "../services/api";
 
 const fetchEstudios = async () => {
     try {
-        const response = await api.get("/ruta-de-la-api");
+        const response = await api.get("/estudios");
         return response.data.estudios.map(estudio => ({
             value: estudio.id,
             label: `${estudio.ciclo} - ${estudio.centro} (Curso ${estudio.curso})`
@@ -27,7 +27,7 @@ const camposRetosFormulario = [
         placeholder: 'Ingrese el texto del reto'
     },
     {
-        name: 'estudio',
+        name: 'estudio_id',
         label: 'Estudio',
         type: 'select',
         options: await fetchEstudios()
