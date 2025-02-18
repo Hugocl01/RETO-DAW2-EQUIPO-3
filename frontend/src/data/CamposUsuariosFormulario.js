@@ -1,4 +1,4 @@
-const camposUsuarioFormulario = [
+const camposUsuariosFormulario = [
     {
         name: 'username',
         label: 'Usuario',
@@ -24,4 +24,4 @@ const camposUsuarioFormulario = [
     }
 ];
 
-export default camposUsuarioFormulario;
+export default camposUsuariosFormulario;
