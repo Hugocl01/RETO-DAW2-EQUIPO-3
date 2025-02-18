@@ -25,7 +25,12 @@ function YouTubeLiveIndicator() {
       });
   }, [channelId, apiKey]);
 
-  return isLive ? <span className="badge bg-danger ms-2">Directo</span> : null;
+  return isLive
+    ? <span className="badge rounded-pill bg-danger text-white ms-2">
+        <i className="bi bi-broadcast-pin me-1"></i> Directo
+      </span>
+
+    : null;
 }
 
 export default YouTubeLiveIndicator;
