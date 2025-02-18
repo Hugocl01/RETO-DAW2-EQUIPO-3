@@ -262,4 +262,10 @@ class PerfilController extends Controller
             'message' => 'No se ha podido eliminar el perfil.'
         ], 400);
     }
+
+    public function getListaPerfiles()
+    {
+        $perfiles = Perfil::getLista();
+        return response()->json($perfiles);
+    }
 }

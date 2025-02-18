@@ -48,4 +48,9 @@ class Perfil extends Model
     {
         return $this->belongsToMany(Seccion::class, 'perfiles_secciones', 'perfil_id', 'seccion_id');
     }
+
+    public static function getLista()
+    {
+        return self::pluck('tipo', 'id');
+    }
 }

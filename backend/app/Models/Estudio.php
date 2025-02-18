@@ -68,4 +68,12 @@ class Estudio extends Model
     {
         return $this->morphMany(Publicacion::class, 'publicacionable');
     }
+
+    public static function getLista()
+    {
+        return self::join('centros', 'estudios.centro_id', '=', 'centros.id')
+            ->join('ciclos', 'estudios.ciclo_id', '=', 'ciclos.id')
+            ->selectRaw("estudios.id, CONCAT(centros.nombre, '-', ciclos.nombre, '-', estudios.curso) AS nombre")
+            ->pluck('nombre', 'id');
+    }
 }

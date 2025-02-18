@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
+import YouTubeLiveIndicator from "./YouTubeLiveIndicator"; // Ajusta la ruta según corresponda
+
 import "./css/Header.css";
+
 
 /**
  * Componente de encabezado de la aplicación.
@@ -23,6 +26,22 @@ function Header() {
                             <img src="../src/assets/imagenes/logo.png" alt="Logo" />
                         </Link>
                     </div>
+
+
+                    {/* Barra de navegación */}
+                    <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><Link to="/" className="nav-link px-2 link-body-emphasis">Inicio</Link></li>
+                        <li><Link to="/equipos" className="nav-link px-2 link-body-emphasis">Equipos</Link></li>
+                        <li><Link to="/partidos" className="nav-link px-2 link-body-emphasis">Torneo</Link></li>
+                        <li><Link to="/clasificacion" className="nav-link px-2 link-body-emphasis">Clasificacion</Link></li>
+                        <li><Link to="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
+                        <li><Link to="/galeria" className="nav-link px-2 link-body-emphasis">Galería</Link></li>
+                        <li><Link to="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
+                         {/* Indicador de transmisión en vivo */}
+                         <li className="d-flex align-items-center">
+                            <YouTubeLiveIndicator />
+                        </li>
+                    </ul>
 
                     {/* Barra de navegación (centrada) */}
                     <div className="d-flex align-items-center justify-content-center flex-grow-1" id="menu">
