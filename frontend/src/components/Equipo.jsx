@@ -20,12 +20,12 @@ function Equipo({ equipoObtenido, fnNavegar }) {
    */
   return (
     <div className="col">
-      <div className="card shadow-sm" onClick={handleClick}>
-        <img 
-          src="src/assets/imagenes/img1.jpg" 
-          alt={equipoObtenido.nombre} 
-          className="card-img-top" 
-          style={{ height: '300px', objectFit: 'cover' }} // Ajusta el tamaño de la imagen
+      <div className="card shadow-sm m-2" onClick={handleClick} id="equipos">
+        <img
+          src="src/assets/imagenes/img1.jpg"
+          alt={equipoObtenido.nombre}
+          className="card-img-top"
+          style={{ height: '250px', objectFit: 'cover' }} // Ajusta el tamaño de la imagen
         />
         <div className="card-body">
           <h5 className="card-title text-center">{equipoObtenido.nombre}</h5>

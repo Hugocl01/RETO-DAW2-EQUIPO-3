@@ -1,0 +1,14 @@
+/* custom.css */
+
+.bg-primary {
+    background-color: #d9625d !important;
+}
+
+.text-primary {
+    color: #d9625d !important;
+}
+
+.btn-primary {
+    background-color: #d9625d !important;
+    border-color: #d9625d !important;
+}
