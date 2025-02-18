@@ -18,4 +18,9 @@ class Incidencia extends Model
     {
         return $this->hasMany(Acta::class, 'incidencia_id');
     }
+
+    public static function getLista()
+    {
+        return self::pluck('tipo', 'id');
+    }
 }

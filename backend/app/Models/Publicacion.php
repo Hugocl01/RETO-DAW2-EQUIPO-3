@@ -39,7 +39,7 @@ class Publicacion extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function getListaDeModelos()
+    public static function getLista()
     {
         return self::query()
             ->select('publicacionable_type')

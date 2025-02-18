@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
-use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\EquipoRequest;
-use App\Http\Requests\ImagenRequest;
+use Illuminate\Http\Request;
 use App\Http\Resources\EquipoResource;
 use Illuminate\Support\Facades\DB;
 use App\Mail\EquipoConfirmacionMail;
@@ -308,10 +307,12 @@ class EquipoController extends Controller
         ], 200);
     }
 
-    public function getListaEquipos()
+    public function getListaEquipos(Request $request)
     {
-        $equipos = Equipo::getLista();
+        $tipo_partido = $request->query('tipo_partido', null);
+        $equipo_id = $request->query('equipo_id', null);
+
+        $equipos = Equipo::getLista($tipo_partido, $equipo_id);
         return response()->json($equipos);
     }
-
 }

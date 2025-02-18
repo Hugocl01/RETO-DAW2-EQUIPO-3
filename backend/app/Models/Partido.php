@@ -125,8 +125,8 @@ class Partido extends Model
     {
         if (empty($this->attributes['slug'])) {
             $fecha = $this->fecha
-            ? \Carbon\Carbon::parse($this->fecha)->format('Y-m-d')
-            : now()->format('Y-m-d');
+                ? \Carbon\Carbon::parse($this->fecha)->format('Y-m-d')
+                : now()->format('Y-m-d');
             // Verificamos si las relaciones están cargadas para evitar consultas innecesarias
             $nombreEquipoLocal = $this->equipoLocal->nombre ?? 'local';
             $nombreEquipoVisitante = $this->equipoVisitante->nombre ?? 'visitante';
@@ -169,5 +169,13 @@ class Partido extends Model
         } else {
             return null; // En caso de empate
         }
+    }
+
+    public static function getLista()
+    {
+        return array_map(
+            fn (\App\Enums\TipoPartido $tipo) => $tipo->value,
+            \App\Enums\TipoPartido::cases()
+        );
     }
 }
