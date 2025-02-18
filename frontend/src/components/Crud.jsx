@@ -19,7 +19,7 @@ function Crud({ seccion }) {
     const [searchTerm, setSearchTerm] = useState("");
     const itemsPorPagina = 12;
 
-    const camposFormulario = camposFormularios[seccion] || [];
+    const camposFormulario = camposFormularios[seccion.nombre];
 
     const handleDelete = (id) => deleteItem(id);
     const handleEdit = (item) => setEditingItem(item);
