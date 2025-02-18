@@ -106,4 +106,9 @@ class Equipo extends Model
             'faltas'             => $totalFaltas,
         ];
     }
+
+    public static function getLista()
+    {
+        return self::pluck('nombre', 'id');
+    }
 }

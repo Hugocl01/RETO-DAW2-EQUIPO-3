@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
+import YouTubeLiveIndicator from "./YouTubeLiveIndicator"; // Ajusta la ruta según corresponda
 
 /**
  * Componente de encabezado de la aplicación.
@@ -33,6 +34,10 @@ function Header() {
                         <li><Link to="/organizacion" className="nav-link px-2 link-body-emphasis">Organización</Link></li>
                         <li><Link to="/galeria" className="nav-link px-2 link-body-emphasis">Galería</Link></li>
                         <li><Link to="/inscribirse" className="nav-link px-2 link-body-emphasis">Inscribirse</Link></li>
+                         {/* Indicador de transmisión en vivo */}
+                         <li className="d-flex align-items-center">
+                            <YouTubeLiveIndicator />
+                        </li>
                     </ul>
 
                     {/* Menú desplegable de usuario cuando está autenticado */}

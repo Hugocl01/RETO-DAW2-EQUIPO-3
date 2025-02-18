@@ -216,4 +216,10 @@ class CentroController extends Controller
             'message' => 'Centro eliminado correctamente'
         ]);
     }
+
+    public function getListaCentros(): JsonResponse
+    {
+        $centros = Centro::getLista();
+        return response()->json($centros);
+    }
 }

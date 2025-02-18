@@ -227,4 +227,10 @@ class CicloController extends Controller
             'message' => 'Ciclo eliminado correctamente'
         ]);
     }
+
+    public function getListaCiclos(): JsonResponse
+    {
+        $ciclos = Ciclo::getLista();
+        return response()->json($ciclos);
+    }
 }

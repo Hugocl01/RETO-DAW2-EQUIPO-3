@@ -308,4 +308,10 @@ class EquipoController extends Controller
         ], 200);
     }
 
+    public function getListaEquipos()
+    {
+        $equipos = Equipo::getLista();
+        return response()->json($equipos);
+    }
+
 }

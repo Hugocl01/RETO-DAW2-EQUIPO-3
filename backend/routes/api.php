@@ -45,16 +45,20 @@ Route::put('usuarios/{usuario}/activo', [UsuarioController::class, 'updateActivo
 
 // Ciclos
 Route::apiResource('ciclos', CicloController::class);
+Route::get('/lista/ciclos', [CicloController::class, 'getListaCiclos']);
 
 // Centros
 Route::apiResource('centros', CentroController::class);
+Route::get('/lista/centros', [CentroController::class, 'getListaCentros']);
 
 // Estudios
 Route::apiResource('estudios', EstudioController::class);
+Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios']);
 
 // Equipos
 Route::apiResource('equipos', EquipoController::class);
 Route::post('equipos/{equipo}/foto', [EquipoController::class, 'uploadFoto']);
+Route::get('lista/equipos', [EquipoController::class, 'getListaEquipos']);
 
 // Familias
 Route::apiResource('familias', FamiliaController::class);
@@ -64,6 +68,7 @@ Route::apiResource('secciones', SeccionController::class);
 
 // Perfiles
 Route::apiResource('perfiles', PerfilController::class);
+Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles']);
 
 // Donaciones
 Route::apiResource('donaciones', DonacionController::class);
@@ -79,7 +84,7 @@ Route::apiResource('partidos', PartidoController::class);
 
 // Publicaciones
 Route::apiResource('publicaciones', PublicacionController::class);
-Route::get('modelos', [PublicacionController::class, 'listaModelos']);
+Route::get('/lista/modelos', [PublicacionController::class, 'listaModelos']);
 
 // Clasificaciones
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);

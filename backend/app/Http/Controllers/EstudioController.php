@@ -135,4 +135,10 @@ class EstudioController extends Controller
             'message' => 'Estudio eliminado correctamente'
         ], 200);
     }
+
+    public function getListaEstudios()
+    {
+        $estudios = Estudio::getLista();
+        return response()->json($estudios);
+    }
 }
