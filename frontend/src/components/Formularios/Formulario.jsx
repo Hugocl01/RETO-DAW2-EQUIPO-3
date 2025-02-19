@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
  * @param {Function} props.onCancelar - Función que se ejecuta al cancelar el formulario.
  * @returns {JSX.Element} El formulario genérico.
  */
-function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, onCancelar }) {
+function Formulario({ datosIniciales, onGuardar, camposFormulario, onCancelar }) {
 
     console.log(datosIniciales)
     // Estados
@@ -36,7 +36,7 @@ function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, on
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const nuevosErrores = onValidar(formData);
+        const nuevosErrores = '';
         setErrores(nuevosErrores);
 
         if (Object.keys(nuevosErrores).length === 0) {

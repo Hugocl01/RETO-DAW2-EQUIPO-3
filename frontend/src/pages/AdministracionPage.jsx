@@ -1,54 +1,56 @@
 import { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import api from "../services/api";
 import AdministracionMenu from "../components/MenuAdministracion";
 import Crud from "../components/Crud";
+import Formulario from "../components/Formularios/Formulario";
+import camposFormularios from "../data/index";
 
 function AdministracionPage() {
-    const [secciones, setSecciones] = useState([]);
+    const { seccion } = useParams();  // Obtener la sección desde la URL
+    const navigate = useNavigate();  // Para cambiar la URL dinámicamente
+    const location = useLocation();
+    
+    const { seguridad } = useContext(SeguridadContext);
     const [loading, setLoading] = useState(true);
     const [entidadSeleccionada, setEntidadSeleccionada] = useState(null);
-    const { seguridad } = useContext(SeguridadContext);
-    const location = useLocation();
+    const [modo, setModo] = useState(null); // "edit" | "create" | null
+    const [itemSeleccionado, setItemSeleccionado] = useState(null);
+    const camposFormulario = camposFormularios[seccion];
 
-    useEffect(() => {
-        const fetchSecciones = async () => {
-            try {
-                const response = await api.get(`/perfiles/${seguridad.user.perfil.id}`);
-                const seccionesData = response.data.perfiles.secciones || [];
-                setSecciones(seccionesData);
-
-                // Obtener el primer parámetro de la URL
-                const params = new URLSearchParams(location.search);
-                for (const [key] of params.entries()) {
-                    const seccionEncontrada = seccionesData.find(s => s.nombre.toLowerCase() === key.toLowerCase());
-                    if (seccionEncontrada) {
-                        setEntidadSeleccionada(seccionEncontrada);
-                        break; // Salimos del bucle al encontrar la primera coincidencia
-                    }
-                }
-            } catch (error) {
-                console.error("Error al obtener secciones:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSecciones();
-    }, [location.search]); // Se ejecuta cuando cambia la URL
-
+    // Cuando el usuario selecciona una sección, actualiza la URL
     const handleLoad = (seccion) => {
         setEntidadSeleccionada(seccion);
+        navigate(`/administracion/${seccion.nombre.toLowerCase()}`);  // 🔥 Cambia la URL al seleccionar una sección
     };
+
+    // Controla si se muestra el CRUD o el formulario
+    const handleModoCambio = (nuevoModo, item = null) => {
+        setModo(nuevoModo);
+        setItemSeleccionado(item);
+    };
+    console.log(itemSeleccionado);
 
     return (
         <div className="d-flex">
             <title>Administración</title>
-            <AdministracionMenu secciones={secciones} loading={loading} onSelect={handleLoad} />
+
+            {/* Menú lateral de administración */}
+            <AdministracionMenu loading={loading} onSelect={handleLoad} />
 
             <div className="flex-grow-1 p-4">
-                <Crud seccion={entidadSeleccionada} />
+                {/* Si estamos editando o creando, mostramos el formulario */}
+                {modo ? (
+                    <Formulario
+                        datosIniciales={itemSeleccionado}
+                        camposFormulario={camposFormulario}
+                        onGuardar={() => setModo(null)}
+                        onCancelar={() => setModo(null)}
+                    />
+                ) : (
+                    <Crud seccion={entidadSeleccionada} onModoCambio={handleModoCambio} />
+                )}
             </div>
         </div>
     );
