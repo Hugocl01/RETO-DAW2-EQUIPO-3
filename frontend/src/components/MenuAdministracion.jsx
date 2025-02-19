@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function AdministracionMenu({ secciones, loading, onSelect }) {
+function MenuAdministracion({ secciones, loading, onSelect }) {
     const [selectedSeccion, setSelectedSeccion] = useState(null);
 
     useEffect(() => {
@@ -56,4 +56,4 @@ function AdministracionMenu({ secciones, loading, onSelect }) {
     );
 }
 
-export default AdministracionMenu;
+export default MenuAdministracion;

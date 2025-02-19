@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
  * @returns {JSX.Element} El formulario genérico.
  */
 function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, onCancelar }) {
+
+    console.log(datosIniciales)
     // Estados
     const [formData, setFormData] = useState({});
     const [errores, setErrores] = useState({});
@@ -24,6 +26,7 @@ function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, on
         }
     }, [datosIniciales]);
 
+    console.log(formData)
     // Funciones
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -44,7 +47,6 @@ function Formulario({ datosIniciales, onGuardar, camposFormulario, onValidar, on
     // Renderizado
     return (
         <form onSubmit={handleSubmit} className="formulario">
-            {console.log(camposFormulario)}
             {camposFormulario.map((campo) => (
                 <div key={campo.name}>
                     <label htmlFor={campo.name}>{campo.label}</label>
