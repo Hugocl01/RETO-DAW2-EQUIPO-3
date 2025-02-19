@@ -162,7 +162,7 @@ class EquipoController extends Controller
             $token_entrenador = Str::random(40);
 
             // Crear la inscripción
-            $entrenador = $equipo->inscripcion()->create([
+            $equipo->inscripcion()->create([
                 'comentarios'                   => 'Primera Entrada',
                 'estado_id'                     => 1,
                 'token_confirmacion_capitan'    => $token_capitan,

@@ -12,15 +12,17 @@ class EquipoAvisoMail extends Mailable
     use Queueable, SerializesModels;
 
     public $inscripcion;
+    public $token;
 
     /**
      * Crea una nueva instancia del mailable.
      *
      * @param Inscripcion $inscripcion
      */
-    public function __construct(Inscripcion $inscripcion)
+    public function __construct(Inscripcion $inscripcion, $token = null)
     {
         $this->inscripcion = $inscripcion;
+        $this->token = $token;
     }
 
     /**

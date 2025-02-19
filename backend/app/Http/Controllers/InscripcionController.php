@@ -10,7 +10,7 @@ use App\Http\Resources\InscripcionResource;
 use App\Mail\EquipoInscripcionMail;
 use App\Mail\EquipoAvisoMail;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 /**
  * @OA\Tag(
@@ -66,8 +66,11 @@ class InscripcionController extends Controller
         $inscripcion->estado_id = 3;
 
         if ($inscripcion->save()) {
-            $usuarioEquipo = $inscripcion->equipo->usuario;
-            Mail::to($usuarioEquipo->email)->send(new EquipoAvisoMail($inscripcion));
+            $usuario_equipo = $inscripcion->equipo->usuario;
+            $token = Str::random(40);
+            $usuario_equipo->password = $token;
+            $usuario_equipo->save();
+            Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $token));
 
             $capitan = $inscripcion->equipo->jugadores()->where('capitan', 1)->first();
             Mail::to($capitan->email)->send(new EquipoAvisoMail($inscripcion));
@@ -85,10 +88,12 @@ class InscripcionController extends Controller
 
         if ($rol === 'Capitán') {
             $inscripcion->confirmado_capitan = ($token == $inscripcion->token_confirmacion_capitan)
-                ? true : false;
+                ? true
+                : false;
         } elseif ($rol === 'Entrenador') {
             $inscripcion->confirmado_entrenador = ($token == $inscripcion->token_confirmacion_entrenador)
-                ? true : false;
+                ? true
+                : false;
         }
         $inscripcion->save();
 
