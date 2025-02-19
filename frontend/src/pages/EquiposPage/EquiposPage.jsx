@@ -43,7 +43,7 @@ function EquiposPage() {
   return (
     <>
       <title>Equipos</title>
-      <section className="container-fluid py-5" id="equipos">
+      <section className="container-fluid py-5 w-75" id="equipos">
         <div className="row mb-4">
           <div className="col-12 text-center">
             <h1>Listado de Equipos</h1>
