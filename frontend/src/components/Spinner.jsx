@@ -4,7 +4,7 @@ function Spinner() {
   return (
     <>
       <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border text-primary" role="status" style={{width:"150px", height:"150px"}}>
+        <div className="spinner-border text-secondary" role="status" style={{width:"150px", height:"150px"}}>
           <span className="visually-hidden">Cargando...</span>
         </div>
       </div>

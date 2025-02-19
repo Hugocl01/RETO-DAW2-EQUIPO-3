@@ -1,0 +1,39 @@
+.imagenInicio {
+    background: linear-gradient(rgba(36, 35, 35, 0.137), rgba(48, 47, 47, 0.055)), 
+    url("../src/assets/imagenes/football.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.contenedor {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url("imagen.jpg");
+    background-size: cover;
+  }
+  
+
+.imagenInicio h2 {
+    font-size: 6em;
+    font-weight: bold;
+    font-family: "Racing Sans One", Sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.747);
+}
+
+#contenedorPatros{
+    width: 100vw;
+    height: 80vh;
+}
+
+#patrocinadores {
+    width: 75%;
+    height: 90%;
+    border-radius: 10px;
+    background-color: white;
+}
+
+h1 {
+    border-bottom: 3px solid #d9625d;
+}

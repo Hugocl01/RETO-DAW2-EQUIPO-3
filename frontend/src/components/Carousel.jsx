@@ -1,10 +1,17 @@
 import React from 'react';
+import "./css/Carrusel.css";
 
 function Carousel({ id, items, intervalo }) {
+    // Agrupamos los elementos en filas de 3
+    const groupedItems = [];
+    for (let i = 0; i < items.length; i += 3) {
+        groupedItems.push(items.slice(i, i + 3));
+    }
+
     return (
         <div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
             <div className="carousel-indicators">
-                {items.map((_, index) => (
+                {groupedItems.map((_, index) => (
                     <button
                         key={index}
                         type="button"
@@ -17,14 +24,24 @@ function Carousel({ id, items, intervalo }) {
                 ))}
             </div>
 
-            <div className="carousel-inner">
-                {items.map((item, index) => (
+            <div className="carousel-inner p-5">
+                {groupedItems.map((group, index) => (
                     <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
-                        <div className="bg-light p-3 rounded-2 d-flex flex-column align-items-center justify-content-center">
-                            <div className="w-75 d-flex flex-column align-items-center justify-content-center">
-                                <img className="mb-4 w-50 mt-3" src={item.imagen} alt={`Noticia ${index + 1}`} />
-                                <h3>{item.title}</h3>
-                                <p>{item.text}</p>
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                {group.map((item, i) => (
+                                    <div key={i} className="col-md-4 d-flex justify-content-center">
+                                        <div className="card text-center shadow-lg custom-card">
+                                            <img src={item.imagen} className="card-img-top" alt={item.title} />
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item.title}</h5>
+                                                <p className="card-text text-muted">{item.date}</p>
+                                                <p className="card-text">{item.text}</p>
+                                                <button className="btn btn-success">LEER MÁS</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

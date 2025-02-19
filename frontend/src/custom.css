@@ -1,14 +1,38 @@
 /* custom.css */
 
 .bg-primary {
+    background-color: #555555 !important;
+}
+
+.bg-secondary {
     background-color: #d9625d !important;
 }
 
 .text-primary {
+    color: #000000 !important;
+}
+
+.text-secondary {
     color: #d9625d !important;
 }
 
 .btn-primary {
+    background-color: #555555 !important;
+    border-color: transparent;
+}
+
+.btn-secondary {
     background-color: #d9625d !important;
-    border-color: #d9625d !important;
+    border-color: transparent;
+}
+
+
+.border-primary {
+    background-color: #555555 !important;
+    border-color: transparent;
+}
+
+.border-secondary {
+    background-color: #d9625d !important;
+    border-color: transparent;
 }
