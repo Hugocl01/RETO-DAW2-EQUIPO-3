@@ -1,6 +1,6 @@
 .imagenInicio {
-    background: linear-gradient(rgba(36, 35, 35, 0.137), rgba(48, 47, 47, 0.055)), 
-    url("../src/assets/imagenes/football.jpeg");
+    background: linear-gradient(rgba(36, 35, 35, 0.137), rgba(48, 47, 47, 0.055)),
+        url("../src/assets/imagenes/football.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -9,11 +9,11 @@
 }
 
 .contenedor {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                url("imagen.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("imagen.jpg");
     background-size: cover;
-  }
-  
+}
+
 
 .imagenInicio h2 {
     font-size: 6em;
@@ -22,18 +22,24 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.747);
 }
 
-#contenedorPatros{
+#contenedorPatros {
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
+
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.40),
+        /* Sombra arriba */
+        0px 5px 10px rgba(0, 0, 0, 0.40);
+    /* Sombra abajo */
 }
 
 #patrocinadores {
     width: 75%;
-    height: 90%;
+    height: auto;
     border-radius: 10px;
     background-color: white;
 }
 
-h1 {
-    border-bottom: 3px solid #d9625d;
+#patrocinadores img {
+    max-width: 140px;
 }
+

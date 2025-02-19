@@ -41,7 +41,7 @@ function Partido({ tipo, objPartido, fnNavegar }) {
       </button>
       <div
         id={collapseId}
-        className="accordion-collapse collapse"
+        className="accordion-collapse collapse show"
         /**Tengo que poner la clase padre para recibir la acción del collapse */
         data-bs-parent={`#accordion-${partido.slug}`}
       >

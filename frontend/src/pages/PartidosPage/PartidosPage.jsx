@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
 import api from "../../services/api";
+//import "../src/components/css/EstilosComun.css";
 
 /**
  *
@@ -66,11 +67,14 @@ function PartidosPage() {
           <h2 className="col-12 text-center">Partidos</h2>
         </div>
 
-        <section className="row my-3 border border-dark h-100">
-          <div className="col-md-12 p-3 d-flex flex-row justify-content-between">
+        <section className="p-3 mb-5 row my-3 border border-primary h-100">
+          <h5 className="mb-3">Filtros</h5>
+          <div className="w-50 col-md-12 d-flex flex-row justify-content-space-between">
             <select
+              className="form-select"
+              aria-label="Default select example"
               data-seleccion="partidos"
-              value={opcionPartidos} 
+              value={opcionPartidos}
               onChange={handleChange}
             >
               <option value="">Selecciona tipo</option>
@@ -83,8 +87,10 @@ function PartidosPage() {
              */}
             {opcionPartidos === "clasificatorio" && (
               <select
+                className="form-select mx-4"
+                aria-label="Default select example"
                 data-seleccion="grupos"
-                value={opcionGrupos} 
+                value={opcionGrupos}
                 onChange={handleChange}
               >
                 <option value="A">Grupo A</option>

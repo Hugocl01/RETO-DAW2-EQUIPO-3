@@ -8,6 +8,7 @@ import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
 
 import "./css/Inicio.css";
+import "./css/EstilosComun.css";
 
 function Inicio() {
     //arrays para los carruseles
@@ -198,12 +199,10 @@ function Inicio() {
                     </div>
                 </div>
 
-                <hr className="border-3 border-black d-block w-100 my-5" />
-
-                <div className="d-flex flex-column justify-content-center align-items-center mb-5 bg-secondary" id="contenedorPatros">
-                    <div id="patrocinadores">
-                        <h1 className="text-center mb-5 p-5">Patrocinadores</h1>
-                        <div className="d-flex flex-wrap justify-content-center align-items-center gap-4">
+                <div className="d-flex flex-wrap align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
+                    <div className="d-flex flex-wrap flex-column justify-content-center align-items-center" id="patrocinadores">
+                        <h1 className="mb-5 mt-4">Patrocinadores</h1>
+                        <div className="m-4 d-flex flex-wrap justify-content-center align-items-center">
                             {/*
                         {patrocinadores.map((patrocinador) => (
                             <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
@@ -215,28 +214,43 @@ function Inicio() {
 
                         ))}
                         */}
-                            <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
-                                <p>Patrocinador 1</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" />
+                            </div>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" />
                             </div>
 
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <p>Patrocinador 2</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" />
                             </div>
 
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <p>Patrocinador 3</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/cic.png" />
                             </div>
 
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <p>Patrocinador 4</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" />
                             </div>
 
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <p>Patrocinador 5</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/deode.png" />
                             </div>
 
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <p>Patrocinador 6</p>
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" />
+                            </div>
+
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" />
+                            </div>
+
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" />
+                            </div>
+
+                            <div className="w-25 h-40 p-3 rounded-2">
+                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" />
                             </div>
                         </div>
                     </div>

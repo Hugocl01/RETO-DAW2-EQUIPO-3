@@ -5,6 +5,7 @@ header {
     z-index: 1000; 
     background-color: #fff; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 100vw;
 }
 
 header img {
@@ -28,3 +29,10 @@ li {
     font-weight: bold;
     border-bottom: 3px solid #d9625d;
 }
+
+/* Estilo para el elemento del menu seleccionado/*
+/*
+.nav-link.active {
+
+}
+*/
