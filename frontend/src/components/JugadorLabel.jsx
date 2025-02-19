@@ -4,7 +4,7 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
     return (
         <div className="d-flex justify-content-flex align-items-center">
             <div className="card p-3 mb-4 bg-light col-11" id={`jugador-${id}`}>
-                <div className="w-100 bg-secondary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
+                <div className="w-100 bg-primary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
                     <h5 className="m-0">Jugador {numeroJugador}</h5>
                     <div className="form-check form-switch d-flex align-items-center">
                         <input

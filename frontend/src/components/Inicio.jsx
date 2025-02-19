@@ -7,6 +7,8 @@ import { useSearchParams } from "react-router-dom";
 import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
 
+import "./css/Inicio.css";
+
 function Inicio() {
     //arrays para los carruseles
     const [donaciones, setDonaciones] = useState([]);
@@ -32,6 +34,31 @@ function Inicio() {
             title: "Noticia 3",
             text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
         },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Noticia 4",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Noticia 5",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Noticia 6",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Noticia 7",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Noticia 8",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
     ];
 
     const retos = [
@@ -48,6 +75,36 @@ function Inicio() {
         {
             imagen: "../src/assets/imagenes/img2.png",
             title: "Reto 3",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 3",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 4",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 5",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 6",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 7",
+            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
+        },
+        {
+            imagen: "../src/assets/imagenes/img2.png",
+            title: "Reto 8",
             text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
         },
     ];
@@ -97,9 +154,9 @@ function Inicio() {
 
 
     return (
-        <div className="d-flex flex-column min-vh-100">
-            <div className="imagenInicio">
-                <img src="../src/assets/imagenes/img2.png" className="w-100 h-100 vh-100 object-fit-cover" alt="..." />
+        <div className="d-flex flex-column justify-content-center align-items-center">
+            <div className="imagenInicio d-flex justify-content-center align-items-center">
+                <h2 className="text-white">TORNEO SOLIDARIO</h2>
             </div>
 
             <div>
@@ -113,7 +170,6 @@ function Inicio() {
             <div className="d-flex flex-column align-items-center justify-content-center p-5">
                 <h1 className="mb-5">Noticias</h1>
                 <Carousel id="carouselExampleDark" items={noticias} interval={3000} />
-
                 <hr className="border-3 border-black d-block w-100 my-5" />
 
                 <h1 className="mb-5">Retos</h1>
@@ -121,14 +177,14 @@ function Inicio() {
 
                 <hr className="border-3 border-black d-block w-100 my-5" />
 
-                <div className="container">
-                    <h1 className="text-center mb-5">Donaciones</h1>
+                <div className="container d-flex flex-column align-items-center justify-content-center p-5">
+                    <h1 className="mb-5">Donaciones</h1>
                     <div className="row row-cols-1 row-cols-md-2 g-4">
                         <div className="col">
                             <div className="bg-light p-3 rounded-2 text-center">
                                 <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
                                 <h2>Total Recaudado</h2>
-                                <h1 className='text-success fw-bold'>{totalDonado()}€</h1>
+                                <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
                             </div>
                         </div>
 
@@ -144,10 +200,11 @@ function Inicio() {
 
                 <hr className="border-3 border-black d-block w-100 my-5" />
 
-                <div className="d-flex flex-column justify-content-center align-items-center mb-5">
-                    <h1 className="text-center mb-4">Patrocinadores</h1>
-                    <div className="d-flex flex-wrap justify-content-center align-items-center gap-4">
-                        {/*
+                <div className="d-flex flex-column justify-content-center align-items-center mb-5 bg-secondary" id="contenedorPatros">
+                    <div id="patrocinadores">
+                        <h1 className="text-center mb-5 p-5">Patrocinadores</h1>
+                        <div className="d-flex flex-wrap justify-content-center align-items-center gap-4">
+                            {/*
                         {patrocinadores.map((patrocinador) => (
                             <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
                                 <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
@@ -158,28 +215,29 @@ function Inicio() {
 
                         ))}
                         */}
-                        <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
-                            <p>Patrocinador 1</p>
-                        </div>
+                            <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
+                                <p>Patrocinador 1</p>
+                            </div>
 
-                        <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                            <p>Patrocinador 2</p>
-                        </div>
+                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
+                                <p>Patrocinador 2</p>
+                            </div>
 
-                        <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                            <p>Patrocinador 3</p>
-                        </div>
+                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
+                                <p>Patrocinador 3</p>
+                            </div>
 
-                        <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                            <p>Patrocinador 4</p>
-                        </div>
+                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
+                                <p>Patrocinador 4</p>
+                            </div>
 
-                        <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                            <p>Patrocinador 5</p>
-                        </div>
+                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
+                                <p>Patrocinador 5</p>
+                            </div>
 
-                        <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                            <p>Patrocinador 6</p>
+                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
+                                <p>Patrocinador 6</p>
+                            </div>
                         </div>
                     </div>
                 </div>

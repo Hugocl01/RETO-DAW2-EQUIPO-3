@@ -14,7 +14,7 @@ function InfoTorneo() {
                         <div className="card">
                             <img src={logo} className="card-img-top" alt="..." />
                             <div className="card-body">
-                                <a href="#" className="btn btn-primary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
+                                <a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
                                     <span>Descargar Reglas</span>
                                     <i className="bi bi-file-earmark-arrow-down fs-4"></i>
                                 </a>
@@ -23,7 +23,7 @@ function InfoTorneo() {
                     </div>
                 </div>
                 <div className="col-md-8">
-                    <div className="p-4 bg-secondary text-white rounded">
+                    <div className="p-4 bg-primary text-white rounded">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quasi sapiente cum dolor quae consectetur labore eos quis omnis possimus nam, nisi, dolore ad vitae accusantium rem error neque reprehenderit.</p>
                         <p>Nemo, reprehenderit sint aut totam deleniti aliquam quidem hic provident! Similique consequatur vel voluptate nulla a, aperiam sed eligendi, qui exercitationem explicabo asperiores labore eaque eveniet expedita. Ut, dolore maiores?</p>
                         <p>Ipsum, eos vel distinctio tempore et fugiat dolores! A, cumque alias quae excepturi iste, provident autem officia velit obcaecati numquam adipisci, accusamus consectetur hic quas earum eligendi nihil. Rerum, eos.</p>

@@ -168,7 +168,7 @@ function Inscribirse() {
     return (
         <div className="container mt-4">
             <div className="card p-3 mb-4 bg-light">
-                <h5 className="m-0 bg-secondary py-2 px-3 text-white rounded">Equipo</h5>
+                <h5 className="m-0 bg-primary py-2 px-3 text-white rounded">Equipo</h5>
                 <div className="mb-1 p-3">
                     <div className="row mt-3">
                         <div className="col">
@@ -195,7 +195,7 @@ function Inscribirse() {
                     </div>
                 </div>
 
-                <h5 className="m-0 bg-secondary py-2 px-3 text-white rounded">Entrenador</h5>
+                <h5 className="m-0 bg-primary py-2 px-3 text-white rounded">Entrenador</h5>
                 <div className="mb-1 p-3">
                     <div className="row mt-3">
                         <div className="col">

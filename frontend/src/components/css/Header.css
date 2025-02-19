@@ -8,7 +8,7 @@ header {
 }
 
 header img {
-    max-width: 110px;
+    max-width: 90px;
 }
 
 ul {
@@ -20,10 +20,11 @@ li {
 }
 
 #elementoMenu {
-    font-size: 17px;
+    font-size: 16px;
+    font-weight: 510;
 }
 
 #elementoMenu:hover {
     font-weight: bold;
-    border-bottom: 2px solid #d9625d;
+    border-bottom: 3px solid #d9625d;
 }
