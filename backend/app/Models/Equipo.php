@@ -109,6 +109,38 @@ class Equipo extends Model
         ];
     }
 
+    public static function asignarGruposAleatoriamente()
+    {
+        // 1. Obtenemos los equipos con estado_inscripcion = 3 (o el nombre que uses)
+        $equipos = Equipo::whereHas('inscripcion', function ($query) {
+            $query->where('estado_id', 3);
+        })->get();
+
+        // 2. Barajamos aleatoriamente la colección
+        $equiposBarajados = $equipos->shuffle();
+
+        // 3. Dividimos en dos mitades
+        //    Si la cantidad es impar, la segunda mitad tendrá un equipo más.
+        $total = $equiposBarajados->count();
+        $mitad = (int) floor($total / 2);
+
+        $grupoA = $equiposBarajados->slice(0, $mitad);
+        $grupoB = $equiposBarajados->slice($mitad);
+
+        // 4. Asignamos a cada mitad su grupo (A o B)
+        foreach ($grupoA as $equipo) {
+            $equipo->grupo = 'A';
+            $equipo->save();
+        }
+        foreach ($grupoB as $equipo) {
+            $equipo->grupo = 'B';
+            $equipo->save();
+        }
+    }
+
+
+
+
     public static function getLista(?string $tipo_partido = null, ?int $equipo_id = null, ?string $grupo = null): ?Collection
     {
         // Si el partido no es "Clasificatorio", la lógica no aplica.

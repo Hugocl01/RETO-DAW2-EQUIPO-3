@@ -20,6 +20,8 @@ use App\Http\Controllers\ClasificacionController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\PublicacionController;
+use App\Http\Controllers\TorneoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -110,3 +112,7 @@ Route::get('/inscripcion-confirmada', function () {
 
 // Incidencia
 Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias']);
+
+// Torneo
+Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo']);
+Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo']);
