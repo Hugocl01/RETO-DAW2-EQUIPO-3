@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import YouTubeLiveIndicator from "./YouTubeLiveIndicator"; // Ajusta la ruta según corresponda
+import { useLocation } from 'react-router-dom';
 
 import "./css/Header.css";
 
@@ -15,6 +16,9 @@ import "./css/Header.css";
  */
 function Header() {
     const { seguridad, logout } = useContext(SeguridadContext); // Obtiene el estado de seguridad del contexto
+    const location = useLocation();
+
+    const isActive = (path) => location.pathname === path ? 'active' : '';
 
     return (
         <header className="p-3">
@@ -31,29 +35,27 @@ function Header() {
                     <div className="d-flex align-items-center justify-content-center flex-grow-1" id="menu">
                         <ul className="nav col-13 col-lg-auto me-lg-auto mb-3 d-flex justify-content-center align-items-center mb-md-0">
                             <li>
-                                <Link to="/" className="nav-link px-2 link-body-emphasis" id="elementoMenu">INICIO</Link>
+                                <Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive('/')}`} id="elementoMenu">INICIO</Link>
                             </li>
                             <li>
-                                <Link to="/equipos" className="nav-link px-2 link-body-emphasis" id="elementoMenu">EQUIPOS</Link>
+                                <Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive('/equipos')}`} id="elementoMenu">EQUIPOS</Link>
                             </li>
                             <li>
-                                <Link to="/partidos" className="nav-link px-2 link-body-emphasis" id="elementoMenu">TORNEO</Link>
+                                <Link to="/partidos" className={`nav-link px-2 link-body-emphasis ${isActive('/partidos')}`} id="elementoMenu">TORNEO</Link>
                             </li>
                             <li>
-                                <Link to="/clasificacion" className="nav-link px-2 link-body-emphasis" id="elementoMenu">CLASIFICACIÓN</Link>
+                                <Link to="/clasificacion" className={`nav-link px-2 link-body-emphasis ${isActive('/clasificacion')}`} id="elementoMenu">CLASIFICACIÓN</Link>
                             </li>
                             <li>
-                                <Link to="/organizacion" className="nav-link px-2 link-body-emphasis" id="elementoMenu">ORGANIZACIÓN</Link>
+                                <Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive('/organizacion')}`} id="elementoMenu">ORGANIZACIÓN</Link>
                             </li>
                             <li>
-                                <Link to="/galeria" className="nav-link px-2 link-body-emphasis" id="elementoMenu">GALERÍA</Link>
+                                <Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive('/galeria')}`} id="elementoMenu">GALERÍA</Link>
                             </li>
                             <li>
-                                <Link to="/inscribirse" className="nav-link px-2 link-body-emphasis" id="elementoMenu">INSCRIBIRSE</Link>
+                                <Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive('/inscribirse')}`} id="elementoMenu">INSCRIBIRSE</Link>
                             </li>
-                            <li
-                                className="d-flex align-items-center"><YouTubeLiveIndicator />
-                            </li>
+                            <li className="d-flex align-items-center"><YouTubeLiveIndicator /></li>
                         </ul>
                     </div>
 

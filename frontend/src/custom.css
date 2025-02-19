@@ -26,13 +26,10 @@
     border-color: transparent;
 }
 
-
 .border-primary {
-    background-color: #555555 !important;
-    border-color: transparent;
+    border-color: #555555 !important;
 }
 
 .border-secondary {
     background-color: #d9625d !important;
-    border-color: transparent;
 }

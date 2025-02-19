@@ -45,7 +45,7 @@ function EquiposPage() {
       <title>Equipos</title>
       <section className="container-fluid py-5 w-75" id="equipos">
         <div className="row mb-4">
-          <div className="col-12 text-center">
+          <div className="d-flex justify-content-center align-items-center">
             <h1>Listado de Equipos</h1>
           </div>
         </div>

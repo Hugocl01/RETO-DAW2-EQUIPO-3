@@ -8,7 +8,6 @@ import Retos from "../components/Retos";
  * @returns {JSX.Element} - Renderiza la página de organización.
  */
 function OrganizacionPage() {
-
     return (
         <>
             <title>Organización</title>
