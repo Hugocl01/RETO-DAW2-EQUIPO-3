@@ -46,6 +46,7 @@ Route::post('/login', LoginController::class);
 // Usuarios
 Route::apiResource('usuarios', UsuarioController::class);
 Route::put('usuarios/{usuario}/activo', [UsuarioController::class, 'updateActivo']);
+Route::post('/set-password/{id}/{token}', [UsuarioController::class, 'setPassword']);
 
 // Ciclos
 Route::apiResource('ciclos', CicloController::class);

@@ -160,4 +160,28 @@ class UsuarioController extends Controller
             'message' => $nuevoEstado ? 'El usuario ha sido activado' : 'El usuario ha sido desactivado'
         ], 200);
     }
+
+    public function setPassword(Request $request, $id, $token)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $usuario = Usuario::where('id', $id)->where('password', $token)->first();
+
+        if (!$usuario) {
+            return response()->json([
+                'message' => 'Token inválido o usuario no encontrado',
+                'status'  => 'error'
+            ], 403);
+        }
+
+        $usuario->password = bcrypt($request->password);
+        $usuario->save();
+
+        return response()->json([
+            'message' => 'Contraseña establecida correctamente',
+            'status'  => 'success'
+        ]);
+    }
 }

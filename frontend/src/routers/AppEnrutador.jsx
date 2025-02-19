@@ -27,6 +27,7 @@ const GaleriaPage = lazy(() => import("../pages/GaleriaPage.jsx"));
 const InscribirsePage = lazy(() => import("../pages/InscribirsePage.jsx"));
 const PerfilPage = lazy(() => import("../pages/PerfilPage.jsx"));
 const LoginPage = lazy(() => import("../pages/LoginPage.jsx"));
+const SetPasswordPage = lazy(() => import("../pages/SetPasswordForm.jsx"));
 const AdministracionPage = lazy(() =>
     import("../pages/AdministracionPage.jsx")
 );
@@ -209,6 +210,17 @@ function AppEnrutador() {
                             </Suspense>
                         }
                     />
+
+                    {/* 🔹 Nueva Ruta para establecer contraseña */}
+                    <Route
+                        path="set-password/:id/:token"
+                        element={
+                            <Suspense fallback={<Spinner />}>
+                                <SetPasswordPage />
+                            </Suspense>
+                        }
+                    />
+
 
                     {/* Página de error para rutas no encontradas */}
                     <Route
