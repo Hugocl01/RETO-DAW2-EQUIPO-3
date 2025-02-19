@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Auditable;
@@ -174,8 +175,113 @@ class Partido extends Model
     public static function getLista()
     {
         return array_map(
-            fn (\App\Enums\TipoPartido $tipo) => $tipo->value,
+            fn(\App\Enums\TipoPartido $tipo) => $tipo->value,
             \App\Enums\TipoPartido::cases()
         );
+    }
+
+    public static function comprobarFinalFase(\App\Enums\TipoPartido $tipo_partido)
+    {
+        // $partidosSinFinal es la colección de partidos clasificatorios que NO tienen acta con la incidencia 'Final de partido'
+        $partidosSinFinal = Partido::where('tipo_partido', $tipo_partido)
+            ->whereDoesntHave('actas', function ($actasQuery) {
+                $actasQuery->whereHas('incidencia', function ($incidenciaQuery) {
+                    $incidenciaQuery->where('tipo', 'Final de partido');
+                });
+            })
+            ->get();
+
+        // Si $partidosSinFinal->isEmpty(), significa que NO hay partidos sin 'Final de partido',
+        // es decir, se termino la fase de grupos.
+        if ($partidosSinFinal->isEmpty()) {
+            return true;
+        } else {
+            // Faltan partidos por terminar
+            return false;
+        }
+    }
+
+
+    public static function generarPartidosGrupos($fecha, $equipos)
+    {
+        // Agrupar equipos por grupo
+        $equiposPorGrupo = $equipos->groupBy('grupo');
+
+        // 3. Para cada grupo, generamos los partidos
+        foreach ($equiposPorGrupo as $grupo => $listaEquipos) {
+            // Convertir la lista a un array para facilitar el bucle
+            $listaEquipos = $listaEquipos->values()->all();
+
+            // 4. Recorremos la lista con bucles anidados para emparejar cada equipo con el resto
+            for ($i = 0; $i < count($listaEquipos); $i++) {
+                for ($j = $i + 1; $j < count($listaEquipos); $j++) {
+                    $equipoLocal = $listaEquipos[$i];
+                    $equipoVisitante = $listaEquipos[$j];
+
+                    // 5. Crear el partido en la BD (ajusta los campos según tu tabla 'partidos')
+                    Partido::create([
+                        'equipo_local_id' => $equipoLocal->id,
+                        'equipo_visitante_id' => $equipoVisitante->id,
+                        'fecha' => $fecha,
+                        'tipo_partido' => \App\Enums\TipoPartido::Clasificatorio,
+                        'duracion' => 10
+                    ]);
+                }
+            }
+        }
+    }
+
+    public static function generarSemifinal()
+    {
+        $grupoA = DB::table('clasificacion_grupo_a')->get();
+        $grupoB = DB::table('clasificacion_grupo_b')->get();
+
+        $primerA  = $grupoA->first();
+        $segundoA = $grupoA->get(1);
+        $primerB  = $grupoB->first();
+        $segundoB = $grupoB->get(1);
+
+        Partido::create([
+            'equipo_local_id'     => $primerA->equipo_id,
+            'equipo_visitante_id' => $segundoB->equipo_id,
+            'fecha'               => now()->addDays(1),
+            'duracion'            => 20,
+            'tipo_partido'        => \App\Enums\TipoPartido::Semifinal,
+        ]);
+
+        Partido::create([
+            'equipo_local_id'     => $primerB->equipo_id,
+            'equipo_visitante_id' => $segundoA->equipo_id,
+            'fecha'               => now()->addDays(1),
+            'duracion'            => 20,
+            'tipo_partido'        => \App\Enums\TipoPartido::Semifinal,
+        ]);
+    }
+
+    public static function generarFinal()
+    {
+        $partidos = Partido::where('tipo_partido', \App\Enums\TipoPartido::Semifinal)
+            ->get();
+
+        $ganadoresIds = [];
+
+        foreach ($partidos as $partido) {
+            // Supongamos que tienes campos goles_local y goles_visitante
+            if ($partido->goles_local > $partido->goles_visitante) {
+                // Gana el equipo local
+                $ganadoresIds[] = $partido->equipo_local_id;
+            } elseif ($partido->goles_visitante > $partido->goles_local) {
+                // Gana el equipo visitante
+                $ganadoresIds[] = $partido->equipo_visitante_id;
+            }
+        }
+
+        Partido::create([
+            'equipo_local_id'     => $ganadoresIds[0],
+            'equipo_visitante_id' => $ganadoresIds[1],
+            'fecha'               => now()->addDays(1),
+            'duracion'            => 20,
+            'tipo_partido'        => \App\Enums\TipoPartido::Final,
+        ]);
     }
 }
