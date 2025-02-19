@@ -8,12 +8,12 @@ import Error from "../components/Error.jsx";
  * @component
  * @returns {JSX.Element} - Renderiza la página de error en caso de ruta no valida.
  */
-function ErrorPage() {
+function ErrorPage({mensaje}) {
 
     return (
         <>
-            <title>Error 404</title>
-            <Error />
+            <title>Error</title>
+            <Error mensaje={mensaje} />
         </>
     );
 }

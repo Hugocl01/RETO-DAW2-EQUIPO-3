@@ -6,7 +6,7 @@ const campoCentrosFormulario = [
         placeholder: 'Ingrese su nombre'
     },
     {
-        name: 'página web',
+        name: 'landing_page',
         label: 'Página web',
         type: 'text',
         placeholder: 'Ingrese la página web'

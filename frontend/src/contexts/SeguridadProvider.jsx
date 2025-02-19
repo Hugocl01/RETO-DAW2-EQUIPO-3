@@ -83,7 +83,7 @@ function SeguridadProvider({ children }) {
 
             if (response.data.status === "success") {
                 const { token, usuario } = response.data;
-
+                console.log(usuario)
                 // Guarda en el estado global
                 setSeguridad({
                     auth: true,

@@ -1,30 +1,52 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import api from "../services/api";
+import { SeguridadContext } from "../contexts/SeguridadProvider";
 
-function MenuAdministracion({ secciones, loading, onSelect }) {
+function MenuAdministracion({ loading: propLoading, onSelect }) {
+    const { seguridad } = useContext(SeguridadContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { seccion } = useParams();
+
+    const [secciones, setSecciones] = useState([]);
     const [selectedSeccion, setSelectedSeccion] = useState(null);
+    const [loading, setLoading] = useState(propLoading);
 
+    // 🔹 1️⃣ Cargar secciones SOLO UNA VEZ cuando cambia el usuario
     useEffect(() => {
-        if (secciones.length > 0) {
-            const urlParams = new URLSearchParams(window.location.search);
-            let seccionPorDefecto = secciones[0]; // Primera sección como fallback
+        const fetchSecciones = async () => {
+            if (!seguridad?.user?.perfil?.id) return;
 
-            // Buscar si algún parámetro coincide con el nombre de una sección
-            for (const [key] of urlParams.entries()) {
-                const seccionEncontrada = secciones.find(s => s.nombre.toLowerCase() === key.toLowerCase());
-                if (seccionEncontrada) {
-                    seccionPorDefecto = seccionEncontrada;
-                    break; // Detenerse al encontrar la primera coincidencia
-                }
+            setLoading(true);
+            try {
+                const response = await api.get(`/perfiles/${seguridad.user.perfil.id}`);
+                const seccionesData = response.data.perfiles?.secciones || [];
+                setSecciones(seccionesData);
+            } catch (error) {
+                console.error("Error al obtener secciones:", error);
+            } finally {
+                setLoading(false);
             }
+        };
 
-            setSelectedSeccion(seccionPorDefecto);
-            onSelect(seccionPorDefecto);
-        }
-    }, [secciones]); // Se ejecuta cuando `secciones` cambia
+        fetchSecciones();
+    }, [seguridad?.user?.perfil?.id]); // 🔥 Solo se ejecuta cuando cambia el usuario
+
+    // 🔹 2️⃣ Seleccionar la sección cuando cambia la URL
+    useEffect(() => {
+        if (secciones.length === 0) return;
+
+        const seccionPorDefecto = secciones.find(sec => sec.nombre.toLowerCase() === seccion?.toLowerCase()) || secciones[0] || null;
+
+        setSelectedSeccion(seccionPorDefecto);
+        if (seccionPorDefecto) onSelect(seccionPorDefecto);
+    }, [secciones, seccion]); // 🔥 Solo se ejecuta cuando cambia la URL o la lista de secciones
 
     const handleSelect = (seccion) => {
         setSelectedSeccion(seccion);
         onSelect(seccion);
+        navigate(`/administracion/${seccion.nombre.toLowerCase()}`);
     };
 
     return (
@@ -36,13 +58,15 @@ function MenuAdministracion({ secciones, loading, onSelect }) {
             ) : (
                 <ul className="list-group">
                     {secciones.length > 0 ? (
-                        secciones.map((seccion) => (
+                        secciones.map((sec) => (
                             <li
-                                key={seccion.id}
-                                className={`list-group-item ${selectedSeccion?.id === seccion.id ? "active" : ""} cursor-pointer`}
+                                key={sec.id}
+                                className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`}
                                 role="button"
-                                onClick={() => handleSelect(seccion)}>
-                                {seccion.nombre}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleSelect(sec)}
+                            >
+                                {sec.nombre}
                             </li>
                         ))
                     ) : (

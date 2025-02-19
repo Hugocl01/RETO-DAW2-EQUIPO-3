@@ -12,7 +12,7 @@ class PerfilResource extends JsonResource
         return [
             'id'        => $this->id,
             'tipo'      => $this->tipo,
-            'secciones' => SeccionResource::collection($this->whenLoaded('secciones')),
+            'secciones' => SeccionResource::collection($this->secciones),
         ];
     }
 }
