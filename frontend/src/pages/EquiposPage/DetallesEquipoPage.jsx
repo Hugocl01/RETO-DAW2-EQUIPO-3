@@ -38,6 +38,7 @@ function DetallesEquipoPage() {
       <title>Detalles del Equipo</title>
       <section className="container-fluid py-5">
         <div className="row">
+
           {/* Sección de información del equipo */}
           <section id="infoEquipo" className="col-md-4 p-0">
             <div className="card shadow-sm border-light rounded">
@@ -47,7 +48,7 @@ function DetallesEquipoPage() {
                 </h2>
                 <div className="mb-3">
                   <img
-                    src={"../../src/assets/imagenes/img1.jpg"} // Aquí podrías usar una imagen específica para el equipo
+                    src={"../../src/assets/imagenes/img1.jpg"} 
                     alt="imagenPatrocinador"
                     className="img-fluid"
                     style={{ width: "70%" }}
