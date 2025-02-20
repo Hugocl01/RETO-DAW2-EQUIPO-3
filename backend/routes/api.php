@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // Ruta para obtener el usuario autenticado (usando Sanctum)
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/usuario', function (Request $request) {
     return $request->user();
 });
 

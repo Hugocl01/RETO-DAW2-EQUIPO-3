@@ -68,7 +68,7 @@ class InscripcionController extends Controller
         if ($inscripcion->save()) {
             $usuario_equipo = $inscripcion->equipo->usuario;
             $token = Str::random(40);
-            $usuario_equipo->password = $token;
+            $usuario_equipo->remember_token = $token;
             $usuario_equipo->save();
             Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $token));
 
