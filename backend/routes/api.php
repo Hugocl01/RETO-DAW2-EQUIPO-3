@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/usuario', function (Request $request) {
 
 // Ruta para login (suponiendo un controlador invocable)
 Route::post('/login', LoginController::class);
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
 // Rutas de la API PÚBLICA
 
