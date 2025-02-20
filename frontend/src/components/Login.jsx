@@ -54,53 +54,54 @@ function Login() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <i className="bi bi-bootstrap-fill"></i>
-            <h1 className="h3 mb-3 fw-normal">Iniciar sesión</h1>
-
-            {/* Muestra el mensaje de error si existe */}
-            {error && <div className="alert alert-danger">{error}</div>}
-
-            {/* Campo de correo electrónico */}
-            <div className="form-floating">
-                <input
-                    type="email"
-                    className="form-control"
-                    id="floatingInput"
-                    name="email"
-                    placeholder="correo@ejemplo.com"
-                    onChange={handleChange}
-                    required
-                />
-                <label htmlFor="floatingInput">Correo electrónico</label>
-            </div>
-
-            {/* Campo de contraseña */}
-            <div className="form-floating">
-                <input
-                    type="password"
-                    className="form-control"
-                    id="floatingPassword"
-                    name="password"
-                    placeholder="Contraseña"
-                    onChange={handleChange}
-                    required
-                />
-                <label htmlFor="floatingPassword">Contraseña</label>
-            </div>
-
-            {/* Opción de recordar la sesión */}
-            <div className="form-check text-start my-3">
-                <input className="form-check-input" type="checkbox" value="recordar" id="flexCheckDefault" />
-                <label className="form-check-label" htmlFor="flexCheckDefault">
-                    Recordarme
-                </label>
-            </div>
-
-            {/* Botón para enviar el formulario */}
-            <button className="btn btn-primary w-100 py-2" type="submit">Iniciar sesión</button>
-            <p className="mt-5 mb-3 text-body-secondary">© 2025</p>
-        </form>
+        <form onSubmit={handleSubmit} className="d-flex flex-column justify-content-center align-items-center border vw-100 vh-100 p-4">
+        <i className="bi bi-bootstrap-fill mb-3" style={{ fontSize: '3rem' }}></i>
+        <h1 className="h3 mb-3 fw-normal text-center">Iniciar sesión</h1>
+    
+        {/* Muestra el mensaje de error si existe */}
+        {error && <div className="alert alert-danger">{error}</div>}
+    
+        {/* Campo de correo electrónico */}
+        <div className="form-floating mb-3 w-100">
+            <input
+                type="email"
+                className="form-control"
+                id="floatingInput"
+                name="email"
+                placeholder="correo@ejemplo.com"
+                onChange={handleChange}
+                required
+            />
+            <label htmlFor="floatingInput">Correo electrónico</label>
+        </div>
+    
+        {/* Campo de contraseña */}
+        <div className="form-floating mb-3 w-100">
+            <input
+                type="password"
+                className="form-control"
+                id="floatingPassword"
+                name="password"
+                placeholder="Contraseña"
+                onChange={handleChange}
+                required
+            />
+            <label htmlFor="floatingPassword">Contraseña</label>
+        </div>
+    
+        {/* Opción de recordar la sesión */}
+        <div className="form-check text-start my-3 w-100">
+            <input className="form-check-input" type="checkbox" value="recordar" id="flexCheckDefault" />
+            <label className="form-check-label" htmlFor="flexCheckDefault">
+                Recordarme
+            </label>
+        </div>
+    
+        {/* Botón para enviar el formulario */}
+        <button className="btn btn-primary w-100 py-2" type="submit">Iniciar sesión</button>
+        <p className="mt-5 mb-3 text-body-secondary text-center">© 2025</p>
+    </form>
+    
     );
 }
 
