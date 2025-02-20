@@ -1,11 +1,11 @@
 /* Sticky Header */
 header {
     position: sticky;
-    top: 0; 
-    z-index: 1000; 
-    background-color: #fff; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    width: 100vw;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 header img {
@@ -36,3 +36,91 @@ li {
 
 }
 */
+
+.sidebar {
+    display: none;
+}
+
+.sidenav {
+    position: fixed;
+    left: -250px;
+    /* Oculto por defecto */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #3333338a;
+    color: white;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.sidenav.active {
+    left: 0;
+    /* Mostrar sidenav cuando está activo */
+}
+
+.sidenav .sidenav-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidenav .sidenav-item {
+    padding: 10px;
+}
+
+.sidenav .sidenav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.sidenav .sidenav-link:hover {
+    background-color: #575757;
+}
+
+#sidenav-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 30px;
+    z-index: 1001;
+    background-color: transparent;
+    border: none;
+    color: #333;
+}
+
+#sidenav-toggle:focus {
+    outline: none;
+}
+
+#sidenav-toggle i {
+    color: #333;
+    /* Negro por defecto */
+}
+
+/* También aseguramos que cuando el sidenav está activo, el icono siga siendo negro */
+.sidenav.active #sidenav-toggle i {
+    color: #333;
+}
+
+#sidenav-toggle:focus {
+    outline: none;
+}
+
+@media (max-width: 730px) {
+    .contenidoCabecera {
+        display: none;
+    }
+
+    header {
+        height: 5em;
+    }
+
+    .sidebar {
+        display: block;
+    }
+}
