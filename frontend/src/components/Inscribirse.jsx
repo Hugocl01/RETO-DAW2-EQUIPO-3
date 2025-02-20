@@ -149,9 +149,10 @@ function Inscribirse() {
                     setEstudios(respuestaEstudios.data.estudios);
                 }
 
-                const respuestaCentros = await api.get("/centros");
-                if (respuestaCentros.data.status === "success") {
-                    setCentros(respuestaCentros.data.centros);
+                const respuestaCentros = await api.get("/lista/centros");
+                if (respuestaCentros.status === 200) {
+                    console.log(respuestaCentros);
+                    setCentros(respuestaCentros.data);
                 }
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
@@ -182,9 +183,9 @@ function Inscribirse() {
                             <label>Centro: *</label>
                             <select className="form-select" name="centro">
                                 <option value="">Selecciona un centro</option>
-                                {centros.map((centro) => (
-                                    <option key={centro.id} value={centro.id}>
-                                        {centro.nombre}
+                                {Object.entries(centros).map(([id, nombre]) => (
+                                    <option key={id} value={id}>
+                                        {nombre}
                                     </option>
                                 ))}
                             </select>

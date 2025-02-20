@@ -4,7 +4,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Reto;
 use App\Models\Estudio;
-use App\Models\User;
 
 class RetoFactory extends Factory
 {
@@ -15,7 +14,7 @@ class RetoFactory extends Factory
         $titulo = $this->generarString(45);  // Generar nombre de máximo 45 caracteres
 
         return [
-            'titulo' =>$titulo, 
+            'titulo' =>$titulo,
             'texto' => $this->faker->paragraph(3),
             'estudio_id' => Estudio::inRandomOrder()->first()->id ?? Estudio::factory(),
             'usuario_creador_id' => 1
@@ -24,7 +23,7 @@ class RetoFactory extends Factory
 
     /**
      * Genera una cadena de palabras que no supere un número de caracteres determinado.
-     * 
+     *
      * @param int $maxLength
      * @return string
      */
@@ -39,7 +38,7 @@ class RetoFactory extends Factory
             $newLength = $currentLength + strlen($word) + (count($words) > 0 ? 1 : 0);  // +1 por el espacio entre palabras
 
             if ($newLength <= $maxLength) {
-                $words[] = $word;  
+                $words[] = $word;
                 $currentLength = $newLength;
             } else {
                 break;  // Si añadir la palabra excede el límite, salir del bucle

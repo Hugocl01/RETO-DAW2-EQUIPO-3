@@ -7,6 +7,7 @@ use App\Http\Resources\UsuarioResource;
 use App\Http\Requests\UsuarioRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @OA\Tag(name="Usuarios", description="Endpoints para gestión de usuarios")
@@ -31,6 +32,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        dd(Auth::user());
         $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id', 'activo')
             ->with('perfil.secciones')
             ->get();
