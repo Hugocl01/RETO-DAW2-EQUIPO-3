@@ -4,18 +4,15 @@
     box-sizing: border-box;
 }
 
-body {
-    overflow-x: hidden;
-}
 
 .imagenInicio {
     width: 100vw;
     height: 100vh;
+
     background: linear-gradient(rgba(36, 35, 35, 0.247), rgba(48, 47, 47, 0.274)),
         url("../src/assets/imagenes/football.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
     background-attachment: fixed;
     margin-bottom: 4em;
 }

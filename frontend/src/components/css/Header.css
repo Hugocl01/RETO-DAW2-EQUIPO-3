@@ -29,15 +29,6 @@ li {
     font-weight: bold;
     border-bottom: 3px solid #d9625d;
 }
-/* Estilo para que el submenú se muestre al pasar el ratón */
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-  }
-  
-  /* Asegúrate de que el submenú se oculte cuando no se pasa el ratón */
-  .dropdown-menu {
-    display: none;
-  }
 
 /* Estilo para el elemento del menu seleccionado/*
 /*
