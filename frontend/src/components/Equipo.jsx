@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./css/EquipoPage.css";
 /**
  * Componente Equipo
  * @param {Object} equipoObtenido - Objeto con la información del equipo.
@@ -20,7 +20,7 @@ function Equipo({ equipoObtenido, fnNavegar }) {
    */
   return (
     <div className="col">
-      <div className="card shadow-sm m-2" onClick={handleClick} id="equipos">
+      <div className="card contEquipo shadow-sm m-2" onClick={handleClick} id="equipos">
         <img
           src="src/assets/imagenes/img1.jpg"
           alt={equipoObtenido.nombre}

@@ -49,7 +49,7 @@ function TablaPartidos({ tipo, grupo, partidos }) {
   }
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       {/** 
        * Mostrar según el tipo de partido: clasificatorio o eliminatorias 
        */}

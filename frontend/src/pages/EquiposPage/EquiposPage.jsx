@@ -3,10 +3,19 @@ import { useNavigate } from "react-router-dom";
 import Equipo from "../../components/Equipo";
 import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
-import "../../components/css/Equipo.css";
+import ErrorPage from "../ErrorPage.jsx";
 
+/**
+ * Página de Equipos.
+ *
+ * Esta página obtiene y muestra una lista de equipos.
+ *
+ * @component
+ * @returns {JSX.Element} - Renderiza la lista de equipos o una página de error.
+ */
 function EquiposPage() {
-  const [equipos, setEquipos] = useState(null);
+  const [equipos, setEquipos] = useState([]);
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const navegar = useNavigate();
 
@@ -14,28 +23,47 @@ function EquiposPage() {
     const obtenerListadoEquipos = async () => {
       try {
         const resultado = await api.get("/equipos");
-        if (resultado.data.status === "success" && Array.isArray(resultado.data.equipos)) {
+        console.log(resultado);
+        if (
+          resultado.data.status === "success" &&
+          Array.isArray(resultado.data.equipos)
+        ) {
+          window.scrollTo(0,0);
           setEquipos(resultado.data.equipos);
         } else {
-          setError("No se pudo cargar la lista de equipos.");
+          setError({
+            tipo: resultado.data.status,
+            mensaje: "Hubo un problema al obtener los equipos.",
+          });
         }
       } catch (error) {
-        console.error(error);
-        setError("Hubo un error al cargar los equipos.");
+        setError({ tipo: error.name, mensaje: "No hay equipos" });
+      } finally {
+        setCargando(false);
       }
     };
 
     obtenerListadoEquipos();
   }, []);
 
+  /**
+   * Enseño la página de error, cuando haya una página de error
+   */
   if (error) {
-    return <p className="text-center mt-5">{error}</p>;
+    return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
-  if (!equipos) {
+  /**
+   * Mientras cargue la respuesta de la api, muestro un spinner
+   */
+  if (cargando) {
     return <Spinner />;
   }
 
+  /**
+   * Navega a la página de detalles equipo
+   * @param {String} slug
+   */
   function navegarDetalleEquipo(slug) {
     navegar(`/equipos/${slug}`);
   }
@@ -49,7 +77,7 @@ function EquiposPage() {
             <h1>Listado de Equipos</h1>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-md-3 g-4">
+        <div className="row d-flex justify-content-center align-items-center row-cols-1 row-cols-md-3 g-5">
           {equipos.map((equipo) => (
             <Equipo
               key={equipo.slug}
