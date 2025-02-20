@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 function ErrorPage({ mensaje = "Ocurrió un error" }) {
     
     return (
-        <div>
+        <div className="container-fluid vh-100">
             <h1>¡Ups! Algo salió mal</h1>
             <p>{mensaje}</p>
             <Link to="/">Volver al inicio</Link>

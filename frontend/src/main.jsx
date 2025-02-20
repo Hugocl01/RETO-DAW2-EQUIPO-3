@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./custom.css"; 
+import "./index.css";
 
 import { SeguridadProvider } from './contexts/SeguridadProvider.jsx';
 import AppEnrutador from './routers/AppEnrutador.jsx';
