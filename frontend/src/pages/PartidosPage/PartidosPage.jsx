@@ -3,6 +3,8 @@ import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
 import api from "../../services/api";
 import ErrorPage from "../ErrorPage";
+import Partido from "../../components/Partidos/Partido";
+import { useNavigate } from "react-router-dom";
 //import "../src/components/css/EstilosComun.css";
 
 /**
@@ -20,6 +22,7 @@ function PartidosPage() {
   const [opcionGrupos, setGrupos] = useState("A");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
+  const navegar = useNavigate();
 
   /**
    * Se ejecuta al cargar el componente
@@ -33,7 +36,7 @@ function PartidosPage() {
           listaPartidos.data.status === "success" &&
           Array.isArray(listaPartidos.data.partidos)
         ) {
-          window.scrollTo(0,0);
+          window.scrollTo(0, 0);
           setPartidos(listaPartidos.data.partidos);
         } else {
           setError({
@@ -50,13 +53,12 @@ function PartidosPage() {
     obtenerPartidos();
   }, []);
 
-   /**
+  /**
    * Enseño la página de error, cuando haya una página de error
    */
-   if (error) {
+  if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
-
 
   /**
    * Hasta que no cargue los partidos, se mostrará el spinner
@@ -75,6 +77,8 @@ function PartidosPage() {
 
     if (seleccion === "partidos") {
       setOpcionPartidos(valor);
+    } else if (seleccion === "") {
+      setOpcionPartidos("");
     } else {
       setGrupos(valor);
     }
@@ -82,13 +86,13 @@ function PartidosPage() {
 
   return (
     <>
-      <section className="container-fluid my-5  mx-auto w-75 min-vh-100">
+      <section className="container-fluid my-5 mx-auto w-75 min-vh-100">
         <div className="row">
-          <h2 className="col-12 text-center">Partidos</h2>
+          <h2 className="col-12 text-center">Resultados</h2>
         </div>
 
-        <section className="p-3 mb-5 row my-3 border border-primary">
-          <h5 className="mb-3">Filtros</h5>
+        <section className="p-3 mb-5 row my-3 bg-primary rounded-top">
+          <h5 className="mb-3 text-white font-weight-bold">Filtros</h5>
           <div className="w-50 col-md-12 d-flex flex-row justify-content-space-between">
             <select
               className="form-select"
@@ -124,13 +128,13 @@ function PartidosPage() {
          * No se mostrará mientras no hayas seleccionado una opcion válida
          */}
         <section className="row">
-          {opcionPartidos !== "" && (
+          <>
             <TablaPartidos
               tipo={opcionPartidos}
               grupo={opcionGrupos}
               partidos={partidos}
             />
-          )}
+          </>
         </section>
       </section>
     </>

@@ -4,11 +4,11 @@ import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 
 function DetallePartidoPage() {
-    /**
-     * Estado para almacenar el estado partido
-     * Estado para recoger la ruta del header
-     * Estado para que cambie cuando cargue los datos en la api
-     */
+  /**
+   * Estado para almacenar el estado partido
+   * Estado para recoger la ruta del header
+   * Estado para que cambie cuando cargue los datos en la api
+   */
   const [partido, setPartido] = useState();
   const location = useLocation();
   const [cargando, setCargando] = useState(true);
@@ -20,7 +20,6 @@ function DetallePartidoPage() {
     const obtenerPartido = async () => {
       try {
         const resultado = await api.get(location.pathname);
-        console.log(resultado.data.partidos);
         if (resultado.data.status === "success") {
           setPartido(resultado.data.partidos);
           setCargando(false);
@@ -42,11 +41,31 @@ function DetallePartidoPage() {
 
   /**
    * Función para obtener el acta de un equipo, si no pongo nada, recogerá los inicio de partido y final
-   * @param {String} equipo 
-   * @returns 
+   * @param {String} equipo
+   * @returns
    */
   function obtenerActaEquipo(equipo = null) {
-    return partido.actas.filter((p) => p.equipo === equipo);
+    let actaEquipo = [];
+    /**
+     * Ordeno los actas de menor a mayor
+     */
+    let totalActasOrdenado = partido.actas.sort((acta1, acta2) => {
+      let minutoActa1 = acta1.minuto;
+      let minutoActa2 = acta2.minuto;
+
+      return minutoActa1 - minutoActa2;
+    });
+
+    actaEquipo = totalActasOrdenado.map((incidencia) => {
+      // Si el equipo de la incidencia coincide con el equipo pasado como parámetro
+      if (incidencia.equipo === equipo) {
+        return incidencia; // Mantiene la incidencia original
+      } else {
+        return ""; // Pone un string vacío en las incidencias que no correspondan al equipo
+      }
+    });
+
+    return actaEquipo;
   }
 
   /**
@@ -56,34 +75,41 @@ function DetallePartidoPage() {
   const actaEquipoVisitante = obtenerActaEquipo(partido["equipo visitante"]);
   const actaInicioFin = obtenerActaEquipo();
 
+  console.log(actaEquipoLocal);
+  console.log(actaEquipoVisitante);
+
   return (
     <>
+      <title>Acta {partido.slug}</title>
       <section className="container-fluid w-75">
         {/**
          * Titulo de la página
          */}
         <div className="row">
-            <div className="col-12">
-                <h2 className=" mt-5 text-center">Acta {partido["equipo local"]} vs {partido["equipo visitante"]}</h2>
-            </div>
+          <div className="col-12">
+            <h2 className=" mt-5 text-center">
+              Acta {partido["equipo local"]} vs {partido["equipo visitante"]}
+            </h2>
+          </div>
         </div>
 
         {/**Enfrentamiento con los logos de los equipos */}
-        <div className="row mt-3">
-          <div className="col-6 d-flex flex-row justify-content-around align-items-center border border-dark">
+        <div className="row my-5">
+          <div className="col-4 d-flex flex-row justify-content-around align-items-center border border-dark">
             <img
               src={"../../src/assets/imagenes/img1.jpg"}
               alt="imagenPatrocinador"
               className="img-fluid"
-              style={{ width: "30%" }}
+              style={{ width: "50%" }}
             />
           </div>
-          <div className="col-6 d-flex flex-row border justify-content-around align-items-center border-dark">
+          <div className="col-4"></div>
+          <div className="col-4 d-flex flex-row border justify-content-around align-items-center border-dark">
             <img
               src={"../../src/assets/imagenes/img1.jpg"}
               alt="imagenPatrocinador"
               className="img-fluid"
-              style={{ width: "30%" }}
+              style={{ width: "50%" }}
             />
           </div>
         </div>
@@ -96,36 +122,51 @@ function DetallePartidoPage() {
             {/**
              * Incidencia del equipo local
              */}
-            {console.log(actaEquipoLocal)}
             {actaEquipoLocal.map((valor, indice) => {
               return (
                 <>
-                  <p key={indice}>
-                    {valor.incidencia} Minuto: {valor.minuto}
-                  </p>
+                  {valor !== "" ? (
+                    <>
+                      <p key={indice} className="text-center border border-dark w-100">
+                        {valor.incidencia} Minuto: {valor.minuto}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                    <p className="text-center border border-dark w-100"><br></br></p>
+                    </>
+                  )}
                 </>
               );
             })}
           </div>
           {/**
-           * Resultado del Enfrentamiento 
+           * Resultado del Enfrentamiento
            */}
           <div className="col-4 d-flex justify-content-center align-items-center border border-dark">
-          <p className="display-4 text-center align-self-center border border-dark">{partido["goles local"]} - {partido["goles visitante"]}</p>
+            <p className="display-4 text-center align-self-center border border-dark">
+              {partido["goles local"]} - {partido["goles visitante"]}
+            </p>
           </div>
 
           <div className="col-4 d-flex flex-column border justify-content-center align-items-center  border-dark">
-
             {/**
              * Incidencias del equipo visitante
              */}
-            {console.log(actaEquipoVisitante)}
             {actaEquipoVisitante.map((valor, indice) => {
               return (
                 <>
-                  <p key={indice}>
-                    {valor.incidencia} Minuto: {valor.minuto}
-                  </p>
+                 {valor !== "" ? (
+                    <>
+                      <p key={indice} className="text-center border border-dark w-100">
+                        {valor.incidencia} Minuto: {valor.minuto}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                    <p className="text-center border border-dark w-100"><br></br></p>
+                    </>
+                  )}
                 </>
               );
             })}

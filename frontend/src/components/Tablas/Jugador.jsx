@@ -18,7 +18,8 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
   }
   return (
     <div className="row border-bottom py-2" onClick={handleCLickNavegarJugador}>
-      <div className="col-3 d-flex flex-row  text-center">
+      <div className="col-3 d-flex flex-row justify-content-center text-center">
+        <div className="d-flex flex-row w-75 ">
         <img
           src="../src/assets/imagenes/img1.jpg"
           alt={`imagen${jugador.equipo}`}
@@ -30,6 +31,7 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
         />
         <Tooltip id="imgEquipo"></Tooltip>
         <p className="mx-3">{jugador.nombre}</p>
+        </div>
       </div>
       <div className="col-3 text-center">{jugador.stats.goles}</div>
       <div className="col-3 text-center">

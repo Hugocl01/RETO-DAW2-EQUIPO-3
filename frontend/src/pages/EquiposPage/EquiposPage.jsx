@@ -30,7 +30,6 @@ function EquiposPage() {
           resultado.data.status === "success" &&
           Array.isArray(resultado.data.equipos)
         ) {
-          window.scrollTo(0,0);
           setEquipos(resultado.data.equipos);
         } else {
           setError({
@@ -46,6 +45,7 @@ function EquiposPage() {
     };
 
     obtenerListadoEquipos();
+    window.scrollTo(0,0);
   }, []);
 
   /**
