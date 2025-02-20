@@ -50,7 +50,7 @@ function AppEnrutador() {
     seguridad?.user?.perfil?.secciones?.map((sec) =>
       sec.nombre.toLowerCase()
     ) || [];
-  console.log(seccionesPermitidas);
+  
   return (
     <BrowserRouter>
       <Routes>
