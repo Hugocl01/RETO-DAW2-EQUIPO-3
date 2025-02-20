@@ -156,8 +156,8 @@ function Inicio() {
 
     return (
         <div className="d-flex flex-column justify-content-center align-items-center">
-            <div className="imagenInicio d-flex justify-content-center align-items-center">
-                <h2 className="text-white">TORNEO SOLIDARIO</h2>
+            <div className="row w-100 vh-100 imagenInicio d-flex justify-content-center align-items-center">
+                <h2 className=" w-50 text-white text-center">TORNEO SOLIDARIO</h2>
             </div>
 
             <div>

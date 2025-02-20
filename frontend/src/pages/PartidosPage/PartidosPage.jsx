@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
 import api from "../../services/api";
+import ErrorPage from "../ErrorPage";
 //import "../src/components/css/EstilosComun.css";
 
 /**
@@ -18,6 +19,7 @@ function PartidosPage() {
   const [opcionPartidos, setOpcionPartidos] = useState("");
   const [opcionGrupos, setGrupos] = useState("A");
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState();
 
   /**
    * Se ejecuta al cargar el componente
@@ -27,16 +29,34 @@ function PartidosPage() {
       try {
         const listaPartidos = await api.get("/partidos");
 
-        if (listaPartidos.data.status === "success") {
+        if (
+          listaPartidos.data.status === "success" &&
+          Array.isArray(listaPartidos.data.partidos)
+        ) {
+          window.scrollTo(0,0);
           setPartidos(listaPartidos.data.partidos);
-          setCargando(false);
+        } else {
+          setError({
+            tipo: listaPartidos.data.status,
+            mensaje: "Hubo un problema al obtener los equipos.",
+          });
         }
       } catch (error) {
-        console.error(error);
+        setError({ tipo: error.name, mensaje: "No hay partidos" });
+      } finally {
+        setCargando(false);
       }
     };
     obtenerPartidos();
   }, []);
+
+   /**
+   * Enseño la página de error, cuando haya una página de error
+   */
+   if (error) {
+    return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
 
   /**
    * Hasta que no cargue los partidos, se mostrará el spinner
@@ -62,12 +82,12 @@ function PartidosPage() {
 
   return (
     <>
-      <section className="container-fluid my-5 w-75">
+      <section className="container-fluid my-5  mx-auto w-75 min-vh-100">
         <div className="row">
           <h2 className="col-12 text-center">Partidos</h2>
         </div>
 
-        <section className="p-3 mb-5 row my-3 border border-primary h-100">
+        <section className="p-3 mb-5 row my-3 border border-primary">
           <h5 className="mb-3">Filtros</h5>
           <div className="w-50 col-md-12 d-flex flex-row justify-content-space-between">
             <select
@@ -82,7 +102,7 @@ function PartidosPage() {
               <option value="eliminatorias">Eliminatorias</option>
             </select>
 
-            {/**  
+            {/**
              * Solo mostrar select de grupos si es clasificatorio
              */}
             {opcionPartidos === "clasificatorio" && (

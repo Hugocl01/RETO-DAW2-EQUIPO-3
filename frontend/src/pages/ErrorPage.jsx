@@ -8,11 +8,11 @@ import Error from "../components/Error.jsx";
  * @component
  * @returns {JSX.Element} - Renderiza la página de error en caso de ruta no valida.
  */
-function ErrorPage({mensaje}) {
+function ErrorPage({tipo,mensaje}) {
 
     return (
         <>
-            <title>Error</title>
+            <title>Error {tipo}</title>
             <Error mensaje={mensaje} />
         </>
     );
