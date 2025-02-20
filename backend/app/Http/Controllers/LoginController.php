@@ -6,8 +6,8 @@ use App\Http\Requests\LoginRequest;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UsuarioResource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
 /**
  * @OA\Info(title="API Logueo", version="1.0",description="Endpoints para gestión de logueo",
  * @OA\Server(url="http://localhost:8000"),
@@ -84,6 +84,15 @@ class LoginController extends Controller
             'message' => 'Inicio sesion',
             'usuario' => new UsuarioResource($user),
             'token' => $token,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Cierre de Sesión con Éxito.'
         ]);
     }
 }
