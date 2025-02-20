@@ -13,101 +13,26 @@ import "./css/EstilosComun.css";
 function Inicio() {
     //arrays para los carruseles
     const [donaciones, setDonaciones] = useState([]);
-    //const [patrocinadores, setPatrocinadores] = useState([]);
-
-
+    
     const [searchParams] = useSearchParams();
     const status = searchParams.get("inscripcion-status"); // "success" o lo que hayas enviado
 
     const noticias = [
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 1",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img4.png",
-            title: "Noticia 2",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 3",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 4",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 5",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 6",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 7",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Noticia 8",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 1", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img4.png", title: "Noticia 2", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 3", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 4", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img4.png", title: "Noticia 5", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 6", text: "Lorem ipsum dolor sit amet..." }
     ];
 
     const retos = [
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 1",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img4.png",
-            title: "Reto 2",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 3",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 3",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 4",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 5",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 6",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 7",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
-        {
-            imagen: "../src/assets/imagenes/img2.png",
-            title: "Reto 8",
-            text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus vel repellendus perspiciatis aspernatur! Consequuntur assumenda praesentium modi! Doloremque asperiores corrupti adipisci quos id dolorem, enim ullam tempora reprehenderit delectus eum?",
-        },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 1", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img4.png", title: "Reto 2", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 3", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 4", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img4.png", title: "Reto 5", text: "Lorem ipsum dolor sit amet..." },
+        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 6", text: "Lorem ipsum dolor sit amet..." }
     ];
 
     //obtener donaciones
@@ -124,20 +49,6 @@ function Inicio() {
         };
 
         obtenerDonaciones();
-
-        /*const obtenerPatrocinadores = async () => {
-            try {
-                const respuesta = await api.get("/patrocinadores");
-                if (respuesta.data.status === "success") {
-                    setPatrocinadores(respuesta.data.patrocinadores);
-                }
-            } catch (error) {
-                console.error("Error al obtener los patrocinadores:", error);
-            }
-        };
-
-        obtenerPatrocinadores();
-        */
     }, []);
 
     function totalDonado() {
@@ -153,11 +64,10 @@ function Inicio() {
         return totalDonado.toFixed(2);
     }
 
-
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center">
-            <div className="row w-100 vh-100 imagenInicio d-flex justify-content-center align-items-center">
-                <h2 className=" w-50 text-white text-center">TORNEO SOLIDARIO</h2>
+        <div className="inicio-container d-flex flex-column justify-content-center align-items-center">
+            <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4 w-100 vh-100">
+                <h2 className="text-white text-center">TORNEO SOLIDARIO</h2>
             </div>
 
             <div>
@@ -168,94 +78,28 @@ function Inicio() {
                 )}
             </div>
 
-            <div className="d-flex flex-column align-items-center justify-content-center p-5">
-                <h1 className="mb-5">Noticias</h1>
-                <Carousel id="carouselExampleDark" items={noticias} interval={3000} />
-                <hr className="border-3 border-black d-block w-100 my-5" />
+            <section className="introduccion section-container">
+                <div className='seccion1'>
+                    <div className='titulo p-5'>
+                        <h5 className='w-100'>PARTICIPA POR UNA CAUSA SOLIDARIA</h5>
+                    </div>
 
-                <h1 className="mb-5">Retos</h1>
-                <Carousel id="carouselExampleDark2" items={retos} interval={3000} />
+                    <div className='texto mx-5 mt-5 my-2'>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Voluptatibus atque dicta excepturi error autem ex deleniti
+                            consequatur. Tempore quasi doloremque rerum beatae necessitatibus
+                            laudantium. Veritatis nobis ipsum iusto repudiandae modi.</p>
+                    </div>
 
-                <hr className="border-3 border-black d-block w-100 my-5" />
-
-                <div className="container d-flex flex-column align-items-center justify-content-center p-5">
-                    <h1 className="mb-5">Donaciones</h1>
-                    <div className="row row-cols-1 row-cols-md-2 g-4">
-                        <div className="col">
-                            <div className="bg-light p-3 rounded-2 text-center">
-                                <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
-                                <h2>Total Recaudado</h2>
-                                <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
-                            </div>
-                        </div>
-
-                        <div className="col">
-                            <div className="bg-light p-3 rounded-2 text-center">
-                                <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
-                                <h2>Como Donar</h2>
-                                <button className="btn btn-primary mt-2 rounded-pill">Donar</button>
-                            </div>
-                        </div>
+                    <div>
+                        <button type="button" className="btn btn-secondary btn-lg mx-5 my-2 px-5">Inscríbete</button>
                     </div>
                 </div>
 
-                <div className="d-flex flex-wrap align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                    <div className="d-flex flex-wrap flex-column justify-content-center align-items-center" id="patrocinadores">
-                        <h1 className="mb-5 mt-4">Patrocinadores</h1>
-                        <div className="m-4 d-flex flex-wrap justify-content-center align-items-center">
-                            {/*
-                        {patrocinadores.map((patrocinador) => (
-                            <div className="bg-light w-25 h-25 p-3 rounded-2 text-center">
-                                <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
-                                    <img src="#" className="w-25" alt={patrocinador.nombre} />
-                                    <p className="fw-bold">{patrocinador.nombre}</p>
-                                </a>
-                            </div>
-
-                        ))}
-                        */}
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" />
-                            </div>
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/cic.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/deode.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" />
-                            </div>
-
-                            <div className="w-25 h-40 p-3 rounded-2">
-                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" />
-                            </div>
-                        </div>
-                    </div>
+                <div className='seccion2'>
+                    <img src="../src/assets/imagenes/football2.jpg" alt="Fútbol" />
                 </div>
-            </div>
+            </section>
         </div>
     );
 }
