@@ -10,15 +10,16 @@
     font-family: "Questrial", Sans-serif;
 }
 
-/*
+
 h1 {
     font-family: "Questrial", Sans-serif;
     font-weight: 400;
     border-bottom: 2px solid #d9625d;
     margin: 3rem;
 }
-*/
 
+
+/*
 h1 {
     font-weight: 400;
     position: relative;  
@@ -35,7 +36,7 @@ h1::after {
     height: 2px;  
     background-color: #d9625d; 
 }
-
+*/
 section {
     margin-bottom: 4em;
 }

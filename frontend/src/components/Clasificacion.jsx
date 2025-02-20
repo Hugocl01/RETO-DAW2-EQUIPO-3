@@ -3,6 +3,9 @@ import CuadroClasificacion from "../components/CuadroClasificacion";
 import api from "../services/api";
 import Spinner from "../components/Spinner.jsx";
 
+import "./css/EstilosComun.css";
+
+
 function Clasificacion() {
     const [equiposA, setEquiposA] = useState([]);
     const [equiposB, setEquiposB] = useState([]);

@@ -110,7 +110,7 @@ function Inicio() {
                     </div>
 
                     <div>
-                        <button type="button" class="btn btn-secondary btn-lg mx-5 my-2 px-5">Inscríbete</button>
+                        <button type="button" class="btn btn-secondary btn-lg mx-5 mt-2 px-5">Inscríbete</button>
                     </div>
                 </div>
 
@@ -120,7 +120,6 @@ function Inicio() {
                 </div>
             </section>
 
-            <hr className="border-3 border-black d-block my-5 mx-5" />
 
             <section className="carruseles section-container">
                 <div className="d-flex flex-column align-items-center justify-content-center">
@@ -128,7 +127,6 @@ function Inicio() {
                 </div>
                 <Carousel id="carouselNoticias" items={noticias} interval={3000} />
 
-                <hr className="border-3 border-black d-block my-5 mx-5" />
 
                 <div className="d-flex flex-column align-items-center justify-content-center">
                     <h1>Retos</h1>
@@ -137,15 +135,37 @@ function Inicio() {
             </section>
 
 
-            <hr className="border-3 border-black d-block my-5 mx-5" />
 
             <section className="donaciones container">
                 <div className='d-flex flex-column align-items-center justify-content-center'>
                     <h1>Donaciones</h1>
                 </div>
+
+                <div className="row">
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                        <div className="card text-center">
+                            <div className="card-body">
+                                <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
+                                <h2>Total Recaudado</h2>
+                                <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-6">
+                        <div className="card text-center">
+                            <div className="card-body">
+                                <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
+                                <h2>Como Donar</h2>
+                                <a href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/*
                 <div className="tarjetasDonar row row-cols-1 row-cols-md-2">
                     <div className="col">
-                        <div className="totalRecaudado bg-light p-3 rounded-2 text-center">
+                        <div className="totalRecaudado p-3 rounded-2 text-center">
                             <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
                             <h2>Total Recaudado</h2>
                             <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
@@ -153,23 +173,24 @@ function Inicio() {
                     </div>
 
                     <div className="col">
-                        <div className="comoDonar bg-light p-3 rounded-2 text-center">
+                        <div className="comoDonar p-3 rounded-2 text-center">
                             <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
                             <h2>Como Donar</h2>
                             <button className="btn btn-primary mt-2 rounded-pill">Donar</button>
                         </div>
                     </div>
                 </div>
+                */}
             </section>
 
 
 
-            <div className="d-flex flex-wrap align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                <div className="d-flex flex-wrap flex-column justify-content-center align-items-center" id="patrocinadores">
+            <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
+                <div className="d-flex flex-column justify-content-center align-items-center" id="patrocinadores">
                     <div className="d-flex flex-column align-items-center justify-content-center">
                         <h1>Patrocinadores</h1>
                     </div>
-                    <div className="m-4 d-flex flex-wrap justify-content-center align-items-center">
+                    <div className="container mt-4 text-center" id="logosPatrocinadores">
                         {/*
                         {patrocinadores.map((patrocinador) => (
                             <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
@@ -181,43 +202,37 @@ function Inicio() {
 
                         ))}
                         */}
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/acicatech.png" />
-                        </div>
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/cic.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/deduce.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/deode.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/infortec.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/netkia.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/seidor.png" />
-                        </div>
-
-                        <div className="w-25 h-40 p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/patrocinadores/soicon.png" />
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" class="img-fluid rounded" alt="Imagen 1" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" class="img-fluid rounded" alt="Imagen 2" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" class="img-fluid rounded" alt="Imagen 3" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" class="img-fluid rounded" alt="Imagen 4" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/cic.png" class="img-fluid rounded" alt="Imagen 5" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" class="img-fluid rounded" alt="Imagen 6" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/deode.png" class="img-fluid rounded" alt="Imagen 7" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" class="img-fluid rounded" alt="Imagen 8" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" class="img-fluid rounded" alt="Imagen 9" />
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" class="img-fluid rounded" alt="Imagen 10" />
+                            </div>
                         </div>
                     </div>
                 </div>

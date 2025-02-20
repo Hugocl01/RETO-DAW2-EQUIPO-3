@@ -4,6 +4,8 @@ import Equipo from "../../components/Equipo";
 import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 import ErrorPage from "../ErrorPage.jsx";
+import "../../../src/components/css/EstilosComun.css";
+
 
 /**
  * Página de Equipos.

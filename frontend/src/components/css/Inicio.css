@@ -4,10 +4,17 @@
     box-sizing: border-box;
 }
 
+section {
+    margin-top: 3em;
+}
+
+h1 {
+    margin-top: 2em;
+}
 
 .imagenInicio {
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
 
     background: linear-gradient(rgba(36, 35, 35, 0.247), rgba(48, 47, 47, 0.274)),
         url("../src/assets/imagenes/football.jpeg");
@@ -39,13 +46,13 @@
 }
 
 .introduccion img {
-    margin-top: 2em;
     width: 100%;
     height: 85%;
     object-fit: cover;
 }
 
 .titulo {
+    margin-top: 2em;
     background-color: #d9615d21;
     width: 100%;
     text-align: center;
@@ -83,4 +90,26 @@
 
 #patrocinadores img {
     max-width: 140px;
+}
+
+.comoDonar,
+.totalRecaudado {
+    background-color: rgba(128, 128, 128, 0.164);
+}
+
+.card text-center {
+    width: 18rem;
+}
+
+@media (max-width: 730px) {
+    .introduccion {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100vw;
+        height: 65vh;
+    }
+
+    .seccion2 {
+        display: none;
+    }
 }
