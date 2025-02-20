@@ -16,14 +16,14 @@ function Partido({ tipo, objPartido, fnNavegar }) {
    * Creo un identificador único para los accordeones de los partidos
    */
   const collapseId = `collapse-${partido.slug}`;
-
+console.log(partido)
   return (
     <div className="accordion card mb-3 shadow-sm" id={`accordion-${partido.slug}`}>
        {/**
         * Cabecera
         */}
-      <button
-        className="accordion-button card-header bg-primary text-white"
+      <div
+        className="accordion-button w-100 card-header bg-primary text-white"
         type="button"
         data-bs-toggle="collapse"
         /**Objetivo del target */
@@ -36,9 +36,9 @@ function Partido({ tipo, objPartido, fnNavegar }) {
         {/**
          * Muestro el tipo de partido si no es 'clasificatorio'
          */}
-        {tipo !== "clasificatorio" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
+        {tipo !== "clasificatorio" && tipo!== "" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
         <h5 className="w-100 text-center m-0">{`Partido: ${partido["equipo local"]} vs ${partido["equipo visitante"]}`}</h5>
-      </button>
+      </div>
       <div
         id={collapseId}
         className="accordion-collapse collapse show"

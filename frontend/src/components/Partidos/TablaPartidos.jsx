@@ -1,5 +1,5 @@
 import Partido from "./Partido";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 /**
  * Componente para las tablas de los partidos
@@ -7,8 +7,7 @@ import {useNavigate} from "react-router-dom"
  * @returns
  */
 function TablaPartidos({ tipo, grupo, partidos }) {
-
-  const navegar=useNavigate();
+  const navegar = useNavigate();
 
   /**
    * Si no hay partidos, mostrar un mensaje.
@@ -16,12 +15,12 @@ function TablaPartidos({ tipo, grupo, partidos }) {
   if (!partidos || partidos.length === 0) {
     return <p>No hay partidos disponibles.</p>;
   }
-/**
- * Funcion que obtiene los partidos filtrados por si son clasificatorios o eliminatorias
- * @param {String} tipo es el tipo de enfrentamiento, si es clasificatorio o eliminatoria
- * @param {Int} grupo 
- * @returns 
- */
+  /**
+   * Funcion que obtiene los partidos filtrados por si son clasificatorios o eliminatorias
+   * @param {String} tipo es el tipo de enfrentamiento, si es clasificatorio o eliminatoria
+   * @param {Int} grupo
+   * @returns
+   */
   function obtenerPartidosTipo(tipo, grupo = "") {
     let partidosFiltrados;
 
@@ -32,49 +31,76 @@ function TablaPartidos({ tipo, grupo, partidos }) {
       partidosFiltrados = partidos.filter(
         (p) => p.tipo === tipo && p.grupo === grupo
       );
-    }
-    /**
-     * Si el tipo es distinto a clasificatorio, es decir, eliminatorias
-     */
-    else
+    } else if (tipo === "eliminatorias") {
+      /**
+       * Si el tipo es distinto a clasificatorio, es decir, eliminatorias
+       */
       partidosFiltrados = partidos.filter(
         (p) => p.tipo === "semifinal" || p.tipo === "final"
       );
+    } else {
+      partidosFiltrados = partidos;
+    }
 
     return partidosFiltrados;
   }
 
-  function navegarDetalleResultado(slug){
+  function navegarDetalleResultado(slug) {
     navegar(`/partidos/${slug}`);
   }
 
   return (
     <div className="container-fluid">
-      {/** 
-       * Mostrar según el tipo de partido: clasificatorio o eliminatorias 
+      {/**
+       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
        */}
-      {tipo === "clasificatorio" ? (
+      {tipo === "clasificatorio"  ? (
         <>
           <h3>Clasificatorio</h3>
           <div>
-            {/** 
-             * Muestro los partidos del grupo seleccionado 
+            {/**
+             * Muestro los partidos del grupo seleccionado
              */}
             {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              <Partido key={indice} tipo={tipo} objPartido={valor} fnNavegar={navegarDetalleResultado} />
+              <Partido
+                key={indice}
+                tipo={tipo}
+                objPartido={valor}
+                fnNavegar={navegarDetalleResultado}
+              />
             ))}
           </div>
         </>
-      ) : (
+      ) : tipo === "eliminatorias" ? (
         <>
           <h3>Eliminatorias</h3>
           <div>
-            {/** 
-             * Filtro los partidos de eliminatorias 
+            {/**
+             * Filtro los partidos de eliminatorias
              **/}
             {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              <Partido key={indice} tipo={tipo} objPartido={valor} fnNavegar={navegarDetalleResultado} />
+              <Partido
+                key={indice}
+                tipo={tipo}
+                objPartido={valor}
+                fnNavegar={navegarDetalleResultado}
+              />
             ))}
+          </div>
+        </>
+      ) :  (
+        <>
+          <div>
+            {/**
+             * Filtro cuando no seleccionas una opción que te salga el primer partido
+             **/}
+
+            <Partido
+              key={0}
+              tipo={tipo}
+              objPartido={partidos[0]}
+              fnNavegar={navegarDetalleResultado}
+            />
           </div>
         </>
       )}

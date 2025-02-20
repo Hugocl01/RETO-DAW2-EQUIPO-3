@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import Jugador from "./Jugador";
 import Paginador from "../Paginador";
 import Spinner from "../Spinner";
+import "../../components/css/Tabla.css"
 
 function TablaJugadores() {
-  /**
-   * Estados Para jugadores, la página en la que se encuentra el usuario
-   * Para el total de Jugadores que hay
-   * Para controlar que no me muestre la tabla de jugadores hasta que no estén cargadps
-   */
   const [jugadores, setJugadores] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalJugadores, setTotalJugadores] = useState(0);
@@ -20,9 +16,6 @@ function TablaJugadores() {
   const jugadoresPorPagina = 10;
   let totalPaginas = Math.ceil(totalJugadores / jugadoresPorPagina);
 
-  /**
-   * Se ejecutará al cargar el componente
-   */
   useEffect(() => {
     const cargarJugadores = async () => {
       try {
@@ -30,9 +23,6 @@ function TablaJugadores() {
         if (resultado.data.status === "success") {
           let listaJugadores = resultado.data.jugadores;
 
-          /**
-           * Filtro por el máximo goleador
-           */
           let jugadoresFiltrado = listaJugadores.sort((jugadorA, jugadorB) => {
             return jugadorB.stats.goles - jugadorA.stats.goles;
           });
@@ -48,95 +38,46 @@ function TablaJugadores() {
     cargarJugadores();
   }, []);
 
-  /**
-   * Mientras esté el estado de cargando, se mostrará el spinner
-   */
   if (cargando) {
-    return <Spinner></Spinner>;
+    return <Spinner />;
   }
 
-  /**
-   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
-   * @param {slug} slug
-   */
   function navegarDetalleEquipo(slug) {
     console.log(slug);
     navegar(`/equipos/${slug}`);
   }
 
-  /**
-   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del jugador
-   */
-  function navegarDetalleJugador(slug){
-    navegar(`/jugadores/${slug}`)
+  function navegarDetalleJugador(slug) {
+    navegar(`/jugadores/${slug}`);
   }
 
-  /**
-   * Funcion para la paginador, me mostrará los jugadores de la página actual que verá el usuario
-   * @param {[]} jugadores
-   * @param {int} paginaActual
-   * @param {int} jugadoresPorPagina
-   * @returns
-   */
-  function obtenerJugadoresPaginados(
-    jugadores,
-    paginaActual,
-    jugadoresPorPagina
-  ) {
-    /**
-     * Obtengo el primer y ultimo jugador de la página
-     */
+  function obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina) {
     const ultimoJugador = paginaActual * jugadoresPorPagina;
     const primerJugador = ultimoJugador - jugadoresPorPagina;
-
-    /**
-     * Muestro los jugadores desde el primer hasta el ultimo de la página
-     */
     return jugadores.slice(primerJugador, ultimoJugador);
   }
 
-  /**
-   * Método que avanza a la siguiente página
-   */
   const siguientePagina = () => {
     if (paginaActual < totalPaginas) {
       setPaginaActual(paginaActual + 1);
     }
   };
 
-  /**
-   * Metodo que retrocede a la anterior página
-   */
   const paginaAnterior = () => {
     if (paginaActual > 1) {
       setPaginaActual(paginaActual - 1);
     }
   };
 
-  /**Función para ordenar un campo */
   function ordenarCampo(e) {
-    let campo = e.target.dataset.campo;
-    /**
-     * Controlo que si vamos a modificar el estado que ya está ordenado asc, me lo ordene desc
-     * Si el campo no está ordenado, pues me lo ordene ascendentemente
-     */
+    let campo = e.currentTarget.dataset.campo;
     const direccion =
       orden.campo === campo && orden.direccion === "asc" ? "desc" : "asc";
     setOrden({ campo, direccion });
 
-    /**
-     *  Utilizo el sort para ordenar
-     */
-    const jugadoresOrdenados = jugadores.sort((jugadorA, jugadorB) => {
-      /**
-       * Guardo los valores del jugadorA y jugadorB para luego ordenar por el campo específico
-       */
+    const jugadoresOrdenados = [...jugadores].sort((jugadorA, jugadorB) => {
       let valorJugadorA = jugadorA.stats[campo];
       let valorJugadorB = jugadorB.stats[campo];
-
-      /**
-       * Dependiendo de si se la direccion del ordenamiento es asc o desc, se ordenará de mayor a menor o menor a mayor
-       */
       return direccion === "asc"
         ? valorJugadorA - valorJugadorB
         : valorJugadorB - valorJugadorA;
@@ -148,55 +89,78 @@ function TablaJugadores() {
 
   return (
     <>
-      {/* Cabecera */}
-      <div className="row bg-light border-bottom py-2">
-        <div className="col-3 text-center font-weight-bold">Nombre</div>
-        <div
-          className="col-3 text-center font-weight-bold"
-          data-campo="goles"
-          onClick={ordenarCampo}
-        >
-          Goles
+      <div className="container-fluid mt-5">
+        {/* Cabecera */}
+        <div className="row bg-primary text-white rounded-top border-bottom py-2">
+          <div className="col-3 tabla text-center font-weight-bold cursor-pointer ">
+            Nombre
+          </div>
+          <div
+            className="col-3 d-flex flex-row justify-content-center align-items-center cursor-pointer "
+            data-campo="goles"
+            onClick={ordenarCampo}
+          >
+            <div className="d-flex flex-row w-50 justify-content-center">
+              <p className="font-weight-bold h-100 text-center mx-2">Goles</p>
+              {orden.direccion === "asc" && orden.campo === "goles" ? (
+                <i className="bi bi-arrow-down"></i>
+              ) : (
+                <i className="bi bi-arrow-up"></i>
+              )}
+            </div>
+          </div>
+          <div
+            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            data-campo="tarjetas_amarillas"
+            onClick={ordenarCampo}
+          >
+            <div className="d-flex flex-row w-50 justify-content-center">
+              <p className="font-weight-bold h-100 text-center mx-2">Tarjetas Amarillas</p>
+              {orden.direccion === "asc" && orden.campo === "tarjetas_amarillas" ? (
+                <i className="bi bi-arrow-down"></i>
+              ) : (
+                <i className="bi bi-arrow-up"></i>
+              )}
+            </div>
+          </div>
+          <div
+            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            data-campo="tarjetas_rojas"
+            onClick={ordenarCampo}
+          >
+            <div className="d-flex flex-row w-50 justify-content-center" data-campo="rojas">
+              <p className="font-weight-bold h-100 text-center mx-2">Tarjetas Rojas</p>
+              {orden.direccion === "asc" && orden.campo === "tarjetas_rojas" ? (
+                <i className="bi bi-arrow-down"></i>
+              ) : (
+                <i className="bi bi-arrow-up"></i>
+              )}
+            </div>
+          </div>
         </div>
-        <div
-          className="col-3 text-center font-weight-bold"
-          data-campo="tarjetas_amarillas"
-          onClick={ordenarCampo}
-        >
-          Tarjetas Amarillas
-        </div>
-        <div
-          className="col-3 text-center font-weight-bold"
-          data-campo="tarjetas_rojas"
-          onClick={ordenarCampo}
-        >
-          Tarjetas Rojas
-        </div>
-      </div>
-
-      {/* Jugadores de la página actual */}
-      {obtenerJugadoresPaginados(
-        jugadores,
-        paginaActual,
-        jugadoresPorPagina
-      ).map((valor) => (
-        <Jugador
-          key={valor.slug}
-          jugador={valor}
-          fnNavegarEquipo={navegarDetalleEquipo}
-          fnNavegarJugador={navegarDetalleJugador}
+  
+        {/* Jugadores de la página actual */}
+        {obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina).map((valor) => (
+          <Jugador
+            key={valor.slug}
+            jugador={valor}
+            fnNavegarEquipo={navegarDetalleEquipo}
+            fnNavegarJugador={navegarDetalleJugador}
+          />
+        ))}
+  
+        {/* Paginador */}
+        <Paginador
+          paginaActual={paginaActual}
+          totalPaginas={totalPaginas}
+          siguientePagina={siguientePagina}
+          paginaAnterior={paginaAnterior}
         />
-      ))}
-
-      {/* Paginador */}
-      <Paginador
-        paginaActual={paginaActual}
-        totalPaginas={totalPaginas}
-        siguientePagina={siguientePagina}
-        paginaAnterior={paginaAnterior}
-      />
+      </div>
     </>
   );
+  
+  
 }
 
 export default TablaJugadores;
