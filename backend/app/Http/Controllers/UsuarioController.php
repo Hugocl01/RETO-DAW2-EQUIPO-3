@@ -169,7 +169,7 @@ class UsuarioController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $usuario = Usuario::where('id', $id)->where('password', $token)->first();
+        $usuario = Usuario::where('id', $id)->where('remember_token', $token)->first();
 
         if (!$usuario) {
             return response()->json([

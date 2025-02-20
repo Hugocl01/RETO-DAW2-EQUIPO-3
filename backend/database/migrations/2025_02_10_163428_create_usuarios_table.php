@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre_completo');
             $table->string('email')->unique();
             $table->string('password')->nullable();
+            $table->rememberToken();
             $table->boolean('activo')->default(1);
 
             // Claves foraneas

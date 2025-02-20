@@ -36,7 +36,7 @@ const api = axios.create({
  * @throws {Promise} Retorna una promesa rechazada en caso de fallo durante la configuración de la solicitud.
  */
 api.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

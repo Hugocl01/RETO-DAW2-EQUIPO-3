@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\PerfilResource;
-
+use App\Http\Resources\UsuarioResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 /**
  * @OA\Info(title="API Logueo", version="1.0",description="Endpoints para gestión de logueo",
  * @OA\Server(url="http://localhost:8000"),
@@ -69,35 +70,20 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request)
     {
-        $usuario = Usuario::where('email', $request->email)->first();
-
-        if (empty($usuario->activo) || $usuario->password == null) {
+        $credentials = $request->only('email', 'password');
+        $user = usuario::where('email', $credentials['email'])->first();
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Este usuario esta inactivo.'
-            ], 403);
-        }
-
-        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Credenciales incorrectas.'
+                'messaje' => 'Credenciales incorrectas',
             ], 401);
         }
-
-        // Generar un token seguro usando Sanctum
-        $usuario->tokens()->delete();
-        $token = $usuario->createToken('auth_token', ['*'], now()->addDay())->plainTextToken;
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'status' => 'success',
-            'usuario' => [
-                'id' => $usuario->id,
-                'name' => $usuario->nombre_completo,
-                'email' => $usuario->email,
-                'perfil' => new PerfilResource($usuario->perfil)
-            ],
-            'token' => $token
+            'message' => 'Inicio sesion',
+            'usuario' => new UsuarioResource($user),
+            'token' => $token,
         ]);
     }
 }

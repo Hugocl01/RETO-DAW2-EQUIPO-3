@@ -80,10 +80,11 @@ function SeguridadProvider({ children }) {
         setLoading(true);
         try {
             const response = await api.post('/login', { email, password });
-
-            if (response.data.status === "success") {
+            console.log(response);
+            if (response.status == 200) {
                 const { token, usuario } = response.data;
-                console.log(usuario)
+
+                console.log(token)
                 // Guarda en el estado global
                 setSeguridad({
                     auth: true,
