@@ -1,5 +1,8 @@
 import React from 'react';
+
 import "./css/Carrusel.css";
+import "./css/EstilosComun.css";
+
 
 function Carousel({ id, items, intervalo }) {
     // Agrupamos los elementos en filas de 3
