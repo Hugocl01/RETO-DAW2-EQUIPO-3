@@ -13,7 +13,7 @@ h1 {
 }
 
 .imagenInicio {
-    width: 100vw;
+    width: 100%;
     height: 90vh;
 
     background: linear-gradient(rgba(36, 35, 35, 0.247), rgba(48, 47, 47, 0.274)),
@@ -40,7 +40,7 @@ h1 {
 .introduccion {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 100vw;
+    width: 100%;
     height: 65vh;
     align-items: stretch;
 }
@@ -70,7 +70,7 @@ h1 {
 }
 
 #contenedorPatros {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 
     box-shadow:
@@ -105,7 +105,7 @@ h1 {
     .introduccion {
         display: grid;
         grid-template-columns: 1fr;
-        width: 100vw;
+        width: 100%;
         height: 65vh;
     }
 
