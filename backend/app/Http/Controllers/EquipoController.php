@@ -20,13 +20,15 @@ use App\Mail\EquipoConfirmacionMail;
  */
 class EquipoController extends Controller
 {
+
     /**
      * Obtener todos los equipos.
-     *
+     *>
      * @OA\Get(
      *     path="/api/equipos",
      *     summary="Obtener todos los equipos",
      *     tags={"Equipos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de equipos",
@@ -39,6 +41,10 @@ class EquipoController extends Controller
      *                 @OA\Items(ref="#/components/schemas/Equipo")
      *             )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado, token inválido o no proporcionado",
      *     )
      * )
      */
@@ -60,6 +66,7 @@ class EquipoController extends Controller
             'equipos' => EquipoResource::collection($equipos)
         ], 200);
     }
+
 
     /**
      * Obtener un centro por su ID.
@@ -307,12 +314,9 @@ class EquipoController extends Controller
         ], 200);
     }
 
-    public function getListaEquipos(Request $request)
+    public function getListaEquipos()
     {
-        $tipo_partido = $request->query('tipo_partido', null);
-        $equipo_id = $request->query('equipo_id', null);
-
-        $equipos = Equipo::getLista($tipo_partido, $equipo_id);
+        $equipos = Equipo::getLista();
         return response()->json($equipos);
     }
 }

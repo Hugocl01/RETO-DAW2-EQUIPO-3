@@ -10,10 +10,11 @@ class PublicacionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'          => $this->id,
             'titulo'      => $this->titulo,
             'portada'     => ($this->portada)
-            ? 'Si'
-            : 'No',
+                ? 'Si'
+                : 'No',
             'contenido'   => $this->contenido,
             // Relaciones polimórficas, si quieres mostrarlas
             'seccion' => class_basename($this->publicacionable)

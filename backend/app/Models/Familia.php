@@ -40,4 +40,8 @@ class Familia extends Model
         $this->hasMany(Ciclo::class, 'familia_id');
     }
 
+    public static function getLista()
+    {
+        return self::pluck('nombre', 'id');
+    }
 }

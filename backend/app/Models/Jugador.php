@@ -108,4 +108,10 @@ class Jugador extends Model
             'faltas'             => $faltas,
         ];
     }
+    public static function getLista()
+    {
+        return self::all()->mapWithKeys(function ($item) {
+            return [$item->id => ['nombre' => $item->nombre_completo, 'equipo' => $item->equipo_id]];
+        });
+    }
 }

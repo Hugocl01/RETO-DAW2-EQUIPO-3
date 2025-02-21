@@ -12,7 +12,7 @@ class PublicacionController extends Controller
     public function index()
     {
         // Ejemplo: seleccionar algunos campos y cargar relaciones necesarias
-        $publicaciones = Publicacion::select('id', 'titulo', 'portada', 'publicacionable_id', 'publicacionable_type')
+        $publicaciones = Publicacion::select('id', 'titulo', 'portada', 'contenido', 'publicacionable_id', 'publicacionable_type')
             ->with('publicacionable') // si necesitas la entidad (Equipo, Jugador, etc.)
             // ->with('imagenes') // si quieres incluir imágenes, etc.
             ->get();

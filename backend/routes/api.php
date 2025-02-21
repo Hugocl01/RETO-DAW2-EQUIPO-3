@@ -123,9 +123,9 @@ Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios'])->m
 Route::apiResource('equipos', EquipoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
 Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
 
-
 // Familias
 Route::apiResource('familias', FamiliaController::class)->middleware('auth:sanctum');
+Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias'])->middleware('auth:sanctum');
 
 // Secciones
 Route::apiResource('secciones', SeccionController::class)->middleware('auth:sanctum');
@@ -139,6 +139,7 @@ Route::apiResource('donaciones', DonacionController::class)->except(['index'])->
 
 // Jugadores
 Route::apiResource('jugadores', JugadorController::class)->except(['index', 'show'])->middleware('auth:sanctum');
+Route::get('/lista/jugadores', [JugadorController::class, 'getListaJugadores'])->middleware('auth:sanctum');
 
 // Retos
 Route::apiResource('retos', RetoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
