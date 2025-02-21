@@ -52,8 +52,6 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         onGuardar(formData);
     };
 
-    console.log("FormData actual:", formData);  // Verifica el valor actual de formData
-
     return (
         <form onSubmit={handleSubmit}>
             <div>
