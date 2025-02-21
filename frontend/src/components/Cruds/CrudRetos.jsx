@@ -46,7 +46,7 @@ function CrudRetos({ onModoCambio }) {
             <h2>Retos</h2>
 
             {/* Buscador */}
-            <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
                     className="form-control"
@@ -54,6 +54,12 @@ function CrudRetos({ onModoCambio }) {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+                <button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Reto
+                </button>
             </div>
 
             {/* Tabla de datos */}
