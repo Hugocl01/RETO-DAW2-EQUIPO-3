@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
-import AdministracionMenu from "../components/MenuAdministracion";
+import MenuAdministracion from "../components/MenuAdministracion";
 
-// Importa todos los CRUD
+// Importa los componentes de CRUD para cada sección
+import CrudEquipos from "../components/Cruds/CrudEquipos";
 import CrudJugadores from "../components/Cruds/CrudJugadores";
 import CrudPartidos from "../components/Cruds/CrudPartidos";
 import CrudPublicaciones from "../components/Cruds/CrudPublicaciones";
@@ -18,7 +19,7 @@ import CrudCentros from "../components/Cruds/CrudCentros";
 import CrudEstudios from "../components/Cruds/CrudEstudios";
 import CrudInscripciones from "../components/Cruds/CrudInscripciones";
 
-// Importa todos los formularios
+// Importa los formularios para cada sección
 import FormularioJugadores from "../components/Formularios/FormularioJugadores";
 import FormularioPartidos from "../components/Formularios/FormularioPartidos";
 import FormularioPublicaciones from "../components/Formularios/FormularioPublicaciones";
@@ -34,26 +35,35 @@ import FormularioEstudios from "../components/Formularios/FormularioEstudios";
 import FormularioInscripciones from "../components/Formularios/FormularioInscripciones";
 
 function AdministracionPage() {
+    // Obtenemos la sección actual desde la URL
     const { seccion } = useParams();
+    const navigate = useNavigate();
     const { seguridad } = useContext(SeguridadContext);
 
-    // Modo puede ser "crear", "editar" o null (listar)
+    // Estado para determinar si estamos en modo "crear", "editar" o mostrando la lista (null)
     const [modo, setModo] = useState(null);
-    // Item seleccionado para editar
+    // Estado para almacenar el item seleccionado (para editar)
     const [itemSeleccionado, setItemSeleccionado] = useState(null);
+    // Estado para almacenar la sección seleccionada (basada en el objeto de MenuAdministracion)
+    const [selectedSeccion, setSelectedSeccion] = useState(seccion ? seccion.toLowerCase() : "");
 
-    // Maneja el cambio de modo (crear, editar) y el item seleccionado
+    // Función que se pasa al menú y se ejecuta al seleccionar una sección.
+    const handleMenuSelect = (seccionSeleccionada) => {
+        const seccionNombre = seccionSeleccionada.nombre.toLowerCase();
+        setSelectedSeccion(seccionNombre);
+        // Navega a la ruta correspondiente
+        navigate(`/administracion/${seccionNombre}`);
+    };
+
+    // Función para cambiar el modo (por ejemplo, al editar o crear)
     const handleModoCambio = (nuevoModo, item = null) => {
         setModo(nuevoModo);
         setItemSeleccionado(item);
     };
 
-    /**
-     * Renderiza el formulario según la sección actual.
-     * Cuando se termine de guardar o cancelar, volvemos a modo null (lista).
-     */
+    // Renderiza el formulario según la sección actual y el modo (crear o editar)
     const renderFormulario = () => {
-        switch (seccion) {
+        switch (selectedSeccion) {
             case "jugadores":
                 return (
                     <FormularioJugadores
@@ -159,16 +169,15 @@ function AdministracionPage() {
                     />
                 );
             default:
-                return <div>Sección no encontrada.</div>;
+                return <div>Formulario no definido para esta sección.</div>;
         }
     };
 
-    /**
-     * Renderiza el CRUD (lista + botones de crear/editar/eliminar) 
-     * según la sección actual.
-     */
+    // Renderiza el componente de CRUD (lista y botones) según la sección actual
     const renderCrud = () => {
-        switch (seccion) {
+        switch (selectedSeccion) {
+            case "equipos":
+                return <CrudEquipos onModoCambio={handleModoCambio} />
             case "jugadores":
                 return <CrudJugadores onModoCambio={handleModoCambio} />;
             case "partidos":
@@ -196,22 +205,16 @@ function AdministracionPage() {
             case "inscripciones":
                 return <CrudInscripciones onModoCambio={handleModoCambio} />;
             default:
-                return <div>Sección no encontrada.</div>;
+                return <div>CRUD no definido para esta sección.</div>;
         }
     };
 
     return (
         <div className="d-flex">
-            {/* Menú de administración a la izquierda */}
-            <AdministracionMenu />
-
-            {/* Contenido principal a la derecha */}
+            {/* Se le pasa la función onSelect al menú */}
+            <MenuAdministracion onSelect={handleMenuSelect} />
             <div className="flex-grow-1 p-4">
-                {
-                    // Si tenemos un modo "crear" o "editar", mostramos el formulario.
-                    // Si no, mostramos el CRUD.
-                    modo ? renderFormulario() : renderCrud()
-                }
+                {modo ? renderFormulario() : renderCrud()}
             </div>
         </div>
     );
