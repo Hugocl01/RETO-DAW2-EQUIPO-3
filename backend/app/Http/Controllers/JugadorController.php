@@ -152,4 +152,10 @@ class JugadorController extends Controller
             'jugador' => 'No se ha podido actualizar el equipo.'
         ], 400);
     }
+
+    public function getListaJugadores()
+    {
+        $jugadores = Jugador::getLista();
+        return response()->json($jugadores);
+    }
 }

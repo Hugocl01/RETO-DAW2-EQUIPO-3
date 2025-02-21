@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('secciones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
+            $table->string('nombre')->unique();
+            $table->string('descripcion')->nullable();
 
             // Creaciones y modificaciones
             $table->unsignedBigInteger('usuario_creador_id')->nullable();

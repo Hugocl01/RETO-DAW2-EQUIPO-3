@@ -21,7 +21,6 @@ use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\TorneoController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,32 +38,74 @@ Route::middleware('auth:sanctum')->get('/usuario', function (Request $request) {
     return $request->user();
 });
 
-// Ruta para login (suponiendo un controlador invocable)
+//                                Ruta para login __invoke | ruta /logout
+/** <---------------------------------------------------------------------------------------> */
+
 Route::post('/login', LoginController::class);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
-// Rutas de la API PÚBLICA
+/** <---------------------------------------------------------------------------------------> */
 
+
+
+
+//                                 Rutas de la API PÚBLICA
+/** <---------------------------------------------------------------------------------------> */
+
+// Donaciones
 Route::apiResource('donaciones', DonacionController::class)->only(['index']);
+
+// Ciclos
 Route::apiResource('ciclos', CicloController::class)->only(['index']);
+
+// Retos
 Route::apiResource('retos', RetoController::class)->only(['index', 'show']);
+
+// Centros
 Route::apiResource('centros', CentroController::class)->only(['index']);
+
+// Equipos
 Route::apiResource('equipos', EquipoController::class)->only(['index', 'show']);
+
+// Jugadores
 Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show']);
+
+// Partidos
 Route::apiResource('partidos', PartidoController::class)->only('index', 'show');
+
+// Estudios
 Route::apiResource('estudios', EstudioController::class)->only('index');
 
+// Clasificaciones
+Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
+Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
 
-// Usuarios
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/usuarios/', function() {
-        dd(Auth::user());
-    });
-});
+/** <---------------------------------------------------------------------------------------> */
 
-Route::apiResource('usuarios', UsuarioController::class);
-Route::put('usuarios/{usuario}/activo', [UsuarioController::class, 'updateActivo']);
+
+
+
+//                                  Funcionalidades Inscripcion
+/** <---------------------------------------------------------------------------------------> */
 Route::post('/set-password/{id}/{token}', [UsuarioController::class, 'setPassword']);
+
+Route::get('/confirmarInscripcion/{inscripcion}/{rol}/{token}', [InscripcionController::class, 'confirmarInscripcion'])
+    ->name('confirmarInscripcion');
+
+Route::get('/inscripcion-confirmada', function () {
+    // Simplemente devolvemos una vista (que crearemos en el siguiente paso)
+    return view('inscripcion.confirmada');
+})->name('inscripcion.confirmada.view');
+
+/** <---------------------------------------------------------------------------------------> */
+
+
+
+
+//                                      RUTAS PRIVADAS
+/** <---------------------------------------------------------------------------------------> */
+
+Route::apiResource('usuarios', UsuarioController::class)->middleware('auth:sanctum');
 
 // Ciclos
 Route::apiResource('ciclos', CicloController::class)->except(['index'])->middleware('auth:sanctum');
@@ -72,7 +113,7 @@ Route::get('/lista/ciclos', [CicloController::class, 'getListaCiclos'])->middlew
 
 // Centros
 Route::apiResource('centros', CentroController::class)->except('index')->middleware('auth:sanctum');
-Route::get('/lista/centros', [CentroController::class, 'getListaCentros']);
+Route::get('/lista/centros', [CentroController::class, 'getListaCentros'])->middleware('auth:sanctum');
 
 // Estudios
 Route::apiResource('estudios', EstudioController::class)->except(['index'])->middleware('auth:sanctum');
@@ -80,11 +121,11 @@ Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios'])->m
 
 // Equipos
 Route::apiResource('equipos', EquipoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::post('equipos/{equipo}/foto', [EquipoController::class, 'uploadFoto'])->middleware('auth:sanctum');
-Route::get('lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
+Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
 
 // Familias
 Route::apiResource('familias', FamiliaController::class)->middleware('auth:sanctum');
+Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias'])->middleware('auth:sanctum');
 
 // Secciones
 Route::apiResource('secciones', SeccionController::class)->middleware('auth:sanctum');
@@ -98,6 +139,7 @@ Route::apiResource('donaciones', DonacionController::class)->except(['index'])->
 
 // Jugadores
 Route::apiResource('jugadores', JugadorController::class)->except(['index', 'show'])->middleware('auth:sanctum');
+Route::get('/lista/jugadores', [JugadorController::class, 'getListaJugadores'])->middleware('auth:sanctum');
 
 // Retos
 Route::apiResource('retos', RetoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
@@ -114,24 +156,16 @@ Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPubli
 Route::apiResource('imagenes', ImagenController::class)->middleware('auth:sanctum');
 Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos'])->middleware('auth:sanctum');
 
-// Clasificaciones
-Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
-Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
-
 // Inscripciones
 Route::apiResource('inscripciones', InscripcionController::class)->middleware('auth:sanctum');
 Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado'])->middleware('auth:sanctum');
-Route::get('/confirmarInscripcion/{inscripcion}/{rol}/{token}', [InscripcionController::class, 'confirmarInscripcion'])
-    ->name('confirmarInscripcion');
-
-Route::get('/inscripcion-confirmada', function () {
-    // Simplemente devolvemos una vista (que crearemos en el siguiente paso)
-    return view('inscripcion.confirmada');
-})->name('inscripcion.confirmada.view');
 
 // Incidencia
 Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])->middleware('auth:sanctum');
 
 // Torneo
-Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('auth:sanctum');
-Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('auth:sanctum');
+Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])
+    ->middleware(['auth:sanctum', 'ability:Torneo.comienzoTorneo']);
+
+Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])
+    ->middleware(['auth:sanctum', 'ability:Torneo.reinicioTorneo']);

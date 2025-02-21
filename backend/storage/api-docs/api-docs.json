@@ -587,8 +587,16 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "No autorizado, token inválido o no proporcionado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1098,6 +1106,51 @@
                 }
             }
         },
+        "/api/lista/incidencias": {
+            "get": {
+                "tags": [
+                    "Incidencias"
+                ],
+                "summary": "Obtener lista de incidencias",
+                "description": "Obtener lista de incidencias.",
+                "operationId": "b4d7e7dacb66a64997e25e888bcd7c92",
+                "responses": {
+                    "200": {
+                        "description": "Lista de incidencias",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "incidencias": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Incidencia"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado, token inválido o no proporcionado"
+                    },
+                    "500": {
+                        "description": "Error del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/inscripciones": {
             "get": {
                 "tags": [
@@ -1128,68 +1181,6 @@
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/api/inscripciones/{inscripcion}": {
-            "put": {
-                "tags": [
-                    "Inscripciones"
-                ],
-                "summary": "Actualizar una inscripcion existente",
-                "description": "Actualizar una inscripcion existente.",
-                "operationId": "5b773971dbfb51da5efc6e49ecce5ce8",
-                "parameters": [
-                    {
-                        "name": "inscripcion",
-                        "in": "path",
-                        "description": "ID del inscripcion",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Inscripcion"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Inscripcion actualizada correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Inscripcion actualizada correctamente"
-                                        },
-                                        "inscripcion": {
-                                            "$ref": "#/components/schemas/Inscripcion"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error en la validación de datos"
-                    },
-                    "404": {
-                        "description": "Inscripcion no encontrada"
                     }
                 }
             }
@@ -1303,68 +1294,6 @@
                 "responses": {
                     "200": {
                         "description": "Jugador actualizado correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Jugador actualizado correctamente"
-                                        },
-                                        "jugador": {
-                                            "$ref": "#/components/schemas/Jugador"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error en la validación de datos"
-                    },
-                    "404": {
-                        "description": "Jugador no encontrado"
-                    }
-                }
-            }
-        },
-        "/api/jugadores/{jugadore}/activar": {
-            "put": {
-                "tags": [
-                    "Jugadores"
-                ],
-                "summary": "Activar / Desactivar un jugador existente",
-                "description": "Activar / Desactivar un jugador existente.",
-                "operationId": "67f92133d3f3089bf81a7fae84d94d9e",
-                "parameters": [
-                    {
-                        "name": "jugador",
-                        "in": "path",
-                        "description": "ID del jugador",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Jugador"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Jugador activado / desactivado correctamente",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1603,49 +1532,6 @@
             }
         },
         "/api/partidos/{partido}": {
-            "get": {
-                "tags": [
-                    "Partidos"
-                ],
-                "summary": "Obtener un partido por su ID",
-                "description": "Obtener un centro por su ID.",
-                "operationId": "0e0ff8595f76aee308b97f71fe05cd1e",
-                "parameters": [
-                    {
-                        "name": "partido",
-                        "in": "path",
-                        "description": "ID del partido",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Partido encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "partido": {
-                                            "$ref": "#/components/schemas/Partido"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Partido no encontrado"
-                    }
-                }
-            },
             "put": {
                 "tags": [
                     "Partidos"
@@ -2550,6 +2436,24 @@
                 },
                 "type": "object"
             },
+            "Incidencia": {
+                "required": [
+                    "tipo"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único de la incidencia",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tipo": {
+                        "description": "Tipo de la incidencia",
+                        "type": "string",
+                        "example": "Accidente"
+                    }
+                },
+                "type": "object"
+            },
             "Inscripcion": {
                 "title": "Inscripcion",
                 "required": [
@@ -2786,6 +2690,14 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "description": "Utiliza un token JWT para autenticarte",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
@@ -2848,6 +2760,10 @@
         {
             "name": "Usuarios",
             "description": "Endpoints para gestión de usuarios"
+        },
+        {
+            "name": "Incidencias",
+            "description": "Incidencias"
         }
     ]
 }

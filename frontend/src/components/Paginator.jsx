@@ -10,7 +10,7 @@ const Paginator = ({ currentPage, totalPages, onPageChange }) => {
     };
 
     return (
-        <div className="d-flex justify-content-between align-items-center my-3">
+        <div className="d-flex justify-content-center align-items-center gap-3 my-3">
             <button
                 className="btn btn-primary"
                 onClick={handlePrevPage}

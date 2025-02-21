@@ -6,6 +6,7 @@ use App\Models\Familia;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\FamiliaRequest;
 use App\Http\Resources\FamiliaResource;
+
 namespace App\Http\Controllers;
 
 use App\Models\Familia;
@@ -190,5 +191,11 @@ class FamiliaController extends Controller
             'status' => 'success',
             'message' => 'Familia eliminada correctamente.'
         ], 200);
+    }
+
+    public function getListaFamilias()
+    {
+        $familias = Familia::getLista();
+        return response()->json($familias);
     }
 }
