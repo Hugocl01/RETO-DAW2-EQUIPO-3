@@ -10,7 +10,7 @@ function CrudUsuarios({ onModoCambio }) {
     // Estados para búsqueda y paginación
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Ajusta según necesidades
+    const itemsPerPage = 5;
 
     // Función segura para evitar errores con valores null/undefined
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
