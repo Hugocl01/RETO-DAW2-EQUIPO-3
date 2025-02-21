@@ -10,6 +10,8 @@ section {
 
 h1 {
     margin-top: 2em;
+    display: inline-block;
+    width: auto;
 }
 
 .imagenInicio {
@@ -40,8 +42,6 @@ h1 {
 .introduccion {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 100%;
-    height: 65vh;
     align-items: stretch;
 }
 
@@ -52,30 +52,30 @@ h1 {
 }
 
 .titulo {
-    margin-top: 2em;
     background-color: #d9615d21;
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
 }
 
 .seccion1 {
     margin-right: 5em;
 }
 
-.introduccion h5 {
+.introduccion h2 {
     font-size: 2.5em;
     height: auto;
     width: 40%;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .carruselesSimples {
-    display: none;       
+    display: none;
 }
 
 #contenedorPatros {
     width: 100%;
-    height: 100vh;
 
     box-shadow:
         /* sombra arriba */
@@ -89,11 +89,15 @@ h1 {
     background-color: white;
     width: 80%;
     height: 80%;
-    border-radius: 10px;
+    border-radius: 1em;
+}
+
+#patrocinadores h1 {
+    margin-top: 0; 
 }
 
 #patrocinadores img {
-    max-width: 40%;
+    max-width: 45%;
 }
 
 .comoDonar,
@@ -102,23 +106,18 @@ h1 {
 }
 
 .card text-center {
-    width: 18rem;
+    width: 18em;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 770px) {
     .introduccion {
         display: grid;
         grid-template-columns: 1fr;
         width: 100%;
-        height: 65vh;
     }
 
     .seccion2 {
         display: none;
-    }
-
-    #patrocinadores img {
-        max-width: 40%;
     }
 
     .carruseles {
@@ -126,7 +125,21 @@ h1 {
     }
 
     .carruselesSimples {
-        display: block;       
+        display: block;
     }
 
+    #patrocinadores img {
+        max-width: 35%;
+        margin-bottom: 2em;
+    }
+}
+
+@media (max-width: 412px) {
+    #patrocinadores h1 {
+        font-size: 2.3em;
+    }
+
+    .imagenInicio h2 {
+        font-size: 4em;
+    }
 }

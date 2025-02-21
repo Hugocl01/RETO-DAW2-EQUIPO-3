@@ -83,10 +83,10 @@ function Inicio() {
 
 
     return (
+        /*div principal*/
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
-                <h2 className="text-white">TORNEO SOLIDARIO</h2>
-                <h3 className="text-white">13 y 14 de Marzo - Pabellon La Habana Vieja de Torrelavega</h3>
+                <h2 className="text-white text-center">TORNEO SOLIDARIO</h2>
             </div>
 
             <div>
@@ -97,10 +97,10 @@ function Inicio() {
                 )}
             </div>
 
-            <section className="introduccion section-container">
+            <section className="introduccion section-container w-100">
                 <div className='seccion1'>
-                    <div className='titulo p-5'>
-                        <h5 className='w-100'>PARTICIPA POR UNA CAUSA SOLIDARIA</h5>
+                    <div className='titulo p-5 text-center w-100 mt-3'>
+                        <h2 className='w-100'>PARTICIPA POR UNA CAUSA SOLIDARIA</h2>
                     </div>
 
                     <div className='texto mx-5 mt-5 my-2'>
@@ -110,8 +110,22 @@ function Inicio() {
                             laudantium. Veritatis nobis ipsum iusto repudiandae modi.</p>
                     </div>
 
-                    <div>
-                        <button type="button" class="btn btn-secondary btn-lg mx-5 mt-2 px-5">Inscríbete</button>
+                    <div className='mx-5 mt-2'>
+                        <button type="button" class="btn btn-secondary fs-6 btn-lg px-5">Inscríbete</button>
+                    </div>
+
+                    <div className='infoIntroduccion border border-secondary rounded p-3 mx-5 mt-5'>
+                        <h4 className='text-center mb-4'>Informacion del Torneo</h4>
+                        <h5>
+                            <i class="bi bi-calendar me-2"></i>
+                            13 y 14 de Marzo de 2025
+                        </h5>
+                        <a target="_blank" href='https://maps.app.goo.gl/rtgeS49dz9yWYWo99'>
+                            <h5>
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Pabellón la Habana Vieja - Torrelavega (Cantabria)
+                            </h5>
+                        </a>
                     </div>
                 </div>
 
@@ -122,39 +136,27 @@ function Inicio() {
             </section>
 
 
-            <section className="carruseles section-container">
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                    <h1>Noticias</h1>
-                </div>
+            <section className="carruseles section-container text-center">
+                <h1 className='text-center'>Noticias</h1>
                 <Carousel id="carouselNoticias" items={noticias} interval={3000} />
 
-
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                    <h1>Retos</h1>
-                </div>
+                <h1 className='text-center'>Retos</h1>
                 <Carousel id="carouselRetos" items={retos} interval={3000} />
             </section>
-            
-            <section className="carruselesSimples section-container">
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                    <h1>Noticias</h1>
-                </div>
+
+            <section className="carruselesSimples section-container text-center">
+                <h1 className='text-center'>Noticias</h1>
                 <CarouselSimple id="carouselNoticiasSimple" items={noticias} interval={3000} />
 
-
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                    <h1>Retos</h1>
-                </div>
+                <h1 className='text-center'>Retos</h1>
                 <CarouselSimple id="carouselRetosSimples" items={retos} interval={3000} />
             </section>
 
 
-            <section className="donaciones container">
-                <div className='d-flex flex-column align-items-center justify-content-center'>
-                    <h1>Donaciones</h1>
-                </div>
+            <section className="donaciones container text-center">
+                <h1 className='text-center'>Donaciones</h1>
 
-                <div className="row">
+                <div className="row m-5">
                     <div className="col-sm-6 mb-3 mb-sm-0">
                         <div className="card text-center">
                             <div className="card-body">
@@ -169,7 +171,7 @@ function Inicio() {
                             <div className="card-body">
                                 <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
                                 <h2>Como Donar</h2>
-                                <a href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
+                                <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
                             </div>
                         </div>
                     </div>
@@ -197,13 +199,12 @@ function Inicio() {
             </section>
 
 
-
+            {/* div de color rojo */}
             <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                <div className="d-flex flex-column justify-content-center align-items-center" id="patrocinadores">
-                    <div className="d-flex flex-column align-items-center justify-content-center">
-                        <h1>Patrocinadores</h1>
-                    </div>
-                    <div className="container mt-4 text-center" id="logosPatrocinadores">
+                {/* div de color blanco */}
+                <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
+                    <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
+                    <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
                         {/*
                         {patrocinadores.map((patrocinador) => (
                             <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
@@ -215,35 +216,36 @@ function Inicio() {
 
                         ))}
                         */}
+
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/acicatech.png" class="img-fluid rounded" alt="Imagen 1" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" class="img-fluid rounded" alt="Imagen 2" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/soicon.png" class="img-fluid rounded" alt="Imagen 3" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" class="img-fluid rounded" alt="Imagen 4" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/cic.png" class="img-fluid rounded" alt="Imagen 5" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/deduce.png" class="img-fluid rounded" alt="Imagen 6" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/deode.png" class="img-fluid rounded" alt="Imagen 7" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/infortec.png" class="img-fluid rounded" alt="Imagen 8" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/netkia.png" class="img-fluid rounded" alt="Imagen 9" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
                                 <img src="../src/assets/imagenes/patrocinadores/seidor.png" class="img-fluid rounded" alt="Imagen 10" />
                             </div>
                         </div>

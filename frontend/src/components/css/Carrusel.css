@@ -1,6 +1,6 @@
 .custom-card {
-    width: 22rem;
-    border-radius: 15px;
+    /*width: 22rem;*/
+    border-radius: 1em;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
 }
@@ -17,11 +17,11 @@
 }
 
 .custom-card .card-body {
-    padding: 1.5rem;
+    padding: 1.5em;
 }
 
 .custom-card .btn {
     background-color: #000000;
-    border-radius: 25px;
-    padding: 10px 20px;
+    border-radius: 2em;
+    padding: 0.7em 1.5em;
 }

@@ -2,7 +2,7 @@
 /* Contenedor que contiene toda la carta con la imagen y el nombre */
 .flip-card {
   width: 90%; 
-  height: 300px; /* Defino la altura para las cartas *//
+  height: 300px; /* Defino la altura para las cartas */
   margin: auto; /* Para centrar las tarjetas si es necesario */
 }
 

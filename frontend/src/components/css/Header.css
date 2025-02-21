@@ -110,7 +110,7 @@ li {
     outline: none;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 1022px) {
     .contenidoCabecera {
         display: none;
     }
@@ -133,6 +133,6 @@ li {
     }
     
     #logoSidebar img {
-        max-width: 4rem;
+        max-width: 4em;
     }
 }

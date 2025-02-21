@@ -1,0 +1,20 @@
+.footer p {
+    border-bottom: 2px solid #555555;
+    width: 20%;
+}
+
+.footer img {
+    max-width: 7em;
+}
+
+footer .col-md-4 p.text-nowrap {
+    white-space: nowrap;
+}
+
+footer .row {
+    gap: 30px;
+}
+
+footer .col-md-4 {
+    flex: 1 1 30%;
+}
