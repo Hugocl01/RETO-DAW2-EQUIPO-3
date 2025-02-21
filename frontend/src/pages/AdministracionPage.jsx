@@ -33,6 +33,7 @@ import FormularioCiclos from "../components/Formularios/FormularioCiclos";
 import FormularioCentros from "../components/Formularios/FormularioCentros";
 import FormularioEstudios from "../components/Formularios/FormularioEstudios";
 import FormularioInscripciones from "../components/Formularios/FormularioInscripciones";
+import { generateSlug } from "../utils/stringUtils";
 
 function AdministracionPage() {
     // Obtenemos la sección actual desde la URL
@@ -45,14 +46,15 @@ function AdministracionPage() {
     // Estado para almacenar el item seleccionado (para editar)
     const [itemSeleccionado, setItemSeleccionado] = useState(null);
     // Estado para almacenar la sección seleccionada (basada en el objeto de MenuAdministracion)
-    const [selectedSeccion, setSelectedSeccion] = useState(seccion ? seccion.toLowerCase() : "");
+    const [selectedSeccion, setSelectedSeccion] = useState(seccion ? generateSlug(seccion) : "");
 
     // Función que se pasa al menú y se ejecuta al seleccionar una sección.
     const handleMenuSelect = (seccionSeleccionada) => {
-        const seccionNombre = seccionSeleccionada.nombre.toLowerCase();
-        setSelectedSeccion(seccionNombre);
-        // Navega a la ruta correspondiente
-        navigate(`/administracion/${seccionNombre}`);
+        const seccionNombreSlug = generateSlug(seccionSeleccionada.nombre);  // Aseguramos que el nombre se convierte a slug
+        console.log(seccionNombreSlug)
+        setSelectedSeccion(seccionNombreSlug);
+        // Navega a la ruta correspondiente con slug sin tildes
+        navigate(`/administracion/${seccionNombreSlug}`);
     };
 
     // Función para cambiar el modo (por ejemplo, al editar o crear)
