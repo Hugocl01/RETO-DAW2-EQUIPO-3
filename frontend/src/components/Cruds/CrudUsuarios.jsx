@@ -20,7 +20,7 @@ function CrudUsuarios({ onModoCambio }) {
         const query = searchQuery.toLowerCase();
 
         return (
-            safeToLower(usuario.Nombre).includes(query) ||
+            safeToLower(usuario.nombre).includes(query) ||
             safeToLower(usuario.email).includes(query) ||
             safeToLower(usuario.perfil?.tipo).includes(query) ||
             safeToLower(usuario.activo ? "activo" : "inactivo").includes(query)
@@ -70,7 +70,7 @@ function CrudUsuarios({ onModoCambio }) {
                 <tbody>
                     {currentItems.map((usuario) => (
                         <tr key={usuario.id}>
-                            <td>{usuario.Nombre}</td>
+                            <td>{usuario.nombre}</td>
                             <td>{usuario.email}</td>
                             <td>{usuario.perfil?.tipo || "Sin rol"}</td>
                             <td>{usuario.activo ? "Activo" : "Inactivo"}</td>
