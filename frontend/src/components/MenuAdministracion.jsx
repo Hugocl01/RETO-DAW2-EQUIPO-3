@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
+import { generateSlug } from "../utils/stringUtils";  // Asumimos que la función generateSlug está definida
 
 function MenuAdministracion({ onSelect }) {
     const { seguridad } = useContext(SeguridadContext);
@@ -29,7 +30,9 @@ function MenuAdministracion({ onSelect }) {
 
     useEffect(() => {
         if (secciones.length === 0) return;
-        const seccionPorDefecto = secciones.find(sec => sec.nombre.toLowerCase() === seccion?.toLowerCase()) || secciones[0] || null;
+        // Reemplazamos el nombre de la sección por el slug
+        const seccionSlug = seccion ? generateSlug(seccion) : '';
+        const seccionPorDefecto = secciones.find(sec => generateSlug(sec.nombre) === seccionSlug) || secciones[0] || null;
         setSelectedSeccion(seccionPorDefecto);
         if (seccionPorDefecto) onSelect(seccionPorDefecto);
     }, [secciones, seccion]);
@@ -37,7 +40,8 @@ function MenuAdministracion({ onSelect }) {
     const handleSelect = (seccion) => {
         setSelectedSeccion(seccion);
         onSelect(seccion);
-        navigate(`/administracion/${seccion.nombre.toLowerCase()}`);
+        const slug = generateSlug(seccion.nombre);  // Generamos el slug para la URL
+        navigate(`/administracion/${slug}`);         // Navegamos con el slug
     };
 
     return (
