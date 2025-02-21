@@ -4,19 +4,19 @@ import { SeguridadContext } from "../contexts/SeguridadProvider";
 import AdministracionMenu from "../components/MenuAdministracion";
 
 // Importa todos los CRUD
-import CrudJugadores from "../components/Crud/CrudJugadores";
-import CrudPartidos from "../components/Crud/CrudPartidos";
-import CrudPublicaciones from "../components/Crud/CrudPublicaciones";
-import CrudActas from "../components/Crud/CrudActas";
-import CrudUsuarios from "../components/Crud/CrudUsuarios";
-import CrudRetos from "../components/Crud/CrudRetos";
-import CrudImagenes from "../components/Crud/CrudImagenes";
-import CrudPabellones from "../components/Crud/CrudPabellones";
-import CrudFamilias from "../components/Crud/CrudFamilias";
-import CrudCiclos from "../components/Crud/CrudCiclos";
-import CrudCentros from "../components/Crud/CrudCentros";
-import CrudEstudios from "../components/Crud/CrudEstudios";
-import CrudInscripciones from "../components/Crud/CrudInscripciones";
+import CrudJugadores from "../components/Cruds/CrudJugadores";
+import CrudPartidos from "../components/Cruds/CrudPartidos";
+import CrudPublicaciones from "../components/Cruds/CrudPublicaciones";
+import CrudActas from "../components/Cruds/CrudActas";
+import CrudUsuarios from "../components/Cruds/CrudUsuarios";
+import CrudRetos from "../components/Cruds/CrudRetos";
+import CrudImagenes from "../components/Cruds/CrudImagenes";
+import CrudPabellones from "../components/Cruds/CrudPabellones";
+import CrudFamilias from "../components/Cruds/CrudFamilias";
+import CrudCiclos from "../components/Cruds/CrudCiclos";
+import CrudCentros from "../components/Cruds/CrudCentros";
+import CrudEstudios from "../components/Cruds/CrudEstudios";
+import CrudInscripciones from "../components/Cruds/CrudInscripciones";
 
 // Importa todos los formularios
 import FormularioJugadores from "../components/Formularios/FormularioJugadores";
