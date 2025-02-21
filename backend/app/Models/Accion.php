@@ -15,13 +15,6 @@ class Accion extends Model
 
     public function seccion()
     {
-        return $this->belongsTo(Seccion::class);
-    }
-
-    public function perfiles()
-    {
-        return $this->belongsToMany(Perfil::class, 'perfil_seccion_accion')
-            ->withPivot('seccion_id')
-            ->withTimestamps();
+        return $this->belongsTo(Seccion::class, 'seccion_id', 'id');
     }
 }

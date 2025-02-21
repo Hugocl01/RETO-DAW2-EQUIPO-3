@@ -15,17 +15,16 @@ class AccionSeeder extends Seeder
     {
         // Mapeo de secciones con sus acciones
         $acciones_por_seccion = [
-            'Centros' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Ciclos' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Equipos' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Publicaciones' => ['index', 'store'],
+            'Torneo' => ['comienzoTorneo', 'reinicioTorneo'],
+            'Centros' => ['show', 'store', 'update', 'destroy'],
+            'Ciclos' => ['show', 'store', 'update', 'destroy'],
+            'Publicaciones' => ['store'],
             'Estudios' => ['index', 'store', 'destroy'],
             'Familias' => ['index', 'store', 'update', 'destroy'],
             'Inscripciones' => ['index', 'cambiarEstado'],
-            'Jugadores' => ['index', 'show', 'update'],
-            'Partidos' => ['index', 'show', 'store', 'update', 'destroy'],
+            'Partidos' => ['destroy'],
             'Usuarios' => ['index', 'update', 'store'],
-            'Retos' => ['index', 'show', 'store', 'update', 'destroy'],
+            'Retos' => ['store', 'update', 'destroy'],
             'Actas' => ['index', 'store', 'update'],
             'Pabellones' => ['index', 'show'],
             'Imágenes' => ['index', 'store', 'destroy']

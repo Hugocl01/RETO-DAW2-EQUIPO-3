@@ -44,19 +44,9 @@ class Seccion extends Model
         'descripcion',
     ];
 
-    /**
-     * Relación con perfiles (muchos a muchos)
-     */
-    public function perfiles()
-    {
-        return $this->belongsToMany(Perfil::class, 'perfil_seccion_accion')
-            ->withPivot('accion_id')
-            ->withTimestamps();
-    }
-
     public function acciones()
     {
-        return $this->hasMany(Accion::class);
+        return $this->hasMany(Accion::class, 'seccion_id', 'id');
     }
 
 }

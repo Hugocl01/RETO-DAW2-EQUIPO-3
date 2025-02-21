@@ -121,7 +121,6 @@ Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios'])->m
 
 // Equipos
 Route::apiResource('equipos', EquipoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::post('equipos/{equipo}/foto', [EquipoController::class, 'uploadFoto'])->middleware('auth:sanctum');
 Route::get('lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
 
 // Familias
@@ -163,5 +162,8 @@ Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambi
 Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])->middleware('auth:sanctum');
 
 // Torneo
-Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('auth:sanctum');
-Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('auth:sanctum');
+Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])
+    ->middleware(['auth:sanctum', 'ability:Torneo.comienzoTorneo']);
+
+Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])
+    ->middleware(['auth:sanctum', 'ability:Torneo.reinicioTorneo']);

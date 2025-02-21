@@ -14,11 +14,11 @@ class SeccionSeeder extends Seeder
     public function run(): void
     {
         $secciones = [
+            ['nombre' => 'Torneo', 'descripcion' => 'Comienzo o Reinicio de Torneo.'],
             ['nombre' => 'Equipos', 'descripcion' => 'Gestión de los equipos participantes en el torneo.'],
             ['nombre' => 'Jugadores', 'descripcion' => 'Gestión de los jugadores y roles dentro de los equipos.'],
             ['nombre' => 'Partidos', 'descripcion' => 'Registro de los partidos, horarios y resultados.'],
             ['nombre' => 'Publicaciones', 'descripcion' => 'Publicaciones sobre las diferentes partes del Torneo Benéfico'],
-            ['nombre' => 'Actas', 'descripcion' => 'Registro de incidencias ocurridas durante los partidos.'],
             ['nombre' => 'Usuarios', 'descripcion' => 'Gestión de usuarios y sus roles en la aplicación.'],
             ['nombre' => 'Retos', 'descripcion' => 'Información de los retos de los centros educativos.'],
             ['nombre' => 'Imágenes', 'descripcion' => 'Gestión de imágenes asociadas a las entidades.'],

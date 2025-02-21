@@ -78,32 +78,31 @@ class LoginController extends Controller
     public function __invoke(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = Usuario::where('email', $credentials['email'])->first();
+
+        $user = Usuario::where('email', $credentials['email'])
+            ->with('perfil.secciones.acciones') // Cargar relaciones
+            ->first();
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }
 
-        // Obtener permisos del usuario sin duplicados
-        // Obtener permisos del usuario con secciones y acciones sin duplicados
-        $permisos = $user->perfil->secciones
-            ->map(function ($seccion) {
-                return [
-                    'id' => $seccion->id,
-                    'nombre' => $seccion->nombre,
-                    'descripcion' => $seccion->descripcion,
-                    'acciones' => $seccion->acciones
-                        ->unique('id') // Eliminar acciones duplicadas
-                        ->map(fn($accion) => [
-                            'id' => $accion->id,
-                            'nombre' => $accion->nombre
-                        ])->values() // Convertir a array sin índices vacíos
-                ];
-            })->unique('id') // Eliminar secciones duplicadas
-            ->values(); // Asegurar estructura limpia
+        // Obtener permisos del usuario con secciones y acciones
+        $permisos = $user->perfil->secciones->map(function ($seccion) {
+            return [
+                'id' => $seccion->id,
+                'nombre' => $seccion->nombre,
+                'descripcion' => $seccion->descripcion,
+                'acciones' => $seccion->acciones
+                    ->unique('id') // Eliminar acciones duplicadas
+                    ->map(fn($accion) => [
+                        'id' => $accion->id,
+                        'nombre' => $accion->nombre
+                    ])->values() // Convertir a array sin índices vacíos
+            ];
+        })->unique('id')->values();
 
-
-        // Verificar permisos antes de crear el token
+        // **🔹 Depuración rápida si no se asignan permisos**
         if ($permisos->isEmpty()) {
             return response()->json(['message' => 'Usuario sin permisos asignados'], 403);
         }
@@ -113,8 +112,11 @@ class LoginController extends Controller
             return collect($seccion['acciones'])->map(fn($accion) => "{$seccion['nombre']}.{$accion['nombre']}");
         })->unique()->toArray();
 
-        // Crear token con los permisos específicos
-        $token = $user->createToken('auth_token', $scopes, now()->addDay())->plainTextToken;
+        // **Eliminar tokens anteriores para evitar conflictos**
+        $user->tokens()->delete();
+
+        // **Crear el token con abilities (scopes)**
+        $token = $user->createToken('auth_token', $scopes)->plainTextToken;
 
         return response()->json([
             'message' => 'Inicio de sesión exitoso',
@@ -122,6 +124,7 @@ class LoginController extends Controller
             'token' => $token,
         ]);
     }
+
 
     /**
      * @OA\Post(
