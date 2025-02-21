@@ -32,7 +32,6 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        dd(Auth::user());
         $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id', 'activo')
             ->with('perfil.secciones')
             ->get();
