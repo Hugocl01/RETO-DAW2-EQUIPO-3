@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('acciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('seccion_id');
-            $table->foreign('seccion_id')
-                ->references('id')
-                ->on('secciones')
-                ->onDelete('cascade');
+            $table->foreignId('seccion_id')->constrained('secciones')->onDelete('cascade');
             $table->string('nombre');
+
             $table->timestamps();
         });
     }

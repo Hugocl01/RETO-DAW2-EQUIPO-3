@@ -14,14 +14,13 @@ class SeccionSeeder extends Seeder
     public function run(): void
     {
         $secciones = [
+            ['nombre' => 'Torneo', 'descripcion' => 'Comienzo o Reinicio de Torneo.'],
             ['nombre' => 'Equipos', 'descripcion' => 'Gestión de los equipos participantes en el torneo.'],
             ['nombre' => 'Jugadores', 'descripcion' => 'Gestión de los jugadores y roles dentro de los equipos.'],
             ['nombre' => 'Partidos', 'descripcion' => 'Registro de los partidos, horarios y resultados.'],
             ['nombre' => 'Publicaciones', 'descripcion' => 'Publicaciones sobre las diferentes partes del Torneo Benéfico'],
-            ['nombre' => 'Actas', 'descripcion' => 'Registro de incidencias ocurridas durante los partidos.'],
             ['nombre' => 'Usuarios', 'descripcion' => 'Gestión de usuarios y sus roles en la aplicación.'],
             ['nombre' => 'Retos', 'descripcion' => 'Información de los retos de los centros educativos.'],
-            ['nombre' => 'Publicaciones', 'descripcion' => 'Noticias y publicidad relacionada con el torneo.'],
             ['nombre' => 'Imágenes', 'descripcion' => 'Gestión de imágenes asociadas a las entidades.'],
             ['nombre' => 'Pabellones', 'descripcion' => 'Información sobre los pabellones donde se juegan los partidos.'],
             ['nombre' => 'Familias', 'descripcion' => 'Familias profesionales de FP que participan en los retos.'],
@@ -31,43 +30,15 @@ class SeccionSeeder extends Seeder
             ['nombre' => 'Inscripciones', 'descripcion' => 'Inscripciones de equipos para ser aprobadas o rechazadas.']
         ];
 
-        // Definir acciones por secciones según el mapa de controladores
-        $acciones_por_seccion = [
-            'Centros' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Ciclos' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Equipos' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Publicaciones' => ['index', 'store'],
-            'Estudios' => ['index', 'store', 'destroy'],
-            'Familias' => ['index', 'store', 'update', 'destroy'],
-            'Inscripciones' => ['index', 'cambiarEstado'],
-            'Jugadores' => ['index', 'show', 'update'],
-            'Perfiles' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Retos' => ['index', 'show', 'store', 'update', 'destroy'],
-            'Secciones' => ['index'],
-            'Usuarios' => ['index', 'update', 'store'],
-        ];
-
         foreach ($secciones as $seccion) {
-            // Insertar la sección y obtener su ID
-            $seccionId = DB::table('secciones')->insertGetId([
-                'nombre' => $seccion['nombre'],
-                'descripcion' => $seccion['descripcion'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-
-            // Obtener las acciones correctas para la sección
-            $acciones_asignadas = $acciones_por_seccion[$seccion['nombre']] ?? ['index'];
-
-            // Insertar acciones
-            foreach ($acciones_asignadas as $accion) {
-                DB::table('acciones')->insert([
-                    'nombre' => $accion,
-                    'seccion_id' => $seccionId,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-            }
+            DB::table('secciones')->updateOrInsert(
+                ['nombre' => $seccion['nombre']],
+                [
+                    'descripcion' => $seccion['descripcion'],
+                    'created_at' => DB::raw('IFNULL(created_at, NOW())'),
+                    'updated_at' => Carbon::now()
+                ]
+            );
         }
     }
 }

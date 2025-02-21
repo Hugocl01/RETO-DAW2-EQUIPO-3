@@ -46,11 +46,15 @@ class Perfil extends Model
      */
     public function secciones()
     {
-        return $this->belongsToMany(Seccion::class, 'perfiles_secciones', 'perfil_id', 'seccion_id');
+        return $this->belongsToMany(Seccion::class, 'perfil_seccion_accion', 'perfil_id', 'seccion_id')
+                    ->with('acciones') // Cargar también las acciones
+                    ->distinct(); // Evita duplicados
     }
 
-    public static function getLista()
+    public function acciones()
     {
-        return self::pluck('tipo', 'id');
+        return $this->belongsToMany(Accion::class, 'perfil_seccion_accion')
+            ->withPivot('seccion_id')
+            ->withTimestamps();
     }
 }

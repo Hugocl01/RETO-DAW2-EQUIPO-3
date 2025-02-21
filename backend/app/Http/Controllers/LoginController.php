@@ -9,7 +9,7 @@ use App\Http\Resources\UsuarioResource;
 use Illuminate\Http\Request;
 
 /**
- * @OA\Info(title="API Logueo", version="1.0",description="Endpoints para gestión de logueo",
+ * @OA\Info(title="API Logueo", version="1.0", description="Endpoints para gestión de logueo",
  * @OA\Server(url="http://localhost:8000"),
  * @OA\Contact(email="email@gmail.com")),
  * @OA\Tag(
@@ -55,6 +55,13 @@ class LoginController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=403,
+     *         description="Usuario sin permisos asignados",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Usuario sin permisos asignados")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=422,
      *         description="Datos inválidos",
      *         @OA\JsonContent(
@@ -71,22 +78,71 @@ class LoginController extends Controller
     public function __invoke(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = usuario::where('email', $credentials['email'])->first();
+
+        $user = Usuario::where('email', $credentials['email'])
+            ->with('perfil.secciones.acciones') // Cargar relaciones
+            ->first();
+
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json([
-                'messaje' => 'Credenciales incorrectas',
-            ], 401);
+            return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }
+
+        // Obtener permisos del usuario con secciones y acciones
+        $permisos = $user->perfil->secciones->map(function ($seccion) {
+            return [
+                'id' => $seccion->id,
+                'nombre' => $seccion->nombre,
+                'descripcion' => $seccion->descripcion,
+                'acciones' => $seccion->acciones
+                    ->unique('id') // Eliminar acciones duplicadas
+                    ->map(fn($accion) => [
+                        'id' => $accion->id,
+                        'nombre' => $accion->nombre
+                    ])->values() // Convertir a array sin índices vacíos
+            ];
+        })->unique('id')->values();
+
+        // **🔹 Depuración rápida si no se asignan permisos**
+        if ($permisos->isEmpty()) {
+            return response()->json(['message' => 'Usuario sin permisos asignados'], 403);
+        }
+
+        // Extraer permisos en formato "seccion.accion"
+        $scopes = $permisos->flatMap(function ($seccion) {
+            return collect($seccion['acciones'])->map(fn($accion) => "{$seccion['nombre']}.{$accion['nombre']}");
+        })->unique()->toArray();
+
+        // **Eliminar tokens anteriores para evitar conflictos**
         $user->tokens()->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // **Crear el token con abilities (scopes)**
+        $token = $user->createToken('auth_token', $scopes)->plainTextToken;
 
         return response()->json([
-            'message' => 'Inicio sesion',
+            'message' => 'Inicio de sesión exitoso',
             'usuario' => new UsuarioResource($user),
             'token' => $token,
         ]);
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Logout",
+     *     description="Cerrar sesión del usuario y eliminar tokens",
+     *     operationId="logout",
+     *     tags={"Login"},
+     *     security={{ "sanctum":{} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cierre de sesión exitoso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cierre de Sesión con Éxito.")
+     *         )
+     *     )
+     * )
+     */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();

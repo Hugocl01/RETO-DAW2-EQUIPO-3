@@ -3,8 +3,8 @@ import api from "../../services/api";
 
 const fetchEquipos = async () => {
     try {
-        const response = await api.get("/equipos");
-
+        const response = await api.get("/lista/equipos");
+        console.log(response)
         // Iteramos sobre las claves del objeto de equipos para crear un array de opciones
         return Object.keys(response.data).map(key => ({
             value: key, // Usamos la clave como el ID
