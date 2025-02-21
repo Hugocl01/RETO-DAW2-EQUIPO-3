@@ -4,7 +4,7 @@ import api from "../../services/api";
 const fetchEstudios = async () => {
     try {
         const response = await api.get("/lista/estudios");
-        
+
         // Iteramos sobre las claves del objeto de estudios para crear un array de opciones
         return Object.keys(response.data).map(key => ({
             value: key, // Usamos la clave como el ID
@@ -17,7 +17,11 @@ const fetchEstudios = async () => {
 };
 
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        título: "",
+        texto: "",
+        estudio_id: "" // Inicializamos como vacío
+    });
     const [estudios, setEstudios] = useState([]);
 
     useEffect(() => {
@@ -30,7 +34,11 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
 
     useEffect(() => {
         if (datosIniciales) {
-            setFormData(datosIniciales);
+            // Aseguramos que estudio_id se esté asignando correctamente
+            setFormData({
+                ...datosIniciales,
+                estudio_id: datosIniciales.estudio.id || "" // Asignar el id del estudio inicial
+            });
         }
     }, [datosIniciales]);
 
@@ -44,6 +52,8 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         onGuardar(formData);
     };
 
+    console.log("FormData actual:", formData);  // Verifica el valor actual de formData
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -53,7 +63,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     name="titulo"
                     id="titulo"
                     placeholder="Ingrese el título"
-                    value={formData.titulo || ''}
+                    value={formData.título || ''}
                     onChange={handleChange}
                 />
             </div>
@@ -77,7 +87,9 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                 >
                     <option value="" hidden>Seleccione un estudio</option>
                     {estudios.map((estudio) => (
-                        <option key={estudio.value} value={estudio.value}>{estudio.label}</option>
+                        <option key={estudio.value} value={estudio.value}>
+                            {estudio.label}
+                        </option>
                     ))}
                 </select>
             </div>

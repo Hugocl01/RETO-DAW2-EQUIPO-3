@@ -3,8 +3,8 @@ import api from "../../services/api";
 
 const fetchEquipos = async () => {
     try {
-        const response = await api.get("/equipos");
-        return response.data.estudios.map(equipo => ({
+        const response = await api.get("lista/equipos");
+        return response.data.map(equipo => ({
             value: equipo.id,
             label: equipo.nombre
         }));
@@ -15,9 +15,12 @@ const fetchEquipos = async () => {
 };
 
 function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        nombre: "",
+        equipo: ""
+    });
     const [equipos, setEquipos] = useState([]);
-
+    console.log(datosIniciales)
     useEffect(() => {
         const obtenerEquipos = async () => {
             const data = await fetchEquipos();
@@ -28,30 +31,44 @@ function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
 
     useEffect(() => {
         if (datosIniciales) {
+            console.log("Datos Iniciales recibidos:", datosIniciales); // 🔍 Debug
             setFormData(datosIniciales);
         }
     }, [datosIniciales]);
 
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log("Formulario enviado con:", formData);
         onGuardar(formData);
     };
+    useEffect(() => {
+        if (datosIniciales) {
+            setFormData({ ...datosIniciales }); // 🔥 Clonar el objeto puede evitar problemas de referencia
+        }
+    }, [datosIniciales]);
+
+    console.log("Estado actual del formulario:", formData);
 
     return (
         <form onSubmit={handleSubmit}>
+            {console.log(formData.nombre)}
             <div>
-                <label htmlFor="nombre_completo">Nombre Completo</label>
+                <label htmlFor="nombre_completo">Nombre</label>
                 <input
                     type="text"
                     name="nombre_completo"
                     id="nombre_completo"
                     placeholder="Ingrese su nombre completo"
-                    value={formData.nombre_completo || ''}
+                    value={formData?.nombre ?? ""}
                     onChange={handleChange}
                 />
             </div>
@@ -60,7 +77,7 @@ function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
                 <select
                     name="equipo_id"
                     id="equipo_id"
-                    value={formData.equipo_id || ''}
+                    value={formData?.equipo ?? ""}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione un equipo</option>
