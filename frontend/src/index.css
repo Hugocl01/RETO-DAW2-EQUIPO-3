@@ -26,7 +26,13 @@ body {
   display: flex;
   place-items: center;
   background-color: #fafafa;
+  width: 100%;
 }
+
+#root {
+  width: 100%;
+}
+
 
 h1 {
   font-size: 3.2em;

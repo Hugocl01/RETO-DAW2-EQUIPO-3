@@ -16,7 +16,7 @@ h1 {
     width: 100%;
     height: 90vh;
 
-    background: linear-gradient(rgba(36, 35, 35, 0.247), rgba(48, 47, 47, 0.274)),
+    background: linear-gradient(rgba(36, 35, 35, 0.473), rgba(48, 47, 47, 0.397)),
         url("../src/assets/imagenes/football.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -69,6 +69,10 @@ h1 {
     width: 40%;
 }
 
+.carruselesSimples {
+    display: none;       
+}
+
 #contenedorPatros {
     width: 100%;
     height: 100vh;
@@ -89,7 +93,7 @@ h1 {
 }
 
 #patrocinadores img {
-    max-width: 140px;
+    max-width: 40%;
 }
 
 .comoDonar,
@@ -112,4 +116,17 @@ h1 {
     .seccion2 {
         display: none;
     }
+
+    #patrocinadores img {
+        max-width: 40%;
+    }
+
+    .carruseles {
+        display: none;
+    }
+
+    .carruselesSimples {
+        display: block;       
+    }
+
 }

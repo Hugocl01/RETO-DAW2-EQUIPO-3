@@ -9,6 +9,7 @@ import Spinner from "../components/Spinner.jsx";
 
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
+import CarouselSimple from './CarouselSimple.jsx';
 
 function Inicio() {
     //arrays para los carruseles
@@ -85,7 +86,7 @@ function Inicio() {
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
                 <h2 className="text-white">TORNEO SOLIDARIO</h2>
-                <h3 className="text-white">Texto</h3>
+                <h3 className="text-white">13 y 14 de Marzo - Pabellon La Habana Vieja de Torrelavega</h3>
             </div>
 
             <div>
@@ -133,7 +134,19 @@ function Inicio() {
                 </div>
                 <Carousel id="carouselRetos" items={retos} interval={3000} />
             </section>
+            
+            <section className="carruselesSimples section-container">
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                    <h1>Noticias</h1>
+                </div>
+                <CarouselSimple id="carouselNoticiasSimple" items={noticias} interval={3000} />
 
+
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                    <h1>Retos</h1>
+                </div>
+                <CarouselSimple id="carouselRetosSimples" items={retos} interval={3000} />
+            </section>
 
 
             <section className="donaciones container">
