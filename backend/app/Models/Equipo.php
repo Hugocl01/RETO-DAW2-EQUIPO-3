@@ -141,62 +141,8 @@ class Equipo extends Model
 
 
 
-    public static function getLista(?string $tipo_partido = null, ?int $equipo_id = null, ?string $grupo = null): ?Collection
+    public static function getLista()
     {
-        // Si el partido no es "Clasificatorio", la lógica no aplica.
-        if ($tipo_partido !== 'Clasificatorio') {
-            return null;
-        }
-
-        // Validar que, si se provee un grupo, éste sea 'A' o 'B'.
-        if ($grupo && !in_array($grupo, ['A', 'B'])) {
-            return collect(); // Retorna colección vacía si el grupo no es válido.
-        }
-
-        // Inicializamos la consulta para obtener equipos.
-        $query = self::query()
-            ->select('id', 'nombre')
-            ->orderBy('nombre'); // Ordenamos por nombre (puedes ajustar el orden si es necesario).
-
-        // Si se especifica un grupo, filtramos por él.
-        if ($grupo) {
-            $query->where('grupo', $grupo);
-        }
-
-        // Si se pasa un equipo base (por ejemplo, el equipo local seleccionado):
-        if ($equipo_id) {
-            // Obtenemos el grupo del equipo base.
-            $grupoEquipo = self::where('id', $equipo_id)->value('grupo');
-
-            // Si se pasó un grupo por parámetro, debe coincidir con el grupo del equipo base.
-            if ($grupo && $grupo !== $grupoEquipo) {
-                return collect(); // No hay coincidencia de grupos, retorna colección vacía.
-            }
-
-            // Filtramos para obtener equipos del mismo grupo que:
-            // - No sean el equipo base.
-            // - No hayan jugado ya contra el equipo base.
-            $query->where('grupo', $grupoEquipo)
-                ->where('id', '!=', $equipo_id)
-                ->whereNotExists(function ($sub) use ($equipo_id) {
-                    $sub->select(DB::raw(1))
-                        ->from('partidos')
-                        ->whereRaw(
-                            '(equipo_local_id = ? AND equipo_visitante_id = equipos.id) OR (equipo_visitante_id = ? AND equipo_local_id = equipos.id)',
-                            [$equipo_id, $equipo_id]
-                        );
-                });
-        } else {
-            // Si no se especifica un equipo base, buscamos equipos que hayan jugado menos de 4 partidos clasificatorios.
-            $query->whereRaw(
-                "(SELECT COUNT(*) FROM partidos AS p
-                  WHERE p.tipo = 'Clasificatorio'
-                    AND (p.equipo_local_id = equipos.id OR p.equipo_visitante_id = equipos.id)
-                ) < 4"
-            );
-        }
-
-        // Retornamos la colección con los equipos, pluckeando 'nombre' y 'id' para formar los selectores.
-        return $query->pluck('nombre', 'id');
+        return self::pluck('nombre', 'id');
     }
 }

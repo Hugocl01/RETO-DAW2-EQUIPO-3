@@ -5,6 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+/**
+ * @OA\Schema(
+ *     schema="Incidencia",
+ *     type="object",
+ *     required={"tipo"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         description="ID único de la incidencia",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="tipo",
+ *         type="string",
+ *         description="Tipo de la incidencia",
+ *         example="Accidente"
+ *     )
+ * )
+ */
 class Incidencia extends Model
 {
     protected $table = 'incidencias';
