@@ -8,7 +8,7 @@ function MenuAdministracion({ onSelect }) {
     const { seguridad } = useContext(SeguridadContext);
     const { seccion } = useParams();
     const navigate = useNavigate();
-    
+
     const [secciones, setSecciones] = useState([]);
     const [selectedSeccion, setSelectedSeccion] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -51,8 +51,11 @@ function MenuAdministracion({ onSelect }) {
                 <ul className="list-group">
                     {secciones.length > 0 ? (
                         secciones.map((sec) => (
-                            <li key={sec.id} className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`} 
-                                onClick={() => handleSelect(sec)}>
+                            <li key={sec.id}
+                                className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`}
+                                role="button"
+                                onClick={() => handleSelect(sec)}
+                            >
                                 {sec.nombre}
                             </li>
                         ))
