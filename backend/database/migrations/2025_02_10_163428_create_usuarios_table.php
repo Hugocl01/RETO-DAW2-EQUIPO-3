@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->rememberToken();
-            $table->boolean('activo')->default(1);
 
             // Claves foraneas
             $table->unsignedBigInteger('perfil_id');
