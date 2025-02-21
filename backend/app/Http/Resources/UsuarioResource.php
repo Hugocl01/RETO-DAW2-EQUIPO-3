@@ -14,7 +14,6 @@ class UsuarioResource extends JsonResource
             'nombre' => $this->nombre_completo,
             'email' => $this->email,
             'perfil' => new PerfilResource($this->perfil),
-            'activo' => $this->activo,
         ];
     }
 }

@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             'usuarios', 'perfiles', 'ongs', 'donaciones', 'estudios', 'equipos',
             'ciclos', 'familias', 'centros', 'estado_inscripciones', 'incidencias',
             'inscripciones', 'retos', 'patrocinadores', 'patrocinadores_equipos',
-            'jugadores', 'pabellones', 'partidos', 'actas', 'publicaciones', 'imagenes'
+            'jugadores', 'pabellones', 'partidos', 'actas', 'publicaciones', 'imagenes',
+            'perfil_seccion_accion'
         ];
 
         foreach ($tables as $table) {
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PerfilSeeder::class,
             SeccionSeeder::class,
-            PerfilSeccionSeeder::class,
+            AccionSeeder::class,
             UsuarioSeeder::class,
             OngSeeder::class,
             DonacionesSeeder::class,
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
             PatrocinadorEquipoSeeder::class,
             PabellonSeeder::class,
             PartidoSeeder::class,
-
+            PerfilSeccionAccionSeeder::class,
             // Semi y Final
             SemifinalFinalSeeder::class,
             PublicacionSeeder::class,

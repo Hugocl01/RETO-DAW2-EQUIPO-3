@@ -133,35 +133,6 @@ class UsuarioController extends Controller
         ], 400);
     }
 
-    /**
-     * @OA\Patch(
-     *     path="/api/usuarios/{id}/activo",
-     *     summary="Activar o desactivar un usuario",
-     *     tags={"Usuarios"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID del usuario",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Estado del usuario actualizado correctamente"
-     *     )
-     * )
-     */
-    public function updateActivo(Usuario $usuario)
-    {
-        $nuevoEstado = !$usuario->activo;
-        $usuario->update(['activo' => $nuevoEstado]);
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => $nuevoEstado ? 'El usuario ha sido activado' : 'El usuario ha sido desactivado'
-        ], 200);
-    }
-
     public function setPassword(Request $request, $id, $token)
     {
         $request->validate([

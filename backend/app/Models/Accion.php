@@ -15,6 +15,6 @@ class Accion extends Model
 
     public function seccion()
     {
-        return $this->belongsTo(Seccion::class);
+        return $this->belongsTo(Seccion::class, 'seccion_id', 'id');
     }
 }
