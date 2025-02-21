@@ -21,7 +21,6 @@ class SeccionSeeder extends Seeder
             ['nombre' => 'Actas', 'descripcion' => 'Registro de incidencias ocurridas durante los partidos.'],
             ['nombre' => 'Usuarios', 'descripcion' => 'Gestión de usuarios y sus roles en la aplicación.'],
             ['nombre' => 'Retos', 'descripcion' => 'Información de los retos de los centros educativos.'],
-            ['nombre' => 'Publicaciones', 'descripcion' => 'Noticias y publicidad relacionada con el torneo.'],
             ['nombre' => 'Imágenes', 'descripcion' => 'Gestión de imágenes asociadas a las entidades.'],
             ['nombre' => 'Pabellones', 'descripcion' => 'Información sobre los pabellones donde se juegan los partidos.'],
             ['nombre' => 'Familias', 'descripcion' => 'Familias profesionales de FP que participan en los retos.'],

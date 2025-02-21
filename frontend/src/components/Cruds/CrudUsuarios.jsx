@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import Paginator from "../Paginator"; // Ajusta la ruta si es necesario
+import Paginator from "../Paginator";
 
 function CrudUsuarios({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
