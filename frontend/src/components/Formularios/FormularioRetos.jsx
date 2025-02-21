@@ -17,7 +17,10 @@ const fetchEstudios = async () => {
 };
 
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        título: "",
+        texto: ""
+    });
     const [estudios, setEstudios] = useState([]);
 
     useEffect(() => {
@@ -53,7 +56,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     name="titulo"
                     id="titulo"
                     placeholder="Ingrese el título"
-                    value={formData.titulo || ''}
+                    value={formData.título || ''}
                     onChange={handleChange}
                 />
             </div>
@@ -72,7 +75,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                 <select
                     name="estudio_id"
                     id="estudio_id"
-                    value={formData.estudio_id || ''}
+                    value={formData.estudio.id || ''}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione un estudio</option>
