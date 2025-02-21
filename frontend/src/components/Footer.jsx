@@ -10,7 +10,7 @@ import "./css/Footer.css";
 function Footer() {
 
     return (
-        <footer className="footer d-flex flex-wrap justify-content-between align-items-center p-4 my-4 border-top">
+        <footer className="footer d-flex flex-wrap justify-content-between align-items-center p-4 mb-4 border-top">
             <div class="container">
                 <div class="row">
                     <div class="col">
