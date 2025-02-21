@@ -20,7 +20,7 @@ function Crud({ seccion, onModoCambio }) {
 
     const handleEdit = (item) => {
         setEditingItem(item.id);
-        onModoCambio("edit", item.id);
+        onModoCambio("edit", item);
     };
 
     const handleCrear = () => {

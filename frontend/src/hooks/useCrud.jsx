@@ -64,23 +64,13 @@ export const useCrud = (seccion) => {
         }
     };
 
-    // Activar o desactivar usuario (acciones personalizadas)
-    const activateItem = async (id) => {
-        try {
-            await api.put(`/${entidadNombre}/${id}/activo`);
-            fetchItems();
-        } catch (err) {
-            setError(err.response?.data?.message || "Error al activar.");
-        }
-    };
-
-    // Cambiar estado a una inscripción
-    const updateStatusItem = async (id) => {
-        try {
-            await api.put(`/cambiarEstado/${id}`);
-            fetchItems(); // Corregido: se invoca la función
-        } catch (err) {
-            setError(err.response?.data?.message || "Error al activar.");
+    // Función que maneja la lógica del guardar (crear o actualizar)
+    const onGuardar = (formData, modo) => {
+        console.log('hola')
+        if (modo === "crear") {
+            createItem(formData);
+        } else if (modo === "editar") {
+            updateItem(formData.id, formData); // Asegúrate de que el 'formData' tenga 'id' en modo edición
         }
     };
 
@@ -97,7 +87,6 @@ export const useCrud = (seccion) => {
         createItem,
         updateItem,
         deleteItem,
-        activateItem,
-        updateStatusItem,
+        onGuardar,
     };
 };

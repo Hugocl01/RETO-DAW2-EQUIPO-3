@@ -40,136 +40,123 @@ function DetallePartidoPage() {
   }
 
   /**
-   * Función para obtener el acta de un equipo, si no pongo nada, recogerá los inicio de partido y final
-   * @param {String} equipo
+   * Función para obtener los actas agrupados por minuto con las incidencias de cada equipo en ese minuto
    * @returns
    */
-  function obtenerActaEquipo(equipo = null) {
-    let actaEquipo = [];
+  function obtenerActaAgrupado() {
+    let actasAgrupados = {};
+
     /**
-     * Ordeno los actas de menor a mayor
+     * Ordeno los actas de menor a mayor por minuto
      */
-    let totalActasOrdenado = partido.actas.sort((acta1, acta2) => {
-      let minutoActa1 = acta1.minuto;
-      let minutoActa2 = acta2.minuto;
+    let totalActasOrdenado = partido.actas.sort(
+      (acta1, acta2) => acta1.minuto - acta2.minuto
+    );
 
-      return minutoActa1 - minutoActa2;
-    });
+    /**
+     * Recorro el array de actas ordenado
+     */
+    totalActasOrdenado.forEach((acta) => {
+      /**
+       * Si la incidencia es inicio y fin que no haga nada
+       */
+      if (
+        acta.incidencia === "Inicio del partido" ||
+        acta.incidencia === "Final del partido"
+      ) {
+        return;
+      }
 
-    actaEquipo = totalActasOrdenado.map((incidencia) => {
-      // Si el equipo de la incidencia coincide con el equipo pasado como parámetro
-      if (incidencia.equipo === equipo) {
-        return incidencia; // Mantiene la incidencia original
+      /**
+       * Me mira si no hay una entrada para ese minuto y me la crea
+       */
+      if (!actasAgrupados[acta.minuto]) {
+        actasAgrupados[acta.minuto] = { local: "", visitante: "" };
+      }
+
+      /**
+       * Me añade la incidencia dependiendo del equipo
+       */
+      if (acta.equipo === partido["equipo local"]) {
+        actasAgrupados[acta.minuto].local = acta.incidencia;
       } else {
-        return ""; // Pone un string vacío en las incidencias que no correspondan al equipo
+        actasAgrupados[acta.minuto].visitante = acta.incidencia;
       }
     });
 
-    return actaEquipo;
+    return actasAgrupados;
   }
 
   /**
-   * Guardo los actas de los equipos y de los inicio y final de partido en constantes
+   * Guardo los actas agrupados
    */
-  const actaEquipoLocal = obtenerActaEquipo(partido["equipo local"]);
-  const actaEquipoVisitante = obtenerActaEquipo(partido["equipo visitante"]);
-  const actaInicioFin = obtenerActaEquipo();
+  const actas = obtenerActaAgrupado();
 
-  console.log(actaEquipoLocal);
-  console.log(actaEquipoVisitante);
 
   return (
     <>
       <title>Acta {partido.slug}</title>
       <section className="container-fluid w-75">
-        {/**
-         * Titulo de la página
-         */}
+        {/** Título de la página */}
         <div className="row">
           <div className="col-12">
-            <h2 className=" mt-5 text-center">
+            <h2 className="mt-5 text-center bg-primary text-white py-3 rounded">
               Acta {partido["equipo local"]} vs {partido["equipo visitante"]}
             </h2>
           </div>
         </div>
 
-        {/**Enfrentamiento con los logos de los equipos */}
+        {/** Enfrentamiento con los logos de los equipos y resultado */}
         <div className="row my-5">
-          <div className="col-4 d-flex flex-row justify-content-around align-items-center border border-dark">
+          <div className="col-4 d-flex flex-row justify-content-around align-items-center">
             <img
               src={"../../src/assets/imagenes/img1.jpg"}
               alt="imagenPatrocinador"
-              className="img-fluid"
-              style={{ width: "50%" }}
+              className="img-fluid rounded"
+              style={{ width: "100%" }}
             />
           </div>
-          <div className="col-4"></div>
-          <div className="col-4 d-flex flex-row border justify-content-around align-items-center border-dark">
+          <div className="col-4 d-flex justify-content-center align-items-center">
+            <p className="fs-2 w-50 h-50 fw-bold d-flex flex-row justify-content-center align-items-center p-4 bg-dark text-white rounded">
+              {partido["goles local"]} - {partido["goles visitante"]}
+            </p>
+          </div>
+          <div className="col-4 d-flex flex-row justify-content-around align-items-center">
             <img
               src={"../../src/assets/imagenes/img1.jpg"}
               alt="imagenPatrocinador"
-              className="img-fluid"
-              style={{ width: "50%" }}
+              className="img-fluid rounded"
+              style={{ width: "100%" }}
             />
           </div>
         </div>
 
-        {/**
-         * Incidencias de cada equipo
-         */}
-        <div className="row mt-3">
-          <div className="col-4 d-flex flex-column justify-content-center align-items-center border border-dark">
-            {/**
-             * Incidencia del equipo local
-             */}
-            {actaEquipoLocal.map((valor, indice) => {
-              return (
-                <>
-                  {valor !== "" ? (
-                    <>
-                      <p key={indice} className="text-center border border-dark w-100">
-                        {valor.incidencia} Minuto: {valor.minuto}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                    <p className="text-center border border-dark w-100"><br></br></p>
-                    </>
-                  )}
-                </>
-              );
-            })}
-          </div>
-          {/**
-           * Resultado del Enfrentamiento
-           */}
-          <div className="col-4 d-flex justify-content-center align-items-center border border-dark">
-            <p className="display-4 text-center align-self-center border border-dark">
-              {partido["goles local"]} - {partido["goles visitante"]}
-            </p>
+        {/** Incidencias de cada equipo */}
+        <div className="container-fluid m-0 p-0">
+          {/* Inicio del partido */}
+          <div className="row text-center fw-bold border border-dark rounded-top bg-success text-white">
+            <div className="col-12 fs-5 p-3">Inicio del partido</div>
           </div>
 
-          <div className="col-4 d-flex flex-column border justify-content-center align-items-center  border-dark">
-            {/**
-             * Incidencias del equipo visitante
-             */}
-            {actaEquipoVisitante.map((valor, indice) => {
-              return (
-                <>
-                 {valor !== "" ? (
-                    <>
-                      <p key={indice} className="text-center border border-dark w-100">
-                        {valor.incidencia} Minuto: {valor.minuto}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                    <p className="text-center border border-dark w-100"><br></br></p>
-                    </>
-                  )}
-                </>
-              );
-            })}
+          {/* Incidencias del partido */}
+          {/**
+           * Me transformará el objeto json de los actas agrupados en un mapa de clave valor
+           * Clave será el minuto y valor, las incidencias de los dos equipos
+           */}
+          {Object.entries(actas).map(([minuto, incidencias]) => (
+            <div
+              className="row text-center border border-dark bg-light"
+              key={minuto}
+            >
+              <div className="col-4 fs-5 p-3">{incidencias.local}</div>
+              <div className="col-4 fs-5 p-3 fw-bold">Minuto: {minuto}</div>
+              <div className="col-4 fs-5 p-3">{incidencias.visitante}</div>
+            </div>
+          ))}
+
+          {/* Fin del partido */}
+          <div className="row text-center fw-bold border border-dark rounded-bottom bg-danger text-white">
+            <div className="col-12 fs-5 p-3">Fin del partido</div>
           </div>
         </div>
       </section>

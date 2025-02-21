@@ -121,7 +121,8 @@ Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios'])->m
 
 // Equipos
 Route::apiResource('equipos', EquipoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::get('lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
+Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
+
 
 // Familias
 Route::apiResource('familias', FamiliaController::class)->middleware('auth:sanctum');

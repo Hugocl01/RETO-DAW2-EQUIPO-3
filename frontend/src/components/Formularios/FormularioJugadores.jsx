@@ -3,8 +3,8 @@ import api from "../../services/api";
 
 const fetchEquipos = async () => {
     try {
-        const response = await api.get("/equipos");
-        
+        const response = await api.get("/lista/equipos");
+        console.log(response)
         // Iteramos sobre las claves del objeto de equipos para crear un array de opciones
         return Object.keys(response.data).map(key => ({
             value: key, // Usamos la clave como el ID
@@ -19,7 +19,7 @@ const fetchEquipos = async () => {
 const fetchEstudios = async () => {
     try {
         const response = await api.get("/lista/estudios");
-        
+
         // Iteramos sobre las claves del objeto de estudios para crear un array de opciones
         return Object.keys(response.data).map(key => ({
             value: key, // Usamos la clave como el ID
@@ -32,7 +32,12 @@ const fetchEstudios = async () => {
 };
 
 function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        nombre_completo: "",
+        equipo_id: "",
+        estudio_id: "",
+        capitan: false,
+    });
     const [equipos, setEquipos] = useState([]);
     const [estudios, setEstudios] = useState([]);
 
@@ -52,13 +57,23 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
 
     useEffect(() => {
         if (datosIniciales) {
-            setFormData(datosIniciales);
+            // Aseguramos que equipo_id y estudio_id se asignen correctamente
+            setFormData({
+                ...datosIniciales,
+                equipo_id: datosIniciales.equipo_id || "", // Asignar equipo_id inicial
+                estudio_id: datosIniciales.estudio_id || "", // Asignar estudio_id inicial
+                capitan: datosIniciales.capitan || false, // Asignar capitan si existe
+            });
         }
     }, [datosIniciales]);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type, checked } = event.target;
+        // Si es un checkbox, usamos checked en lugar de value
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
     };
 
     const handleSubmit = (event) => {
@@ -75,7 +90,7 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
                     name="nombre_completo"
                     id="nombre_completo"
                     placeholder="Ingrese su nombre completo"
-                    value={formData.nombre_completo || ''}
+                    value={formData.nombre_completo || ""}
                     onChange={handleChange}
                 />
             </div>
@@ -84,12 +99,14 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
                 <select
                     name="equipo_id"
                     id="equipo_id"
-                    value={formData.equipo_id || ''}
+                    value={formData.equipo_id || ""}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione un equipo</option>
                     {equipos.map((equipo) => (
-                        <option key={equipo.value} value={equipo.value}>{equipo.label}</option>
+                        <option key={equipo.value} value={equipo.value}>
+                            {equipo.label}
+                        </option>
                     ))}
                 </select>
             </div>
@@ -98,12 +115,14 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
                 <select
                     name="estudio_id"
                     id="estudio_id"
-                    value={formData.estudio_id || ''}
+                    value={formData.estudio_id || ""}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione un estudio</option>
                     {estudios.map((estudio) => (
-                        <option key={estudio.value} value={estudio.value}>{estudio.label}</option>
+                        <option key={estudio.value} value={estudio.value}>
+                            {estudio.label}
+                        </option>
                     ))}
                 </select>
             </div>
