@@ -18,7 +18,7 @@ const fetchEstudios = async () => {
 
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
-        título: "",
+        titulo: "",
         texto: "",
         estudio_id: "" // Inicializamos como vacío
     });
@@ -52,8 +52,6 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         onGuardar(formData);
     };
 
-    console.log("FormData actual:", formData);  // Verifica el valor actual de formData
-
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -63,7 +61,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     name="titulo"
                     id="titulo"
                     placeholder="Ingrese el título"
-                    value={formData.título || ''}
+                    value={formData.titulo || ''}
                     onChange={handleChange}
                 />
             </div>

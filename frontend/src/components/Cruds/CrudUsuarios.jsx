@@ -20,7 +20,7 @@ function CrudUsuarios({ onModoCambio }) {
         const query = searchQuery.toLowerCase();
 
         return (
-            safeToLower(usuario.Nombre).includes(query) ||
+            safeToLower(usuario.nombre).includes(query) ||
             safeToLower(usuario.email).includes(query) ||
             safeToLower(usuario.perfil?.tipo).includes(query) ||
             safeToLower(usuario.activo ? "activo" : "inactivo").includes(query)
@@ -45,16 +45,23 @@ function CrudUsuarios({ onModoCambio }) {
         <div>
             <h2>Usuarios</h2>
 
-            {/* Buscador */}
-            <div className="mb-3">
+            {/* Buscador  y Boton de crear */}
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     placeholder="Buscar usuarios..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+                <button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Usuario
+                </button>
             </div>
+
 
             {/* Tabla de datos */}
             <table className="table table-bordered table-hover">
@@ -70,7 +77,7 @@ function CrudUsuarios({ onModoCambio }) {
                 <tbody>
                     {currentItems.map((usuario) => (
                         <tr key={usuario.id}>
-                            <td>{usuario.Nombre}</td>
+                            <td>{usuario.nombre}</td>
                             <td>{usuario.email}</td>
                             <td>{usuario.perfil?.tipo || "Sin rol"}</td>
                             <td>{usuario.activo ? "Activo" : "Inactivo"}</td>

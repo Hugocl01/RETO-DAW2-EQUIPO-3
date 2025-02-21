@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import Paginator from "../Paginator"; // Ajusta la ruta si es necesario
+import Paginator from "../Paginator";
 
 function CrudRetos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
@@ -19,7 +19,7 @@ function CrudRetos({ onModoCambio }) {
     const filteredItems = items.filter((reto) => {
         const query = searchQuery.toLowerCase();
         return (
-            safeToLower(reto.título).includes(query) ||
+            safeToLower(reto.titulo).includes(query) ||
             safeToLower(reto.texto).includes(query) ||
             safeToLower(reto.estudio?.centro).includes(query) ||
             safeToLower(reto.estudio?.ciclo).includes(query) ||
@@ -46,7 +46,7 @@ function CrudRetos({ onModoCambio }) {
             <h2>Retos</h2>
 
             {/* Buscador */}
-            <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
                     className="form-control"
@@ -54,6 +54,12 @@ function CrudRetos({ onModoCambio }) {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+                <button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Reto
+                </button>
             </div>
 
             {/* Tabla de datos */}
@@ -71,7 +77,7 @@ function CrudRetos({ onModoCambio }) {
                 <tbody>
                     {currentItems.map((reto) => (
                         <tr key={reto.id}>
-                            <td>{reto.título}</td>
+                            <td>{reto.titulo}</td>
                             <td>{reto.texto}</td>
                             <td>{reto.estudio?.centro || "N/A"}</td>
                             <td>{reto.estudio?.ciclo || "N/A"}</td>

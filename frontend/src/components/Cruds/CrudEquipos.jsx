@@ -64,7 +64,6 @@ function CrudEquipos({ onModoCambio }) {
             <th>Entrenador</th>
             <th>Estado Inscripción</th>
             <th>Goles</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -76,20 +75,6 @@ function CrudEquipos({ onModoCambio }) {
               <td>{equipo.entrenador}</td>
               <td>{equipo.inscripcion?.estado}</td>
               <td>{equipo.stats?.goles}</td>
-              <td>
-                <button
-                  className="btn btn-sm btn-warning me-2"
-                  onClick={() => onModoCambio("editar", equipo)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => deleteItem(equipo.slug)}
-                >
-                  Eliminar
-                </button>
-              </td>
             </tr>
           ))}
           {currentItems.length === 0 && (

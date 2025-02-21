@@ -17,15 +17,12 @@ export const generateSlug = (text) => {
     let slug = text.toLowerCase();
 
     // Reemplaza caracteres especiales con guiones
-    slug = slug.replace(/[áàäâã]/g, 'a')
-        .replace(/[éèëê]/g, 'e')
-        .replace(/[íìïî]/g, 'i')
-        .replace(/[óòöôõ]/g, 'o')
-        .replace(/[úùüû]/g, 'u')
-        .replace(/[ñ]/g, 'n')
-        .replace(/[^a-z0-9\s-]/g, '') // Elimina cualquier carácter no permitido
-        .replace(/\s+/g, '-') // Reemplaza los espacios por guiones
-        .replace(/-+/g, '-'); // Reemplaza múltiples guiones seguidos por un solo guion
+    slug = slug
+        .normalize("NFD")                       // Descompone los caracteres acentuados
+        .replace(/[\u0300-\u036f]/g, "")        // Elimina los caracteres de acentuación
+        .toLowerCase()                          // Convierte a minúsculas
+        .replace(/\s+/g, "-")                   // Reemplaza los espacios por guiones
+        .replace(/[^\w-]+/g, "");               // Elimina caracteres no alfanuméricos
 
     return slug;
 };

@@ -61,7 +61,6 @@ function CrudJugadores({ onModoCambio }) {
             <th>Estudio</th>
             <th>Email</th>
             <th>Teléfono</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -72,20 +71,6 @@ function CrudJugadores({ onModoCambio }) {
               <td>{jugador.estudio}</td>
               <td>{jugador.email}</td>
               <td>{jugador.telefono}</td>
-              <td>
-                <button
-                  className="btn btn-sm btn-warning me-2"
-                  onClick={() => onModoCambio("editar", jugador)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => deleteItem(jugador.slug)}
-                >
-                  Eliminar
-                </button>
-              </td>
             </tr>
           ))}
           {currentItems.length === 0 && (
