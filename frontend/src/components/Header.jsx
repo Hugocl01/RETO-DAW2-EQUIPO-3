@@ -45,7 +45,59 @@ function Header() {
           {/* Barra de navegación (centrada) */}
           <div className="d-flex align-items-center justify-content-center flex-grow-1" id="menu">
             <ul className="nav col-13 col-lg-auto me-lg-auto mb-3 d-flex justify-content-center align-items-center mb-md-0">
-              {/* Your menu items here */}
+              <li>
+                <Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                  INICIO
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                  EQUIPOS
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to="#" className={`nav-link px-2 link-body-emphasis ${isActive("/torneo")}`} id="elementoMenu" onClick={toggleSubMenu}>
+                  TORNEO
+                </Link>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/partidos" className="dropdown-item">
+                      RESULTADOS
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/clasificacion" className="dropdown-item">
+                      CLASIFICACIÓN
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/estadisticas" className="dropdown-item">
+                      ESTADÍSTICAS
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive("/organizacion")}`} id="elementoMenu">
+                  ORGANIZACIÓN
+                </Link>
+              </li>
+              <li>
+                <Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu">
+                  GALERÍA
+                </Link>
+              </li>
+              <li>
+                <Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu">
+                  INSCRIBIRSE
+                </Link>
+              </li>
+              <li className="d-flex align-items-center">
+                <YouTubeLiveIndicator />
+              </li>
             </ul>
           </div>
 
