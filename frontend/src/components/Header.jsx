@@ -27,7 +27,7 @@ function Header() {
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
 
   const toggleSubMenu = () => {
-    setIsSubMenuActive(!isSubMenuActive);
+    setIsSubMenuActive(prevState => !prevState);
   };
 
 
@@ -57,8 +57,8 @@ function Header() {
                 </Link>
               </li>
 
-              <li className="nav-item">
-                <Link to="#" className={`nav-link px-2 link-body-emphasis ${isActive("/torneo")}`} id="elementoMenu" onClick={toggleSubMenu}>
+              <li className="nav-item dropdown">
+                <Link to="/partidos" className={`nav-link px-2 link-body-emphasis ${isActive("/partidos")}`} id="elementoMenu" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                   TORNEO
                 </Link>
                 <ul className="dropdown-menu">
