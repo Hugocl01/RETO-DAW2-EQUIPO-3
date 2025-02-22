@@ -19,7 +19,6 @@ use App\Traits\HasSlug;
  *     @OA\Property(property="centro_id", type="integer", description="ID del centro"),
  *     @OA\Property(property="grupo", type="string", description="Grupo del equipo"),
  *     @OA\Property(property="usuario_id", type="integer", description="ID del entrenador"),
- *     @OA\Property(property="activo", type="boolean", description="Si el equipo está activo"),
  *     @OA\Property(
  *         property="stats",
  *         type="object",
@@ -43,7 +42,6 @@ class Equipo extends Model
         'centro_id',
         'grupo',
         'usuario_id',
-        'activo'
     ];
 
     public function centro()

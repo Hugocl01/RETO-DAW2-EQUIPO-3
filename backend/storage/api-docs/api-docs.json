@@ -1,13 +1,19 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Logueo",
-        "description": "Endpoints para gestión de logueo",
+        "title": "API de Torneo",
+        "description": "Documentación de la API del Torneo",
         "contact": {
-            "email": "email@gmail.com"
+            "email": "soporte@tuapi.com"
         },
-        "version": "1.0"
+        "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8000/",
+            "description": "Servidor de Desarrollo"
+        }
+    ],
     "paths": {
         "/api/centros": {
             "get": {
@@ -563,7 +569,7 @@
                     "Equipos"
                 ],
                 "summary": "Obtener todos los equipos",
-                "description": "Obtener todos los equipos.",
+                "description": "Obtener todos los equipos.\n>",
                 "operationId": "70ebc1e663c58216e080e7eabfb8e4ee",
                 "responses": {
                     "200": {
@@ -1409,6 +1415,22 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "Usuario sin permisos asignados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario sin permisos asignados"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "422": {
                         "description": "Datos inválidos",
                         "content": {
@@ -1449,6 +1471,39 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Logout",
+                "description": "Cerrar sesión del usuario y eliminar tokens",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Cierre de sesión exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cierre de Sesión con Éxito."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/partidos": {
@@ -2153,7 +2208,12 @@
                     "404": {
                         "description": "No hay usuarios registrados"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -2178,7 +2238,12 @@
                     "400": {
                         "description": "No se ha podido crear el usuario"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/usuarios/{id}": {
@@ -2216,16 +2281,19 @@
                     "400": {
                         "description": "Error al actualizar el usuario"
                     }
-                }
-            }
-        },
-        "/api/usuarios/{id}/activo": {
-            "patch": {
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
                 "tags": [
                     "Usuarios"
                 ],
-                "summary": "Activar o desactivar un usuario",
-                "operationId": "88488c999153bd541af54a929f58d5cf",
+                "summary": "Eliminar un usuario",
+                "operationId": "ea700764859a665afd38bb39c2842f1c",
                 "parameters": [
                     {
                         "name": "id",
@@ -2239,7 +2307,78 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Estado del usuario actualizado correctamente"
+                        "description": "Usuario eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/set-password/{id}/{token}": {
+            "post": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Establecer una nueva contraseña con un token",
+                "operationId": "688a191d1f73d978ce4e40925de78fa1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token de restablecimiento de contraseña",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña establecida correctamente"
+                    },
+                    "403": {
+                        "description": "Token inválido o ya utilizado"
                     }
                 }
             }
@@ -2357,10 +2496,6 @@
                     "usuario_id": {
                         "description": "ID del entrenador",
                         "type": "integer"
-                    },
-                    "activo": {
-                        "description": "Si el equipo está activo",
-                        "type": "boolean"
                     },
                     "stats": {
                         "properties": {
@@ -2644,8 +2779,7 @@
                 "required": [
                     "nombre_completo",
                     "email",
-                    "perfil_id",
-                    "activo"
+                    "perfil_id"
                 ],
                 "properties": {
                     "id": {
@@ -2664,10 +2798,6 @@
                     "perfil_id": {
                         "type": "integer",
                         "example": 2
-                    },
-                    "activo": {
-                        "type": "boolean",
-                        "example": true
                     },
                     "usuario_creador_id": {
                         "type": "integer",
@@ -2738,10 +2868,6 @@
             "description": "Operaciones relacionadas con los jugadores"
         },
         {
-            "name": "Login",
-            "description": "Operaciones relacionadas con el logueo"
-        },
-        {
             "name": "Partidos",
             "description": "Operaciones relacionadas con los partidos"
         },
@@ -2764,6 +2890,10 @@
         {
             "name": "Incidencias",
             "description": "Incidencias"
+        },
+        {
+            "name": "Login",
+            "description": "Login"
         }
     ]
 }

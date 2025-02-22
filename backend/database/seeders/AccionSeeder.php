@@ -15,19 +15,79 @@ class AccionSeeder extends Seeder
     {
         // Mapeo de secciones con sus acciones
         $acciones_por_seccion = [
-            'Torneo' => ['comienzoTorneo', 'reinicioTorneo'],
-            'Centros' => ['show', 'store', 'update', 'destroy'],
-            'Ciclos' => ['show', 'store', 'update', 'destroy'],
-            'Publicaciones' => ['store'],
-            'Estudios' => ['index', 'store', 'destroy'],
-            'Familias' => ['index', 'store', 'update', 'destroy'],
-            'Inscripciones' => ['index', 'cambiarEstado'],
-            'Partidos' => ['destroy'],
-            'Usuarios' => ['index', 'update', 'store'],
-            'Retos' => ['store', 'update', 'destroy'],
-            'Actas' => ['index', 'store', 'update'],
-            'Pabellones' => ['index', 'show'],
-            'Imágenes' => ['index', 'store', 'destroy']
+            'Torneo' => [
+                'comienzoTorneo',
+                'reinicioTorneo'
+            ],
+            'Centros' => [
+                'show',
+                'store',
+                'update',
+                'destroy',
+                'getListaCentros'
+            ],
+            'Ciclos' => [
+                'show',
+                'store',
+                'update',
+                'destroy',
+                'getListaCiclos'
+            ],
+            'Publicaciones' => [
+                'store',
+                'update',
+                'getListaPublicacionModelos'
+            ],
+            'Estudios' => [
+                'index',
+                'store',
+                'destroy',
+                'getListaEstudios'
+            ],
+            'Familias' => [
+                'index',
+                'store',
+                'update',
+                'destroy',
+                'getListaFamilias'
+            ],
+            'Inscripciones' => [
+                'index',
+                'cambiarEstado',
+                'getListaIncidencias'
+            ],
+            'Partidos' => [
+                'destroy',
+                'getListaTipoPartido',
+                'getListaJugadores'
+            ],
+            'Usuarios' => [
+                'index',
+                'update',
+                'store',
+                'destroy'
+            ],
+            'Retos' => [
+                'store',
+                'update',
+                'destroy'
+            ],
+            'Actas' => [
+                'index',
+                'store',
+                'update'
+            ],
+            'Pabellones' => [
+                'index',
+                'show'
+            ],
+            'Imágenes' => [
+                'index',
+                'store',
+                'destroy',
+                'uploadFoto',
+                'getListaImagenModelos'
+            ]
         ];
 
         // Obtener los IDs de las secciones existentes

@@ -8,15 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UsuarioResource;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Info(title="API Logueo", version="1.0", description="Endpoints para gestión de logueo",
- * @OA\Server(url="http://localhost:8000"),
- * @OA\Contact(email="email@gmail.com")),
- * @OA\Tag(
- *     name="Login",
- *     description="Operaciones relacionadas con el logueo"
- * )
- */
+
 class LoginController extends Controller
 {
     /**

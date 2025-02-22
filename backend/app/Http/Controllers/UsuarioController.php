@@ -7,10 +7,12 @@ use App\Http\Resources\UsuarioResource;
 use App\Http\Requests\UsuarioRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
- * @OA\Tag(name="Usuarios", description="Endpoints para gestión de usuarios")
+ * @OA\Tag(
+ *     name="Usuarios",
+ *     description="Endpoints para gestión de usuarios"
+ * )
  */
 class UsuarioController extends Controller
 {
@@ -19,6 +21,7 @@ class UsuarioController extends Controller
      *     path="/api/usuarios",
      *     summary="Listar usuarios",
      *     tags={"Usuarios"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de usuarios obtenida correctamente",
@@ -32,7 +35,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id', 'activo')
+        $usuarios = Usuario::select('id', 'nombre_completo', 'email', 'perfil_id')
             ->with('perfil.secciones')
             ->get();
 
@@ -50,10 +53,45 @@ class UsuarioController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/usuarios",
+     *     summary="Crear un usuario",
+     *     tags={"Usuarios"},
+     *     security={{"sanctum":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Usuario")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Usuario creado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No se ha podido crear el usuario"
+     *     )
+     * )
+     */
+    public function store(UsuarioRequest $request)
+    {
+        $data = $request->only(['nombre_completo', 'email', 'perfil_id', 'password']);
+        $data['password'] = Hash::make($data['password']);
+
+        $usuario = Usuario::create($data);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Usuario creado correctamente',
+            'usuario' => new UsuarioResource($usuario)
+        ], 201);
+    }
+
+    /**
      * @OA\Put(
      *     path="/api/usuarios/{id}",
      *     summary="Actualizar un usuario",
      *     tags={"Usuarios"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -77,78 +115,111 @@ class UsuarioController extends Controller
      */
     public function update(UsuarioRequest $request, Usuario $usuario)
     {
-        $data = $request->only(['nombre_completo', 'email', 'perfil_id', 'activo']);
-
-        if ($usuario->update($data)) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Usuario actualizado correctamente',
-                'usuario' => new UsuarioResource($usuario)
-            ], 200);
-        }
+        $data = $request->only(['nombre_completo', 'email', 'perfil_id']);
+        $usuario->update($data);
 
         return response()->json([
-            'status' => 'error',
-            'message' => 'No se ha podido actualizar el usuario.'
-        ], 400);
+            'status' => 'success',
+            'message' => 'Usuario actualizado correctamente',
+            'usuario' => new UsuarioResource($usuario)
+        ], 200);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/usuarios/{id}",
+     *     summary="Eliminar un usuario",
+     *     tags={"Usuarios"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Usuario eliminado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado"
+     *     )
+     * )
+     */
+    public function destroy(Usuario $usuario)
+    {
+        $usuario->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Estudio eliminado correctamente'
+        ], 200);
     }
 
     /**
      * @OA\Post(
-     *     path="/api/usuarios",
-     *     summary="Crear un usuario",
+     *     path="/api/set-password/{id}/{token}",
+     *     summary="Establecer una nueva contraseña con un token",
      *     tags={"Usuarios"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del usuario",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="token",
+     *         in="path",
+     *         required=true,
+     *         description="Token de restablecimiento de contraseña",
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Usuario")
+     *         @OA\JsonContent(
+     *             required={"password", "password_confirmation"},
+     *             @OA\Property(property="password", type="string", format="password", example="password123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="password123")
+     *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
-     *         description="Usuario creado correctamente"
+     *         response=200,
+     *         description="Contraseña establecida correctamente"
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="No se ha podido crear el usuario"
+     *         response=403,
+     *         description="Token inválido o ya utilizado"
      *     )
      * )
      */
-    public function store(UsuarioRequest $request)
-    {
-        $data = $request->only(['nombre_completo', 'email', 'perfil_id', 'activo', 'password']);
-        $data['password'] = Hash::make($data['password']);
-
-        $u = Usuario::create($data);
-
-        if ($u) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Usuario creado correctamente',
-                'usuario' => new UsuarioResource($u)
-            ], 201);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No se ha podido crear el usuario.'
-        ], 400);
-    }
-
     public function setPassword(Request $request, $id, $token)
     {
         $request->validate([
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $usuario = Usuario::where('id', $id)->where('remember_token', $token)->first();
+        $usuario = Usuario::find($id);
 
         if (!$usuario) {
             return response()->json([
-                'message' => 'Token inválido o usuario no encontrado',
+                'message' => 'Usuario no encontrado',
+                'status'  => 'error'
+            ], 404);
+        }
+
+        if ($usuario->remember_token !== $token) {
+            return response()->json([
+                'message' => 'Token inválido o ya utilizado',
                 'status'  => 'error'
             ], 403);
         }
 
-        $usuario->password = bcrypt($request->password);
+        $usuario->password = Hash::make($request->password);
+
+        $usuario->remember_token = null;
         $usuario->save();
 
         return response()->json([
