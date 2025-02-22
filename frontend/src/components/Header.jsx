@@ -4,8 +4,6 @@ import { SeguridadContext } from "../contexts/SeguridadProvider";
 import YouTubeLiveIndicator from "./YouTubeLiveIndicator";
 import { useLocation } from "react-router-dom";
 import "./css/Header.css";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import LoginModal from './LoginModal';
 
 function Header() {
@@ -14,10 +12,10 @@ function Header() {
 
   const [isSidenavActive, setIsSidenavActive] = useState(false); // Estado para manejar el toggle del sidenav
   const isActive = (path) => (location.pathname === path ? "active" : "");
+  const [showModal, setShowModal] = useState(false);
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   // Función para manejar el toggle del sidenav
   const toggleSidenav = () => {
@@ -28,6 +26,10 @@ function Header() {
 
   const toggleSubMenu = () => {
     setIsSubMenuActive(prevState => !prevState);
+  };
+
+  const toggleModal = () => {
+    setShowModal(prevState => !prevState);
   };
 
 
@@ -152,19 +154,20 @@ function Header() {
               </button>
             )}
           </div>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Iniciar sesión</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <LoginModal handleClose={handleClose} />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Cerrar
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          {showModal && (
+            <>
+              <div className="modal-backdrop fade show"></div>
+              <div className="modal fade show d-block" tabIndex="-1">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-body">
+                      <LoginModal handleClose={handleClose} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
