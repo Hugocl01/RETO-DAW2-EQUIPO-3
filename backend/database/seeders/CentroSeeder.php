@@ -20,12 +20,12 @@ class CentroSeeder extends Seeder
 
         Centro::create([
             'nombre' => 'IES Miguel Herrero Pereda',
-            'landing_page' => 'https://www.educantabria.es/centros/buscador-de-centros/39009456-ies-besaya'
+            'landing_page' => 'https://www.educantabria.es/web/ies-miguel-herrero-pereda'
         ]);
 
         Centro::create([
             'nombre' => 'IES Besaya',
-            'landing_page' => 'https://www.educantabria.es/web/ies-miguel-herrero-pereda'
+            'landing_page' => 'https://www.educantabria.es/web/ies-besaya'
         ]);
     }
 }
