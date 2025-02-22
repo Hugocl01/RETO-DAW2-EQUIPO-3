@@ -56,7 +56,6 @@ class Jugador extends Model
         'dni',
         'email',
         'telefono',
-        'activo',
     ];
 
     // Relationship with Equipo

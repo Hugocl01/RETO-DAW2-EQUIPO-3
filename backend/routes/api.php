@@ -33,139 +33,85 @@ use App\Http\Controllers\TorneoController;
 |
 */
 
-// Ruta para obtener el usuario autenticado (usando Sanctum)
-Route::middleware('auth:sanctum')->get('/usuario', function (Request $request) {
-    return $request->user();
-});
-
-//                                Ruta para login __invoke | ruta /logout
-/** <---------------------------------------------------------------------------------------> */
-
+// RUTAS PÚBLICAS
 Route::post('/login', LoginController::class);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
-/** <---------------------------------------------------------------------------------------> */
-
-
-
-
-//                                 Rutas de la API PÚBLICA
-/** <---------------------------------------------------------------------------------------> */
-
-// Donaciones
 Route::apiResource('donaciones', DonacionController::class)->only(['index']);
-
-// Ciclos
 Route::apiResource('ciclos', CicloController::class)->only(['index']);
-
-// Retos
 Route::apiResource('retos', RetoController::class)->only(['index', 'show']);
-
-// Centros
 Route::apiResource('centros', CentroController::class)->only(['index']);
-
-// Equipos
 Route::apiResource('equipos', EquipoController::class)->only(['index', 'show']);
-
-// Jugadores
 Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show']);
+Route::apiResource('partidos', PartidoController::class)->only(['index', 'show']);
+Route::apiResource('estudios', EstudioController::class)->only(['index']);
+Route::apiResource('publicaciones', PublicacionController::class)->only(['index', 'show']);
 
-// Partidos
-Route::apiResource('partidos', PartidoController::class)->only('index', 'show');
-
-// Estudios
-Route::apiResource('estudios', EstudioController::class)->only('index');
-
-// Clasificaciones
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
 Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
 
-/** <---------------------------------------------------------------------------------------> */
 
 
-
-
-//                                  Funcionalidades Inscripcion
-/** <---------------------------------------------------------------------------------------> */
+// Funcionalidades de Inscripción
 Route::post('/set-password/{id}/{token}', [UsuarioController::class, 'setPassword']);
-
 Route::get('/confirmarInscripcion/{inscripcion}/{rol}/{token}', [InscripcionController::class, 'confirmarInscripcion'])
     ->name('confirmarInscripcion');
 
 Route::get('/inscripcion-confirmada', function () {
-    // Simplemente devolvemos una vista (que crearemos en el siguiente paso)
     return view('inscripcion.confirmada');
 })->name('inscripcion.confirmada.view');
 
-/** <---------------------------------------------------------------------------------------> */
 
 
 
+// RUTAS PRIVADAS
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('usuarios', UsuarioController::class)
+        ->middleware('ability:Usuarios.index,Usuarios.store,Usuarios.update,Usuarios.destroy');
 
-//                                      RUTAS PRIVADAS
-/** <---------------------------------------------------------------------------------------> */
+    Route::apiResource('ciclos', CicloController::class)->except(['index']);
+    Route::get('/lista/ciclos', [CicloController::class, 'getListaCiclos'])
+        ->middleware('ability:Ciclos.store,Ciclos.update,Ciclos.destroy');
 
-Route::apiResource('usuarios', UsuarioController::class)->middleware('auth:sanctum');
+    Route::apiResource('centros', CentroController::class)->except(['index'])
+        ->middleware('ability:Centros.store,Centros.update,Centros.destroy');
+    Route::get('/lista/centros', [CentroController::class, 'getListaCentros']);
 
-// Ciclos
-Route::apiResource('ciclos', CicloController::class)->except(['index'])->middleware('auth:sanctum');
-Route::get('/lista/ciclos', [CicloController::class, 'getListaCiclos'])->middleware('auth:sanctum');
+    Route::apiResource('estudios', EstudioController::class)->except(['index'])
+        ->middleware('ability:Estudios.index,Estudios.show,Estudios.store,Estudios.update,Estudios.destroy');
+    Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios']);
 
-// Centros
-Route::apiResource('centros', CentroController::class)->except('index')->middleware('auth:sanctum');
-Route::get('/lista/centros', [CentroController::class, 'getListaCentros'])->middleware('auth:sanctum');
+    Route::apiResource('equipos', EquipoController::class)->except(['index', 'show']);
+    Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos']);
 
-// Estudios
-Route::apiResource('estudios', EstudioController::class)->except(['index'])->middleware('auth:sanctum');
-Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios'])->middleware('auth:sanctum');
+    Route::apiResource('familias', FamiliaController::class)
+        ->middleware('ability:Familias.index,Familias.show,Familias.store,Familias.update,Familias.destroy');
+    Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias']);
 
-// Equipos
-Route::apiResource('equipos', EquipoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos'])->middleware('auth:sanctum');
+    Route::apiResource('perfiles', PerfilController::class);
+    Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles']);
 
-// Familias
-Route::apiResource('familias', FamiliaController::class)->middleware('auth:sanctum');
-Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias'])->middleware('auth:sanctum');
+    Route::apiResource('donaciones', DonacionController::class)->except(['index']);
 
-// Secciones
-Route::apiResource('secciones', SeccionController::class)->middleware('auth:sanctum');
+    Route::apiResource('jugadores', JugadorController::class)->except(['index', 'show']);
+    Route::get('/lista/jugadores', [JugadorController::class, 'getListaJugadores']);
 
-// Perfiles
-Route::apiResource('perfiles', PerfilController::class)->middleware('auth:sanctum');
-Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles'])->middleware('auth:sanctum');
+    Route::apiResource('retos', RetoController::class)->except(['index', 'show']);
 
-// Donaciones
-Route::apiResource('donaciones', DonacionController::class)->except(['index'])->middleware('auth:sanctum');
+    Route::apiResource('partidos', PartidoController::class)->except(['index', 'show']);
+    Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido']);
 
-// Jugadores
-Route::apiResource('jugadores', JugadorController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::get('/lista/jugadores', [JugadorController::class, 'getListaJugadores'])->middleware('auth:sanctum');
+    Route::apiResource('publicaciones', PublicacionController::class);
+    Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos']);
 
-// Retos
-Route::apiResource('retos', RetoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
+    Route::apiResource('imagenes', ImagenController::class);
+    Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos']);
 
-// Partidos
-Route::apiResource('partidos', PartidoController::class)->except(['index', 'show'])->middleware('auth:sanctum');
-Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido'])->middleware('auth:sanctum');
+    Route::apiResource('inscripciones', InscripcionController::class);
+    Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado']);
 
-// Publicaciones
-Route::apiResource('publicaciones', PublicacionController::class)->middleware('auth:sanctum');
-Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])->middleware('auth:sanctum');
+    Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias']);
 
-// Imagenes
-Route::apiResource('imagenes', ImagenController::class)->middleware('auth:sanctum');
-Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos'])->middleware('auth:sanctum');
-
-// Inscripciones
-Route::apiResource('inscripciones', InscripcionController::class)->middleware('auth:sanctum');
-Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado'])->middleware('auth:sanctum');
-
-// Incidencia
-Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])->middleware('auth:sanctum');
-
-// Torneo
-Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])
-    ->middleware(['auth:sanctum', 'ability:Torneo.comienzoTorneo']);
-
-Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])
-    ->middleware(['auth:sanctum', 'ability:Torneo.reinicioTorneo']);
+    Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo']);
+    Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo']);
+});

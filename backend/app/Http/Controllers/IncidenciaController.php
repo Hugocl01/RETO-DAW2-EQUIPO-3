@@ -4,16 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incidencia;
 
-/**
- * @OA\Info(title="Tu API", version="1.0.0")
- * @OA\SecurityScheme(
- *     securityScheme="BearerAuth",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT",
- *     description="Utiliza un token JWT para autenticarte"
- * )
- */
+
 class IncidenciaController extends Controller
 {
     /**

@@ -19,13 +19,6 @@ class UsuarioRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Si estamos en la ruta 'usuarios.updateActivo', solo validamos el campo 'activo'
-        if ($this->isMethod('put') && $this->route('usuario')) {
-            return [
-                'activo' => 'required|boolean'
-            ];
-        }
-
         return [
             'nombre_completo' => 'required|string|min:3|max:45',
             'email' => 'required|email',
@@ -47,8 +40,6 @@ class UsuarioRequest extends FormRequest
             'email.email' => 'El correo electrónico no es válido.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'activo.required' => 'Este campo es obligatorio.',
-            'activo.boolean' => 'El estado debe ser verdadero o falso.',
             'perfil.required' => 'El perfil debe ser seleccionado.',
         ];
     }
