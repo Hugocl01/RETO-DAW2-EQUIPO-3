@@ -57,4 +57,9 @@ class Perfil extends Model
             ->withPivot('seccion_id')
             ->withTimestamps();
     }
+
+    public static function getLista()
+    {
+        return self::pluck('tipo', 'id');
+    }
 }

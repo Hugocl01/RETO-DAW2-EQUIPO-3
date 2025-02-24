@@ -58,6 +58,9 @@ class AccionSeeder extends Seeder
             'Incidencias' => [
                 'getListaIncidencias',
             ],
+            'Perfiles' => [
+                'getListaPerfiles',
+            ],
             'Partidos' => [
                 'destroy',
                 'getListaTipoPartido',
