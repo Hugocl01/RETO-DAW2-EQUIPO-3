@@ -68,7 +68,7 @@ function CrudCiclos({ onModoCambio }) {
                         <tr key={ciclo.id}>
                             <td>{ciclo.nombre}</td>
                             <td>{ciclo.familia_id?.nombre || "Sin familia"}</td>
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", ciclo)}

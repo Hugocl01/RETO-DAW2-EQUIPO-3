@@ -84,7 +84,7 @@ function CrudPartidos({ onModoCambio }) {
                             <td>{partido.tipo}</td>
                             <td>{partido["goles local"]}</td>
                             <td>{partido["goles visitante"]}</td>
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", partido)}
