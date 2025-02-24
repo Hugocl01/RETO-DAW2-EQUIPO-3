@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import { cargarEstudios } from "../../data/FuncionesCombobox";
@@ -39,8 +39,10 @@ function CrudRetos({ onModoCambio }) {
         setCurrentPage(1);
     };
 
-    // Cargar de los valores del selector del formulario
-    cargarEstudios();
+    // Cargar de los valores en el sessionStorage del selector del formulario
+    useEffect(() => {
+        cargarEstudios();
+    }, []);
 
     if (loading) return <p>Cargando retos...</p>;
     if (error) return <p>Error: {error}</p>;

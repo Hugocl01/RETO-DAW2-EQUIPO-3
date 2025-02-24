@@ -127,7 +127,7 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                 </select>
             </div>
             <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-primary">Guardar</button>
+                <button type="submit" className="btn btn-success">Guardar</button>
                 <button type="button" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
             </div>
         </form>

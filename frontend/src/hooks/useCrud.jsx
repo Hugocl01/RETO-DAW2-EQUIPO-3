@@ -114,7 +114,9 @@ export const useCrud = (seccion) => {
     };
 
     useEffect(() => {
-        if (seccion) fetchItems();
+        if (seccion) {
+            fetchItems();
+        };
     }, [seccion]);
 
     return {
