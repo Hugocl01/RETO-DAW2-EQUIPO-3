@@ -1,17 +1,20 @@
-
 /* Contenedor que contiene toda la carta con la imagen y el nombre */
 .flip-card {
-  width: 90%; 
-  height: 300px; /* Defino la altura para las cartas */
-  margin: auto; /* Para centrar las tarjetas si es necesario */
+  width: 90%;
+  height: 300px;
+  /* Defino la altura para las cartas */
+  margin: auto;
+  /* Para centrar las tarjetas si es necesario */
 }
 
 .flip-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transform-style: preserve-3d; /* Mantiene el efecto 3D */
-  transition: transform 0.5s; /* Transición suave para el giro */
+  transform-style: preserve-3d;
+  /* Mantiene el efecto 3D */
+  transition: transform 0.5s;
+  /* Transición suave para el giro */
 }
 
 /* Parte frontal de la carta (imagen) */
@@ -20,11 +23,13 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden; /* Oculto la parte trasera cuando gire */
+  backface-visibility: hidden;
+  /* Oculto la parte trasera cuando gire */
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.6s ease-in-out; /* Transición de opacidad */
+  transition: opacity 0.6s ease-in-out;
+  /* Transición de opacidad */
 }
 
 /* Imagen en la parte frontal de la carta */
@@ -40,8 +45,10 @@
 
 /* Parte trasera de la carta (nombre) */
 .flip-card-back {
-  background-color:rgb(226, 225, 218); /* Color de fondo */
-  transform: rotateY(180deg); /* Inicialmente está volteada */
+  background-color: rgb(226, 225, 218);
+  /* Color de fondo */
+  transform: rotateY(180deg);
+  /* Inicialmente está volteada */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,13 +65,34 @@
 
 /* Efecto hover: al pasar el ratón sobre la carta, se gira */
 .flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg); 
+  transform: rotateY(180deg);
 }
 
 /* La imagen se quitará al hacer pasar el ratón*/
 .flip-card:hover .flip-card-front img {
-  opacity: 0; 
+  opacity: 0;
 }
 
+.contenedor {
+  width: 85%;
+}
 
+.jugador {
+  width: 100%;
+  max-width: 18em;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nombre strong {
+  font-size: 90%;
+}

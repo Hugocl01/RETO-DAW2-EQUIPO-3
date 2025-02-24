@@ -2,6 +2,7 @@ import { useState, useEffect, useId } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
 import api from "../services/api.js";
 import Spinner from "../components/Spinner.jsx";
+import "./css/Inscribirse.css";
 
 function Inscribirse() {
     const [jugadores, setJugadores] = useState([]);
@@ -19,7 +20,6 @@ function Inscribirse() {
         setContadorJugadores(contadorJugadores + 1);
     };
 
-
     // Función para eliminar jugador
     const eliminarJugador = (id) => {
         const nuevosJugadores = jugadores.filter((jugador) => jugador.id !== id);
@@ -28,8 +28,6 @@ function Inscribirse() {
         }
         setJugadores(nuevosJugadores); // Actualiza el estado con los jugadores restantes
     };
-
-
 
     // Seleccionar capitán
     const handleSetCapitan = (id) => {
@@ -99,8 +97,6 @@ function Inscribirse() {
                 Object.keys(erroresBackend).forEach((clave) => {
                     // CASO 1: la key es exactamente "jugadores"
                     if (clave === "jugadores") {
-                        // Aquí erroresBackend[clave] será tu array de mensajes genéricos
-                        // Ej: [ "Se requiere al menos 10 jugadores.", "Debe haber un capitán" ]
                         nuevosErrores[clave] = erroresBackend[clave];
                         return;
                     }
@@ -108,21 +104,16 @@ function Inscribirse() {
                     // CASO 2: la key empieza por "jugadores." (jugadores.0.nombre_completo, etc.)
                     else if (clave.startsWith("jugadores.")) {
                         const partes = clave.split(".");
-                        // partes[0] = "jugadores"
-                        // partes[1] = "0" (el índice del jugador)
-                        // partes[2] = "nombre_completo" (el campo)
                         const jugadorIndex = parseInt(partes[1], 10);
-                        const campo = partes[2]; // "nombre_completo", "estudio_id", etc.
+                        const campo = partes[2];
 
-                        // Aseguramos que exista en nuevosErrores['jugadores.X']
                         if (!nuevosErrores[`jugadores.${jugadorIndex}`]) {
                             nuevosErrores[`jugadores.${jugadorIndex}`] = {};
                         }
-                        // Si el campo es "estudio_id", lo metes en errores.estudio
+
                         if (campo === "estudio_id") {
                             nuevosErrores[`jugadores.${jugadorIndex}`]["estudio_id"] = erroresBackend[clave][0];
                         } else {
-                            // campo = "nombre_completo", "dni", "email", etc.
                             nuevosErrores[`jugadores.${jugadorIndex}`][campo] = erroresBackend[clave][0];
                         }
                         return;
@@ -133,10 +124,7 @@ function Inscribirse() {
                         nuevosErrores[clave] = erroresBackend[clave][0];
                     }
                 });
-                console.log("Errores procesados:", nuevosErrores);
                 setErrores(nuevosErrores);
-            } else {
-                console.error("Error al enviar el formulario:", error);
             }
         }
     };
@@ -151,7 +139,6 @@ function Inscribirse() {
 
                 const respuestaCentros = await api.get("/lista/centros");
                 if (respuestaCentros.status === 200) {
-                    console.log(respuestaCentros);
                     setCentros(respuestaCentros.data);
                 }
             } catch (error) {

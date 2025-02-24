@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import YouTubeLiveIndicator from "./YouTubeLiveIndicator";
@@ -11,31 +11,44 @@ function Header() {
   const location = useLocation();
 
   const [isSidenavActive, setIsSidenavActive] = useState(false); // Estado para manejar el toggle del sidenav
-  const isActive = (path) => (location.pathname === path ? "active" : "");
   const [showModal, setShowModal] = useState(false);
+  const sidenavRef = useRef(null);
+  const isActive = (path) => (location.pathname === path ? "active" : "");
+  const [isSubMenuActive, setIsSubMenuActive] = useState(false);
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
 
   // Función para manejar el toggle del sidenav
   const toggleSidenav = () => {
     setIsSidenavActive(prevState => !prevState);
   };
 
-  const [isSubMenuActive, setIsSubMenuActive] = useState(false);
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   const toggleSubMenu = () => {
     setIsSubMenuActive(prevState => !prevState);
   };
 
-  const toggleModal = () => {
-    setShowModal(prevState => !prevState);
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidenavRef.current && !sidenavRef.current.contains(event.target)) {
+        setIsSidenavActive(false);
+      }
+    };
+
+    if (isSidenavActive) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isSidenavActive]);
 
 
   return (
-    <header className="p-3">
-      <div className="contenidoCabecera container">
+    <header>
+      <div className="contenidoCabecera container p-3">
         <div className="w-100 d-flex align-items-center justify-content-between gap-3" id="contenidoHeader">
           {/* Logo con enlace a la página principal */}
           <div className="flex-grow-0" id="logo">
@@ -171,7 +184,7 @@ function Header() {
         </div>
       </div>
 
-      <div className="sidebar">
+      <div className="sidebar p-2" ref={sidenavRef} onClick={(e) => e.stopPropagation()}>
         <div className="flex-grow-0" id="logoSidebar">
           <Link to="/">
             <img src="../src/assets/imagenes/logo.png" alt="Logo" />
@@ -179,49 +192,46 @@ function Header() {
         </div>
 
         <div>
-          <nav id="sidenav-1" className={`sidenav ${isSidenavActive ? "active" : ""}`}>
+          <nav id="sidenav-1" className={`sidenav ${isSidenavActive ? "active" : ""}`} onClick={(e) => e.stopPropagation()}>
             <ul className="nav col-13 col-lg-auto me-lg-auto mb-3 d-flex flex-column justify-content-start align-items-start mb-md-0 p-4">
               <li>
-                <Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                <Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu" onClick={toggleSidenav}>
                   INICIO
                 </Link>
               </li>
-
               <li>
-                <Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                <Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu" onClick={toggleSidenav}>
                   EQUIPOS
                 </Link>
               </li>
-
               <li className="nav-item">
                 <Link to="#" className={`nav-link px-2 link-body-emphasis ${isActive("/torneo")}`} id="elementoMenu" onClick={toggleSubMenu}>
                   TORNEO
                 </Link>
                 <ul className={`submenu ${isSubMenuActive ? "active" : ""}`} style={{ maxHeight: isSubMenuActive ? "500px" : "0", opacity: isSubMenuActive ? "1" : "0" }}>
                   <li>
-                    <Link to="/partidos" className="nav-link px-2 link-body-emphasis">RESULTADOS</Link>
+                    <Link to="/partidos" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>RESULTADOS</Link>
                   </li>
                   <li>
-                    <Link to="/clasificacion" className="nav-link px-2 link-body-emphasis">CLASIFICACIÓN</Link>
+                    <Link to="/clasificacion" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>CLASIFICACIÓN</Link>
                   </li>
                   <li>
-                    <Link to="/estadisticas" className="nav-link px-2 link-body-emphasis">ESTADÍSTICAS</Link>
+                    <Link to="/estadisticas" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>ESTADÍSTICAS</Link>
                   </li>
                 </ul>
               </li>
-
               <li>
-                <Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive("/organizacion")}`} id="elementoMenu">
+                <Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive("/organizacion")}`} id="elementoMenu" onClick={toggleSidenav}>
                   ORGANIZACIÓN
                 </Link>
               </li>
               <li>
-                <Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu">
+                <Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu" onClick={toggleSidenav}>
                   GALERÍA
                 </Link>
               </li>
               <li>
-                <Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu">
+                <Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu" onClick={toggleSidenav}>
                   INSCRIBIRSE
                 </Link>
               </li>
@@ -240,28 +250,24 @@ function Header() {
                       <h2 className="dropdown-header">{seguridad.user.name}</h2>
                     </li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><Link to="/administracion" className="dropdown-item">Administración</Link></li>
-                    <li><Link to="/perfil" className="dropdown-item">Perfil</Link></li>
+                    <li><Link to="/administracion" className="dropdown-item" onClick={toggleSidenav}>Administración</Link></li>
+                    <li><Link to="/perfil" className="dropdown-item" onClick={toggleSidenav}>Perfil</Link></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="" onClick={logout}>Cerrar sesión</a></li>
                   </ul>
                 </div>
               ) : (
-                <Link to="/login" className="btn btn-primary text-black ms-2 text-white">
+                <Link to="/login" className="btn btn-primary text-black ms-2 text-white" onClick={toggleSidenav}>
                   Iniciar sesión
                 </Link>
               )}
             </div>
           </nav>
-          {/* boton para mostrar el sidenav */}
-          <button
-            id="sidenav-toggle"
-            className={`toggler-btn ${isSidenavActive ? "active" : ""}`}
-            onClick={toggleSidenav}
-          >
+          <button id="sidenav-toggle" className={`toggler-btn ${isSidenavActive ? "active" : ""}`} onClick={toggleSidenav}>
             <i className={`bi bi-list ${isSidenavActive ? "text-dark" : "text-dark"}`}></i>
           </button>
         </div>
+        {isSidenavActive && <div className="backdrop" onClick={toggleSidenav}></div>}
       </div>
     </header>
   );

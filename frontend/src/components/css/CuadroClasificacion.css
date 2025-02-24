@@ -1,0 +1,6 @@
+  /* En pantallas pequeñas, forzar scroll horizontal */
+  @media (max-width: 768px) {
+      .table {
+          width: 40%;
+      }
+  }

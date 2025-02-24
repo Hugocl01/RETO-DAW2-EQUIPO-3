@@ -1,8 +1,19 @@
 import { useState } from "react";
+import "./css/Inscribirse.css";
+import "./css/JugadorLabel.css";
 
 function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled, errores, estudios, numeroJugador }) {
+    const [animating, setAnimating] = useState(false);
+
+    const handleDelete = () => {
+        setAnimating(true);
+        setTimeout(() => {
+            onRemove(id);
+        }, 300); 
+    };
+
     return (
-        <div className="d-flex justify-content-flex align-items-center">
+        <div className={`d-flex justify-content-flex align-items-center ${animating ? 'fade-out' : ''}`}>
             <div className="card p-3 mb-4 bg-light col-11" id={`jugador-${id}`}>
                 <div className="w-100 bg-primary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
                     <h5 className="m-0">Jugador {numeroJugador}</h5>
@@ -24,7 +35,8 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                     <div className="col">
                         <label>Nombre Completo: *</label>
                         <input type="text" className="form-control" name="nombre_completo" />
-                        <span className="text-danger small">{errores?.nombre_completo}</span>                    </div>
+                        <span className="text-danger small">{errores?.nombre_completo}</span>
+                    </div>
                     <div className="col">
                         <label>Estudio: *</label>
                         <select className="form-select" name="estudio_id">
@@ -38,9 +50,9 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                         {errores?.estudio && (
                             <span className="text-danger small">{errores?.estudio}</span>
                         )}
+
                     </div>
                 </div>
-
                 {esCapitan && (
                     <div className="row mt-3">
                         <div className="col">
@@ -66,13 +78,24 @@ function JugadorLabel({ id, esCapitan, onRemove, onSetCapitan, isCapitanDisabled
                         </div>
                     </div>
                 )}
+
+                {/* Botón de eliminar debajo de todos los campos */}
+                <div className="d-flex justify-content-left mt-3">
+                    <button
+                        className="btn btn-danger"
+                        onClick={handleDelete}
+                        id="botonEliminarResponsive"
+                    >
+                        Eliminar Jugador
+                    </button>
+                </div>
             </div>
 
-            <div>
+            <div className="eliminar">
                 <i
                     className="bi bi-trash text-danger fs-4 m-5"
                     style={{ cursor: "pointer" }}
-                    onClick={() => onRemove(id)} // Pasar el id para eliminar el jugador correctamente
+                    onClick={handleDelete} 
                 ></i>
             </div>
         </div>
