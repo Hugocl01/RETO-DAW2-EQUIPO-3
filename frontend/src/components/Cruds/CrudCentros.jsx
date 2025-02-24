@@ -72,7 +72,7 @@ function CrudCentros({ onModoCambio }) {
                                     {centro.landing_page}
                                 </a>
                             </td>
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", centro)}

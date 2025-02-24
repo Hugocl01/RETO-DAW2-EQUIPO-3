@@ -70,7 +70,7 @@ function CrudEstudios({ onModoCambio }) {
                             <td>{estudio.centro}</td>
                             <td>{estudio.ciclo}</td>
                             <td>{estudio.curso}</td>
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", estudio)}

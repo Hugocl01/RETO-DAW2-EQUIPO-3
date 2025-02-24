@@ -51,7 +51,6 @@ function AdministracionPage() {
     // Función que se pasa al menú y se ejecuta al seleccionar una sección.
     const handleMenuSelect = (seccionSeleccionada) => {
         const seccionNombreSlug = generateSlug(seccionSeleccionada.nombre);  // Aseguramos que el nombre se convierte a slug
-        console.log(seccionNombreSlug)
         setSelectedSeccion(seccionNombreSlug);
         // Navega a la ruta correspondiente con slug sin tildes
         navigate(`/administracion/${seccionNombreSlug}`);

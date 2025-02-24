@@ -68,7 +68,7 @@ function CrudPublicaciones({ onModoCambio }) {
                             <td>{publicacion.portada}</td>
                             <td>{publicacion.contenido}</td>
                             {<td>{publicacion.seccion}</td>}
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", publicacion)}
