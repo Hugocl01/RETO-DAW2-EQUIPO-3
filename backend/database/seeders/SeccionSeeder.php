@@ -16,6 +16,7 @@ class SeccionSeeder extends Seeder
         $secciones = [
             ['nombre' => 'Torneo', 'descripcion' => 'Comienzo o Reinicio de Torneo.'],
             ['nombre' => 'Incidencias', 'descripcion' => 'TEST'],
+            ['nombre' => 'Perfiles', 'descripcion' => 'TEST'],
             ['nombre' => 'Equipos', 'descripcion' => 'Gestión de los equipos participantes en el torneo.'],
             ['nombre' => 'Jugadores', 'descripcion' => 'Gestión de los jugadores y roles dentro de los equipos.'],
             ['nombre' => 'Partidos', 'descripcion' => 'Registro de los partidos, horarios y resultados.'],
