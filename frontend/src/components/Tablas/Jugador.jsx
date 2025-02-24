@@ -18,28 +18,36 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
   }
   return (
     <div className="row border-bottom py-2" onClick={handleCLickNavegarJugador}>
-      <div className="col-3 d-flex flex-row justify-content-center text-center">
-        <div className="d-flex flex-row w-75 ">
-        <img
-          src="../src/assets/imagenes/img1.jpg"
-          alt={`imagen${jugador.equipo}`}
-          style={{ width: "20%" }}
-          data-tooltip-id="imgEquipo"
-          data-tooltip-content={jugador.equipo}
-          data-tooltip-float
-          onClick={handleClickNavegarEquipo}
-        />
-        <Tooltip id="imgEquipo"></Tooltip>
-        <p className="mx-3">{jugador.nombre}</p>
+      {/* Columna para la imagen y el nombre del jugador */}
+      <div className="col-6 d-flex flex-row justify-content-center text-center">
+        <div className="d-flex flex-row w-75">
+          <img
+            src="../src/assets/imagenes/img1.jpg"
+            alt={`imagen${jugador.equipo}`}
+            style={{ width: "20%" }}
+            data-tooltip-id="imgEquipo"
+            data-tooltip-content={jugador.equipo}
+            data-tooltip-float
+            onClick={handleClickNavegarEquipo}
+          />
+          <Tooltip id="imgEquipo"></Tooltip>
+          <p className="m-0 justify-self-center text-center  w-100 h5">{jugador.nombre}</p> 
         </div>
       </div>
-      <div className="col-3 text-center">{jugador.stats.goles}</div>
-      <div className="col-3 text-center">
+  
+      {/* Columnas para estadísticas del jugador */}
+      <div className="col-2 text-center h5">
+        {jugador.stats.goles}
+      </div>
+      <div className="col-2 text-center h5">
         {jugador.stats.tarjetas_amarillas}
       </div>
-      <div className="col-3 text-center">{jugador.stats.tarjetas_rojas}</div>
+      <div className="col-2 text-center h5">
+        {jugador.stats.tarjetas_rojas}
+      </div>
     </div>
   );
+  
 }
 
 export default Jugador;

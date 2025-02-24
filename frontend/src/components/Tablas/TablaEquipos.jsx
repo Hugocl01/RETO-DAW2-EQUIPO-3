@@ -3,7 +3,7 @@ import api from "../../services/api";
 import Spinner from "../Spinner";
 import { useNavigate } from "react-router-dom";
 import Equipo from "../Tablas/Equipo";
-import "../../components/css/Tabla.css"
+import "../../components/css/Tabla.css";
 
 function TablaEquipos() {
   const [equipos, setEquipos] = useState();
@@ -83,11 +83,11 @@ function TablaEquipos() {
       <div className="container-fluid mt-5">
         {/* Cabecera */}
         <div className="row bg-primary text-white rounded-top border-bottom py-2">
-          <div className="col-3 text-center font-weight-bold justify-content-center">
+          <div className="col-6 text-center font-weight-bold justify-content-center h5">
             Equipo
           </div>
           <div
-            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer "
+            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
             data-campo="goles"
             onClick={ordenarCampo}
           >
@@ -101,7 +101,7 @@ function TablaEquipos() {
             </div>
           </div>
           <div
-            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
             data-campo="tarjetas_amarillas"
             onClick={ordenarCampo}
           >
@@ -118,7 +118,7 @@ function TablaEquipos() {
             </div>
           </div>
           <div
-            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
             data-campo="tarjetas_rojas"
             onClick={ordenarCampo}
           >
