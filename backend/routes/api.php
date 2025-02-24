@@ -89,29 +89,38 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias']);
 
     Route::apiResource('perfiles', PerfilController::class);
-    Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles']);
+    Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles'])
+        ->middleware('ability:Perfiles.getListaPerfiles');
 
-    Route::apiResource('donaciones', DonacionController::class)->except(['index']);
+    Route::apiResource('donaciones', DonacionController::class)->except(['index'])
+        ->middleware('ability:Donaciones.store,Donaciones.update,Donaciones.destroy');
 
     Route::apiResource('jugadores', JugadorController::class)->except(['index', 'show']);
     Route::get('/lista/jugadores', [JugadorController::class, 'getListaJugadores']);
 
-    Route::apiResource('retos', RetoController::class)->except(['index', 'show']);
+    Route::apiResource('retos', RetoController::class)->except(['index', 'show'])
+        ->middleware('ability:Retos.store,Retos.update,Retos.destroy');
 
     Route::apiResource('partidos', PartidoController::class)->except(['index', 'show']);
-    Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido']);
+    Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido'])
+        ->middleware('ability:Partidos.getListaTipoPartido');
 
-    Route::apiResource('publicaciones', PublicacionController::class);
-    Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos']);
+    Route::apiResource('publicaciones', PublicacionController::class)
+        ->middleware('ability:Publicaciones.store,Publicaciones.update');
+    Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])
+        ->middleware('ability:Publicaciones.getListaPublicacionModelos');
 
     Route::apiResource('imagenes', ImagenController::class);
-    Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos']);
+    Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos'])
+        ->middleware('ability:Imagenes.getListaImagenModelos');
 
     Route::apiResource('inscripciones', InscripcionController::class);
-    Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado']);
+    Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado'])
+        ->middleware('ability:Inscripciones.cambiarEstado');
 
-    Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias']);
+    Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])
+        ->middleware('ability:Incidencias.getListaIncidencias');
 
-    Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo']);
-    Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo']);
+    Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
+    Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
 });

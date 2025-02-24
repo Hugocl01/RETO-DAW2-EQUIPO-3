@@ -54,7 +54,9 @@ class AccionSeeder extends Seeder
             'Inscripciones' => [
                 'index',
                 'cambiarEstado',
-                'getListaIncidencias'
+            ],
+            'Incidencias' => [
+                'getListaIncidencias',
             ],
             'Partidos' => [
                 'destroy',
