@@ -92,11 +92,11 @@ function TablaJugadores() {
       <div className="container-fluid mt-5">
         {/* Cabecera */}
         <div className="row bg-primary text-white rounded-top border-bottom py-2">
-          <div className="col-3 tabla text-center font-weight-bold cursor-pointer ">
+          <div className="col-6 tabla text-center font-weight-bold cursor-pointer h5">
             Nombre
           </div>
           <div
-            className="col-3 d-flex flex-row justify-content-center align-items-center cursor-pointer "
+            className="col-2 d-flex flex-row justify-content-center align-items-center cursor-pointer h5"
             data-campo="goles"
             onClick={ordenarCampo}
           >
@@ -110,12 +110,14 @@ function TablaJugadores() {
             </div>
           </div>
           <div
-            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
             data-campo="tarjetas_amarillas"
             onClick={ordenarCampo}
           >
             <div className="d-flex flex-row w-50 justify-content-center">
-              <p className="font-weight-bold h-100 text-center mx-2">Tarjetas Amarillas</p>
+              <p className="font-weight-bold h-100 text-center mx-2">
+                Tarjetas Amarillas
+              </p>
               {orden.direccion === "asc" && orden.campo === "tarjetas_amarillas" ? (
                 <i className="bi bi-arrow-down"></i>
               ) : (
@@ -124,7 +126,7 @@ function TablaJugadores() {
             </div>
           </div>
           <div
-            className="col-3 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer"
+            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
             data-campo="tarjetas_rojas"
             onClick={ordenarCampo}
           >
