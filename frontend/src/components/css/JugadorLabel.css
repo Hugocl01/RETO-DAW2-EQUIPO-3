@@ -1,0 +1,13 @@
+#botonEliminarResponsive {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .eliminar {
+        display: none;
+    }
+
+    #botonEliminarResponsive {
+        display: block;
+    }
+}

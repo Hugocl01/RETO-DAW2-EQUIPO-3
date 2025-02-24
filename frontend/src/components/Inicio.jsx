@@ -159,19 +159,21 @@ function Inicio() {
                 <div className="row m-5">
                     <div className="col-sm-6 mb-3 mb-sm-0">
                         <div className="card text-center">
-                            <div className="card-body">
+                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
                                 <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
                                 <h2>Total Recaudado</h2>
                                 <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-6 mb-3 mb-sm-0">
                         <div className="card text-center">
-                            <div className="card-body">
+                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
                                 <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
                                 <h2>Como Donar</h2>
-                                <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
+                                <div>
+                                    <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -93,7 +93,7 @@ a {
 }
 
 #patrocinadores h1 {
-    margin-top: 0; 
+    margin-top: 0;
 }
 
 #patrocinadores img {
@@ -107,6 +107,28 @@ a {
 
 .card text-center {
     width: 18em;
+}
+
+.donaciones .card-body {
+    height: 19em;
+}
+
+.card-body a:hover {
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @media (max-width: 770px) {

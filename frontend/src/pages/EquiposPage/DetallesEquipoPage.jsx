@@ -36,13 +36,11 @@ function DetallesEquipoPage() {
   return (
     <>
       <title>Detalles del Equipo</title>
-      <section className="container-fluid py-5 w-75">
-
+      <section className="contenedor container-fluid py-5">
         <div className="row">
-
           {/* Sección de información del equipo */}
           <section id="infoEquipo" className="col-md-4 p-0 d-flex flex-column">
-            <div className="card shadow-sm border-light rounded">
+            <div className="card shadow-sm border-light rounded p-3">
               <div className="card-body text-center">
                 <h2 className="card-title mb-3 w-100 bg-primary text-white py-2 rounded-3">
                   Equipo {equipo.nombre}
@@ -73,8 +71,8 @@ function DetallesEquipoPage() {
           </section>
 
           {/* Sección de jugadores */}
-          <section id="jugadores" className="col-md-8 ">
-            <div className="card shadow-sm border-light rounded">
+          <section id="jugadores" className="col-md-8">
+            <div className="card shadow-sm border-light rounded p-3">
               <div className="card-body text-center">
                 <h2 className="card-title mb-3 w-100 bg-primary text-white py-2 rounded-3">
                   Jugadores
@@ -87,7 +85,7 @@ function DetallesEquipoPage() {
                     className="col-12 col-sm-6 col-md-3 mb-4 d-flex justify-content-center align-items-center"
                     onClick={() => navegarDetalleJugador(valor.slug)}
                   >
-                    <div className="flip-card shadow-sm">
+                    <div className="jugador flip-card shadow-sm">
                       <div className="flip-card-inner">
                         {/* Parte frontal de la carta (imagen) */}
                         <div className="flip-card-front">
@@ -98,7 +96,7 @@ function DetallesEquipoPage() {
                           />
                         </div>
                         {/* Parte posterior de la carta (nombre del jugador) */}
-                        <div className="flip-card-back d-flex justify-content-center align-items-center">
+                        <div className="nombre flip-card-back d-flex justify-content-center align-items-center">
                           <p>
                             <strong>{valor.nombre}</strong>
                           </p>

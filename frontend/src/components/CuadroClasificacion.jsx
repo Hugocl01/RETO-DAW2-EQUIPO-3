@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./css/CuadroClasificacion.css";
 
 const CuadroClasificacion = ({ titulo, equipos }) => {
   const [filaSeleccionada, setFilaSeleccionada] = useState(null);
