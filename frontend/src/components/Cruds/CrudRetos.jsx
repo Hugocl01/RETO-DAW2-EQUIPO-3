@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import { cargarEstudios } from "../../data/FuncionesCombobox";
+import Spinner from "../Spinner";
 
 function CrudRetos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
@@ -44,7 +45,7 @@ function CrudRetos({ onModoCambio }) {
         cargarEstudios();
     }, []);
 
-    if (loading) return <p>Cargando retos...</p>;
+    if (loading) return <Spinner/>;
     if (error) return <p>Error: {error}</p>;
 
     return (

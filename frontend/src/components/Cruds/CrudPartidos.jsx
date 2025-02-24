@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
+import Spinner from "../Spinner";
 
 function CrudPartidos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
@@ -40,7 +41,7 @@ function CrudPartidos({ onModoCambio }) {
         setCurrentPage(1); // Reinicia a la primera página en cada búsqueda
     };
 
-    if (loading) return <p>Cargando partidos...</p>;
+    if (loading) return <Spinner />;
     if (error) return <p>Error: {error}</p>;
 
     return (
