@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator"; // Asegúrate de la ruta correcta
+import Spinner from "../Spinner";
 
 function CrudPublicaciones({ onModoCambio }) {
     const seccion = useMemo(() => ({ nombre: "Publicaciones" }), []);
@@ -32,7 +33,7 @@ function CrudPublicaciones({ onModoCambio }) {
         setCurrentPage(1); // Reinicia a la primera página al cambiar la búsqueda
     };
 
-    if (loading) return <p>Cargando publicaciones...</p>;
+    if (loading) return <Spinner />;
     if (error) return <p>Error: {error}</p>;
 
     return (

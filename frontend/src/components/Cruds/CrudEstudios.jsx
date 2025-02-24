@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
+import Spinner from "../Spinner";
 
 function CrudEstudios({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
@@ -36,7 +37,7 @@ function CrudEstudios({ onModoCambio }) {
         setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
     };
 
-    if (loading) return <p>Cargando estudios...</p>;
+    if (loading) return <Spinner />;
     if (error) return <p>Error: {error}</p>;
 
     return (

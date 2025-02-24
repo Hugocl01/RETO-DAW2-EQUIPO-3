@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import api from "../services/api.js";
 
 /**
  * Contexto para gestionar la seguridad de la aplicación.
@@ -79,40 +78,46 @@ function SeguridadProvider({ children }) {
     const login = async (email, password) => {
         setLoading(true);
         try {
-            const response = await api.post('/login', { email, password });
-            console.log(response);
-            if (response.status == 200) {
-                const { token, usuario } = response.data;
+            const response = await fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-                console.log(token)
-                // Guarda en el estado global
-                setSeguridad({
-                    auth: true,
-                    user: usuario,
-                    token: token
-                });
-
-                // Guarda en localStorage
-                localStorage.setItem("token", token);
-                localStorage.setItem("user", JSON.stringify(usuario));
-
-                return { success: true };
+            if (!response.ok) {
+                throw new Error("Credenciales incorrectas o problema al iniciar sesión.");
             }
+
+            const data = await response.json();
+
+            // Si la respuesta es exitosa, obtenemos el token y usuario
+            const { token, usuario } = data;
+
+            // Guarda en el estado global
+            setSeguridad({
+                auth: true,
+                user: usuario,
+                token: token
+            });
+
+            // Guarda en localStorage
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(usuario));
+
+            return { success: true };
         } catch (error) {
             let errorMessage = "Error desconocido";
 
-            if (error.response) {
-                if (error.response.status === 401) {
-                    errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
-                } else if (error.response.status === 500) {
-                    errorMessage = "Error interno del servidor. Inténtalo más tarde.";
-                } else {
-                    errorMessage = error.response.data.message || "Error en la autenticación.";
-                }
-            } else if (error.request) {
+            if (error.message.includes("401")) {
+                errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+            } else if (error.message.includes("500")) {
+                errorMessage = "Error interno del servidor. Inténtalo más tarde.";
+            } else if (error.message.includes("NetworkError")) {
                 errorMessage = "No se pudo conectar con el servidor.";
             } else {
-                errorMessage = error.message;
+                errorMessage = error.message || "Error en la autenticación.";
             }
 
             return { success: false, error: errorMessage };

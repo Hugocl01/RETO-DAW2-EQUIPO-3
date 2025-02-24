@@ -15,6 +15,12 @@ class AccionSeeder extends Seeder
     {
         // Mapeo de secciones con sus acciones
         $acciones_por_seccion = [
+            'Equipos' => [
+                'index'
+            ],
+            'Jugadores' => [
+                'index'
+            ],
             'Torneo' => [
                 'comienzoTorneo',
                 'reinicioTorneo'
@@ -73,6 +79,7 @@ class AccionSeeder extends Seeder
                 'destroy'
             ],
             'Retos' => [
+                'index',
                 'store',
                 'update',
                 'destroy'

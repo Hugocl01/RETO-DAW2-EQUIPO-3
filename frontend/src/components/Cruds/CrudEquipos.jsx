@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator"; // Asegúrate de la ruta correcta
+import Spinner from "../Spinner";
 
 function CrudEquipos({ onModoCambio }) {
   // Memoriza la sección para evitar recrearla en cada render
@@ -36,7 +37,7 @@ function CrudEquipos({ onModoCambio }) {
     setCurrentPage(1); // Reinicia a la primera página en cada búsqueda
   };
 
-  if (loading) return <p>Cargando equipos...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p>Error: {error}</p>;
 
   return (

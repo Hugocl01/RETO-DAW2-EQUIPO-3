@@ -1,18 +1,19 @@
 const url = 'http://127.0.0.1:8000/api/';
 
-//import { cargarCentros, cargarCiclos, cargarEquipos, cargarEstudios, cargarFamilias, cargarIncidencias, cargarJugadores, cargarPerfiles } from "../data/FuncionesCombobox.js";
-
+/**
+ * Carga la lista de centros desde la API y los almacena en sessionStorage.
+ */
 async function cargarCentros() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlCentros = url + 'lista/centros';  // La URL de los centros que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlCentros = url + 'lista/centros';
 
     try {
         // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlCentros, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
@@ -23,28 +24,29 @@ async function cargarCentros() {
 
         // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Centros recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Centros recogidos ' + JSON.stringify(data));
-
-        sessionStorage('centros', JSON.stringify(data));
+        sessionStorage.setItem('centros', JSON.stringify(data));
 
     } catch (error) {
         console.error("Error al cargar los centros:", error);
     }
 }
 
+/**
+ * Carga la lista de ciclos desde la API y los almacena en sessionStorage.
+ */
 async function cargarCiclos() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlCiclos = url + 'lista/ciclos';  // La URL de los ciclos que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlCiclos = url + 'lista/ciclos';
 
     try {
         // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlCiclos, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
@@ -55,28 +57,29 @@ async function cargarCiclos() {
 
         // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Ciclos recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Centros recogidos :' + JSON.stringify(data));
-
-        sessionStorage('centros', JSON.stringify(data));
+        sessionStorage.setItem('ciclos', JSON.stringify(data));
 
     } catch (error) {
-        console.error("Error al cargar los centros:", error);
+        console.error("Error al cargar los ciclos:", error);
     }
 }
 
+/**
+ * Carga la lista de equipos desde la API y los almacena en sessionStorage.
+ */
 async function cargarEquipos() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlEquipos = url + 'lista/equipos';  // La URL de los equipos que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlEquipos = url + 'lista/equipos';
 
     try {
         // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlEquipos, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
@@ -87,175 +90,172 @@ async function cargarEquipos() {
 
         // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Equipos recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Equipos recogidos :' + JSON.stringify(data));
-
-        sessionStorage('equipos', JSON.stringify(data));
+        sessionStorage.setItem('equipos', JSON.stringify(data));
 
     } catch (error) {
         console.error("Error al cargar los equipos:", error);
     }
 }
 
+/**
+ * Carga la lista de estudios desde la API y los almacena en sessionStorage.
+ */
 async function cargarEstudios() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlEstudios = url + 'lista/estudios';  // La URL de los estudios que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlEstudios = url + 'lista/estudios';
 
     try {
-        // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlEstudios, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        // Verificar si la respuesta es exitosa (status 200-299)
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Estudios recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Estudios recogidos :' + JSON.stringify(data));
-
-        sessionStorage('estudios', JSON.stringify(data));
+        sessionStorage.setItem('estudios', JSON.stringify(data));
 
     } catch (error) {
         console.error("Error al cargar los estudios:", error);
     }
 }
 
+/**
+ * Carga la lista de familias desde la API y los almacena en sessionStorage.
+ */
 async function cargarFamilias() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlFamilias = url + 'lista/familias';  // La URL de los familias que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlFamilias = url + 'lista/familias';
 
     try {
-        // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlFamilias, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        // Verificar si la respuesta es exitosa (status 200-299)
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Familias recogidas:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Familias recogidas :' + JSON.stringify(data));
-
-        sessionStorage('familias', JSON.stringify(data));
+        sessionStorage.setItem('familias', JSON.stringify(data));
 
     } catch (error) {
-        console.error("Error al cargar los familias:", error);
+        console.error("Error al cargar las familias:", error);
     }
 }
 
+/**
+ * Carga la lista de incidencias desde la API y los almacena en sessionStorage.
+ */
 async function cargarIncidencias() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlIncidencias = url + 'lista/incidencias';  // La URL de los incidencias que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlIncidencias = url + 'lista/incidencias';
 
     try {
-        // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlIncidencias, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        // Verificar si la respuesta es exitosa (status 200-299)
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Incidencias recogidas:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Incidencias recogidas :' + JSON.stringify(data));
-
-        sessionStorage('incidencias', JSON.stringify(data));
+        sessionStorage.setItem('incidencias', JSON.stringify(data));
 
     } catch (error) {
-        console.error("Error al cargar los incidencias:", error);
+        console.error("Error al cargar las incidencias:", error);
     }
 }
 
+/**
+ * Carga la lista de jugadores desde la API y los almacena en sessionStorage.
+ */
 async function cargarJugadores() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlJugadores = url + 'lista/jugadores';  // La URL de los jugadores que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlJugadores = url + 'lista/jugadores';
 
     try {
-        // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlJugadores, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        // Verificar si la respuesta es exitosa (status 200-299)
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Jugadores recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Jugadores recogidos :' + JSON.stringify(data));
-
-        sessionStorage('jugadores', JSON.stringify(data));
+        sessionStorage.setItem('jugadores', JSON.stringify(data));
 
     } catch (error) {
         console.error("Error al cargar los jugadores:", error);
     }
 }
 
+/**
+ * Carga la lista de perfiles desde la API y los almacena en sessionStorage.
+ */
 async function cargarPerfiles() {
-    let token = localStorage.getItem("token"); // Aquí se encuentra tu token de autenticación
-    const urlPerfiles = url + 'lista/perfiles';  // La URL de los perfiles que deseas consultar
+    let token = localStorage.getItem("token");
+    const urlPerfiles = url + 'lista/perfiles';
 
     try {
-        // Hacer la solicitud con el token en los encabezados
         const response = await fetch(urlPerfiles, {
-            method: 'GET',  // El método HTTP que deseas utilizar (GET, POST, etc.)
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',  // Tipo de contenido esperado
-                'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado Authorization
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 
-        // Verificar si la respuesta es exitosa (status 200-299)
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        // Convertir la respuesta en JSON
         const data = await response.json();
+        console.log('Perfiles recogidos:', data);
 
-        // Mostrar los datos obtenidos
-        console.log('Perfiles recogidos :' + JSON.stringify(data));
-
-        sessionStorage('perfiles', JSON.stringify(data));
+        sessionStorage.setItem('perfiles', JSON.stringify(data));
 
     } catch (error) {
         console.error("Error al cargar los perfiles:", error);
     }
 }
 
-export { cargarCentros, cargarCiclos, cargarEquipos, cargarEstudios, cargarFamilias, cargarIncidencias, cargarJugadores, cargarPerfiles };
+export {
+    cargarCentros,
+    cargarCiclos,
+    cargarEquipos,
+    cargarEstudios,
+    cargarFamilias,
+    cargarIncidencias,
+    cargarJugadores,
+    cargarPerfiles
+};

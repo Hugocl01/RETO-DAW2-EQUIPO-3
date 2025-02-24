@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import api from "../services/api";
 import { generateSlug } from "../utils/stringUtils";
 
 /**
@@ -14,59 +13,99 @@ export const useCrud = (seccion) => {
     const [columns, setColumns] = useState([]);
     const entidadNombre = generateSlug(seccion.nombre); // Convertir a slug
 
-    // Obtener todos los registros de la sección (index)
     const fetchItems = async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/${entidadNombre}`);
-            setItems(response.data[entidadNombre] || []);
+            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
 
-            if (response.data[entidadNombre]?.length > 0) {
-                setColumns(Object.keys(response.data[entidadNombre][0]));
+            if (!response.ok) {
+                throw new Error("Error al obtener los datos.");
+            }
+
+            const data = await response.json();
+            setItems(data[entidadNombre] || []);
+            if (data[entidadNombre]?.length > 0) {
+                setColumns(Object.keys(data[entidadNombre][0]));
             } else {
                 setColumns([]);
             }
         } catch (err) {
-            setError(err.response?.data?.message || "Error de red.");
+            setError(err.message || "Error de red.");
         } finally {
             setLoading(false);
         }
     };
 
-    // Crear nuevo registro (store)
     const createItem = async (newItem) => {
         try {
-            await api.post(`/${entidadNombre}`, newItem);
+            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(newItem)
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al crear el registro.");
+            }
+
             fetchItems(); // Recargar la lista
         } catch (err) {
-            setError(err.response?.data?.message || "Error al crear el registro.");
+            setError(err.message || "Error al crear el registro.");
         }
     };
 
-    // Actualizar un registro (update)
     const updateItem = async (id, updatedItem) => {
         try {
-            await api.put(`/${entidadNombre}/${id}`, updatedItem);
+            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(updatedItem)
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al actualizar.");
+            }
+
             fetchItems();
         } catch (err) {
-            setError(err.response?.data?.message || "Error al actualizar.");
+            setError(err.message || "Error al actualizar.");
         }
     };
 
-    // Eliminar un registro (destroy)
     const deleteItem = async (id) => {
         try {
-            await api.delete(`/${entidadNombre}/${id}`);
+            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al eliminar.");
+            }
+
             fetchItems();
         } catch (err) {
-            setError(err.response?.data?.message || "Error al eliminar.");
+            setError(err.message || "Error al eliminar.");
         }
     };
 
-    // Función que maneja la lógica del guardar (crear o actualizar)
     const onGuardar = (formData, modo) => {
-        console.log('hola')
         if (modo === "crear") {
             createItem(formData);
         } else if (modo === "editar") {
@@ -75,7 +114,9 @@ export const useCrud = (seccion) => {
     };
 
     useEffect(() => {
-        if (seccion) fetchItems();
+        if (seccion) {
+            fetchItems();
+        };
     }, [seccion]);
 
     return {
