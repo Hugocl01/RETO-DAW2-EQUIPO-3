@@ -1,43 +1,36 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
-
-const fetchEstudios = async () => {
-    try {
-        const response = await api.get("/lista/estudios");
-
-        // Iteramos sobre las claves del objeto de estudios para crear un array de opciones
-        return Object.keys(response.data).map(key => ({
-            value: key, // Usamos la clave como el ID
-            label: response.data[key] // Usamos el valor como el nombre del estudio
-        }));
-    } catch (error) {
-        console.error("Error al obtener los estudios", error);
-        return [];
-    }
-};
 
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         titulo: "",
         texto: "",
-        estudio_id: "" // Inicializamos como vacío
+        estudio_id: null // Usamos null en lugar de cadena vacía
     });
     const [estudios, setEstudios] = useState([]);
 
     useEffect(() => {
         const obtenerEstudios = async () => {
-            const data = await fetchEstudios();
-            setEstudios(data);
+            const data = JSON.parse(sessionStorage.getItem("estudios")) || {}; // Recuperamos los datos como objeto
+            console.log('Estudios recogidos:', data);
+            
+            // Convertimos el objeto a un array
+            const estudiosFormat = Object.entries(data).map(([id, nombre]) => ({
+                value: id,   // Usamos el ID como valor
+                label: nombre // Usamos el nombre como label
+            }));
+            
+            // Establecemos los estudios en el estado
+            setEstudios(estudiosFormat);
         };
+    
         obtenerEstudios();
-    }, []);
+    }, []);                
 
     useEffect(() => {
         if (datosIniciales) {
-            // Aseguramos que estudio_id se esté asignando correctamente
             setFormData({
                 ...datosIniciales,
-                estudio_id: datosIniciales.estudio.id || "" // Asignar el id del estudio inicial
+                estudio_id: datosIniciales.estudio?.id || null // Aseguramos que el id del estudio inicial se cargue correctamente
             });
         }
     }, [datosIniciales]);
@@ -55,7 +48,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="titulo">Titulo</label>
+                <label htmlFor="titulo">Título</label>
                 <input
                     type="text"
                     name="titulo"

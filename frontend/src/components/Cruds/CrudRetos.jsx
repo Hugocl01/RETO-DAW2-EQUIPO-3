@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
+import { cargarEstudios } from "../../data/FuncionesCombobox";
 
 function CrudRetos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
@@ -37,6 +38,9 @@ function CrudRetos({ onModoCambio }) {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
+
+    // Cargar de los valores del selector del formulario
+    cargarEstudios();
 
     if (loading) return <p>Cargando retos...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -82,7 +86,7 @@ function CrudRetos({ onModoCambio }) {
                             <td>{reto.estudio?.centro || "N/A"}</td>
                             <td>{reto.estudio?.ciclo || "N/A"}</td>
                             <td>{reto.estudio?.curso || "N/A"}</td>
-                            <td>
+                            <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => onModoCambio("editar", reto)}
