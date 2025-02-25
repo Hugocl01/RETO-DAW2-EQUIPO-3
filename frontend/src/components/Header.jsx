@@ -136,7 +136,7 @@ function Header() {
                 </a>
                 <ul className="dropdown-menu text-small">
                   <li>
-                    <h2 className="dropdown-header">{seguridad.user.name}</h2>
+                    <h2 className="dropdown-header">{seguridad.user.nombre}</h2>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
