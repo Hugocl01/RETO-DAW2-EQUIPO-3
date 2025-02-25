@@ -9,7 +9,6 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EstudioController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\FamiliaController;
-use App\Http\Controllers\SeccionController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\DonacionController;
 use App\Http\Controllers\JugadorController;
@@ -88,7 +87,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Familias.index,Familias.show,Familias.store,Familias.update,Familias.destroy');
     Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias']);
 
-    Route::apiResource('perfiles', PerfilController::class);
+    Route::apiResource('perfiles', PerfilController::class)->only('show')
+        ->middleware('ability:Perfiles.show');
     Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles'])
         ->middleware('ability:Perfiles.getListaPerfiles');
 

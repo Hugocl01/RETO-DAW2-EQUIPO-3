@@ -2,30 +2,17 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Centro;
+use Illuminate\Support\Facades\DB;
 
 class CentroSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Centro::create([
-            'nombre' => 'IES Zapatón',
-            'landing_page' => 'https://www.ieszapaton.es/'
-        ]);
-
-        Centro::create([
-            'nombre' => 'IES Miguel Herrero Pereda',
-            'landing_page' => 'https://www.educantabria.es/web/ies-miguel-herrero-pereda'
-        ]);
-
-        Centro::create([
-            'nombre' => 'IES Besaya',
-            'landing_page' => 'https://www.educantabria.es/web/ies-besaya'
+        DB::table('centros')->insert([
+            ['nombre' => 'IES Besaya', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'IES Miguel Herrero Pereda', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'IES Zapatón', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
