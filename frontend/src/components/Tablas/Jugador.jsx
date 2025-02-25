@@ -19,7 +19,7 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
   return (
     <div className="row border-bottom py-2" onClick={handleCLickNavegarJugador}>
       {/* Columna para la imagen y el nombre del jugador */}
-      <div className="col-6 d-flex flex-row justify-content-center text-center">
+      <div className="col-5 col-md-6 d-flex flex-row justify-content-center text-center">
         <div className="d-flex flex-row w-75">
           <img
             src="../src/assets/imagenes/img1.jpg"
@@ -36,13 +36,13 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
       </div>
   
       {/* Columnas para estadísticas del jugador */}
-      <div className="col-2 text-center h5">
+      <div className="col-2 col-md-2 text-center h5">
         {jugador.stats.goles}
       </div>
-      <div className="col-2 text-center h5">
+      <div className=" col-2 col-md-2 text-center h5">
         {jugador.stats.tarjetas_amarillas}
       </div>
-      <div className="col-2 text-center h5">
+      <div className="col-3 col-md-2 text-center h5">
         {jugador.stats.tarjetas_rojas}
       </div>
     </div>

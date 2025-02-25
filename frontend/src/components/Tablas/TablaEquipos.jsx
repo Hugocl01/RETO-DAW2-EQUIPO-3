@@ -83,55 +83,15 @@ function TablaEquipos() {
       <div className="container-fluid mt-5">
         {/* Cabecera */}
         <div className="row bg-primary text-white rounded-top border-bottom py-2">
-          <div className="col-6 text-center font-weight-bold justify-content-center h5">
-            Equipo
+          <div className="col-md-6 text-center font-weight-bold cursor-pointer h5">Nombre</div>
+          <div className="col-md-2 text-center cursor-pointer h5" data-campo="goles" onClick={ordenarCampo}>
+            Goles {orden.campo === "goles" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
-          <div
-            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
-            data-campo="goles"
-            onClick={ordenarCampo}
-          >
-            <div className="d-flex flex-row  w-50 justify-content-center ">
-              <p className="font-weight-bold h-100 text-center mx-2">Goles</p>
-              {orden.direccion === "asc" && orden.campo == "goles" ? (
-                <i className="bi bi-arrow-down"></i>
-              ) : (
-                <i className="bi bi-arrow-up"></i>
-              )}
-            </div>
+          <div className="col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_amarillas" onClick={ordenarCampo}>
+            Amarillas {orden.campo === "tarjetas_amarillas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
-          <div
-            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
-            data-campo="tarjetas_amarillas"
-            onClick={ordenarCampo}
-          >
-            <div className="d-flex flex-row  w-50 justify-content-center ">
-              <p className="font-weight-bold h-100 text-center mx-2">
-                Tarjetas Amarillas
-              </p>
-              {orden.direccion === "asc" &&
-              orden.campo == "tarjetas_amarillas" ? (
-                <i className="bi bi-arrow-down"></i>
-              ) : (
-                <i className="bi bi-arrow-up"></i>
-              )}
-            </div>
-          </div>
-          <div
-            className="col-2 text-center d-flex flex-row justify-content-center align-items-center font-weight-bold cursor-pointer h5"
-            data-campo="tarjetas_rojas"
-            onClick={ordenarCampo}
-          >
-            <div className="d-flex flex-row  w-50 justify-content-center ">
-              <p className="font-weight-bold h-100 text-center mx-2">
-                Tarjetas Rojas
-              </p>
-              {orden.direccion === "asc" && orden.campo == "tarjetas_rojas" ? (
-                <i className="bi bi-arrow-down"></i>
-              ) : (
-                <i className="bi bi-arrow-up"></i>
-              )}
-            </div>
+          <div className="col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas" onClick={ordenarCampo}>
+            Rojas {orden.campo === "tarjetas_rojas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
         </div>
 
