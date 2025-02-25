@@ -6,7 +6,6 @@ import Spinner from "../../components/Spinner.jsx";
 import ErrorPage from "../ErrorPage.jsx";
 import "../../../src/components/css/EstilosComun.css";
 
-
 /**
  * Página de Equipos.
  *
@@ -22,32 +21,65 @@ function EquiposPage() {
   const navegar = useNavigate();
 
   useEffect(() => {
+
+    /**
+     * Funcion envoltorio para realizar llamada a la api
+     */
     const obtenerListadoEquipos = async () => {
       try {
         const resultado = await api.get("/equipos");
-        console.log(resultado);
-        if (
-          resultado.data.status === "success" &&
-          Array.isArray(resultado.data.equipos)
-        ) {
+        /**
+         * Si el resultado de la llamada es success y la respuesta es un array guardo los datos en el estado y en la sessionStorage
+         */
+        if (resultado.data.status === "success" && Array.isArray(resultado.data.equipos)) {
           setEquipos(resultado.data.equipos);
+          sessionStorage.setItem("equipos", JSON.stringify(resultado.data.equipos));
         } else {
+          /**
+           * Si da fallo, recojo el error
+           */
           setError({
-            tipo: resultado.data.status,
+            tipo: "error",
             mensaje: "Hubo un problema al obtener los equipos.",
           });
         }
       } catch (error) {
-        setError({ tipo: error.name, mensaje: "No hay equipos" });
+        /**
+         * Recojo cualquier tipo de error que me recoja el catch
+         */
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No hay equipos disponibles.",
+        });
       } finally {
+        /**
+         * Salte el catch o no, se dejará de cargar la página
+         */
         setCargando(false);
       }
     };
+  
+    /**
+     * Recojo los valores de la sessionStorage
+     */
+    const equiposGuardados = sessionStorage.getItem("equipos");
+  
+    /**
+     * Si hay datos guardados de equipos, guardo los valores en la sessionstorage
+     * Si no hay datos, realizo la llamada a la api
+     */
+    if (equiposGuardados) {
+      setEquipos(JSON.parse(equiposGuardados));
+      setCargando(false);
+    } else {
+      obtenerListadoEquipos();
+    }
 
-    obtenerListadoEquipos();
-    window.scrollTo(0,0);
+    /**
+     * Esto me llevará al principio de la página
+     */
+    window.scrollTo(0, 0);
   }, []);
-
   /**
    * Enseño la página de error, cuando haya una página de error
    */
@@ -73,7 +105,7 @@ function EquiposPage() {
   return (
     <>
       <title>Equipos</title>
-      <section className="container-fluid py-5 w-75" id="equipos">
+      <section className="container-fluid w-75" id="equipos">
         <div className="row mb-4">
           <div className="d-flex justify-content-center align-items-center">
             <h1>Listado de Equipos</h1>
