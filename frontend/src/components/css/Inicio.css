@@ -110,7 +110,7 @@ a {
 }
 
 .donaciones .card-body {
-    height: 19em;
+    height: 25em;
 }
 
 .card-body a:hover {
@@ -131,7 +131,7 @@ a {
     }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 810px) {
     .introduccion {
         display: grid;
         grid-template-columns: 1fr;

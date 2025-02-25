@@ -5,7 +5,8 @@ import api from "../../services/api";
 import ErrorPage from "../ErrorPage";
 import Partido from "../../components/Partidos/Partido";
 import { useNavigate } from "react-router-dom";
-//import "../src/components/css/EstilosComun.css";
+
+import "../../core/CSS/PartidosPage.css";
 
 /**
  *
