@@ -170,7 +170,8 @@ function Inicio() {
                         <div className="card text-center">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
                                 <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
-                                <h2>Como Donar</h2>
+                                <h2>Hacer una Donación</h2>
+                                <p>Tu ayuda importa. Cada aporte marca la diferencia</p>
                                 <div>
                                     <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
                                 </div>

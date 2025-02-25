@@ -1,0 +1,36 @@
+.migas-nav {
+    font-size: 0.9rem;
+    color: #4B5563;
+}
+
+.migas-ul {
+    width: 74%;
+    list-style-type: none;
+}
+
+.migas-li {
+    display: flex;
+    align-items: center;
+}
+
+.migas-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #4B5563;
+    transition: color 0.3s ease;
+}
+
+.migas-link:hover {
+    color: #4B5563;
+    text-decoration: underline
+}
+
+.migas-separator {
+    color: #4B5563;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.migas-separator:before {
+    content: '/';
+}

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Migas from "../components/MigasDePan.jsx";
 
 /**
  * Componente de diseño principal de la aplicación.
@@ -18,6 +19,7 @@ function AppLayout() {
 
             {/* Contenido dinámico que cambia según la ruta */}
             <main>
+                <Migas />
                 <Outlet />
             </main>
 

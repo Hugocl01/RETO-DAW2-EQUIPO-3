@@ -25,3 +25,25 @@
     border-radius: 2em;
     padding: 0.7em 1.5em;
 }
+
+@media (max-width: 768px) {
+    .carousel-item {
+        transition: opacity 0.3s ease, transform 0.3s ease;  
+    }
+
+    .carousel-inner {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .carousel-item {
+        width: 100%;
+        transform: scale(0.95);  
+    }
+
+    .carousel-item-next,
+    .carousel-item-prev {
+        opacity: 0;
+        transform: translateX(100%);  
+    }
+}
