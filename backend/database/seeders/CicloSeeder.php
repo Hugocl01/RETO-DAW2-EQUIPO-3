@@ -2,85 +2,44 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Ciclo;
+use Illuminate\Support\Facades\DB;
 
 class CicloSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Ciclo::create([
-            'nombre' => 'CFGS Estética Integral y Bienestar',
-            'familia_id' => 1
-        ]);
+        $ciclos = [
+            // ZAPATON
+            ['nombre' => 'AUTOMATIZACIÓN Y ROBÓTICA INDUSTRIAL', 'familia_id' => 1],
+            ['nombre' => 'Mantenimiento Electrónico', 'familia_id' => 1],
+            ['nombre' => 'Estética Integral y Bienestar', 'familia_id' => 2],
+            ['nombre' => 'VideoDJ', 'familia_id' => 3],
+            ['nombre' => 'Sonido para Audiovisuales y Espectáculos', 'familia_id' => 3],
 
-        Ciclo::create([
-            'nombre' => 'CFGS Sonido para audiovisuales y espectáculos',
-            'familia_id' => 2
-        ]);
+            // MIGUEL EL HERRERO
+            ['nombre' => 'Sistemas Microinformáticos y Redes', 'familia_id' => 4],
+            ['nombre' => 'Desarrollo de Aplicaciones Web', 'familia_id' => 4],
+            ['nombre' => 'Administración de Sistemas Informáticos en Red', 'familia_id' => 4],
 
-        Ciclo::create([
-            'nombre' => 'CFGM video DJ y sonido',
-            'familia_id' => 2
-        ]);
+            ['nombre' => 'Grado Medio en Carrocería', 'familia_id' => 5],
 
-        Ciclo::create([
-            'nombre' => 'CFGS Mantenimiento Electrónico',
-            'familia_id' => 3
-        ]);
+            ['nombre' => 'Gestión Administrativa', 'familia_id' => 6],
 
-        Ciclo::create([
-            'nombre' => 'CFGS Automatización y Robótica Industrial',
-            'familia_id' => 3
-        ]);
+            // BESAYA
+            ['nombre' => 'Tapicería y Cortinaje', 'familia_id' => 7],
+            ['nombre' => 'Cocina y Restauracion', 'familia_id' => 8],
+            ['nombre' => 'Servicios de Restauracion', 'familia_id' => 8],
+            ['nombre' => 'Integración Social', 'familia_id' => 9],
+        ];
 
-        Ciclo::create([
-            'nombre' => 'CFGS Administración de Sistemas Informáticos en Red',
-            'familia_id' => 4
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGM Sistemas microinformáticos y Redes',
-            'familia_id' => 4
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGS Desarrollo de Aplicaciones Web',
-            'familia_id' => 4
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGM Gestión Administrativa',
-            'familia_id' => 4
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGM de Carrocería',
-            'familia_id' => 5
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGB de Tapicería y Cortinaje',
-            'familia_id' => 6
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'GM servicios de restauración y PFB Cocina y restauración',
-            'familia_id' => 7
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CFGM Comercialización de productos alimentarios',
-            'familia_id' => 8
-        ]);
-
-        Ciclo::create([
-            'nombre' => 'CGSFP Integración Social',
-            'familia_id' => 9
-        ]);
+        foreach ($ciclos as $ciclo) {
+            DB::table('ciclos')->insert([
+                'nombre' => $ciclo['nombre'],
+                'familia_id' => $ciclo['familia_id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

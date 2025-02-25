@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,28 +13,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Mostrar mensaje en la consola
-        $this->command->info('Desactivando restricciones de clave foránea...');
+        // Desactivar restricciones de clave foránea antes de truncar
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        // Truncar tablas para reiniciar IDs
+        // Truncar tablas en orden correcto para evitar errores de FK
         $tables = [
-            'usuarios', 'perfiles', 'ongs', 'donaciones', 'estudios', 'equipos',
-            'ciclos', 'familias', 'centros', 'estado_inscripciones', 'incidencias',
-            'inscripciones', 'retos', 'patrocinadores', 'patrocinadores_equipos',
-            'jugadores', 'pabellones', 'partidos', 'actas', 'publicaciones', 'imagenes',
-            'perfil_seccion_accion'
+            'perfil_seccion_accion', 'imagenes', 'publicaciones', 'actas', 'partidos',
+            'pabellones', 'jugadores', 'patrocinadores_equipos', 'patrocinadores',
+            'retos', 'inscripciones', 'incidencias', 'estado_inscripciones', 'equipos',
+            'estudios', 'ciclos', 'familias', 'centros', 'donaciones', 'ongs',
+            'usuarios', 'perfiles'
         ];
 
         foreach ($tables as $table) {
-            DB::table($table)->truncate();
+            if (Schema::hasTable($table)) { // Verifica si la tabla existe antes de truncar
+                DB::table($table)->truncate();
+            }
         }
 
-        // Volver a activar restricciones de clave foránea
-        $this->command->info('Activando restricciones de clave foránea...');
+        // Reactivar restricciones de clave foránea
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Ejecutar los seeders en el orden adecuado
+        // Ejecutar seeders en el orden correcto
         $this->call([
             PerfilSeeder::class,
             SeccionSeeder::class,
@@ -41,21 +42,20 @@ class DatabaseSeeder extends Seeder
             UsuarioSeeder::class,
             OngSeeder::class,
             DonacionesSeeder::class,
-            FamiliaSeeder::class,
-            CicloSeeder::class,
-            CentroSeeder::class,
-            EstudioSeeder::class,
+            FamiliaSeeder::class,  // Primero se insertan las familias
+            CicloSeeder::class,    // Luego los ciclos, ya que dependen de las familias
+            CentroSeeder::class,   // Después los centros
+            EstudioSeeder::class,  // Luego los estudios, ya que dependen de los ciclos y centros
             EquipoSeeder::class,
             EstadoInscripcionSeeder::class,
             IncidenciaSeeder::class,
             InscripcionSeeder::class,
-            RetoSeeder::class,
+            RetoSeeder::class,     // Ahora se ejecuta después de EstudioSeeder
             PatrocinadorSeeder::class,
             PatrocinadorEquipoSeeder::class,
             PabellonSeeder::class,
             PartidoSeeder::class,
             PerfilSeccionAccionSeeder::class,
-            // Semi y Final
             SemifinalFinalSeeder::class,
             PublicacionSeeder::class,
         ]);

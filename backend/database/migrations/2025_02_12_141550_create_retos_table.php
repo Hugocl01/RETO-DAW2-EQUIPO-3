@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('retos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo', 45);
+            $table->string('titulo', 255);
             $table->longText('texto');
             $table->unsignedBigInteger('estudio_id');
             $table->foreign('estudio_id')

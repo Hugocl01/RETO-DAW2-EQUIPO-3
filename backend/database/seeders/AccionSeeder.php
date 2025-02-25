@@ -66,6 +66,7 @@ class AccionSeeder extends Seeder
             ],
             'Perfiles' => [
                 'getListaPerfiles',
+                'show'
             ],
             'Partidos' => [
                 'destroy',
@@ -99,6 +100,9 @@ class AccionSeeder extends Seeder
                 'destroy',
                 'uploadFoto',
                 'getListaImagenModelos'
+            ],
+            'Secciones' => [
+                'getListaSecciones'
             ]
         ];
 

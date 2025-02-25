@@ -2,43 +2,49 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Estudio;
+use Illuminate\Support\Facades\DB;
 
 class EstudioSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        // Datos base con centro_id y ciclo_id
-        $estudiosData = [
-            ['centro_id' => 1, 'ciclo_id' => 1],
-            ['centro_id' => 1, 'ciclo_id' => 2],
-            ['centro_id' => 1, 'ciclo_id' => 3],
-            ['centro_id' => 1, 'ciclo_id' => 4],
-            ['centro_id' => 1, 'ciclo_id' => 5],
-            ['centro_id' => 2, 'ciclo_id' => 6],
-            ['centro_id' => 2, 'ciclo_id' => 7],
-            ['centro_id' => 2, 'ciclo_id' => 8],
-            ['centro_id' => 2, 'ciclo_id' => 9],
-            ['centro_id' => 2, 'ciclo_id' => 10],
-            ['centro_id' => 3, 'ciclo_id' => 11],
-            ['centro_id' => 3, 'ciclo_id' => 12],
-            ['centro_id' => 3, 'ciclo_id' => 13],
-            ['centro_id' => 3, 'ciclo_id' => 14],
+        $estudios = [
+            // ZAPATON
+            ['centro_id' => 3, 'ciclo_id' => 1, 'curso' => 1],
+            ['centro_id' => 3, 'ciclo_id' => 1, 'curso' => 2],
+            ['centro_id' => 3, 'ciclo_id' => 2, 'curso' => 1],
+
+            ['centro_id' => 3, 'ciclo_id' => 3, 'curso' => 1],
+            ['centro_id' => 3, 'ciclo_id' => 3, 'curso' => 1],
+            ['centro_id' => 3, 'ciclo_id' => 3, 'curso' => 1],
+
+            ['centro_id' => 3, 'ciclo_id' => 4, 'curso' => 1],
+            ['centro_id' => 3, 'ciclo_id' => 5, 'curso' => 1],
+
+            // Miguel El Herrero
+            ['centro_id' => 2, 'ciclo_id' => 6, 'curso' => 1],
+            ['centro_id' => 2, 'ciclo_id' => 7, 'curso' => 2],
+            ['centro_id' => 2, 'ciclo_id' => 8, 'curso' => 1],
+
+            ['centro_id' => 2, 'ciclo_id' => 9, 'curso' => 2],
+            ['centro_id' => 2, 'ciclo_id' => 10,'curso' => 1],
+
+            // BESAYA
+            ['centro_id' => 3, 'ciclo_id' => 11, 'curso' => 2],
+            ['centro_id' => 3, 'ciclo_id' => 12, 'curso' => 2],
+            ['centro_id' => 3, 'ciclo_id' => 13, 'curso' => 2],
+            ['centro_id' => 3, 'ciclo_id' => 14, 'curso' => 2],
         ];
-        // Para cada entrada, se crea un registro para curso 1 y otro para curso 2
-        foreach ($estudiosData as $data) {
-            foreach ([1, 2] as $curso) {
-                Estudio::create([
-                    'centro_id' => $data['centro_id'],
-                    'ciclo_id'  => $data['ciclo_id'],
-                    'curso'     => $curso,
-                ]);
-            }
+
+        foreach ($estudios as $estudio) {
+            DB::table('estudios')->insert([
+                'centro_id' => $estudio['centro_id'],
+                'ciclo_id' => $estudio['ciclo_id'],
+                'curso' => $estudio['curso'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }

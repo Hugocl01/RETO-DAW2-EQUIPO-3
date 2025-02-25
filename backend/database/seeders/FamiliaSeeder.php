@@ -2,51 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Familia;
+use Illuminate\Support\Facades\DB;
 
 class FamiliaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Familia::create([
-            'nombre' => 'Imagen Personal'
-        ]);
+        DB::table('familias')->insert([
+            // ZAPATON
+            ['nombre' => 'ELECTRICIDAD-ELECTRÓNICA', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Imagen personal', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Imagen y sonido', 'created_at' => now(), 'updated_at' => now()],
 
-        Familia::create([
-            'nombre' => 'Imagen y Sonido'
-        ]);
+            //MIGUEL EL HERRERO
+            ['nombre' => 'Informática y Comunicaciones', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Transporte y Mantenimiento de Vehículos', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Administración y Gestión', 'created_at' => now(), 'updated_at' => now()],
 
-        Familia::create([
-            'nombre' => 'Electricidad y Electronica'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Informatica y Comunicaciones'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Transporte y Matenimiento de Vehiculos'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Textil, Confeccion y Piel'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Hosteleria y turismo'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Comercio y marketing'
-        ]);
-
-        Familia::create([
-            'nombre' => 'Servicios Socioculturales a la comunidad'
+            // BESAYA
+            ['nombre' => 'Textil, Confección y Piel', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Hostelería y Turismo', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Servicios Socioculturales', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
