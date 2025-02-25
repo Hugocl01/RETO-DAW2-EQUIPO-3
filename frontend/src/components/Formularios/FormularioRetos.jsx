@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useCrud } from "../../hooks/useCrud"; // Asegúrate de importar correctamente el hook
+import { useCrud } from "../../hooks/useCrud";
 
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
@@ -8,21 +8,20 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         estudio_id: null,
     });
     const [estudios, setEstudios] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false); // Estado local para controlar el envío
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Retos" });
 
     // Cargar los estudios desde sessionStorage
     useEffect(() => {
         const obtenerEstudios = async () => {
-            const data = JSON.parse(sessionStorage.getItem("estudios")) || {}; // Recuperamos los datos como objeto
+            const data = JSON.parse(sessionStorage.getItem("estudios")) || {};
             console.log("Estudios recogidos:", data);
 
-            // Convertimos el objeto a un array
             const estudiosFormat = Object.entries(data).map(([id, nombre]) => ({
-                value: id, // Usamos el ID como valor
-                label: nombre, // Usamos el nombre como label
+                value: id,
+                label: nombre,
             }));
 
-            // Establecemos los estudios en el estado
             setEstudios(estudiosFormat);
         };
 
@@ -34,42 +33,45 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         if (datosIniciales) {
             setFormData({
                 ...datosIniciales,
-                estudio_id: datosIniciales.estudio?.id || null, // Aseguramos que el id del estudio inicial se cargue correctamente
+                estudio_id: datosIniciales.estudio?.id || null,
             });
         }
     }, [datosIniciales]);
 
-    // Función para manejar los cambios en los inputs
+    // Manejo de cambios en los inputs
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    // Función para manejar el submit del formulario
+    // Manejo del envío del formulario
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true); // Activamos el estado de envío para deshabilitar el botón
 
-        const modo = datosIniciales ? "editar" : "crear"; // Determinamos el modo según si tenemos datos iniciales
+        const modo = datosIniciales ? "editar" : "crear";
 
         try {
             if (modo === "crear") {
-                await createItem(formData); // Creamos un nuevo reto
+                await createItem(formData);
             } else {
-                await updateItem(formData.id, formData); // Actualizamos el reto
+                await updateItem(formData.id, formData);
             }
 
-            // Recargar los elementos después de guardar
-            fetchItems(); // Esto recargará la lista de retos después de crear/actualizar el reto
-
-            // Llamar al callback `onGuardar` con los datos del formulario para notificar al componente principal
+            fetchItems(); // Recargar la lista de retos
             onGuardar(formData);
         } catch (error) {
             console.error("Error al guardar reto:", error);
+        } finally {
+            setIsSubmitting(false); // Volver a habilitar el formulario tras la operación
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
+        <form
+            onSubmit={handleSubmit}
+            className="container mt-4 p-4 border rounded shadow bg-light"
+        >
             <h2 className="mb-4 text-center">Formulario de Reto</h2>
 
             {/* Input para el título */}
@@ -82,7 +84,9 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     id="titulo"
                     placeholder="Ingrese el título"
                     value={formData.titulo || ""}
+                    required
                     onChange={handleChange}
+                    disabled={isSubmitting} // Solo deshabilitado cuando se está enviando
                 />
             </div>
 
@@ -95,8 +99,10 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     id="texto"
                     placeholder="Ingrese el texto del reto"
                     value={formData.texto || ""}
+                    required
                     onChange={handleChange}
-                    style={{ height: "150px", resize: "vertical" }} // Ajuste de altura con redimensionamiento
+                    style={{ height: "150px", resize: "vertical" }}
+                    disabled={isSubmitting}
                 />
             </div>
 
@@ -108,7 +114,9 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     name="estudio_id"
                     id="estudio_id"
                     value={formData.estudio_id || ""}
+                    required
                     onChange={handleChange}
+                    disabled={isSubmitting}
                 >
                     <option value="" hidden>Seleccione un estudio</option>
                     {estudios.map((estudio) => (
@@ -121,11 +129,25 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
 
             {/* Botones de acción */}
             <div className="d-flex justify-content-between">
-                <button type="submit" className={`btn ${datosIniciales ? "btn-warning" : "btn-success"}`}>
-                    {datosIniciales ? "Guardar" : "Crear"}
+                <button
+                    type="submit"
+                    className={`btn ${datosIniciales ? "btn-warning" : "btn-success"}`}
+                    disabled={isSubmitting} // Solo deshabilita el botón cuando se está enviando
+                >
+                    {isSubmitting ? "Guardando..." : datosIniciales ? "Guardar" : "Crear"}
                 </button>
-                <button type="button" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onCancelar}
+                    disabled={isSubmitting}
+                >
+                    Cancelar
+                </button>
             </div>
+
+            {/* Mostrar errores si hay */}
+            {error && <p className="text-danger mt-3">{error}</p>}
         </form>
     );
 }
