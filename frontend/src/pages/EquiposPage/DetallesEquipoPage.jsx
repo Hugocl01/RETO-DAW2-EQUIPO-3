@@ -3,32 +3,95 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
+import ErrorPage from "../ErrorPage.jsx";
 
 function DetallesEquipoPage() {
   const location = useLocation();
   const [equipo, setEquipo] = useState();
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState();
   const navegar = useNavigate();
 
   useEffect(() => {
+    /**
+     * Función envoltorio que realiza la llamada a la api apra obtener los datos del equipo
+     */
     const obtenerEquipo = async () => {
       try {
         const resultado = await api.get(location.pathname);
         if (resultado.data.status === "success") {
-          setCargando(false);
+          /**
+           * Si el resultado es success, guardo los datos del equipo en la sessionstorage
+           * También guardo el equipo en el estado
+           */
+          sessionStorage.setItem(
+            resultado.data.equipo.nombre,
+            JSON.stringify(resultado.data.equipo)
+          );
           setEquipo(resultado.data.equipo);
+        } else {
+          /**
+           * Si me devuelve otro tipo de estado la api, lo recojo en el estado de error
+           */
+          setError({
+            tipo: "error",
+            mensaje: "Hubo un problema al obtener el equipo.",
+          });
         }
       } catch (error) {
-        console.error(error);
+        /**
+         * Los errores que me recoja el catch, lo guardo en el estado de error
+         */
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No existe el equipo.",
+        });
+      } finally {
+        /**
+         * De error o no, dejará de estar el spinner
+         */
+        setCargando(false);
       }
     };
-    obtenerEquipo();
+
+    /**
+     * Cojo el valor del nombre del location
+     * Obtengo luego los valores de la session storage con el nombre del equipo
+     */
+    const nombreEquipo = location.pathname.split("/").pop(); 
+    const obtenerEquipoSession = sessionStorage.getItem(nombreEquipo);
+
+    /**
+     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+     * Si no hay datos, realizo la llamada a la api
+     */
+    if (obtenerEquipoSession) {
+      setEquipo(JSON.parse(obtenerEquipoSession)); 
+      setCargando(false);
+    } else {
+      obtenerEquipo();
+    }
+    window.scrollTo(0, 0);
   }, [location]);
 
+  /**
+   * Enseño la página de error, cuando haya una página de error
+   */
+  if (error) {
+    return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
+  /**
+   * Mientras cargue, muestro el spinner
+   */
   if (cargando) {
     return <Spinner />;
   }
 
+  /**
+   * Redirijo a la página de detalle jugador
+   * @param {String} slug 
+   */
   function navegarDetalleJugador(slug) {
     navegar(`/jugadores/${slug}`);
   }
@@ -38,6 +101,7 @@ function DetallesEquipoPage() {
       <title>Detalles del Equipo</title>
       <section className="contenedor container-fluid py-5">
         <div className="row">
+          
           {/* Sección de información del equipo */}
           <section id="infoEquipo" className="col-md-4 p-0 d-flex flex-column">
             <div className="card shadow-sm border-light rounded p-3">
