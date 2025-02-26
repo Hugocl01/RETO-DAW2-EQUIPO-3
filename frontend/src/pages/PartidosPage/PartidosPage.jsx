@@ -3,9 +3,6 @@ import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
 import api from "../../services/api";
 import ErrorPage from "../ErrorPage";
-import Partido from "../../components/Partidos/Partido";
-import { useNavigate } from "react-router-dom";
-
 import "../../core/CSS/PartidosPage.css";
 
 /**
@@ -23,7 +20,6 @@ function PartidosPage() {
   const [opcionGrupos, setGrupos] = useState("A");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
-  const navegar = useNavigate();
 
   /**
    * Se ejecuta al cargar el componente
@@ -37,12 +33,15 @@ function PartidosPage() {
           listaPartidos.data.status === "success" &&
           Array.isArray(listaPartidos.data.partidos)
         ) {
-          window.scrollTo(0, 0);
+          sessionStorage.setItem(
+            "partidos",
+            JSON.stringify(listaPartidos.data.partidos)
+          );
           setPartidos(listaPartidos.data.partidos);
         } else {
           setError({
             tipo: listaPartidos.data.status,
-            mensaje: "Hubo un problema al obtener los equipos.",
+            mensaje: "Hubo un problema al obtener los partidos.",
           });
         }
       } catch (error) {
@@ -51,7 +50,19 @@ function PartidosPage() {
         setCargando(false);
       }
     };
-    obtenerPartidos();
+
+    const obtenerPartidosSession = sessionStorage.getItem("partidos");
+    /**
+     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+     * Si no hay datos, realizo la llamada a la api
+     */
+    if (obtenerPartidosSession) {
+      setPartidos(JSON.parse(obtenerPartidosSession));
+      setCargando(false);
+    } else {
+      obtenerPartidos();
+    }
+    window.scrollTo(0, 0);
   }, []);
 
   /**
