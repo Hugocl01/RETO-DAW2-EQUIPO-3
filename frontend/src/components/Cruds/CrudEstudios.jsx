@@ -1,32 +1,27 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
+import { cargarCiclos, cargarCentros } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
 function CrudEstudios({ onModoCambio }) {
-    // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Estudios" }), []);
     const { items, loading, error, deleteItem } = useCrud(seccion);
 
-    // Estados para búsqueda y paginación
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Función segura para evitar errores con valores null/undefined
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
-    // Filtrar estudios según el término de búsqueda
     const filteredItems = items.filter((estudio) => {
         const query = searchQuery.toLowerCase();
-
         return (
             safeToLower(estudio.centro).includes(query) ||
             safeToLower(estudio.ciclo).includes(query)
         );
     });
 
-    // Cálculos de paginación
     const totalItems = filteredItems.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -34,7 +29,27 @@ function CrudEstudios({ onModoCambio }) {
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
-        setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
+        setCurrentPage(1);
+    };
+
+    // Cargar valores en sessionStorage
+    useEffect(() => {
+        cargarCentros();
+        cargarCiclos();
+    }, []);
+
+    const handleEditar = (estudio) => {
+        const centros = JSON.parse(sessionStorage.getItem("centros")) || {};
+        const ciclos = JSON.parse(sessionStorage.getItem("ciclos")) || {};
+
+        const centro_id = Object.keys(centros).find((key) => centros[key] === estudio.centro) || "";
+        const ciclo_id = Object.keys(ciclos).find((key) => ciclos[key] === estudio.ciclo) || "";
+
+        onModoCambio("editar", {
+            ...estudio,
+            centro_id,
+            ciclo_id,
+        });
     };
 
     if (loading) return <Spinner />;
@@ -44,8 +59,7 @@ function CrudEstudios({ onModoCambio }) {
         <div>
             <h2>Estudios</h2>
 
-            {/* Buscador */}
-            <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
                     className="form-control"
@@ -53,9 +67,14 @@ function CrudEstudios({ onModoCambio }) {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+                <button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Estudio
+                </button>
             </div>
 
-            {/* Tabla de datos */}
             <table className="table table-bordered table-hover">
                 <thead className="thead-dark">
                     <tr>
@@ -74,7 +93,7 @@ function CrudEstudios({ onModoCambio }) {
                             <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
-                                    onClick={() => onModoCambio("editar", estudio)}
+                                    onClick={() => handleEditar(estudio)}
                                 >
                                     Editar
                                 </button>
@@ -97,7 +116,6 @@ function CrudEstudios({ onModoCambio }) {
                 </tbody>
             </table>
 
-            {/* Paginación */}
             <Paginator
                 currentPage={currentPage}
                 totalPages={totalPages}
