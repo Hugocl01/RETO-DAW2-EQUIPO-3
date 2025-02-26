@@ -1,11 +1,11 @@
 function Perfil() {
     return (
         <div>
-            <div class="container text-center">
+            <div className="container text-center">
                 <div className="row row-cols-2">
                     <div className="col">
                         <div className="fotoPerfil">
-                            <img src="../assets/imagenes/img1.jpg" class="rounded-circle"></img>
+                            <img src="../assets/imagenes/img1.jpg" className="rounded-circle"></img>
                         </div>
 
                         <div className="InfoPerfil">
