@@ -15,6 +15,7 @@ function Inicio() {
     //arrays para los carruseles
     const [donaciones, setDonaciones] = useState([]);
     //const [patrocinadores, setPatrocinadores] = useState([]);
+    const [retos, setRetos] = useState([]);
 
     const [searchParams] = useSearchParams();
     const status = searchParams.get("inscripcion-status"); // "success" o lo que hayas enviado
@@ -27,16 +28,16 @@ function Inicio() {
         { imagen: "../src/assets/imagenes/img4.png", title: "Noticia 5", text: "Lorem ipsum dolor sit amet..." },
         { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 6", text: "Lorem ipsum dolor sit amet..." }
     ];
-
-    const retos = [
-        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 1", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img4.png", title: "Reto 2", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 3", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 4", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img4.png", title: "Reto 5", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Reto 6", text: "Lorem ipsum dolor sit amet..." }
-    ];
-
+    /*
+        const retos = [
+            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 1", text: "Lorem ipsum dolor sit amet..." },
+            { imagen: "../src/assets/imagenes/img4.png", title: "Reto 2", text: "Lorem ipsum dolor sit amet..." },
+            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 3", text: "Lorem ipsum dolor sit amet..." },
+            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 4", text: "Lorem ipsum dolor sit amet..." },
+            { imagen: "../src/assets/imagenes/img4.png", title: "Reto 5", text: "Lorem ipsum dolor sit amet..." },
+            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 6", text: "Lorem ipsum dolor sit amet..." }
+        ];
+    */
 
     //obtener donaciones
     useEffect(() => {
@@ -66,7 +67,24 @@ function Inicio() {
 
         obtenerPatrocinadores();
         */
+
+        const obtenerRetos = async () => {
+            try {
+                const respuesta = await api.get("/retos");
+                if (respuesta.data.status === "success") {
+                    const retosValidos = respuesta.data.retos.filter(
+                        (reto) => reto && reto.texto
+                    );
+                    setRetos(retosValidos);
+                }
+            } catch (error) {
+                console.error("Error al obtener los retos:", error);
+            }
+        };
+
+        obtenerRetos();
     }, []);
+
 
     function totalDonado() {
         if (!donaciones || donaciones.length === 0) {
@@ -111,18 +129,18 @@ function Inicio() {
                     </div>
 
                     <div className='mx-5 mt-2'>
-                        <button type="button" class="btn btn-secondary fs-6 btn-lg px-5">Inscríbete</button>
+                        <button type="button" className="btn btn-secondary fs-6 btn-lg px-5">Inscríbete</button>
                     </div>
 
                     <div className='infoIntroduccion border border-secondary rounded p-3 mx-5 mt-5'>
                         <h4 className='text-center mb-4'>Informacion del Torneo</h4>
                         <h5>
-                            <i class="bi bi-calendar me-2"></i>
+                            <i className="bi bi-calendar me-2"></i>
                             13 y 14 de Marzo de 2025
                         </h5>
                         <a target="_blank" href='https://maps.app.goo.gl/rtgeS49dz9yWYWo99'>
                             <h5>
-                                <i class="bi bi-geo-alt me-2"></i>
+                                <i className="bi bi-geo-alt me-2"></i>
                                 Pabellón la Habana Vieja - Torrelavega (Cantabria)
                             </h5>
                         </a>
@@ -138,18 +156,34 @@ function Inicio() {
 
             <section className="carruseles section-container text-center">
                 <h1 className='text-center'>Noticias</h1>
-                <Carousel id="carouselNoticias" items={noticias} interval={3000} />
+                {noticias.length > 0 ? (
+                    <Carousel id="carouselNoticias" items={noticias} intervalo={3000} />
+                ) : (
+                    <p className="text-center">No hay noticias disponibles</p>
+                )}
 
                 <h1 className='text-center'>Retos</h1>
-                <Carousel id="carouselRetos" items={retos} interval={3000} />
+                {retos.length > 0 ? (
+                    <Carousel id="carouselRetos" items={retos} intervalo={3000} />
+                ) : (
+                    <p className="text-center">No hay retos disponibles</p>
+                )}
             </section>
 
             <section className="carruselesSimples section-container text-center">
                 <h1 className='text-center'>Noticias</h1>
-                <CarouselSimple id="carouselNoticiasSimple" items={noticias} interval={3000} />
+                {noticias.length > 0 ? (
+                    <CarouselSimple id="carouselNoticiasSimple" items={noticias} intervalo={3000} />
+                ) : (
+                    <p className="text-center">No hay noticias disponibles</p>
+                )}
 
                 <h1 className='text-center'>Retos</h1>
-                <CarouselSimple id="carouselRetosSimples" items={retos} interval={3000} />
+                {retos.length > 0 ? (
+                    <CarouselSimple id="carouselRetosSimples" items={retos} intervalo={3000} />
+                ) : (
+                    <p className="text-center">No hay retos disponibles</p>
+                )}
             </section>
 
 
@@ -220,36 +254,36 @@ function Inicio() {
                         ))}
                         */}
 
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" class="img-fluid rounded" alt="Imagen 1" />
+                        <div className="row">
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" className="img-fluid rounded" alt="Imagen 1" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" class="img-fluid rounded" alt="Imagen 2" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" className="img-fluid rounded" alt="Imagen 2" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" class="img-fluid rounded" alt="Imagen 3" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" className="img-fluid rounded" alt="Imagen 3" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" class="img-fluid rounded" alt="Imagen 4" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" className="img-fluid rounded" alt="Imagen 4" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/cic.png" class="img-fluid rounded" alt="Imagen 5" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/cic.png" className="img-fluid rounded" alt="Imagen 5" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" class="img-fluid rounded" alt="Imagen 6" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" className="img-fluid rounded" alt="Imagen 6" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/deode.png" class="img-fluid rounded" alt="Imagen 7" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/deode.png" className="img-fluid rounded" alt="Imagen 7" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" class="img-fluid rounded" alt="Imagen 8" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" className="img-fluid rounded" alt="Imagen 8" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" class="img-fluid rounded" alt="Imagen 9" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" className="img-fluid rounded" alt="Imagen 9" />
                             </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" class="img-fluid rounded" alt="Imagen 10" />
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" className="img-fluid rounded" alt="Imagen 10" />
                             </div>
                         </div>
                     </div>
