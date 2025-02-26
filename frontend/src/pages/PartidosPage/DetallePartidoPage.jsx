@@ -12,6 +12,7 @@ function DetallePartidoPage() {
   const [partido, setPartido] = useState();
   const location = useLocation();
   const [cargando, setCargando] = useState(true);
+  const [error,setError]=useState();
 
   /**
    * Se ejecutará la carga de la api cuando cambie la ruta del header con el location
@@ -21,15 +22,54 @@ function DetallePartidoPage() {
       try {
         const resultado = await api.get(location.pathname);
         if (resultado.data.status === "success") {
+          /**
+           * Si el resultado es success, guardo los datos del partido en la sessionstorage
+           * También guardo el equipo en el estado
+           */
+          sessionStorage.setItem(
+            resultado.data.partidos.slug,
+            JSON.stringify(resultado.data.partidos)
+          );
           setPartido(resultado.data.partidos);
-          setCargando(false);
+          
+        } else {
+          /**
+           * Si me devuelve otro tipo de estado la api, lo recojo en el estado de error
+           */
+          setError({
+            tipo: "error",
+            mensaje: "Hubo un problema al obtener el equipo.",
+          });
         }
       } catch (error) {
-        console.error(error);
+         /**
+         * Los errores que me recoja el catch, lo guardo en el estado de error
+         */
+         setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No existe el partido.",
+        });
       }
     };
 
-    obtenerPartido();
+     /**
+     * Cojo el valor del nombre del location
+     * Obtengo luego los valores de la session storage con el nombre del equipo
+     */
+     const nombrePartido = location.pathname.split("/").pop(); 
+
+     const obtenerPartidoSession = sessionStorage.getItem(nombrePartido);
+ 
+     /**
+      * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+      * Si no hay datos, realizo la llamada a la api
+      */
+     if (obtenerPartidoSession) {
+       setPartido(JSON.parse(obtenerPartidoSession)); 
+       setCargando(false);
+     } else {
+       obtenerPartido();
+     }
   }, [location]);
 
   /**
