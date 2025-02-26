@@ -18,8 +18,8 @@ h1 {
     width: 100%;
     height: 90vh;
 
-    background: linear-gradient(rgba(36, 35, 35, 0.473), rgba(48, 47, 47, 0.397)),
-        url("../src/assets/imagenes/football.jpeg");
+    background: linear-gradient(rgba(36, 35, 35, 0.623), rgba(48, 47, 47, 0.562)),
+        url("../src/assets/imagenes/fondo2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -27,10 +27,11 @@ h1 {
 }
 
 .imagenInicio h2 {
-    font-size: 6em;
+    font-size: 4.5em;
     font-weight: bold;
     font-family: "Racing Sans One", Sans-serif;
     text-transform: uppercase;
+    line-height: 1em;
 }
 
 .imagenInicio h3 {
@@ -38,6 +39,20 @@ h1 {
     font-size: 1.5em;
     text-transform: uppercase;
 }
+
+.imagenInicio div {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.imagenInicio div:hover {
+    transform: scale(1.1);
+}
+
+.imagenInicio img {
+   width: 60%;
+}
+
 
 .introduccion {
     display: grid;
@@ -167,6 +182,6 @@ a:hover {
     }
 
     .imagenInicio h2 {
-        font-size: 4em;
+        font-size: 3em;
     }
 }
