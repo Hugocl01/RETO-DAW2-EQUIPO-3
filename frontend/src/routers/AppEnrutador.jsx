@@ -51,7 +51,7 @@ function AppEnrutador() {
     seguridad?.user?.perfil?.secciones?.map((sec) =>
       sec.nombre.toLowerCase()
     ) || [];
-  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -96,6 +96,15 @@ function AppEnrutador() {
             element={
               <Suspense fallback={<Spinner />}>
                 <DetalleEstadisticaPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="estadisticas/:equipoSlug/:jugadorSlug"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetalleJugadorPage />
               </Suspense>
             }
           />

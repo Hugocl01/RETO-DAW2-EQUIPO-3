@@ -35,9 +35,9 @@ function DetalleEstadisticaPage() {
 
   // Renderiza el componente adecuado según el tipo
   if (tipo === "jugador") {
-    return <DetalleJugadorPage slug={slug} />;
+    return <DetalleJugadorPage/>;
   } else if (tipo === "equipo") {
-    return <DetalleEquipoPage slug={slug} />;
+    return <DetalleEquipoPage/>;
   } 
 }
 

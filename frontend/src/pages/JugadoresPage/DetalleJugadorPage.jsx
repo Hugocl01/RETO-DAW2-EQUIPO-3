@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../ErrorPage";
 
-function DetalleJugadorPage({slug}) {
+function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
-  const {jugadorSlug } = useParams();
+  const location=useLocation();
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
 
   useEffect(() => {
+    /**
+     * Cojo el valor del slug del jugador desde la URL (última parte de location.pathname)
+     */
+    const nombreJugador = location.pathname.split("/").pop();
     const obtenerJugador = async () => {
       try {
-        const resultado = await api.get(`jugadores/${slug}`);
+        const resultado = await api.get(`jugadores/${nombreJugador}`);
         if (resultado.data.status === "success") {
           /**
            * Obtengo el array de jugadoresMostrados
@@ -67,7 +71,7 @@ function DetalleJugadorPage({slug}) {
      * Busco al jugador por su slug
      */
     const jugadorEnStorage = obtenerJugadorSession.find(
-      (e) => e.slug === slug
+      (e) => e.slug === nombreJugador
     );
 
     if (jugadorEnStorage) {
@@ -81,7 +85,7 @@ function DetalleJugadorPage({slug}) {
      * Desplazo la página arriba del todo
      */
     window.scrollTo(0, 0);
-  }, [jugadorSlug,slug]);
+  }, [location]);
 
   /**
    * Enseño la página de error, cuando haya una página de error

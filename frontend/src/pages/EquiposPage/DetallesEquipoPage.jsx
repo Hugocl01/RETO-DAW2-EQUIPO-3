@@ -128,7 +128,7 @@ function DetallesEquipoPage() {
    * @param {String} slug
    */
   function navegarDetalleJugador(slug) {
-    navegar(`/equipos/${equipo.nombre}/${slug}`);
+    navegar(`${location.pathname}/${slug}`);
   }
 
   return (
