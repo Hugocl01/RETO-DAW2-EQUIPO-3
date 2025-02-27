@@ -1,19 +1,40 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { cargarPerfiles } from "../../data/FuncionesCombobox";
 
 const fetchTiposPerfil = async () => {
     try {
-        const response = await api.get("/tipos/perfil");
-        return response.data.map(tipo => ({
-            value: tipo.id,
-            label: tipo.tipo
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("perfiles");
+
+        if (storedData) {
+            console.log("Cargando perfiles desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key, // ID del perfil
+                label: data[key] // Nombre del perfil
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando perfiles desde la API...");
+        const data = await cargarPerfiles();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key, // ID del perfil
+            label: data[key] // Nombre del perfil
         }));
+
     } catch (error) {
         console.error("Error al obtener los tipos de perfil", error);
         return [];
     }
 };
+
 
 function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
@@ -115,11 +136,11 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                     className="form-select"
                     name="perfil_id"
                     id="perfil_id"
-                    value={formData.perfil_id}
+                    value={formData.perfil_id || ''}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione un perfil</option>
-                    {tiposPerfil.map((tipo) => (
+                    {tiposPerfil.map((tipo) => ( 
                         <option key={tipo.value} value={tipo.value}>
                             {tipo.label}
                         </option>

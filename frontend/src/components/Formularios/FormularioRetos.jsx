@@ -1,6 +1,38 @@
 import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
+import { cargarEstudios } from "../../data/FuncionesCombobox";
 
+const fetchEstudios = async () => {
+    try {
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("estudios");
+
+        if (storedData) {
+            console.log("Cargando estudios desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando estudios desde la API...");
+        const data = await cargarEstudios();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los estudios", error);
+        return [];
+    }
+};
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         titulo: "",
@@ -14,17 +46,9 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     // Cargar los estudios desde sessionStorage
     useEffect(() => {
         const obtenerEstudios = async () => {
-            const data = JSON.parse(sessionStorage.getItem("estudios")) || {};
-            console.log("Estudios recogidos:", data);
-
-            const estudiosFormat = Object.entries(data).map(([id, nombre]) => ({
-                value: id,
-                label: nombre,
-            }));
-
-            setEstudios(estudiosFormat);
+            const data = await fetchEstudios();
+            setEstudios(data);
         };
-
         obtenerEstudios();
     }, []);
 
