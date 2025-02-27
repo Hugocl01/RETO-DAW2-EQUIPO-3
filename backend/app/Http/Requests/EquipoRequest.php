@@ -80,13 +80,23 @@ class EquipoRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $jugadores = $this->input('jugadores');
-            // Contar cuántos jugadores tienen 'capitan' igual a true
+
+            // Verificar que haya exactamente un capitán
             $capitanes = collect($jugadores)->filter(function ($jugador) {
-                // Convertimos a boolean para asegurarnos
                 return isset($jugador['capitan']) && (bool)$jugador['capitan'] === true;
             })->count();
             if ($capitanes !== 1) {
                 $validator->errors()->add('jugadores', 'Debe de haber una unidad de capitán en el equipo.');
+            }
+
+            // Para cada jugador que NO sea capitán, borrar los errores de DNI, email y teléfono
+            foreach ($jugadores as $index => $jugador) {
+                if (empty($jugador['capitan'])) {
+                    // Si no es capitán (capitan=0), olvidamos los errores que Laravel generó
+                    $validator->errors()->forget("jugadores.$index.dni");
+                    $validator->errors()->forget("jugadores.$index.email");
+                    $validator->errors()->forget("jugadores.$index.telefono");
+                }
             }
         });
     }

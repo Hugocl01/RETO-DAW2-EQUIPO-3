@@ -115,7 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Imagenes.getListaImagenModelos');
 
     Route::apiResource('inscripciones', InscripcionController::class);
-    Route::put('/cambiarEstado/{inscripcion}', [InscripcionController::class, 'cambiarEstado'])
+    Route::put('/cambiar-estado/{inscripcion}', [InscripcionController::class, 'cambiarEstado'])
         ->middleware('ability:Inscripciones.cambiarEstado');
 
     Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])
