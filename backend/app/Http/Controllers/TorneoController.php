@@ -33,7 +33,7 @@ class TorneoController extends Controller
     public function reinicioTorneo()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('partidos')->truncate();
+        DB::table('partidos')->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
 
