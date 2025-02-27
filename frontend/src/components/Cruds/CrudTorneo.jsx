@@ -92,7 +92,7 @@ export default function CrudTorneos() {
       if (!response.ok) throw new Error("Error al iniciar el torneo");
  console.log(response);
      
-      setTorneo('ok'); // Actualiza el estado con los datos del torneo recién iniciado
+  setTorneo({ iniciado: true });// Actualiza el estado con los datos del torneo recién iniciado
     } catch (error) {
       console.error(error);
       setError(error.message);
@@ -116,7 +116,7 @@ export default function CrudTorneos() {
 
       if (!response.ok) throw new Error("Error al reiniciar el torneo");
 
-      setTorneo({}); // Actualiza el estado con el torneo reiniciado
+      setTorneo({ iniciado: true }); // Actualiza el estado con el torneo reiniciado
     } catch (error) {
       console.error(error);
       setError(error.message);
