@@ -124,10 +124,14 @@ async function cargarEstudios() {
 
         sessionStorage.setItem('estudios', JSON.stringify(data));
 
+        return data; 
+
     } catch (error) {
         console.error("Error al cargar los estudios:", error);
+        return null; 
     }
 }
+
 
 /**
  * Carga la lista de familias desde la API y los almacena en sessionStorage.
@@ -244,8 +248,11 @@ async function cargarPerfiles() {
 
         sessionStorage.setItem('perfiles', JSON.stringify(data));
 
+        return data; 
+
     } catch (error) {
         console.error("Error al cargar los perfiles:", error);
+        return null; 
     }
 }
 

@@ -1,35 +1,74 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import { cargarEstudios, cargarEquipos } from "../../data/FuncionesCombobox";
+
 
 const fetchEquipos = async () => {
     try {
-        const response = await api.get("/lista/equipos");
-        console.log(response)
-        // Iteramos sobre las claves del objeto de equipos para crear un array de opciones
-        return Object.keys(response.data).map(key => ({
-            value: key, // Usamos la clave como el ID
-            label: response.data[key] // Usamos el valor como el nombre del equipo
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("equipos");
+
+        if (storedData) {
+            console.log("Cargando equipos desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando equipos desde la API...");
+        const data = await cargarEquipos();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
         }));
+
     } catch (error) {
         console.error("Error al obtener los equipos", error);
         return [];
     }
 };
 
+
+
 const fetchEstudios = async () => {
     try {
-        const response = await api.get("/lista/estudios");
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("estudios");
 
-        // Iteramos sobre las claves del objeto de estudios para crear un array de opciones
-        return Object.keys(response.data).map(key => ({
-            value: key, // Usamos la clave como el ID
-            label: response.data[key] // Usamos el valor como el nombre del estudio
+        if (storedData) {
+            console.log("Cargando estudios desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando estudios desde la API...");
+        const data = await cargarEstudios();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
         }));
+
     } catch (error) {
         console.error("Error al obtener los estudios", error);
         return [];
     }
 };
+
 
 function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({

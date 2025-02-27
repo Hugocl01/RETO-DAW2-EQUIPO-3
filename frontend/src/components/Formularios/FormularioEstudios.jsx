@@ -1,6 +1,69 @@
 import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
+import { cargarCentros, cargarCiclos } from "../../data/FuncionesCombobox";
 
+const fetchCentros = async () => {
+    try {
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("centros");
+
+        if (storedData) {
+            console.log("Cargando centros desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando centros desde la API...");
+        const data = await cargarCentros();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los centros", error);
+        return [];
+    }
+};
+const fetchCiclos = async () => {
+    try {
+        // Verifica si los datos ya están en sessionStorage
+        const storedData = sessionStorage.getItem("ciclos");
+
+        if (storedData) {
+            console.log("Cargando ciclos desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando ciclos desde la API...");
+        const data = await cargarCiclos();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los ciclos", error);
+        return [];
+    }
+};
 function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         centro_id: "",
@@ -13,25 +76,16 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Estudios" });
 
     useEffect(() => {
-        const obtenerCentros = () => {
-            const data = JSON.parse(sessionStorage.getItem("centros")) || {};
-            const centrosFormat = Object.entries(data).map(([id, nombre]) => ({
-                value: id,
-                label: nombre,
-            }));
-            setCentros(centrosFormat);
+        const obtenerCentros = async () => {
+            const data = await fetchCentros();
+            setCentros(data);
         };
-
-        const obtenerCiclos = () => {
-            const data = JSON.parse(sessionStorage.getItem("ciclos")) || {};
-            const ciclosFormat = Object.entries(data).map(([id, nombre]) => ({
-                value: id,
-                label: nombre,
-            }));
-            setCiclos(ciclosFormat);
-        };
-
         obtenerCentros();
+
+        const obtenerCiclos = async () => {
+            const data = await fetchCiclos();
+            setCiclos(data);
+        };
         obtenerCiclos();
     }, []);
 

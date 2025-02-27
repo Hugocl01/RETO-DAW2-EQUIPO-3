@@ -101,7 +101,7 @@ class Jugador extends Model
         $faltas = $this->actas()->where('incidencia_id', 8)->count();
 
         return [
-            'goles'             => $goles,
+            'goles'              => $goles,
             'tarjetas_amarillas' => $tarjetas_amarillas,
             'tarjetas_rojas'     => $tarjetas_rojas,
             'faltas'             => $faltas,
