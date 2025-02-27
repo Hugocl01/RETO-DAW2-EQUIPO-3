@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../services/api";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import { generateSlug } from "../utils/stringUtils";  // Asumimos que la función generateSlug está definida
 
@@ -17,8 +16,20 @@ function MenuAdministracion({ onSelect }) {
         const fetchSecciones = async () => {
             if (!seguridad?.user?.perfil?.id) return;
             try {
-                const response = await api.get(`/perfiles/${seguridad.user.perfil.id}`);
-                setSecciones(response.data.perfiles?.secciones || []);
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://127.0.0.1:8000/api/perfiles/${seguridad.user.perfil.id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token ? `Bearer ${token}` : ""
+                    },
+                    credentials: "include"
+                });
+                if (!response.ok) {
+                    throw new Error("Error al obtener secciones");
+                }
+                const data = await response.json();
+                setSecciones(data.perfiles?.secciones || []);
             } catch (error) {
                 console.error("Error al obtener secciones:", error);
             } finally {
@@ -63,7 +74,7 @@ function MenuAdministracion({ onSelect }) {
                 </ul>
             )}
         </aside>
-    );
+    );  
 }
 
 export default MenuAdministracion;
