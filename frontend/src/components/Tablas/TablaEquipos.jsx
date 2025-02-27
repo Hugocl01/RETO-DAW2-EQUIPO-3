@@ -92,10 +92,10 @@ function TablaEquipos() {
 
   /**
    * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
-   * @param {int} id
+   * @param {String} slug
    */
   function navegarDetalleEquipo(slug) {
-    navegar(`/equipos/${slug}`);
+    navegar(`/estadisticas/${slug}`);
   }
 
   /**Función para ordenar un campo */

@@ -4,6 +4,7 @@ import { lazy, Suspense, useContext } from "react";
 import Spinner from "../components/Spinner.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
+import DetalleEstadisticaPage from "../pages/DetalleEstadisticaPage.jsx";
 
 /**
  * Utilizo al carga perezosa o diferida para cada pages
@@ -91,10 +92,26 @@ function AppEnrutador() {
             }
           />
           <Route
+            path="estadisticas/:slug"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetalleEstadisticaPage />
+              </Suspense>
+            }
+          />
+          <Route
             path="equipos/:id"
             element={
               <Suspense fallback={<Spinner />}>
                 <DetallesEquipoPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="equipos/:equipoSlug/:jugadorSlug"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <DetalleJugadorPage />
               </Suspense>
             }
           />

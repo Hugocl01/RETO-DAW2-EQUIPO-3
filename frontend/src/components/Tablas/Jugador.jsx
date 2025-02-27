@@ -10,8 +10,7 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
 
   function handleClickNavegarEquipo(event) {
     event.stopPropagation();
-    console.log(jugador)
-    fnNavegarEquipo(jugador.equipo.slug);
+    fnNavegarEquipo(jugador.equipo);
   }
 
   function handleCLickNavegarJugador(){

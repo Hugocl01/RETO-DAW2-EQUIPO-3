@@ -14,24 +14,48 @@ function DetallesEquipoPage() {
 
   useEffect(() => {
     /**
-     * Función envoltorio que realiza la llamada a la api apra obtener los datos del equipo
+     * Cojo el valor del nombre del equipo desde la URL (última parte de location.pathname)
+     */
+    const nombreEquipo = location.pathname.split("/").pop();
+    /**
+     * Función envoltorio que realiza la llamada a la API para obtener los datos del equipo
      */
     const obtenerEquipo = async () => {
       try {
-        const resultado = await api.get(location.pathname);
+        const resultado = await api.get(`equipos/${nombreEquipo}`);
         if (resultado.data.status === "success") {
           /**
-           * Si el resultado es success, guardo los datos del equipo en la sessionstorage
-           * También guardo el equipo en el estado
+           * Tengo que obtener el array de la session donde tengo los jugadores ya cargados
+           * Si me devuelve null, inicializo un array vacío
            */
-          sessionStorage.setItem(
-            resultado.data.equipo.nombre,
-            JSON.stringify(resultado.data.equipo)
+          let arrayEquipo =
+            JSON.parse(sessionStorage.getItem("equiposMostrados")) || [];
+
+          /**
+           *Quiero evitar duplicados
+           */
+          const equipoExistente = arrayEquipo.find(
+            (e) => e.nombre === resultado.data.equipo.nombre
           );
+
+          /**
+           * Si no está, lo añade
+           */
+          if (!equipoExistente) {
+            arrayEquipo.push(resultado.data.equipo);
+            sessionStorage.setItem(
+              "equiposMostrados",
+              JSON.stringify(arrayEquipo)
+            );
+          }
+
+          /**
+           * Actualizo el estado del equipo
+           */
           setEquipo(resultado.data.equipo);
         } else {
           /**
-           * Si me devuelve otro tipo de estado la api, lo recojo en el estado de error
+           * Si me devuelve otro tipo de estado la API, lo recojo en el estado de error
            */
           setError({
             tipo: "error",
@@ -55,22 +79,33 @@ function DetallesEquipoPage() {
     };
 
     /**
-     * Cojo el valor del nombre del location
-     * Obtengo luego los valores de la session storage con el nombre del equipo
+     * Obtengo el array de equiposMostrados en la sessionStorage
      */
-    const nombreEquipo = location.pathname.split("/").pop(); 
-    const obtenerEquipoSession = sessionStorage.getItem(nombreEquipo);
+    const obtenerEquipoSession =
+      JSON.parse(sessionStorage.getItem("equiposMostrados")) || [];
 
     /**
-     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
-     * Si no hay datos, realizo la llamada a la api
+     * Busco si el equipo ya está en sessionStorage por su slug
      */
-    if (obtenerEquipoSession) {
-      setEquipo(JSON.parse(obtenerEquipoSession)); 
+    const equipoEnStorage = obtenerEquipoSession.find(
+      (e) => e.slug === nombreEquipo
+    );
+
+    /**
+     * Si el equipo está en sessionStorage, lo uso directamente
+     * Si no está, realizo la llamada a la API
+     */
+    if (equipoEnStorage) {
+      // Si ya está en sessionStorage, asignamos directamente el equipo al estado
+      setEquipo(equipoEnStorage);
       setCargando(false);
     } else {
       obtenerEquipo();
     }
+
+    /**
+     * Desplazo la página arriba del todo
+     */
     window.scrollTo(0, 0);
   }, [location]);
 
@@ -90,10 +125,10 @@ function DetallesEquipoPage() {
 
   /**
    * Redirijo a la página de detalle jugador
-   * @param {String} slug 
+   * @param {String} slug
    */
   function navegarDetalleJugador(slug) {
-    navegar(`/jugadores/${slug}`);
+    navegar(`/equipos/${equipo.nombre}/${slug}`);
   }
 
   return (
@@ -101,7 +136,6 @@ function DetallesEquipoPage() {
       <title>Detalles del Equipo</title>
       <section className="contenedor container-fluid py-5">
         <div className="row">
-          
           {/* Sección de información del equipo */}
           <section id="infoEquipo" className="col-md-4 p-0 d-flex flex-column">
             <div className="card shadow-sm border-light rounded p-3">
