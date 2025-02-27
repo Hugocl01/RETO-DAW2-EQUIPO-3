@@ -39,64 +39,41 @@ function TablaJugadores() {
       try {
         const resultado = await api.get("/jugadores");
         if (resultado.data.status === "success") {
-           // Guardar los datos en sessionStorage
-           sessionStorage.setItem(
-            "jugadores",
-            JSON.stringify(resultado.data.jugadores)
-          );
+          sessionStorage.setItem("jugadores", JSON.stringify(resultado.data.jugadores));
   
-          /**
-           * Ordeno antes de guardar en el estado
-           */
           const jugadoresOrdenados = [...resultado.data.jugadores].sort(
             (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
           );
   
-          
           setJugadores(jugadoresOrdenados);
           setTotalJugadores(jugadoresOrdenados.length);
-          setCargando(false);
-        }else {
-          setError({
-            tipo: "error",
-            mensaje: "Hubo un problema al obtener los jugadores.",
-          });
+        } else {
+          setError({ tipo: "error", mensaje: "Hubo un problema al obtener los jugadores." });
         }
-
       } catch (error) {
         setError({
           tipo: error.response?.status || error.name,
-          mensaje:
-            error.response?.data?.message || "No hay jugadores disponibles.",
+          mensaje: error.response?.data?.message || "No hay jugadores disponibles.",
         });
-      }finally{
+      } finally {
         setCargando(false);
       }
     };
-
-     /**
-     * Obtener datos desde sessionStorage
-     */
-     const jugadoresGuardados = sessionStorage.getItem("jugadores");
   
-     if (jugadoresGuardados) {
-       /**
-        * Convierto en ObjetoJSON antes de ordenar
-        */
-       const jugadoresOrdenados = JSON.parse(jugadoresGuardados).sort(
-         (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
-       );
-   
-       setJugadores(jugadoresOrdenados);
-       setCargando(false);
-     } else {
-       cargarJugadores();
-     }
-   
-     /**
-      * Esto me llevará al principio de la página
-      */
-     window.scrollTo(0, 0);
+    const jugadoresGuardados = sessionStorage.getItem("jugadores");
+    if (jugadoresGuardados) {
+      const jugadoresOrdenados = JSON.parse(jugadoresGuardados).sort(
+        (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
+      );
+  
+      setJugadores(jugadoresOrdenados);
+      setTotalJugadores(jugadoresOrdenados.length);
+      setCargando(false);
+    } else {
+      cargarJugadores();
+    }
+  
+    window.scrollTo(0, 0);
   }, []);
 
   /**
@@ -114,20 +91,17 @@ function TablaJugadores() {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
-  /**
-   * Función envoltorio de navegar que redirecciona a la página de detalle equipo
-   * @param {String} slug 
-   */
   function navegarDetalleEquipo(slug) {
-    navegar(`/equipos/${slug}`);
+      navegar(`/estadisticas/${slug}`);
   }
-
+  
   /**
    * Función envoltorio de navegar que redirecciona a la página de detalle jugador
    * @param {String} slug 
+   * @param {String} tipo
    */
   function navegarDetalleJugador(slug) {
-    navegar(`/jugadores/${slug}`);
+      navegar(`/estadisticas/${slug}`);
   }
 
   /**

@@ -1,43 +1,53 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../ErrorPage";
 
-function DetalleJugadorPage() {
+function DetalleJugadorPage({slug}) {
   const [jugador, setJugador] = useState(null);
-  const location = useLocation();
+  const {jugadorSlug } = useParams();
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
 
-  /**Cuando cambie el id del jugador, se ejecutará */
   useEffect(() => {
     const obtenerJugador = async () => {
       try {
-        const resultado = await api.get(location.pathname);
+        const resultado = await api.get(`jugadores/${slug}`);
         if (resultado.data.status === "success") {
           /**
-           * Si el resultado es success, guardo los datos del jugador en la sessionstorage
-           * También guardo el jugador en el estado
+           * Obtengo el array de jugadoresMostrados
+           * Si no hay, inicializo el array vacio
            */
-          sessionStorage.setItem(
-            resultado.data.jugador.slug,
-            JSON.stringify(resultado.data.jugador)
+          let arrayJugadores =
+            JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
+
+          /**
+           * Quiero verificar que no me meta duplicados
+           */
+          const jugadorExistente = arrayJugadores.find(
+            (e) => e.nombre === resultado.data.jugador.nombre
           );
+
+          if (!jugadorExistente) {
+            arrayJugadores.push(resultado.data.jugador);
+            sessionStorage.setItem(
+              "jugadoresMostrados",
+              JSON.stringify(arrayJugadores)
+            );
+          }
+
+          /**
+           * Actualizo el estado de jugador
+           */
           setJugador(resultado.data.jugador);
         } else {
-          /**
-           * Si me devuelve otro tipo de estado la api, lo recojo en el estado de error
-           */
           setError({
             tipo: "error",
             mensaje: "Hubo un problema al obtener el jugador.",
           });
         }
       } catch (error) {
-        /**
-         * Los errores que me recoja el catch, lo guardo en el estado de error
-         */
         setError({
           tipo: error.response?.status || error.name,
           mensaje: error.response?.data?.message || "No existe el jugador.",
@@ -46,26 +56,32 @@ function DetalleJugadorPage() {
         setCargando(false);
       }
     };
-    /**
-     * Cojo el valor del nombre del location
-     * Obtengo luego los valores de la session storage con el nombre del equipo
-     */
-    const nombreJugador = location.pathname.split("/").pop(); 
-
-    const obtenerJugadorSession = sessionStorage.getItem(nombreJugador);
 
     /**
-     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
-     * Si no hay datos, realizo la llamada a la api
+     * Obtengo el array de JugadoresMostrados desde la session
      */
-    if (obtenerJugadorSession) {
-      setJugador(JSON.parse(obtenerJugadorSession)); 
+    const obtenerJugadorSession =
+      JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
+
+    /**
+     * Busco al jugador por su slug
+     */
+    const jugadorEnStorage = obtenerJugadorSession.find(
+      (e) => e.slug === slug
+    );
+
+    if (jugadorEnStorage) {
+      setJugador(jugadorEnStorage);
       setCargando(false);
     } else {
       obtenerJugador();
     }
+
+    /**
+     * Desplazo la página arriba del todo
+     */
     window.scrollTo(0, 0);
-  }, [location]);
+  }, [jugadorSlug,slug]);
 
   /**
    * Enseño la página de error, cuando haya una página de error
@@ -96,9 +112,8 @@ function DetalleJugadorPage() {
                 {/* Nueva forma de mostrar si es capitán */}
                 {jugador.capitan === 1 && jugador.equipo && (
                   <p className="card-text">
-                    <h2>
-                      <strong>Capitán del equipo</strong>
-                    </h2>
+                    <strong>Capitán del equipo</strong>
+
                     <span className="">{jugador.equipo.nombre}</span>
                   </p>
                 )}
