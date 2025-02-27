@@ -2,12 +2,12 @@
     display: none;
 }
 
-@media (max-width: 1000px) {
-    .eliminar {
-        display: none;
-    }
+.labelJugador {
+    width: 50%;
+}
 
-    #botonEliminarResponsive {
-        display: block;
+@media (max-width: 990px) {
+    .labelJugador {
+        width: 100%;
     }
 }

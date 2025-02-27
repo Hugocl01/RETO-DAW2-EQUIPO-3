@@ -104,8 +104,8 @@ function Inicio() {
         /*div principal*/
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
-                <h2 className="text-white text-center">TORNEO DE FOOTBALL <br />SOLIDARIO</h2>
-                <div className='p-2 mt-5 d-flex justify-content-center align-items-center'>
+                <h2 className="text-white text-center mb-4">TORNEO DE FOOTBALL<br />SOLIDARIO</h2>
+                <div className='py-2 d-flex justify-content-center align-items-center'>
                     <a target="_blank" className='d-flex justify-content-center align-items-center' href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional">
                         <img src="../src/assets/imagenes/cruz-roja.png"></img>
                     </a>
@@ -134,7 +134,7 @@ function Inicio() {
                     </div>
 
                     <div className='mx-5 mt-2'>
-                        <button type="button" className="btn btn-secondary fs-6 btn-lg px-5">Inscríbete</button>
+                        <button type="button" className="btn btn-primary fs-6 btn-lg px-5">INSCRÍBETE</button>
                     </div>
 
                     <div className='infoIntroduccion border border-secondary rounded p-3 mx-5 mt-5'>
@@ -154,7 +154,7 @@ function Inicio() {
 
 
                 <div className='seccion2'>
-                    <img src="../src/assets/imagenes/football2.jpg"></img>
+                    <img src="../src/assets/imagenes/torneo.jpeg"></img>
                 </div>
             </section>
 

@@ -13,7 +13,7 @@ const Migas = () => {
     }
 
     return (
-        <nav className="migas-nav d-flex justify-content-center align-items-center mt-4">
+        <nav className="migas-nav d-flex justify-content-center align-items-center mt-4 mb-3">
             <ul className="migas-ul d-flex justify-content-start align-items-center px-3 m-0">
                 <li className="migas-li">
                     <Link to="/" className="migas-link">Inicio</Link>

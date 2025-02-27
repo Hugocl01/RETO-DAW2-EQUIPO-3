@@ -27,7 +27,7 @@ h1 {
 }
 
 .imagenInicio h2 {
-    font-size: 4.5em;
+    font-size: 4em;
     font-weight: bold;
     font-family: "Racing Sans One", Sans-serif;
     text-transform: uppercase;
@@ -43,6 +43,7 @@ h1 {
 .imagenInicio div {
     background-color: white;
     border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
 }
 
 .imagenInicio div:hover {
@@ -50,7 +51,7 @@ h1 {
 }
 
 .imagenInicio img {
-   width: 60%;
+   width: 50%;
 }
 
 
@@ -75,20 +76,31 @@ h1 {
 }
 
 .introduccion h2 {
-    font-size: 2.5em;
+    font-size: 2.2em;
     height: auto;
     width: 40%;
 }
 
-a {
+.introduccion a {
     text-decoration: none;
     color: black;
 }
 
-a:hover {
+.introduccion a:hover {
     color: black;
     text-decoration: underline;
 }
+
+.introduccion button {
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.introduccion button:hover {
+    transform: scale(1.1);
+    border-color: transparent;
+}
+
 
 .carruselesSimples {
     display: none;
