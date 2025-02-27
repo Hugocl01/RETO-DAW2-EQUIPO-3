@@ -1,0 +1,26 @@
+.card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.card-header:hover {
+    background: #0056b3;
+}
+
+.card-body {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

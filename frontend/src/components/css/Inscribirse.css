@@ -2,6 +2,28 @@
     animation: fadeOut 0.3s forwards;
 }
 
+svg, img {
+    width: 7em;
+}
+
+.formulario {
+    height: 60em;
+}
+
+.fields-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tarjeta {
+    width: 25%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.tarjeta:hover {
+    transform: scale(1.1);
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;

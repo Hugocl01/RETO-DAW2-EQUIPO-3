@@ -63,3 +63,7 @@
 .card-text::first-letter, .modal-body p::first-letter {
     text-transform: uppercase;
 }
+
+.modal-body img {
+    width: 80%;
+}
