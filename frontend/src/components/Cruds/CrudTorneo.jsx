@@ -5,7 +5,6 @@ export default function CrudTorneos() {
   const [torneo, setTorneo] = useState(null); // Estado para almacenar la información del torneo
   const [loading, setLoading] = useState(false); // Para mostrar el spinner mientras se hace la llamada
   const [error, setError] = useState(null); // Para manejar posibles errores
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Función para obtener el estado del torneo desde la API
   const getTorneoStatus = async () => {
@@ -57,7 +56,7 @@ export default function CrudTorneos() {
         console.log("Fecha actual:", fechaActualNormalized);
   
         // Comparamos las fechas normalizadas
-        return fechaPartido > fechaActualNormalized; // Si la fecha del partido es posterior a la fecha actual
+        return fechaPartido >= fechaActualNormalized; // Si la fecha del partido es posterior a la fecha actual
       });
   
       // Si hay partidos activos, definimos el estado como "activo"
@@ -115,8 +114,9 @@ export default function CrudTorneos() {
       });
 
       if (!response.ok) throw new Error("Error al reiniciar el torneo");
-
+      console.log(response);
       setTorneo({ iniciado: true }); // Actualiza el estado con el torneo reiniciado
+      getTorneoStatus();
     } catch (error) {
       console.error(error);
       setError(error.message);
@@ -135,14 +135,7 @@ export default function CrudTorneos() {
 
   return (
     <div className="p-4">
-      <input
-        type="text"
-        placeholder="Buscar torneo..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="p-2 border rounded w-full mb-4"
-      />
-      <div className="flex gap-4 mb-4">
+      <div className="flex mb-4">
         {/* Botón para iniciar torneo */}
         <button
           className="btn btn-success mb-2"

@@ -224,7 +224,8 @@ class Partido extends Model
                         'equipo_visitante_id' => $equipoVisitante->id,
                         'fecha' => $fecha,
                         'tipo_partido' => \App\Enums\TipoPartido::Clasificatorio,
-                        'duracion' => 20
+                        'duracion' => 20,
+                        'pabellon_id' => 1
                     ]);
                 }
             }
