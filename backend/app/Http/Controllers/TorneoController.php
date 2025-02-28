@@ -36,9 +36,11 @@ class TorneoController extends Controller
         DB::table('partidos')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-
         if (TorneoController::comienzoTorneo()) {
-            return true;
+            return response()->json(['message' => 'Torneo reiniciado con éxito'], 200);
         }
+
+        return response()->json(['message'=>'Error al reiniciar el torneo'],500);
+
     }
 }

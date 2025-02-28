@@ -18,6 +18,7 @@ import CrudCiclos from "../components/Cruds/CrudCiclos";
 import CrudCentros from "../components/Cruds/CrudCentros";
 import CrudEstudios from "../components/Cruds/CrudEstudios";
 import CrudInscripciones from "../components/Cruds/CrudInscripciones";
+import CrudTorneo from "../components/Cruds/CrudTorneo";
 
 // Importa los formularios para cada sección
 import FormularioJugadores from "../components/Formularios/FormularioJugadores";
@@ -178,6 +179,8 @@ function AdministracionPage() {
     // Renderiza el componente de CRUD (lista y botones) según la sección actual
     const renderCrud = () => {
         switch (selectedSeccion) {
+            case "torneo":
+                return <CrudTorneo onModoCambio={handleModoCambio} />
             case "equipos":
                 return <CrudEquipos onModoCambio={handleModoCambio} />
             case "jugadores":
