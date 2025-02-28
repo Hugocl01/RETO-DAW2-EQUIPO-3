@@ -121,6 +121,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])
         ->middleware('ability:Incidencias.getListaIncidencias');
 
-    Route::get('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
-    Route::get('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
+    Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
+    Route::post('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
 });

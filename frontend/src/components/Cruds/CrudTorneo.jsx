@@ -1,171 +1,220 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Spinner from "../Spinner";
+import Paginator from "../Paginator"; // Asegúrate de que la ruta es correcta
+
+async function fetchEquipos() {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/equipos`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al obtener los datos.");
+        }
+
+        const data = await response.json();
+        return data.equipos || [];
+    } catch (err) {
+        console.error('Error al recoger los equipos:', err);
+        return [];
+    }
+}
 
 export default function CrudTorneos() {
-  const [torneo, setTorneo] = useState(null); // Estado para almacenar la información del torneo
-  const [loading, setLoading] = useState(false); // Para mostrar el spinner mientras se hace la llamada
-  const [error, setError] = useState(null); // Para manejar posibles errores
+    const [torneo, setTorneo] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [fechaInicioTorneo, setFechaInicioTorneo] = useState("");
+    const [fechaActual, setFechaActual] = useState("");
+    const [equipos, setEquipos] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
-  // Función para obtener el estado del torneo desde la API
-  const getTorneoStatus = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-  
-      // Llamada a la API para obtener los partidos del torneo
-      const response = await fetch("http://127.0.0.1:8000/api/partidos", {
-        method: "GET", // Usamos GET para obtener los partidos del torneo
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+    useEffect(() => {
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        setFechaInicioTorneo(formattedDate);
+        setFechaActual(formattedDate);
+        getTorneoStatus();
+    }, []);
+
+    const getTorneoStatus = async () => {
+        setLoading(true);
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://127.0.0.1:8000/api/partidos", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!response.ok) throw new Error("Error al obtener los partidos");
+
+            const data = await response.json();
+            const partidosData = data.partidos || [];
+
+            const fechaActual = new Date();
+            const normalizeDate = (date) => {
+                const normalizedDate = new Date(date);
+                normalizedDate.setHours(0, 0, 0, 0);
+                return normalizedDate;
+            };
+
+            const torneoActivo = partidosData.some((partido) => normalizeDate(partido.fecha) >= normalizeDate(fechaActual));
+
+            setTorneo({ iniciado: torneoActivo });
+            const equiposData = await fetchEquipos();
+            setEquipos(equiposData);
+        } catch (error) {
+            console.error(error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
-      });
-  
-      if (!response.ok) throw new Error("Error al obtener los partidos");
-  
-      const data = await response.json();
-  
-      // Accedemos a la propiedad 'partidos' de la respuesta
-      const partidosData = data.partidos || [];
-  
-      // Aseguramos que partidosData es un arreglo
-      if (!Array.isArray(partidosData)) {
-        console.error("La respuesta no es un arreglo de partidos:", partidosData);
-        throw new Error("La respuesta de la API no contiene un arreglo de partidos.");
-      }
-  
-      // Comprobamos si hay algún partido cuya fecha es posterior a la fecha actual
-      const fechaActual = new Date(); // Fecha actual en formato Date
-      
-      // Función para normalizar la fecha a solo "YYYY-MM-DD"
-      const normalizeDate = (date) => {
-        // Establecemos las horas, minutos, segundos y milisegundos a cero para comparar solo la fecha
-        const normalizedDate = new Date(date);
-        normalizedDate.setHours(0, 0, 0, 0); // Establecemos las horas a 00:00:00
-        return normalizedDate;
-      };
-  
-      const fechaActualNormalized = normalizeDate(fechaActual); // Normalizamos la fecha actual
-  
-      // Comprobamos si hay partidos con fecha posterior a la actual
-      const torneoActivo = partidosData.some((partido) => {
-        const fechaPartido = normalizeDate(partido.fecha); // Normalizamos la fecha del partido
-  
-        // Mostrar las fechas en consola para debugging
-        console.log("Fecha del partido:", fechaPartido);
-        console.log("Fecha actual:", fechaActualNormalized);
-  
-        // Comparamos las fechas normalizadas
-        return fechaPartido >= fechaActualNormalized; // Si la fecha del partido es posterior a la fecha actual
-      });
-  
-      // Si hay partidos activos, definimos el estado como "activo"
-      setTorneo({ iniciado: torneoActivo });
-  
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  
-  useEffect(() => {
-    getTorneoStatus();
-  }, []);
-  
-  // Función para iniciar el torneo
-  const iniciarTorneo = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://127.0.0.1:8000/api/comienzo-torneo", {
-        method: "GET", // Usamos GET para iniciar el torneo
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+    };
+
+    const iniciarTorneo = async () => {
+        if (!fechaInicioTorneo) {
+            alert("Por favor, selecciona una fecha.");
+            return;
         }
-      });
 
-      if (!response.ok) throw new Error("Error al iniciar el torneo");
- console.log(response);
-     
-  setTorneo({ iniciado: true });// Actualiza el estado con los datos del torneo recién iniciado
-  getTorneoStatus();
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Función para reiniciar el torneo
-  const reiniciarTorneo = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://127.0.0.1:8000/api/reinicio-torneo", {
-        method: "GET", // Usamos GET para reiniciar el torneo
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+        if (new Date(fechaInicioTorneo) <= new Date(fechaActual)) {
+            alert("Por favor, selecciona una fecha posterior.");
+            return;
         }
-      });
 
-      if (!response.ok) throw new Error("Error al reiniciar el torneo");
-      console.log(response);
-      setTorneo({ iniciado: true }); // Actualiza el estado con el torneo reiniciado
-      getTorneoStatus();
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setLoading(true);
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://127.0.0.1:8000/api/comienzo-torneo", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ fecha: fechaInicioTorneo })
+            });
 
-  // Cargar el estado del torneo al cargar el componente
-  useEffect(() => {
-    getTorneoStatus();
-  }, []);
+            if (!response.ok) throw new Error("Error al iniciar el torneo");
 
-  if (loading) return <Spinner />;
-  if (error) return <p>Error: {error}</p>;
+            setTorneo({ iniciado: true });
+            getTorneoStatus();
+        } catch (error) {
+            console.error(error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="p-4">
-      <div className="flex mb-4">
-        {/* Botón para iniciar torneo */}
-        <button
-          className="btn btn-success mb-2"
-          onClick={iniciarTorneo}
-          disabled={torneo && torneo.iniciado} // Deshabilitar si el torneo ya está iniciado
-        >
-          Iniciar Torneo
-        </button>
+    const reiniciarTorneo = async () => {
+        setLoading(true);
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://127.0.0.1:8000/api/reinicio-torneo", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ fecha: fechaInicioTorneo })
+            });
 
-        {/* Botón para reiniciar torneo */}
-        <button
-          className="btn btn-danger mb-2"
-          onClick={reiniciarTorneo}
-          disabled={!torneo || !torneo.iniciado} // Deshabilitar si el torneo no está iniciado
-        >
-          Reiniciar Torneo
-        </button>
-      </div>
+            if (!response.ok) throw new Error("Error al reiniciar el torneo");
 
-      <div className="mt-4">
-        {/* Mostrar detalles del torneo si existe */}
-        {torneo && (
-          <div>
-            <h2>Detalles del Torneo</h2>
-            <p><strong>Estado:</strong> {torneo.iniciado ? "Iniciado" : "No Iniciado"}</p>
-            {/* Aquí puedes agregar más detalles del torneo, como los equipos o partidos */}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+            setTorneo({ iniciado: false });
+            getTorneoStatus();
+        } catch (error) {
+            console.error(error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const totalItems = equipos.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = equipos.slice(startIndex, startIndex + itemsPerPage);
+
+    if (loading) return <Spinner />;
+    if (error) return <p>Error: {error}</p>;
+
+    return (
+        <div className="p-4">
+            <div className="d-flex justify-content-between">
+                {/* Columna Izquierda - Detalles del Torneo */}
+                <div className="w-50">
+                    <h2>Detalles del Torneo</h2>
+                    <p><strong>Estado:</strong> {torneo?.iniciado ? "Iniciado" : "No Iniciado"}</p>
+                    <p><strong>Fecha seleccionada:</strong> {fechaInicioTorneo || "No seleccionada"}</p>
+                </div>
+
+                {/* Columna Derecha - Fecha y Botones */}
+                <div className="w-50">
+                    <div className="mb-3 w-75">
+                        <label htmlFor="fecha" className="form-label">
+                            Selecciona la fecha del torneo:
+                        </label>
+                        <input
+                            type="date"
+                            id="fecha"
+                            className="form-control"
+                            value={fechaInicioTorneo}
+                            onChange={(e) => setFechaInicioTorneo(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="d-flex gap-2 mt-3">
+                        <button className="btn btn-success" onClick={iniciarTorneo} disabled={torneo?.iniciado}>
+                            Iniciar Torneo
+                        </button>
+                        <button className="btn btn-danger" onClick={reiniciarTorneo} disabled={!torneo?.iniciado}>
+                            Reiniciar Torneo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Tabla de Equipos y Paginador */}
+            <div className="mt-4">
+                <h2>Participantes</h2>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Equipo</th>
+                            <th>Grupo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentItems.map((equipo, index) => (
+                            <tr key={index}>
+                                <td>{equipo.nombre}</td>
+                                <td>{equipo.grupo}</td>
+                            </tr>
+                        ))}
+                        {currentItems.length === 0 && (
+                            <tr>
+                                <td colSpan="2" className="text-center">No hay equipos disponibles.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+
+                {/* Paginador */}
+                <Paginator 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={setCurrentPage} 
+                />
+            </div>
+        </div>
+    );
 }
