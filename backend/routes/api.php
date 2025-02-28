@@ -40,7 +40,7 @@ Route::apiResource('donaciones', DonacionController::class)->only(['index']);
 Route::apiResource('ciclos', CicloController::class)->only(['index']);
 Route::apiResource('retos', RetoController::class)->only(['index', 'show']);
 Route::apiResource('centros', CentroController::class)->only(['index']);
-Route::apiResource('equipos', EquipoController::class)->only(['store']);
+Route::apiResource('equipos', EquipoController::class)->only(['store', 'index', 'show']);
 Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show']);
 Route::apiResource('partidos', PartidoController::class)->only(['index', 'show']);
 Route::apiResource('estudios', EstudioController::class)->only(['index']);
@@ -80,7 +80,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Estudios.index,Estudios.show,Estudios.store,Estudios.update,Estudios.destroy');
     Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios']);
 
-    Route::apiResource('equipos', EquipoController::class)->except(['index', 'show']);
+    Route::apiResource('equipos', EquipoController::class)->except(['index', 'show', 'store']);
     Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos']);
 
     Route::apiResource('familias', FamiliaController::class)
