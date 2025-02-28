@@ -92,6 +92,7 @@ export default function CrudTorneos() {
  console.log(response);
      
   setTorneo({ iniciado: true });// Actualiza el estado con los datos del torneo recién iniciado
+  getTorneoStatus();
     } catch (error) {
       console.error(error);
       setError(error.message);
