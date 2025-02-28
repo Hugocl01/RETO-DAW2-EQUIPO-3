@@ -40,7 +40,7 @@ Route::apiResource('donaciones', DonacionController::class)->only(['index']);
 Route::apiResource('ciclos', CicloController::class)->only(['index']);
 Route::apiResource('retos', RetoController::class)->only(['index', 'show']);
 Route::apiResource('centros', CentroController::class)->only(['index']);
-Route::apiResource('equipos', EquipoController::class)->only(['index', 'show']);
+Route::apiResource('equipos', EquipoController::class)->only(['store']);
 Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show']);
 Route::apiResource('partidos', PartidoController::class)->only(['index', 'show']);
 Route::apiResource('estudios', EstudioController::class)->only(['index']);
