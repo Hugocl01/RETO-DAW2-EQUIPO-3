@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-import "./css/Carrusel.css";
-import "./css/EstilosComun.css";
+import "../css/Carrusel.css";
+import "../css/EstilosComun.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-function Carousel({ id, items, intervalo }) {
+function CarouselSimple({ id, items, intervalo }) {
     const [selectedItem, setSelectedItem] = useState(null);
-
-    const groupedItems = [];
-    for (let i = 0; i < items.length; i += 3) {
-        groupedItems.push(items.slice(i, i + 3));
-    }
 
     return (
         <>
             <div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
                 <div className="carousel-indicators">
-                    {groupedItems.map((_, index) => (
+                    {items.map((_, index) => (
                         <button
                             key={index}
                             type="button"
@@ -30,42 +25,39 @@ function Carousel({ id, items, intervalo }) {
                 </div>
 
                 <div className="carousel-inner p-5">
-                    {groupedItems.map((group, index) => (
+                    {items.map((item, index) => (
                         <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                             <div className="container">
                                 <div className="row justify-content-center">
-                                    {group.map((item, i) => (
-                                        item ? (
-                                            <div key={i} className="col-md-4 d-flex justify-content-center">
-                                                <div className="card text-center shadow-lg custom-card">
-                                                    <img 
-                                                    src={item?.imagen || "../src/assets/imagenes/img2.png"} className="card-img-top" alt={item?.titulo || "Sin título"} 
-                                                    />
-                                                    <div className="card-body">
-                                                        <h5 className="card-title">{item?.titulo || "Sin título"}</h5>
-                                                        <p className="card-text text-center">
-                                                            {item?.texto?.length > 160
-                                                                ? `${item.texto.substring(0, 150)}...`
-                                                                : item?.texto || "No hay contenido disponible"}
-                                                        </p>
-                                                        {item?.texto?.length > 150 && (
-                                                            <button
-                                                                className="btn btn-success"
-                                                                onClick={() => {
-                                                                    setSelectedItem(item);
-                                                                }}
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target={`#leerMasModal_${id}`}
-                                                            >
-                                                                LEER MÁS
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
+                                    <div className="col-md-8 d-flex justify-content-center">
+                                        <div className="card text-center shadow-lg custom-card">
+                                            <img
+                                                src={item?.imagen || "../src/assets/imagenes/img2.png"}
+                                                className="card-img-top"
+                                                alt={item?.titulo || "Sin título"}
+                                            />
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item?.titulo || "Sin título"}</h5>
+                                                <p className="card-text text-center">
+                                                    {item?.texto?.length > 160
+                                                        ? `${item.texto.substring(0, 150)}...`
+                                                        : item?.texto || "No hay contenido disponible"}
+                                                </p>
+                                                {item?.texto?.length > 150 && (
+                                                    <button
+                                                        className="btn btn-success"
+                                                        onClick={() => {
+                                                            setSelectedItem(item);
+                                                        }}
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target={`#leerMasModal_${id}`}
+                                                    >
+                                                        LEER MÁS
+                                                    </button>
+                                                )}
                                             </div>
-                                        ) : null
-                                    ))}
-
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +85,11 @@ function Carousel({ id, items, intervalo }) {
                         <div className="modal-body">
                             {selectedItem ? (
                                 <>
-                                    <img src={selectedItem?.imagen || "../src/assets/imagenes/img2.png"} className="img-fluid mb-3" alt={selectedItem.titulo} />
+                                    <img
+                                        src={selectedItem?.imagen || "../src/assets/imagenes/img2.png"}
+                                        className="img-fluid mb-3"
+                                        alt={selectedItem.titulo}
+                                    />
                                     <p>{selectedItem.texto}</p>
                                 </>
                             ) : (
@@ -112,4 +108,4 @@ function Carousel({ id, items, intervalo }) {
     );
 }
 
-export default Carousel;
+export default CarouselSimple;

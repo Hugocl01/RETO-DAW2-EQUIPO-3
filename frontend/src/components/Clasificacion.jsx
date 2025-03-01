@@ -34,7 +34,7 @@ function Clasificacion() {
 
     return (
         <div className="container my-5 d-flex flex-column jusitfy-content-center align-items-center">
-            <h1 className="mb-5">Clasificación</h1>
+            <h1>Clasificación</h1>
             <div className="row d-flex flex-wrap">
                 <div className="col-md-6">
                     <CuadroClasificacion titulo="Grupo A" equipos={equiposA} />

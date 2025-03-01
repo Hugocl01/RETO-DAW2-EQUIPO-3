@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TablaEquipos from "../components/Tablas/TablaEquipos";
 import TablaJugadores from "../components/Tablas/TablaJugadores";
+import "../components/css/EstilosComun.css";
 
 function EstadisticasPage() {
   /**
@@ -24,7 +25,7 @@ function EstadisticasPage() {
       <title>Estadisticas</title>
       <section className="container-fluid mt-5 w-75">
         <div className="row">
-          <h2 className="col-12 text-center">Estadísticas</h2>
+          <h1 className="mx-auto w-auto text-center">Estadísticas</h1>
         </div>
         <div className="row">
           <div className="col-12 d-flex flex-row justify-content-start my-2">

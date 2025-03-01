@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from './Carousel';
+import Carousel from './Carouseles/Carousel';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import Spinner from "../components/Spinner.jsx";
 
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
-import CarouselSimple from './CarouselSimple.jsx';
+import CarouselSimple from './Carouseles/CarouselSimple.jsx';
 
 function Inicio() {
     //arrays para los carruseles
@@ -175,6 +175,7 @@ function Inicio() {
                 )}
             </section>
 
+            {/*Solo sale cuando la ventana es mas pequeña*/}
             <section className="carruselesSimples section-container text-center">
                 <h1 className='text-center'>Noticias</h1>
                 {noticias.length > 0 ? (
@@ -218,36 +219,17 @@ function Inicio() {
                         </div>
                     </div>
                 </div>
-
-                {/*
-                <div className="tarjetasDonar row row-cols-1 row-cols-md-2">
-                    <div className="col">
-                        <div className="totalRecaudado p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
-                            <h2>Total Recaudado</h2>
-                            <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
-                        </div>
-                    </div>
-
-                    <div className="col">
-                        <div className="comoDonar p-3 rounded-2 text-center">
-                            <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
-                            <h2>Como Donar</h2>
-                            <button className="btn btn-primary mt-2 rounded-pill">Donar</button>
-                        </div>
-                    </div>
-                </div>
-                */}
             </section>
 
 
-            {/* div de color rojo */}
-            <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                {/* div de color blanco */}
-                <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
-                    <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
-                    <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
-                        {/*
+            <section className='patrocinadores'>
+                {/* div de color rojo */}
+                <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
+                    {/* div de color blanco */}
+                    <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
+                        <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
+                        <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
+                            {/*
                         {patrocinadores.map((patrocinador) => (
                             <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
                                 <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
@@ -259,42 +241,42 @@ function Inicio() {
                         ))}
                         */}
 
-                        <div className="row">
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/acicatech.png" className="img-fluid rounded" alt="Imagen 1" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" className="img-fluid rounded" alt="Imagen 2" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/soicon.png" className="img-fluid rounded" alt="Imagen 3" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" className="img-fluid rounded" alt="Imagen 4" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/cic.png" className="img-fluid rounded" alt="Imagen 5" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/deduce.png" className="img-fluid rounded" alt="Imagen 6" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/deode.png" className="img-fluid rounded" alt="Imagen 7" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/infortec.png" className="img-fluid rounded" alt="Imagen 8" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/netkia.png" className="img-fluid rounded" alt="Imagen 9" />
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                <img src="../src/assets/imagenes/patrocinadores/seidor.png" className="img-fluid rounded" alt="Imagen 10" />
+                            <div className="row">
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/acicatech.png" className="img-fluid rounded" alt="Imagen 1" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" className="img-fluid rounded" alt="Imagen 2" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/soicon.png" className="img-fluid rounded" alt="Imagen 3" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" className="img-fluid rounded" alt="Imagen 4" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/cic.png" className="img-fluid rounded" alt="Imagen 5" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/deduce.png" className="img-fluid rounded" alt="Imagen 6" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/deode.png" className="img-fluid rounded" alt="Imagen 7" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/infortec.png" className="img-fluid rounded" alt="Imagen 8" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/netkia.png" className="img-fluid rounded" alt="Imagen 9" />
+                                </div>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
+                                    <img src="../src/assets/imagenes/patrocinadores/seidor.png" className="img-fluid rounded" alt="Imagen 10" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </section>
         </div >
     );
 }

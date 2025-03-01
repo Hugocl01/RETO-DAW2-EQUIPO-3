@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import "./css/TarjetaFormulario.css";
+import "../css/TarjetaFormulario.css";
+import "../css/EstilosComun.css";
 
 function TarjetaFormulario({ titulo, id, children }) {
     const [abiertas, setAbiertas] = useState({});

@@ -1,8 +1,8 @@
 import { useState, useEffect, useId } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
-import api from "../services/api.js";
-import Spinner from "../components/Spinner.jsx";
-import "./css/Inscribirse.css";
+import api from "../../services/api.js";
+import Spinner from "../Spinner.jsx";
+import "../css/Inscribirse.css";
 import TarjetaFormulario from "./TarjetaFormulario.jsx";
 
 function Inscribirse() {
@@ -178,7 +178,7 @@ function Inscribirse() {
   const erroresJugadores = mapJugadorErrorsToArray(errores);
 
   return (
-    <div className="container bg-light border rounded p-5">
+    <div className="contenedor-inscripcion container bg-light border rounded p-5">
       <h2 className="text-center">Inscribe a tu Equipo</h2>
       <div className="row d-flex justify-content-between mb-4">
         {/* Tarjeta Equipo */}

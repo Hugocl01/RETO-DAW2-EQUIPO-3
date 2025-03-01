@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./css/Inscribirse.css";
-import "./css/JugadorLabel.css";
+import "../css/Inscribirse.css";
+import "../css/JugadorLabel.css";
 
 function JugadorLabel({
   id,

@@ -1,12 +1,12 @@
-
-
 /* Estilo para el contenedor de los equipos */
 .contEquipo {
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suaviza el movimiento y la sombra */
-  }
-  
-  .contEquipo:hover {
-    transform: translateY(-10px); /* Levanta el contenedor 10px hacia arriba */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Agrega una sombra sutil al contenedor para mayor énfasis */
-  }
-  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Suaviza el movimiento y la sombra */
+}
+
+.contEquipo:hover {
+  transform: translateY(-10px);
+  /* Levanta el contenedor 10px hacia arriba */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Agrega una sombra sutil al contenedor para mayor énfasis */
+}

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import "./css/CuadroClasificacion.css";
+import "./css/EstilosComun.css";
 
 const CuadroClasificacion = ({ titulo, equipos }) => {
   const [filaSeleccionada, setFilaSeleccionada] = useState(null);
 
   const handleRowClick = (index) => {
-    if (filaSeleccionada === index) {
-      setFilaSeleccionada(null);
-    } else {
-      setFilaSeleccionada(index);
-    }
+    setFilaSeleccionada(filaSeleccionada === index ? null : index);
   };
 
   return (
@@ -30,20 +27,9 @@ const CuadroClasificacion = ({ titulo, equipos }) => {
           </thead>
           <tbody>
             {equipos.map((equipo, fila) => (
-              // Para los dos primeros puestos (index < 2), aplicamos 'table-success'
               <tr
                 key={equipo.equipo}
-                className={
-                  fila < 2
-                    ? filaSeleccionada === fila
-                      // si la fila es verde se cambia a roja
-                      ? "table-success table-danger"
-                      : "table-success"
-                    : filaSeleccionada === fila
-                      // si la fila no es verde se pone roja
-                      ? "table-danger"
-                      : ""
-                }
+                className={`${fila < 2 ? "table-success" : ""} ${filaSeleccionada === fila ? "selected-row" : ""}`}
                 onClick={() => handleRowClick(fila)}
               >
                 <td>{fila + 1}</td>
@@ -52,11 +38,7 @@ const CuadroClasificacion = ({ titulo, equipos }) => {
                 <td>{equipo.puntos}</td>
                 <td>{equipo.goles_favor}</td>
                 <td>{equipo.goles_contra}</td>
-                <td
-                  className={
-                    equipo.diferencia_goles >= 0 ? "text-success" : "text-danger"
-                  }
-                >
+                <td className={equipo.diferencia_goles >= 0 ? "text-success" : "text-danger"}>
                   {equipo.diferencia_goles}
                 </td>
               </tr>

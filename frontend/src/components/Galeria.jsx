@@ -1,3 +1,4 @@
+import "./css/EstilosComun.css";
 
 function Galeria() {
 
