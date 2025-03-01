@@ -23,8 +23,7 @@ function CrudUsuarios({ onModoCambio }) {
         return (
             safeToLower(usuario.nombre).includes(query) ||
             safeToLower(usuario.email).includes(query) ||
-            safeToLower(usuario.perfil?.tipo).includes(query) ||
-            safeToLower(usuario.activo ? "activo" : "inactivo").includes(query)
+            safeToLower(usuario.perfil?.tipo).includes(query)
         );
     });
 
@@ -71,7 +70,6 @@ function CrudUsuarios({ onModoCambio }) {
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -81,7 +79,6 @@ function CrudUsuarios({ onModoCambio }) {
                             <td>{usuario.nombre}</td>
                             <td>{usuario.email}</td>
                             <td>{usuario.perfil?.tipo || "Sin rol"}</td>
-                            <td>{usuario.activo ? "Activo" : "Inactivo"}</td>
                             <td>
                                 <button
                                     className="btn btn-sm btn-warning me-2"

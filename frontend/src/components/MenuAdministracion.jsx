@@ -56,7 +56,7 @@ function MenuAdministracion({ onSelect }) {
     };
 
     return (
-        <aside className="p-3 border-end bg-light" style={{ minWidth: "240px", height: "100vh" }}>
+        <aside className="p-3" style={{ minWidth: "240px", height: "100vh" }}>
             <h4 className="text-center">Administración</h4>
             {loading ? <p className="text-center">Cargando secciones...</p> : (
                 <ul className="list-group">
