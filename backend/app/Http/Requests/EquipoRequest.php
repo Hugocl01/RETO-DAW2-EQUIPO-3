@@ -26,15 +26,26 @@ class EquipoRequest extends FormRequest
             'jugadores.*.capitan'         => 'required|integer',
             'jugadores.*.estudio_id'      => 'required|integer|exists:estudios,id',
 
-            // Validar DNI del capitán
-            'jugadores.*.dni'             => [
+            // Validar el capitán
+            'jugadores.*.dni' => [
+                'required_if:jugadores.*.capitan,1',   // <--- El campo DNI solo se requiere si capitan == 1
                 'string',
-                'size:9', // exactamente 9 caracteres
-                'regex:/^\d{8}[A-Za-z]$/', // 8 dígitos y 1 letra
+                'size:9',
+                'regex:/^\d{8}[A-Za-z]$/',
                 'unique:jugadores,dni'
             ],
-            'jugadores.*.email'           => 'string|email|unique:jugadores,email',
-            'jugadores.*.telefono'        => 'string|size:9',
+            'jugadores.*.email' => [
+                'required_if:jugadores.*.capitan,1',
+                'string',
+                'email',
+                'unique:jugadores,email'
+            ],
+            'jugadores.*.telefono' => [
+                'required_if:jugadores.*.capitan,1',
+                'string',
+                'size:9',
+            ],
+
         ];
     }
 
@@ -79,24 +90,17 @@ class EquipoRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+
             $jugadores = $this->input('jugadores');
 
-            // Verificar que haya exactamente un capitán
-            $capitanes = collect($jugadores)->filter(function ($jugador) {
-                return isset($jugador['capitan']) && (bool)$jugador['capitan'] === true;
-            })->count();
-            if ($capitanes !== 1) {
-                $validator->errors()->add('jugadores', 'Debe de haber una unidad de capitán en el equipo.');
-            }
+            // Asegurar exactamente 1 capitán
+            $capitanes = collect($jugadores)->filter(
+                fn($jugador) =>
+                isset($jugador['capitan']) && (bool)$jugador['capitan'] === true
+            )->count();
 
-            // Para cada jugador que NO sea capitán, borrar los errores de DNI, email y teléfono
-            foreach ($jugadores as $index => $jugador) {
-                if (empty($jugador['capitan'])) {
-                    // Si no es capitán (capitan=0), olvidamos los errores que Laravel generó
-                    $validator->errors()->forget("jugadores.$index.dni");
-                    $validator->errors()->forget("jugadores.$index.email");
-                    $validator->errors()->forget("jugadores.$index.telefono");
-                }
+            if ($capitanes !== 1) {
+                $validator->errors()->add('jugadores', 'Debe de haber un único capitán en el equipo.');
             }
         });
     }
