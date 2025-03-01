@@ -19,7 +19,7 @@ class CentroRequest extends FormRequest
 
         return [
             'nombre'     => 'required|string|max:255|unique:centros,nombre,' . $id,
-            'lading_page' => 'required|url|max:255',
+            'landing_page' => 'required|url|max:255',
         ];
     }
 }

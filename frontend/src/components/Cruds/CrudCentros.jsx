@@ -45,7 +45,7 @@ function CrudCentros({ onModoCambio }) {
             <h2>Centros</h2>
 
             {/* Buscador */}
-            <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
                     className="form-control"
@@ -53,6 +53,12 @@ function CrudCentros({ onModoCambio }) {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+                <button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Centro
+                </button>
             </div>
 
             {/* Tabla de datos */}

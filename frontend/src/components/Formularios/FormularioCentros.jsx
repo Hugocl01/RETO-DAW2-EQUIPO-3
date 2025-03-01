@@ -2,56 +2,64 @@ import { useEffect, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 
 function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        nombre: "",
+        landing_page: "",
+    });
     const [errores, setErrores] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false); // Para manejar el estado de envío
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { createItem, updateItem, loading, error } = useCrud({ nombre: "Centros" });
 
     useEffect(() => {
         if (datosIniciales) {
-            setFormData(datosIniciales); // Si estamos en edición, cargamos los datos iniciales
+            setFormData({
+                id: datosIniciales.id,  // Guarda el ID dentro de formData
+                nombre: datosIniciales.nombre || "",
+                landing_page: datosIniciales.landing_page || "",
+            });
         }
     }, [datosIniciales]);
 
-    // Función para validar el formulario
+    // Validación del formulario
     const validateForm = () => {
         let errors = {};
-        if (!formData.nombre) {
+        if (!formData.nombre.trim()) {
             errors.nombre = "El nombre es obligatorio";
         }
-        if (!formData.landing_page) {
+        if (!formData.landing_page.trim()) {
             errors.landing_page = "La página web es obligatoria";
-        }
-        // Validación simple para comprobar si la URL es válida
-        if (formData.landing_page && !/^https?:\/\/[^\s]+$/.test(formData.landing_page)) {
+        } else if (!/^https?:\/\/[^\s]+$/.test(formData.landing_page)) {
             errors.landing_page = "La URL debe ser válida (ej. http://example.com)";
         }
         setErrores(errors);
         return Object.keys(errors).length === 0;
     };
 
-    // Función para manejar los cambios en los campos del formulario
+    // Manejo de cambios en los campos del formulario
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
 
     // Manejo del envío del formulario
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validateForm()) return; // Si hay errores, no continuar
+
         setIsSubmitting(true);
 
-        // Validar el formulario antes de proceder
-        if (validateForm()) {
+        try {
+            console.log(formData)
             if (datosIniciales) {
-                // Modo edición: Usamos updateItem para actualizar el centro existente
-                await updateItem(formData); // Asegúrate de que `updateItem` esté correctamente implementado
+                await updateItem(formData.id, formData);
             } else {
-                // Modo creación: Usamos createItem para crear un nuevo centro
-                await createItem(formData); // Asegúrate de que `createItem` esté correctamente implementado
+                await createItem(formData);
             }
-        } else {
-            setIsSubmitting(false); // Solo volvemos a habilitar el formulario si hay errores
+            onGuardar(formData);
+        } catch (error) {
+            console.error("Error al guardar:", error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -59,6 +67,7 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
             <h2 className="mb-4 text-center">{datosIniciales ? "Editar Centro" : "Crear Centro"}</h2>
 
+            {/* Campo Nombre */}
             <div className="mb-3">
                 <label htmlFor="nombre" className="form-label">Nombre</label>
                 <input
@@ -66,7 +75,7 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
                     name="nombre"
                     id="nombre"
                     placeholder="Ingrese el nombre del centro"
-                    value={formData.nombre || ''}
+                    value={formData.nombre}
                     onChange={handleChange}
                     className={`form-control ${errores.nombre ? 'is-invalid' : ''}`}
                     disabled={isSubmitting}
@@ -74,6 +83,7 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
                 {errores.nombre && <div className="invalid-feedback">{errores.nombre}</div>}
             </div>
 
+            {/* Campo Página Web */}
             <div className="mb-3">
                 <label htmlFor="landing_page" className="form-label">Página web</label>
                 <input
@@ -81,7 +91,7 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
                     name="landing_page"
                     id="landing_page"
                     placeholder="Ingrese la página web"
-                    value={formData.landing_page || ''}
+                    value={formData.landing_page}
                     onChange={handleChange}
                     className={`form-control ${errores.landing_page ? 'is-invalid' : ''}`}
                     disabled={isSubmitting}
@@ -108,7 +118,7 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
                 </button>
             </div>
 
-            {/* Mostrar errores generales si existen */}
+            {/* Errores generales */}
             {Object.keys(errores).length > 0 && (
                 <div className="alert alert-danger mt-3">
                     <ul>
@@ -119,8 +129,8 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
                 </div>
             )}
 
-            {/* Mostrar estado de error */}
-            {error && <div className="alert alert-danger">{error}</div>}
+            {/* Error de API */}
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
         </form>
     );
 }
