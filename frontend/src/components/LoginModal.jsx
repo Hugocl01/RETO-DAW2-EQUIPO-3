@@ -48,7 +48,7 @@ function LoginModal({ handleClose }) {
         <form onSubmit={handleSubmit} className="d-flex flex-column justify-content-center align-items-center border p-4" ref={modalRef}>
             {/* Botón para cerrar el modal */}
             <button type="button" className="btn-close mb-4" aria-label="Close" onClick={handleClose}></button>
-            <h1 className="h3 mb-3 fw-normal text-center">Iniciar sesión</h1>
+            <h1 className="h3 mb-4 fw-normal text-center">Iniciar sesión</h1>
             
             {error && <div className="alert alert-danger">{error}</div>}
             

@@ -24,7 +24,7 @@ function Retos() {
         <>
             {retos ? (<>
                 <div className="container mt-4 d-flex  flex-column justify-content-center align-items-center">
-                    <h1 className="mb-5">Listado de Retos</h1>
+                    <h1>Listado de Retos</h1>
                     <div className="row">
                         {retos.map((reto) => (
                             <div

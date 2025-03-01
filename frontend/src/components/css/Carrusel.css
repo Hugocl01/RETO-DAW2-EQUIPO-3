@@ -26,6 +26,30 @@
     padding: 0.7em 1.5em;
 }
 
+.card-title,
+.modal-title {
+    text-transform: lowercase;
+}
+
+.card-title::first-letter,
+.modal-title::first-letter {
+    text-transform: uppercase;
+}
+
+.card-text,
+.modal-body {
+    text-transform: lowercase;
+}
+
+.card-text::first-letter,
+.modal-body p::first-letter {
+    text-transform: uppercase;
+}
+
+.modal-body img {
+    width: 80%;
+}
+
 @media (max-width: 768px) {
     .carousel-item {
         transition: opacity 0.3s ease, transform 0.3s ease;
@@ -46,24 +70,4 @@
         opacity: 0;
         transform: translateX(100%);
     }
-}
-
-.card-title, .modal-title {
-    text-transform: lowercase;
-}
-
-.card-title::first-letter, .modal-title::first-letter {
-    text-transform: uppercase;
-}
-
-.card-text, .modal-body {
-    text-transform: lowercase;
-}
-
-.card-text::first-letter, .modal-body p::first-letter {
-    text-transform: uppercase;
-}
-
-.modal-body img {
-    width: 80%;
 }

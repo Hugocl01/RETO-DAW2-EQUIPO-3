@@ -12,7 +12,7 @@ header img {
     max-width: 90px;
 }
 
-ul {
+header ul {
     margin: 0 auto;
 }
 
@@ -132,8 +132,6 @@ header li {
     font-weight: bold;
     border-bottom: 3px solid #d9625d;
 }
-
-
 
 @media (max-width: 1022px) {
     .contenidoCabecera {

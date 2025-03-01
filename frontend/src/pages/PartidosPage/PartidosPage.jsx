@@ -100,7 +100,7 @@ function PartidosPage() {
     <>
       <section className="container-fluid my-5 mx-auto w-75 min-vh-100">
         <div className="row">
-          <h2 className="col-12 text-center">Resultados</h2>
+          <h1 className="mx-auto w-auto text-center">Resultados</h1>
         </div>
 
         <section className="p-3 mb-5 row my-3 bg-primary rounded-top">

@@ -1,4 +1,4 @@
-import Inscribirse from "../components/Inscribirse.jsx";
+import Inscribirse from "../components/FormularioInscripcion/Inscribirse.jsx";
 
 /**
  * Página de Inscribirse.

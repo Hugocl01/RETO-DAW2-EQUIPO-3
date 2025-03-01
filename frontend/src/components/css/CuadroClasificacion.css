@@ -1,6 +1,15 @@
-  /* En pantallas pequeñas, forzar scroll horizontal */
-  @media (max-width: 768px) {
-      .table {
-          width: 40%;
-      }
-  }
+/* Aplicar borde a la fila seleccionada */
+.selected-row {
+    border: 3px solid rgb(71, 145, 89) !important;
+}
+
+.selected-row td {
+    border-color: lightgray !important;
+}
+
+/* En pantallas pequeñas, forzar scroll horizontal */
+@media (max-width: 768px) {
+    .table {
+        width: 40%;
+    }
+}
