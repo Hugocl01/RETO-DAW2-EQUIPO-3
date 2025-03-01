@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import MenuAdministracion from "../components/MenuAdministracion";
@@ -53,10 +53,22 @@ function AdministracionPage() {
     // Función que se pasa al menú y se ejecuta al seleccionar una sección.
     const handleMenuSelect = (seccionSeleccionada) => {
         const seccionNombreSlug = generateSlug(seccionSeleccionada.nombre);  // Aseguramos que el nombre se convierte a slug
-        setSelectedSeccion(seccionNombreSlug);
-        // Navega a la ruta correspondiente con slug sin tildes
-        navigate(`/administracion/${seccionNombreSlug}`);
+        if (modo != null) {
+            if (window.confirm('¿Estás seguro de salir del apartado de edición / creación?')) {
+                setSelectedSeccion(seccionNombreSlug);
+                setModo(null);
+            }
+        } else {
+            setSelectedSeccion(seccionNombreSlug);
+            navigate(`/administracion/${seccionNombreSlug}`);
+        }
     };
+
+    useEffect(() => {
+        if (modo == null) {
+            navigate(`/administracion/${selectedSeccion}`);
+        }
+    }, [modo]);
 
     // Función para cambiar el modo (por ejemplo, al editar o crear)
     const handleModoCambio = (nuevoModo, item = null) => {

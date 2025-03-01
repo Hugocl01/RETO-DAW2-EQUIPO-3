@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import { generateSlug } from "../utils/stringUtils";  // Asumimos que la función generateSlug está definida
 
-function MenuAdministracion({ onSelect }) {
+function MenuAdministracion({ onSelect}) {
     const { seguridad } = useContext(SeguridadContext);
     const { seccion } = useParams();
     const navigate = useNavigate();
@@ -49,10 +49,8 @@ function MenuAdministracion({ onSelect }) {
     }, [secciones, seccion]);
 
     const handleSelect = (seccion) => {
-        setSelectedSeccion(seccion);
+        console.log(seccion);
         onSelect(seccion);
-        const slug = generateSlug(seccion.nombre);  // Generamos el slug para la URL
-        navigate(`/administracion/${slug}`);         // Navegamos con el slug
     };
 
     return (
