@@ -44,7 +44,9 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
     // Manejo del envío del formulario
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!validateForm()) return; // Si hay errores, no continuar
+        if (!validateForm()) {
+            return; // Si hay errores, no continuar
+        }
 
         setIsSubmitting(true);
 
