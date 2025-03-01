@@ -41,7 +41,6 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
         nombre: "",
         email: "",
         password: "",
-        activo: false,
         perfil_id: "",
     });
     const [tiposPerfil, setTiposPerfil] = useState([]);
@@ -118,17 +117,6 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                     value={formData.password}
                     onChange={handleChange}
                 />
-            </div>
-            <div className="form-check mb-3">
-                <input
-                    type="checkbox"
-                    className="form-check-input"
-                    name="activo"
-                    id="activo"
-                    checked={formData.activo}
-                    onChange={handleChange}
-                />
-                <label htmlFor="activo" className="form-check-label">Activo</label>
             </div>
             <div className="mb-3">
                 <label htmlFor="perfil_id" className="form-label">Tipo de Perfil</label>

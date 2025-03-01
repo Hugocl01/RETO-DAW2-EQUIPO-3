@@ -24,7 +24,7 @@ export const useCrud = (seccion) => {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            console.log(response);
+            // console.log(response);
             if (!response.ok) {
                 throw new Error("Error al obtener los datos.");
             }
