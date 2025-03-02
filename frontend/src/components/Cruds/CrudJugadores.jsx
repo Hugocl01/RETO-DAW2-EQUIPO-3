@@ -1,17 +1,33 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import Paginator from "../Paginator"; // Asegúrate de la ruta correcta
+import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar y visualizar los jugadores. Permite realizar búsquedas
+ * de jugadores por campos como nombre, equipo, estudio, email y teléfono. También 
+ * incluye la funcionalidad de paginación para navegar entre los resultados.
+ *
+ * @component
+ *
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando el usuario cambia el modo (crear, editar, etc.).
+ * 
+ * @returns {React.Element} El componente `CrudJugadores` para gestionar los jugadores.
+ */
 function CrudJugadores({ onModoCambio }) {
   const seccion = useMemo(() => ({ nombre: "Jugadores" }), []);
   const { items, loading, error, deleteItem } = useCrud(seccion);
 
+  // Estados para la búsqueda y la paginación
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Ajusta según tus necesidades
 
-  // Filtra los jugadores por nombre, equipo, estudio, email, etc.
+  /**
+   * Filtra los jugadores según el término de búsqueda. 
+   * Los jugadores son filtrados por nombre, equipo, estudio, dni, email y teléfono.
+   */
   const filteredItems = items.filter((jugador) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -24,19 +40,31 @@ function CrudJugadores({ onModoCambio }) {
     );
   });
 
-  // Cálculo de la paginación.
+  // Cálculos para la paginación
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+  /**
+   * Maneja los cambios en el campo de búsqueda. 
+   * Reinicia la paginación a la primera página cuando se cambia la búsqueda.
+   * 
+   * @param {Object} e - El evento de cambio del campo de búsqueda.
+   */
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reinicia a la primera página al cambiar la búsqueda
   };
 
-  if (loading) return <Spinner />;
-  if (error) return <p>Error: {error}</p>;
+  // Si los datos están cargando, se muestra un spinner
+  if (loading) {
+    return <Spinner />;
+  }
+  // Si ocurre un error al cargar los datos, se muestra un mensaje de error
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div>
@@ -84,7 +112,7 @@ function CrudJugadores({ onModoCambio }) {
         </tbody>
       </table>
 
-      {/* Paginador */}
+      {/* Componente de paginación */}
       <Paginator
         currentPage={currentPage}
         totalPages={totalPages}

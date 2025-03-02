@@ -64,9 +64,13 @@ function CrudCentros({ onModoCambio }) {
     };
 
     // Mostrar el cargando o el error
-    if (loading) return <Spinner />;
-    if (error) return <p>Error: {error}</p>;
-
+    if (loading) {
+        return <Spinner />;
+    }
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+    
     return (
         <div>
             <h2>Centros</h2>

@@ -60,11 +60,14 @@ function CrudCiclos({ onModoCambio }) {
     };
 
     // Cargar el spinner mientras se cargan los datos
-    if (loading) return <Spinner />;
-
+    if (loading) {
+        return <Spinner />;
+    }
     // Mostrar un mensaje de error si ocurre uno
-    if (error) return <p>Error: {error}</p>;
-
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+    
     return (
         <div>
             <h2>Ciclos Formativos</h2>
