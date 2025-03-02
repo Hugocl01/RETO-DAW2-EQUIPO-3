@@ -51,4 +51,9 @@ class Ong extends Model
     {
         return $this->morphMany(Publicacion::class, 'publicacionable');
     }
+
+    public static function getLista()
+    {
+        return self::pluck('nombre', 'id');
+    }
 }

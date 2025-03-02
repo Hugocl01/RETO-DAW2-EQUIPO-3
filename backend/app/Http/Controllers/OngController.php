@@ -51,4 +51,10 @@ class OngController extends Controller
             'ongs' => OngResource::collection($ongs)
         ], 200);
     }
+
+    public function getListaOngs()
+    {
+        $ong = Ong::getLista();
+        return response()->json($ong);
+    }
 }

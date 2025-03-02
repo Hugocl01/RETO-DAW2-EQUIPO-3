@@ -136,9 +136,6 @@ class Equipo extends Model
         }
     }
 
-
-
-
     public static function getLista()
     {
         return self::pluck('nombre', 'id');

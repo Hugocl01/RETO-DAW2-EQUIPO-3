@@ -226,7 +226,13 @@ class PartidoController extends Controller
 
     public function getListaTipoPartido()
     {
-        $tipos = Partido::getLista();
+        $tipos = Partido::getListaTipo();
         return response()->json($tipos);
+    }
+
+    public function getListaPartidos()
+    {
+        $partidos = Partido::getLista();
+        return response()->json($partidos);
     }
 }

@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
-import { cargarEstudios } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
 function CrudRetos({ onModoCambio }) {
@@ -39,11 +38,6 @@ function CrudRetos({ onModoCambio }) {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
-
-    // Cargar de los valores en el sessionStorage del selector del formulario
-    useEffect(() => {
-        cargarEstudios();
-    }, []);
 
     if (loading) return <Spinner/>;
     if (error) return <p>Error: {error}</p>;

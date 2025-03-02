@@ -17,7 +17,8 @@ class PublicacionResource extends JsonResource
                 : 'No',
             'contenido'   => $this->contenido,
             // Relaciones polimórficas, si quieres mostrarlas
-            'seccion' => class_basename($this->publicacionable)
+            'seccion' => class_basename($this->publicacionable),
+            'elemento' => $this->publicacionable->id??null
         ];
     }
 }

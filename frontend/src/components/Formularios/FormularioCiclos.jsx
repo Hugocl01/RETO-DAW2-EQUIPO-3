@@ -1,25 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import { cargarFamilias } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 const fetchFamilias = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
-        const storedData = sessionStorage.getItem("familias");
-
-        if (storedData) {
-            console.log("Cargando familias desde sessionStorage");
-            const data = JSON.parse(storedData);
-
-            return Object.keys(data).map(key => ({
-                value: key,
-                label: data[key]
-            }));
-        }
-
         // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando familias desde la API...");
-        const data = await cargarFamilias();
+        const data = await llamadas().ciclos();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
 
