@@ -16,7 +16,7 @@ use App\Http\Resources\CicloResource;
 class CicloController extends Controller
 {
     /**
-     * Obtener todos los centros.
+     * Obtener todos los ciclos.
      *
      * @OA\Get(
      *     path="/api/ciclos",
@@ -64,6 +64,7 @@ class CicloController extends Controller
      *     path="/api/ciclos/{ciclo}",
      *     summary="Obtener un ciclo por su ID",
      *     tags={"Ciclos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="ciclo",
      *         in="path",
@@ -103,6 +104,7 @@ class CicloController extends Controller
      *     path="/api/ciclos",
      *     summary="Crear un nuevo ciclo",
      *     tags={"Ciclos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/Ciclo")
@@ -144,6 +146,7 @@ class CicloController extends Controller
      *     path="/api/ciclos/{ciclo}",
      *     summary="Actualizar un ciclo existente",
      *     tags={"Ciclos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="ciclo",
      *         in="path",
@@ -196,6 +199,7 @@ class CicloController extends Controller
      *     path="/api/ciclos/{ciclo}",
      *     summary="Eliminar un ciclo",
      *     tags={"Ciclos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="ciclo",
      *         in="path",
@@ -228,6 +232,29 @@ class CicloController extends Controller
         ]);
     }
 
+    /**
+     * Obtener todos los ciclos.
+     *
+     * @OA\Get(
+     *     path="/api/lista/ciclos",
+     *     summary="Obtener todos los ciclos, pero solo los valores necesarios para el front",
+     *     tags={"Ciclos"},
+     *     security={{"BearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de ciclos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="ciclos",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Ciclo")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaCiclos(): JsonResponse
     {
         $ciclos = Ciclo::getLista();

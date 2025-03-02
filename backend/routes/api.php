@@ -63,9 +63,6 @@ Route::get('/inscripcion-confirmada', function () {
     return view('inscripcion.confirmada');
 })->name('inscripcion.confirmada.view');
 
-
-
-
 // RUTAS PRIVADAS
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('usuarios', UsuarioController::class)

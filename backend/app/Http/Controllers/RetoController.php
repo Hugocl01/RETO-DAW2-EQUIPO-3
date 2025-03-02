@@ -248,6 +248,28 @@ class RetoController extends Controller
         ], 400);
     }
 
+    /**
+     * Obtener todos los retos.
+     *
+     * @OA\Get(
+     *     path="/api/lista/retos",
+     *     summary="Obtener todos los retos, pero solo los valores necesarios para el front",
+     *     tags={"Retos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de retos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="retos",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Reto")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaRetos()
     {
         $reto = Reto::getLista();

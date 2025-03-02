@@ -12,7 +12,7 @@ class IncidenciaController extends Controller
      *
      * @OA\Get(
      *     path="/api/lista/incidencias",
-     *     summary="Obtener lista de incidencias",
+     *     summary="Obtener lista de incidencias, pero solo los atributos necesarios",
      *     tags={"Incidencias"},
      *     security={{"BearerAuth": {}}},
      *     @OA\Response(

@@ -31,7 +31,7 @@ class PartidoSeeder extends Seeder
                             'equipo_local_id'     => $equipos[$i]->id,
                             'equipo_visitante_id' => $equipos[$j]->id,
                             'fecha'               => now()->addDays(1)->format('Y-m-d'),
-                            'duracion'            => 20,
+                            'duracion'            => 10,
                             'pabellon_id'         => 1
                         ]);
                     }

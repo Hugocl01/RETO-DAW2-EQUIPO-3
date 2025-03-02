@@ -65,26 +65,35 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
     useEffect(() => {
         const obtenerCentros = async () => {
             const data = await fetchCentros();
-            setCentros(data);
+            setCentros(data);  // Cargamos los centros en el estado
         };
         obtenerCentros();
-
+    
         const obtenerCiclos = async () => {
             const data = await fetchCiclos();
-            setCiclos(data);
+            setCiclos(data);  // Cargamos los ciclos en el estado
         };
         obtenerCiclos();
-    }, []);
-
+    }, []);  // Este useEffect solo se ejecuta una vez cuando el componente se monta
+    
     useEffect(() => {
-        if (datosIniciales) {
+        // Este useEffect se ejecuta cuando centros o ciclos cambian
+        if (datosIniciales && centros.length > 0 && ciclos.length > 0) {
+            // Buscamos el ID del centro usando el nombre (label)
+            const centroSeleccionado = centros.find(centro => centro.label === datosIniciales.centro);
+    
+            // Buscamos el ID del ciclo usando el nombre (label)
+            const cicloSeleccionado = ciclos.find(ciclo => ciclo.label === datosIniciales.ciclo);
+    
+            // Asignamos los valores al estado formData
             setFormData({
-                centro_id: datosIniciales.centro_id || "",
-                ciclo_id: datosIniciales.ciclo_id || "",
+                centro_id: centroSeleccionado ? centroSeleccionado.value : "",
+                ciclo_id: cicloSeleccionado ? cicloSeleccionado.value : "",
                 curso_id: datosIniciales.curso || "",
             });
         }
-    }, [datosIniciales]);
+    }, [datosIniciales, centros, ciclos]);  // Este useEffect se ejecuta cuando datosIniciales, centros o ciclos cambian
+    
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -110,10 +119,9 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
             setIsSubmitting(false);
         }
     };
-
     return (
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
-            <h2 className="mb-4 text-center">Formulario de Estudio</h2>
+            <h2 className="mb-4 text-center">{datosIniciales!=null?'Editar estudio':'Crear estudio'}</h2>
 
             {/* Selector de Centro */}
             <div className="mb-3">
@@ -146,7 +154,7 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
                 >
                     <option value="" hidden>Seleccione un ciclo</option>
                     {ciclos.map((ciclo) => (
-                        <option key={ciclo.value} value={ciclo.value}>{ciclo.label}</option>
+                        <option key={ciclo.value} value={ciclo.value} selected={datosIniciales.ciclo === ciclo.label}>{ciclo.label}</option>
                     ))}
                 </select>
             </div>

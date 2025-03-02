@@ -193,6 +193,28 @@ class FamiliaController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtener todos los familias.
+     *
+     * @OA\Get(
+     *     path="/api/lista/familias",
+     *     summary="Obtener todos los familias, pero solo los valores necesarios para el front",
+     *     tags={"Familias"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de familias",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="familias",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Familia")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaFamilias()
     {
         $familias = Familia::getLista();

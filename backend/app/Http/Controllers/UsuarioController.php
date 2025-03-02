@@ -163,6 +163,7 @@ class UsuarioController extends Controller
      *     path="/api/set-password/{id}/{token}",
      *     summary="Establecer una nueva contraseña con un token",
      *     tags={"Usuarios"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

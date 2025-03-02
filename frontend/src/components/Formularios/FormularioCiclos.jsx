@@ -6,7 +6,7 @@ const fetchFamilias = async () => {
     try {
         // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando familias desde la API...");
-        const data = await llamadas().ciclos();
+        const data = await llamadas().familias();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
 
@@ -50,13 +50,17 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
         // Validar antes de guardar
         onGuardar(formData);
     };
-
+    console.log(formData);
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="nombre">Nombre</label>
+        <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
+            <h2 className="mb-4 text-center">{datosIniciales!=null?'Editar Ciclo':'Crear ciclo'}</h2>
+    
+            {/* Nombre */}
+            <div className="mb-3">
+                <label htmlFor="nombre" className="form-label">Nombre</label>
                 <input
                     type="text"
+                    className="form-control"
                     name="nombre"
                     id="nombre"
                     placeholder="Ingrese el nombre"
@@ -64,12 +68,15 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
                     onChange={handleChange}
                 />
             </div>
-            <div>
-                <label htmlFor="familia_id">Familia</label>
+    
+            {/* Familia */}
+            <div className="mb-3">
+                <label htmlFor="familia_id" className="form-label">Familia</label>
                 <select
+                    className="form-select"
                     name="familia_id"
                     id="familia_id"
-                    value={formData.familia_id || ''}
+                    value={formData.familia_id?.id || ''}
                     onChange={handleChange}
                 >
                     <option value="" hidden>Seleccione una familia</option>
@@ -78,12 +85,15 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
                     ))}
                 </select>
             </div>
-            <div>
-                <button type="submit">Guardar</button>
-                <button type="button" onClick={onCancelar}>Cancelar</button>
+    
+            {/* Botones */}
+            <div className="d-flex justify-content-between">
+                <button type="submit" className="btn btn-success">Guardar</button>
+                <button type="button" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
             </div>
         </form>
     );
+    
 }
 
 export default FormularioCiclos;

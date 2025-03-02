@@ -314,6 +314,28 @@ class EquipoController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtener todos los equipos.
+     *
+     * @OA\Get(
+     *     path="/api/lista/equipos",
+     *     summary="Obtener todos los equipos, pero solo los valores necesarios para el front",
+     *     tags={"Equipos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de equipos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="equipos",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Equipo")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaEquipos()
     {
         $equipos = Equipo::getLista();

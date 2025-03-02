@@ -20,6 +20,28 @@ class PatrocinadorController extends Controller
         ]);
     }
 
+    /**
+     * Obtener todos los patrocinadores.
+     *
+     * @OA\Get(
+     *     path="/api/lista/patrocinadores",
+     *     summary="Obtener todos los patrocinadores, pero solo los valores necesarios para el front",
+     *     tags={"Patrocinadores"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de patrocinadores",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="patrocinadores",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Patrocinador")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaPatrocinadores()
     {
         $patrocinador = Patrocinador::getLista();

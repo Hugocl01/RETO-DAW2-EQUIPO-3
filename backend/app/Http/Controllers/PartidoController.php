@@ -224,12 +224,56 @@ class PartidoController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Obtener todos los partidos.
+     *
+     * @OA\Get(
+     *     path="/api/lista/tipo/partidos",
+     *     summary="Obtener todos los partidos, pero solo los valores de los tipos necesarios para el front",
+     *     tags={"Partidos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de partidos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="partidos",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Partido")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaTipoPartido()
     {
         $tipos = Partido::getListaTipo();
         return response()->json($tipos);
     }
 
+    /**
+     * Obtener todos los partidos.
+     *
+     * @OA\Get(
+     *     path="/api/lista/partidos",
+     *     summary="Obtener todos los partidos, pero solo los valores necesarios para el front",
+     *     tags={"Partidos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de partidos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="partidos",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Partido")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaPartidos()
     {
         $partidos = Partido::getLista();

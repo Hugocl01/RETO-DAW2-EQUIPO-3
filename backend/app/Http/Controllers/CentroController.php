@@ -52,6 +52,7 @@ class CentroController extends Controller
      *     path="/api/centros/{centro}",
      *     summary="Obtener un centro por su ID",
      *     tags={"Centros"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="centro",
      *         in="path",
@@ -92,6 +93,7 @@ class CentroController extends Controller
      *     path="/api/centros",
      *     summary="Crear un nuevo centro",
      *     tags={"Centros"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/Centro")
@@ -133,6 +135,7 @@ class CentroController extends Controller
      *     path="/api/centros/{centro}",
      *     summary="Actualizar un centro existente",
      *     tags={"Centros"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="centro",
      *         in="path",
@@ -185,6 +188,7 @@ class CentroController extends Controller
      *     path="/api/centros/{centro}",
      *     summary="Eliminar un centro",
      *     tags={"Centros"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="centro",
      *         in="path",
@@ -217,6 +221,29 @@ class CentroController extends Controller
         ]);
     }
 
+    /**
+     * Obtener todos los centros.
+     *
+     * @OA\Get(
+     *     path="/api/lista/centros",
+     *     summary="Obtener todos los centros, pero solo los valores necesarios para el front",
+     *     tags={"Centros"},
+     *     security={{"BearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de centros",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="centros",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Centro")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaCentros(): JsonResponse
     {
         $centros = Centro::getLista();
