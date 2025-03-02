@@ -244,6 +244,40 @@
                 }
             }
         },
+        "/api/lista/centros": {
+            "get": {
+                "tags": [
+                    "Centros"
+                ],
+                "summary": "Obtener todos los centros, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los centros.",
+                "operationId": "39054a39c513bc44e6028f58b6d62e38",
+                "responses": {
+                    "200": {
+                        "description": "Lista de centros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "centros": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Centro"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/ciclos": {
             "get": {
                 "tags": [
@@ -469,6 +503,40 @@
                     },
                     "404": {
                         "description": "Ciclo no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/lista/ciclos": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Obtener todos los ciclos, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los ciclos.",
+                "operationId": "b1acedae605395ea31efcb1571fbdd49",
+                "responses": {
+                    "200": {
+                        "description": "Lista de ciclos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "ciclos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ciclo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -800,6 +868,40 @@
                 }
             }
         },
+        "/api/lista/equipos": {
+            "get": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Obtener todos los equipos, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los equipos.",
+                "operationId": "e5e85c65536795532f9f63dec46a6b89",
+                "responses": {
+                    "200": {
+                        "description": "Lista de equipos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "equipos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Equipo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/estudios": {
             "get": {
                 "tags": [
@@ -922,6 +1024,40 @@
                     },
                     "404": {
                         "description": "Estudio no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/lista/estudios": {
+            "get": {
+                "tags": [
+                    "Estudios"
+                ],
+                "summary": "Obtener todos los estudios, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los estudios.",
+                "operationId": "8989779df9ff932f7ee753ee952e1d00",
+                "responses": {
+                    "200": {
+                        "description": "Lista de estudios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "estudios": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Estudio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1112,12 +1248,46 @@
                 }
             }
         },
+        "/api/lista/familias": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Obtener todos los familias, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los familias.",
+                "operationId": "1fef624b744e37200cbf8a171c849dc0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de familias",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "familias": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Familia"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/lista/incidencias": {
             "get": {
                 "tags": [
                     "Incidencias"
                 ],
-                "summary": "Obtener lista de incidencias",
+                "summary": "Obtener lista de incidencias, pero solo los atributos necesarios",
                 "description": "Obtener lista de incidencias.",
                 "operationId": "b4d7e7dacb66a64997e25e888bcd7c92",
                 "responses": {
@@ -1330,6 +1500,40 @@
                 }
             }
         },
+        "/api/lista/jugadores": {
+            "get": {
+                "tags": [
+                    "Jugadores"
+                ],
+                "summary": "Obtener todos los jugadores, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los jugadores.",
+                "operationId": "95459585bd566452f3a845d1b680b9aa",
+                "responses": {
+                    "200": {
+                        "description": "Lista de jugadores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "jugadores": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Jugador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -1504,6 +1708,40 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/lista/pabellones": {
+            "get": {
+                "tags": [
+                    "Pabellones"
+                ],
+                "summary": "Obtener todos los pabellones, pero solo los valores necesarios para el front",
+                "description": "Obtener todos las pabellones.",
+                "operationId": "54a9ef728c480acdf991686b9796371d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pabellones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "pabellones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Pabellon"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/partidos": {
@@ -1688,6 +1926,108 @@
                     },
                     "404": {
                         "description": "Partido no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/lista/tipo/partidos": {
+            "get": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Obtener todos los partidos, pero solo los valores de los tipos necesarios para el front",
+                "description": "Obtener todos los partidos.",
+                "operationId": "2a41ff4081b3652d3db487a56586714f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de partidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "partidos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Partido"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lista/partidos": {
+            "get": {
+                "tags": [
+                    "Partidos"
+                ],
+                "summary": "Obtener todos los partidos, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los partidos.",
+                "operationId": "db7e20217a68bdb5ed9e80bcd439f51c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de partidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "partidos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Partido"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/lista/patrocinadores": {
+            "get": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Obtener todos los patrocinadores, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los patrocinadores.",
+                "operationId": "d73532df363875a490c952fc424ba419",
+                "responses": {
+                    "200": {
+                        "description": "Lista de patrocinadores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "patrocinadores": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Patrocinador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1921,6 +2261,40 @@
                 }
             }
         },
+        "/api/lista/perfiles": {
+            "get": {
+                "tags": [
+                    "Perfiles"
+                ],
+                "summary": "Obtener todos los perfiles, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los perfiles.",
+                "operationId": "67fcc4fe8455f1e0b783663ea229b547",
+                "responses": {
+                    "200": {
+                        "description": "Lista de perfiles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "perfiles": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Perfil"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/retos": {
             "get": {
                 "tags": [
@@ -2146,6 +2520,40 @@
                     },
                     "404": {
                         "description": "Reto no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/lista/retos": {
+            "get": {
+                "tags": [
+                    "Retos"
+                ],
+                "summary": "Obtener todos los retos, pero solo los valores necesarios para el front",
+                "description": "Obtener todos los retos.",
+                "operationId": "cab26aa354262bd58470a7f6fe6e87f8",
+                "responses": {
+                    "200": {
+                        "description": "Lista de retos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "retos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Reto"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2651,6 +3059,32 @@
                 },
                 "type": "object"
             },
+            "Pabellon": {
+                "title": "Pabellon",
+                "description": "Modelo de Pabellón",
+                "required": [
+                    "nombre",
+                    "direccion"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID del pabellón",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del pabellón",
+                        "type": "string",
+                        "example": "Pabellón Deportivo Central"
+                    },
+                    "direccion": {
+                        "description": "Dirección del pabellón",
+                        "type": "string",
+                        "example": "Calle Principal 123, Ciudad"
+                    }
+                },
+                "type": "object"
+            },
             "Partido": {
                 "title": "Partido",
                 "properties": {
@@ -2694,6 +3128,33 @@
                         "description": "ID del pabellón donde se juega el partido",
                         "type": "integer",
                         "example": 101
+                    }
+                },
+                "type": "object"
+            },
+            "Patrocinador": {
+                "title": "Patrocinador",
+                "description": "Modelo de Patrocinador",
+                "required": [
+                    "nombre",
+                    "landing_page"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID del patrocinador",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del patrocinador",
+                        "type": "string",
+                        "example": "Empresa XYZ"
+                    },
+                    "landing_page": {
+                        "description": "URL de la landing page del patrocinador",
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://www.ejemplo.com"
                     }
                 },
                 "type": "object"
@@ -2894,6 +3355,14 @@
         {
             "name": "Login",
             "description": "Login"
+        },
+        {
+            "name": "Pabellones",
+            "description": "Pabellones"
+        },
+        {
+            "name": "Patrocinadores",
+            "description": "Patrocinadores"
         }
     ]
 }

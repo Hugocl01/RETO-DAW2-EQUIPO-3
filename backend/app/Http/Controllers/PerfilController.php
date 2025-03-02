@@ -263,6 +263,28 @@ class PerfilController extends Controller
         ], 400);
     }
 
+    /**
+     * Obtener todos los perfiles.
+     *
+     * @OA\Get(
+     *     path="/api/lista/perfiles",
+     *     summary="Obtener todos los perfiles, pero solo los valores necesarios para el front",
+     *     tags={"Perfiles"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de perfiles",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="perfiles",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Perfil")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaPerfiles()
     {
         $perfiles = Perfil::getLista();

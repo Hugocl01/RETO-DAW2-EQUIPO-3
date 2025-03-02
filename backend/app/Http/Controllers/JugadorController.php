@@ -153,6 +153,28 @@ class JugadorController extends Controller
         ], 400);
     }
 
+    /**
+     * Obtener todos los jugadores.
+     *
+     * @OA\Get(
+     *     path="/api/lista/jugadores",
+     *     summary="Obtener todos los jugadores, pero solo los valores necesarios para el front",
+     *     tags={"Jugadores"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de jugadores",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="jugadores",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Jugador")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaJugadores()
     {
         $jugadores = Jugador::getLista();

@@ -20,6 +20,28 @@ class PabellonController extends Controller
         ]);
     }
 
+    /**
+     * Obtener todos las pabellones.
+     *
+     * @OA\Get(
+     *     path="/api/lista/pabellones",
+     *     summary="Obtener todos los pabellones, pero solo los valores necesarios para el front",
+     *     tags={"Pabellones"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de pabellones",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="pabellones",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pabellon")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaPabellones()
     {
         $pabellon = Pabellon::getLista();

@@ -52,6 +52,28 @@ class OngController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtener todas las ongs.
+     *
+     * OA\Get(
+     *     path="/api/lista/ongs",
+     *     summary="Obtener todos las ongs, pero solo los valores necesarios para el front",
+     *     tags={"Ongs"},
+     *     OA\Response(
+     *         response=200,
+     *         description="Lista de ongs",
+     *         OA\JsonContent(
+     *             type="object",
+     *             OA\Property(property="status", type="string", example="success"),
+     *             OA\Property(
+     *                 property="ongs",
+     *                 type="array",
+     *                 OA\Items(ref="#/components/schemas/Ong")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaOngs()
     {
         $ong = Ong::getLista();

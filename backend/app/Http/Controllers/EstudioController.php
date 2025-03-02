@@ -63,6 +63,7 @@ class EstudioController extends Controller
      *     path="/api/estudios",
      *     summary="Crear un nuevo estudio",
      *     tags={"Estudios"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/Estudio")
@@ -104,6 +105,7 @@ class EstudioController extends Controller
      *     path="/api/estudios/{estudio}",
      *     summary="Eliminar un estudio",
      *     tags={"Estudios"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="estudio",
      *         in="path",
@@ -136,6 +138,29 @@ class EstudioController extends Controller
         ], 200);
     }
 
+    /**
+     * Obtener todos los estudios.
+     *
+     * @OA\Get(
+     *     path="/api/lista/estudios",
+     *     summary="Obtener todos los estudios, pero solo los valores necesarios para el front",
+     *     tags={"Estudios"},
+     *     security={{"BearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de estudios",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="estudios",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Estudio")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaEstudios()
     {
         $estudios = Estudio::getLista();

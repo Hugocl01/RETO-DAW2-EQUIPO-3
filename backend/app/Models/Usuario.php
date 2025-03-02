@@ -16,11 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="nombre_completo", type="string", example="Juan Pérez"),
  *     @OA\Property(property="email", type="string", format="email", example="juan@example.com"),
- *     @OA\Property(property="perfil_id", type="integer", example=2),
- *     @OA\Property(property="usuario_creador_id", type="integer", example=5),
- *     @OA\Property(property="usuario_modificador_id", type="integer", example=6),
- *     @OA\Property(property="fecha_creacion", type="string", format="date-time", example="2024-02-14T10:00:00Z"),
- *     @OA\Property(property="fecha_modificacion", type="string", format="date-time", example="2024-02-14T12:00:00Z")
+ *     @OA\Property(property="perfil_id", type="integer", example=2)
  * )
  */
 class Usuario extends Authenticatable
@@ -34,6 +30,7 @@ class Usuario extends Authenticatable
         'email',
         'password',
         'perfil_id',
+        'password',
     ];
 
     public function perfil()
