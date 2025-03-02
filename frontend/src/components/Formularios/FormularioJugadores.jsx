@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import { cargarEstudios, cargarEquipos } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 
 const fetchEquipos = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
-        const storedData = sessionStorage.getItem("equipos");
-
-        if (storedData) {
-            console.log("Cargando equipos desde sessionStorage");
-            const data = JSON.parse(storedData);
-
-            return Object.keys(data).map(key => ({
-                value: key,
-                label: data[key]
-            }));
-        }
-
-        // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando equipos desde la API...");
-        const data = await cargarEquipos();
+        const data = await llamadas().equipos();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
 
@@ -39,22 +25,9 @@ const fetchEquipos = async () => {
 
 const fetchEstudios = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
-        const storedData = sessionStorage.getItem("estudios");
-
-        if (storedData) {
-            console.log("Cargando estudios desde sessionStorage");
-            const data = JSON.parse(storedData);
-
-            return Object.keys(data).map(key => ({
-                value: key,
-                label: data[key]
-            }));
-        }
-
         // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando estudios desde la API...");
-        const data = await cargarEstudios();
+        const data = await llamadas().estudios();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
 

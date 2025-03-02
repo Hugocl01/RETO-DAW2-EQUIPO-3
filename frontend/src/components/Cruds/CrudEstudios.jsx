@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
-import { cargarCiclos, cargarCentros } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
 /**

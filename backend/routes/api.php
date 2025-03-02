@@ -20,6 +20,9 @@ use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\TorneoController;
+use App\Http\Controllers\OngController;
+use App\Http\Controllers\PatrocinadorController;
+use App\Http\Controllers\PabellonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,10 +103,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('retos', RetoController::class)->except(['index', 'show'])
         ->middleware('ability:Retos.store,Retos.update,Retos.destroy');
+    Route::get('/lista/retos', [RetoController::class, 'getListaRetos']);
 
     Route::apiResource('partidos', PartidoController::class)->except(['index', 'show']);
-    Route::get('/lista/partidos', [PartidoController::class, 'getListaTipoPartido'])
+    Route::get('/lista/tipos/partidos', [PartidoController::class, 'getListaTipoPartido'])
         ->middleware('ability:Partidos.getListaTipoPartido');
+    Route::get('/lista/partidos', [PartidoController::class, 'getListaPartidos']);
 
     Route::apiResource('publicaciones', PublicacionController::class)
         ->middleware('ability:Publicaciones.store,Publicaciones.update');
@@ -120,6 +125,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])
         ->middleware('ability:Incidencias.getListaIncidencias');
+
+    Route::apiResource('ongs',OngController::class);
+    Route::get('/lista/ongs', [OngController::class, 'getListaOngs']);
+
+    Route::apiResource('patrocinadores',PatrocinadorController::class);
+    Route::get('/lista/patrocinadores', [PatrocinadorController::class, 'getListaPatrocinadores']);
+
+    Route::apiResource('pabellones',PabellonController::class);
+    Route::get('/lista/pabellones', [PabellonController::class, 'getListaPabellones']);
 
     Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
     Route::post('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');

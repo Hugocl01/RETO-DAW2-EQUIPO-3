@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import { cargarCentros, cargarCiclos } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 /**
  * Función para obtener los centros desde sessionStorage o la API.
@@ -21,8 +21,9 @@ const fetchCentros = async () => {
             }));
         }
 
+        // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando centros desde la API...");
-        const data = await cargarCentros();
+        const data = await llamadas().centros();
 
         if (!data) return []; // Si hubo un error, devolvemos un array vacío
 
@@ -57,7 +58,7 @@ const fetchCiclos = async () => {
         }
 
         console.log("Cargando ciclos desde la API...");
-        const data = await cargarCiclos();
+        const data = await llamadas().ciclos();
 
         if (!data) return []; // Si hubo un error, devolvemos un array vacío
 

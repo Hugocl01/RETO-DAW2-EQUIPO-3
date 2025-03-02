@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
-import { cargarEstudios } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
 /**
@@ -84,7 +83,7 @@ function CrudRetos({ onModoCambio }) {
     if (error) {
         return <p>Error: {error}</p>;
     }
-    
+  
     return (
         <div>
             <h2>Retos</h2>

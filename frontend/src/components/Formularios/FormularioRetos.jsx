@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import { cargarEstudios } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 /**
  * Función para obtener los estudios desde el almacenamiento de sesión o la API.
@@ -25,8 +25,9 @@ const fetchEstudios = async () => {
             }));
         }
 
+        // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando estudios desde la API...");
-        const data = await cargarEstudios();
+        const data = await llamadas().estudios();
 
         if (!data) {
             return [];
