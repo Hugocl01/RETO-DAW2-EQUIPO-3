@@ -4,6 +4,20 @@ import Paginator from "../Paginator";
 import { cargarCiclos, cargarCentros } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
+/**
+ * Componente que muestra una lista de estudios con opciones para buscar, editar y eliminar.
+ * Permite cambiar entre los modos de visualización y edición de estudios.
+ * Utiliza el hook `useCrud` para interactuar con los datos del backend.
+ *
+ * @component
+ * @example
+ * // Ejemplo de uso del componente
+ * <CrudEstudios onModoCambio={handleModoCambio} />
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que cambia el modo entre "crear" y "editar".
+ * @returns {React.Element} La lista de estudios con paginación y búsqueda.
+ */
 function CrudEstudios({ onModoCambio }) {
     const seccion = useMemo(() => ({ nombre: "Estudios" }), []);
     const { items, loading, error, deleteItem } = useCrud(seccion);
@@ -12,8 +26,19 @@ function CrudEstudios({ onModoCambio }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
+    /**
+     * Convierte un valor a minúsculas para realizar búsquedas insensibles al caso.
+     * 
+     * @param {string|any} value - El valor a convertir a minúsculas.
+     * @returns {string} El valor en minúsculas.
+     */
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
+    /**
+     * Filtra los estudios según la búsqueda en los campos 'centro' y 'ciclo'.
+     * 
+     * @returns {Array<Object>} Los estudios que coinciden con la búsqueda.
+     */
     const filteredItems = items.filter((estudio) => {
         const query = searchQuery.toLowerCase();
         return (
@@ -27,17 +52,29 @@ function CrudEstudios({ onModoCambio }) {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja el cambio en el campo de búsqueda y reinicia la página actual a 1.
+     * 
+     * @param {Object} e - El evento de cambio en el campo de búsqueda.
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
 
-    // Cargar valores en sessionStorage
+    /**
+     * Carga los centros y ciclos al montar el componente desde sessionStorage.
+     */
     useEffect(() => {
         cargarCentros();
         cargarCiclos();
     }, []);
 
+    /**
+     * Maneja la edición de un estudio y cambia el modo de la vista a "editar".
+     * 
+     * @param {Object} estudio - El objeto del estudio a editar.
+     */
     const handleEditar = (estudio) => {
         const centros = JSON.parse(sessionStorage.getItem("centros")) || {};
         const ciclos = JSON.parse(sessionStorage.getItem("ciclos")) || {};

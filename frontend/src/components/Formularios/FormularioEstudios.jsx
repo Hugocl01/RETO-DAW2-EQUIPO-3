@@ -2,26 +2,29 @@ import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import { cargarCentros, cargarCiclos } from "../../data/FuncionesCombobox";
 
+/**
+ * Función para obtener los centros desde sessionStorage o la API.
+ * Si no hay datos en sessionStorage, se obtiene de la API.
+ * 
+ * @returns {Promise<Array<{value: string, label: string}>>} Lista de centros en formato [{value: string, label: string}]
+ */
 const fetchCentros = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
         const storedData = sessionStorage.getItem("centros");
 
         if (storedData) {
             console.log("Cargando centros desde sessionStorage");
             const data = JSON.parse(storedData);
-
             return Object.keys(data).map(key => ({
                 value: key,
                 label: data[key]
             }));
         }
 
-        // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando centros desde la API...");
         const data = await cargarCentros();
 
-        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+        if (!data) return []; // Si hubo un error, devolvemos un array vacío
 
         return Object.keys(data).map(key => ({
             value: key,
@@ -33,26 +36,30 @@ const fetchCentros = async () => {
         return [];
     }
 };
+
+/**
+ * Función para obtener los ciclos desde sessionStorage o la API.
+ * Si no hay datos en sessionStorage, se obtiene de la API.
+ * 
+ * @returns {Promise<Array<{value: string, label: string}>>} Lista de ciclos en formato [{value: string, label: string}]
+ */
 const fetchCiclos = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
         const storedData = sessionStorage.getItem("ciclos");
 
         if (storedData) {
             console.log("Cargando ciclos desde sessionStorage");
             const data = JSON.parse(storedData);
-
             return Object.keys(data).map(key => ({
                 value: key,
                 label: data[key]
             }));
         }
 
-        // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando ciclos desde la API...");
         const data = await cargarCiclos();
 
-        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+        if (!data) return []; // Si hubo un error, devolvemos un array vacío
 
         return Object.keys(data).map(key => ({
             value: key,
@@ -64,6 +71,26 @@ const fetchCiclos = async () => {
         return [];
     }
 };
+
+/**
+ * Componente para crear o editar un registro de estudio, permitiendo seleccionar un centro, ciclo y curso.
+ * El formulario puede usarse tanto para agregar nuevos estudios como para editar un estudio existente.
+ * 
+ * @component
+ * @example
+ * // Ejemplo de uso del componente
+ * <FormularioEstudios
+ *     datosIniciales={{ centro_id: "1", ciclo_id: "2", curso: "1" }}
+ *     onGuardar={handleGuardar}
+ *     onCancelar={handleCancelar}
+ * />
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales para editar un estudio.
+ * @param {function} props.onGuardar - Función que se ejecuta cuando se guarda el formulario.
+ * @param {function} props.onCancelar - Función que se ejecuta cuando se cancela el formulario.
+ * @returns {React.Element} El formulario de estudios.
+ */
 function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         centro_id: "",
@@ -75,6 +102,9 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Estudios" });
 
+    /**
+     * Carga los centros y ciclos al montar el componente.
+     */
     useEffect(() => {
         const obtenerCentros = async () => {
             const data = await fetchCentros();
@@ -89,6 +119,9 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
         obtenerCiclos();
     }, []);
 
+    /**
+     * Actualiza los valores del formulario cuando cambian los datos iniciales.
+     */
     useEffect(() => {
         if (datosIniciales) {
             setFormData({
@@ -99,11 +132,26 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]);
 
+    /**
+     * Maneja el cambio de valores en el formulario.
+     * 
+     * @param {Object} event - El evento de cambio en el formulario.
+     * @param {string} event.target.name - El nombre del campo modificado.
+     * @param {string} event.target.value - El nuevo valor del campo.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Maneja el envío del formulario.
+     * 
+     * Si el formulario tiene datos iniciales, se actualiza el estudio existente,
+     * si no, se crea uno nuevo.
+     * 
+     * @param {Object} event - El evento de envío del formulario.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
