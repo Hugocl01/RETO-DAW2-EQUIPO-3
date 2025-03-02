@@ -4,6 +4,19 @@ import Paginator from "../Paginator";
 import { cargarEstudios } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar y mostrar una lista de retos con funcionalidad de búsqueda, paginación y opciones de edición o eliminación.
+ *
+ * Este componente permite visualizar, buscar, paginar y realizar acciones sobre una lista de retos, incluyendo
+ * opciones para crear, editar o eliminar retos. Utiliza el hook `useCrud` para la manipulación de los datos
+ * y `Paginator` para la paginación de los elementos.
+ *
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando se cambia el modo (crear o editar).
+ * @returns {React.Element} El componente de gestión de retos con búsqueda y paginación.
+ */
 function CrudRetos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Retos" }), []);
@@ -14,7 +27,12 @@ function CrudRetos({ onModoCambio }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Función para manejar valores null/undefined
+    /**
+     * Función para manejar valores null/undefined y convertirlos a minúsculas.
+     * 
+     * @param {string | null | undefined} value - El valor a convertir.
+     * @returns {string} El valor convertido a minúsculas, o una cadena vacía si es null o undefined.
+     */
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
     // Filtrado de retos según el término de búsqueda
@@ -35,19 +53,38 @@ function CrudRetos({ onModoCambio }) {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja el cambio en el valor del buscador.
+     * 
+     * Actualiza el estado `searchQuery` y reinicia la página actual a la primera página.
+     *
+     * @param {Object} e - El evento de cambio del input.
+     * @param {string} e.target.value - El nuevo valor ingresado en el campo de búsqueda.
+     * @returns {void}
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
 
-    // Cargar de los valores en el sessionStorage del selector del formulario
+    /**
+     * Carga los estudios en el `sessionStorage` cuando el componente se monta.
+     * 
+     * Utiliza `useEffect` para cargar los estudios al inicio.
+     *
+     * @returns {void}
+     */
     useEffect(() => {
         cargarEstudios();
     }, []);
 
-    if (loading) return <Spinner/>;
-    if (error) return <p>Error: {error}</p>;
-
+    if (loading) {
+        return <Spinner />;
+    }
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+    
     return (
         <div>
             <h2>Retos</h2>
