@@ -247,4 +247,10 @@ class RetoController extends Controller
             'message' => 'No se ha podido eliminar el reto.'
         ], 400);
     }
+
+    public function getListaRetos()
+    {
+        $reto = Reto::getLista();
+        return response()->json($reto);
+    }
 }

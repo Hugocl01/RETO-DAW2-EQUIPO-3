@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { cargarPerfiles } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 const fetchTiposPerfil = async () => {
     try {
-        // Verifica si los datos ya están en sessionStorage
-        const storedData = sessionStorage.getItem("perfiles");
-
-        if (storedData) {
-            console.log("Cargando perfiles desde sessionStorage");
-            const data = JSON.parse(storedData);
-
-            return Object.keys(data).map(key => ({
-                value: key, // ID del perfil
-                label: data[key] // Nombre del perfil
-            }));
-        }
-
-        // Si no hay datos en sessionStorage, los obtenemos de la API
-        console.log("Cargando perfiles desde la API...");
-        const data = await cargarPerfiles();
+        
+        const data = await llamadas().perfiles();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
 

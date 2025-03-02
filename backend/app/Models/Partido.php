@@ -172,7 +172,7 @@ class Partido extends Model
         }
     }
 
-    public static function getLista()
+    public static function getListaTipo()
     {
         return array_map(
             fn(\App\Enums\TipoPartido $tipo) => $tipo->value,
@@ -284,5 +284,10 @@ class Partido extends Model
             'duracion'            => 20,
             'tipo_partido'        => \App\Enums\TipoPartido::Final,
         ]);
+    }
+
+    public static function getLista()
+    {
+        return self::pluck('slug', 'id');
     }
 }

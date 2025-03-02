@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
-import { cargarCiclos, cargarCentros } from "../../data/FuncionesCombobox";
 import Spinner from "../Spinner";
 
 function CrudEstudios({ onModoCambio }) {
@@ -31,12 +30,6 @@ function CrudEstudios({ onModoCambio }) {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
-
-    // Cargar valores en sessionStorage
-    useEffect(() => {
-        cargarCentros();
-        cargarCiclos();
-    }, []);
 
     const handleEditar = (estudio) => {
         const centros = JSON.parse(sessionStorage.getItem("centros")) || {};
