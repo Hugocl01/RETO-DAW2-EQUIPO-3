@@ -11,9 +11,6 @@ import Spinner from "../Spinner";
  * de los datos y `Paginator` para la paginación de los elementos.
  *
  * @component
- * @example
- * // Ejemplo de uso del componente
- * <CrudUsuarios onModoCambio={(modo, usuario) => console.log(modo, usuario)} />
  * 
  * @param {Object} props - Las propiedades del componente.
  * @param {function} props.onModoCambio - Función que se ejecuta cuando se cambia el modo (crear o editar).
@@ -73,7 +70,7 @@ function CrudUsuarios({ onModoCambio }) {
     if (error) {
         return <p>Error: {error}</p>;
     }
-    
+
     return (
         <div>
             <h2>Usuarios</h2>
