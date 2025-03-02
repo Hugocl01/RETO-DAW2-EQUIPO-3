@@ -3,6 +3,17 @@ import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar los centros. Permite listar, buscar, editar y eliminar centros.
+ * También soporta la paginación de los elementos listados.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando el usuario cambia el modo entre "crear" o "editar". Recibe el modo y los datos del centro si es necesario.
+ * 
+ * @returns {React.Element} El componente para gestionar los centros.
+ */
 function CrudCentros({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Centros" }), []);
@@ -13,10 +24,20 @@ function CrudCentros({ onModoCambio }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Función segura para evitar errores con valores null/undefined
+    /**
+     * Función segura para evitar errores con valores null/undefined.
+     * Convierte el valor en minúsculas si no es nulo ni indefinido.
+     * 
+     * @param {string|null|undefined} value - Valor a convertir a minúsculas.
+     * @returns {string} El valor convertido a minúsculas o una cadena vacía si es nulo o indefinido.
+     */
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
-    // Filtrar centros según el término de búsqueda
+    /**
+     * Filtra los centros en función del término de búsqueda. Compara el nombre y la landing page de cada centro con el término de búsqueda.
+     * 
+     * @returns {Array} Lista de centros que coinciden con el término de búsqueda.
+     */
     const filteredItems = items.filter((centro) => {
         const query = searchQuery.toLowerCase();
 
@@ -32,11 +53,17 @@ function CrudCentros({ onModoCambio }) {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja el cambio en el campo de búsqueda, actualizando el estado del término de búsqueda y reiniciando la paginación.
+     * 
+     * @param {Object} e - El evento de cambio.
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
     };
 
+    // Mostrar el cargando o el error
     if (loading) return <Spinner />;
     if (error) return <p>Error: {error}</p>;
 
