@@ -2,14 +2,37 @@ import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import llamadas from "../../data/FuncionesCombobox";
 
+/**
+ * Función para obtener los estudios desde el almacenamiento de sesión o la API.
+ *
+ * Esta función primero intenta obtener los estudios desde `sessionStorage`. Si no están disponibles,
+ * realiza una solicitud a la API para obtener los estudios y luego los almacena en `sessionStorage`.
+ * 
+ * @async
+ * @returns {Array<Object>} Un arreglo de objetos con las propiedades `value` y `label` de los estudios.
+ */
 const fetchEstudios = async () => {
     try {
+        const storedData = sessionStorage.getItem("estudios");
+
+        if (storedData) {
+            console.log("Cargando estudios desde sessionStorage");
+            const data = JSON.parse(storedData);
+
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
         // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando estudios desde la API...");
         const data = await llamadas().estudios();
 
-        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
-
+        if (!data) {
+            return [];
+        }
+        
         return Object.keys(data).map(key => ({
             value: key,
             label: data[key]
@@ -20,6 +43,28 @@ const fetchEstudios = async () => {
         return [];
     }
 };
+
+/**
+ * Componente de formulario para crear o editar un reto.
+ * 
+ * Este componente maneja la creación y edición de un reto. Permite ingresar un título, texto y seleccionar un estudio.
+ * La información se guarda mediante la función `createItem` o `updateItem` del hook `useCrud`.
+ * 
+ * @component
+ * @example
+ * // Ejemplo de uso del componente
+ * <FormularioRetos
+ *   datosIniciales={{ titulo: "Reto 1", texto: "Texto del reto", estudio_id: 1 }}
+ *   onGuardar={(data) => console.log(data)}
+ *   onCancelar={() => console.log("Cancelado")}
+ * />
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales para editar un reto (si existe).
+ * @param {function} props.onGuardar - Función a ejecutar cuando se guarda un reto.
+ * @param {function} props.onCancelar - Función a ejecutar cuando se cancela el formulario.
+ * @returns {React.Element} El formulario de retos.
+ */
 function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         titulo: "",
@@ -27,10 +72,17 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         estudio_id: null,
     });
     const [estudios, setEstudios] = useState([]);
-    const [isSubmitting, setIsSubmitting] = useState(false); // Estado local para controlar el envío
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Retos" });
 
-    // Cargar los estudios desde sessionStorage
+    /**
+     * Carga los estudios desde `sessionStorage` o la API cuando el componente se monta.
+     *
+     * Utiliza el hook `useEffect` para cargar los estudios y actualiza el estado `estudios`.
+     * 
+     * @async
+     * @returns {void}
+     */
     useEffect(() => {
         const obtenerEstudios = async () => {
             const data = await fetchEstudios();
@@ -39,7 +91,14 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         obtenerEstudios();
     }, []);
 
-    // Cargar los datos iniciales si existen
+    /**
+     * Carga los datos iniciales cuando `datosIniciales` cambia.
+     *
+     * Si `datosIniciales` contiene información, se actualiza el estado `formData` para reflejar esos datos.
+     * 
+     * @param {Object} datosIniciales - Los datos con los que pre-poblar el formulario.
+     * @returns {void}
+     */
     useEffect(() => {
         if (datosIniciales) {
             setFormData({
@@ -49,16 +108,35 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]);
 
-    // Manejo de cambios en los inputs
+    /**
+     * Maneja los cambios en los campos del formulario.
+     *
+     * Esta función se ejecuta cuando el usuario cambia un campo del formulario y actualiza
+     * el estado `formData` con el nuevo valor.
+     * 
+     * @param {Object} event - El evento de cambio del input.
+     * @param {string} event.target.name - El nombre del campo del formulario.
+     * @param {string} event.target.value - El nuevo valor del campo.
+     * @returns {void}
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    // Manejo del envío del formulario
+    /**
+     * Maneja el envío del formulario para crear o actualizar un reto.
+     *
+     * Dependiendo de si los `datosIniciales` están presentes o no, se ejecuta la función
+     * `createItem` o `updateItem` del hook `useCrud`.
+     * 
+     * @async
+     * @param {Object} event - El evento de envío del formulario.
+     * @returns {void}
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setIsSubmitting(true); // Activamos el estado de envío para deshabilitar el botón
+        setIsSubmitting(true);
 
         const modo = datosIniciales ? "editar" : "crear";
 
@@ -69,12 +147,12 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                 await updateItem(formData.id, formData);
             }
 
-            fetchItems(); // Recargar la lista de retos
+            fetchItems();
             onGuardar(formData);
         } catch (error) {
             console.error("Error al guardar reto:", error);
         } finally {
-            setIsSubmitting(false); // Volver a habilitar el formulario tras la operación
+            setIsSubmitting(false);
         }
     };
 
@@ -97,7 +175,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     value={formData.titulo || ""}
                     required
                     onChange={handleChange}
-                    disabled={isSubmitting} // Solo deshabilitado cuando se está enviando
+                    disabled={isSubmitting}
                 />
             </div>
 
@@ -143,7 +221,7 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                 <button
                     type="submit"
                     className={`btn ${datosIniciales ? "btn-warning" : "btn-success"}`}
-                    disabled={isSubmitting} // Solo deshabilita el botón cuando se está enviando
+                    disabled={isSubmitting}
                 >
                     {isSubmitting ? "Guardando..." : datosIniciales ? "Guardar" : "Crear"}
                 </button>

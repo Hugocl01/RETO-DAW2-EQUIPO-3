@@ -1,85 +1,132 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
-import "bootstrap/dist/css/bootstrap.min.css";
-import llamadas from "../../data/FuncionesCombobox";
+import { useCrud } from "../../hooks/useCrud";
+import { cargarPerfiles } from "../../data/FuncionesCombobox";
 
 const fetchTiposPerfil = async () => {
     try {
-        
-        const data = await llamadas().perfiles();
+        const storedData = sessionStorage.getItem("perfiles");
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            return Object.keys(parsedData).map(key => ({
+                value: key,
+                label: parsedData[key],
+            }));
+        }
 
-        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+        const data = await cargarPerfiles();
+        if (!data) {
+            return [];
+        }
 
+        sessionStorage.setItem("perfiles", JSON.stringify(data));
         return Object.keys(data).map(key => ({
-            value: key, // ID del perfil
-            label: data[key] // Nombre del perfil
+            value: key,
+            label: data[key],
         }));
-
     } catch (error) {
-        console.error("Error al obtener los tipos de perfil", error);
+        console.error("Error al obtener los perfiles", error);
         return [];
     }
 };
 
-
 function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
-        nombre: "",
+        nombre_completo: "",
         email: "",
         password: "",
         perfil_id: "",
     });
-    const [tiposPerfil, setTiposPerfil] = useState([]);
 
+    const [tiposPerfil, setTiposPerfil] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Usuarios" });
+
+    // Use useEffect solo para cargar perfiles una vez
     useEffect(() => {
         const obtenerTiposPerfil = async () => {
             const data = await fetchTiposPerfil();
             setTiposPerfil(data);
         };
-        obtenerTiposPerfil();
-    }, []);
 
+        if (tiposPerfil.length === 0) { // Solo carga si no hay datos en tiposPerfil
+            obtenerTiposPerfil();
+        }
+    }, [tiposPerfil]); // Solo se ejecuta si tiposPerfil está vacío
+
+    // UseEffect para establecer datos iniciales en el formulario solo si cambian
     useEffect(() => {
         if (datosIniciales) {
-            console.log("Datos iniciales:", datosIniciales);
-            setFormData({
-                nombre: datosIniciales.nombre || "",
+            setFormData((prevData) => ({
+                nombre_completo: datosIniciales.nombre || datosIniciales.nombre_completo || "",
                 email: datosIniciales.email || "",
-                password: "", // No cargar contraseñas por seguridad
-                activo: datosIniciales.activo === 1,
+                password: "",
                 perfil_id: datosIniciales.perfil?.id || "",
-            });
+            }));
         }
-    }, [datosIniciales]);
+    }, [datosIniciales]); // Solo se ejecuta cuando datosIniciales cambian
 
     const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        setFormData({
-            ...formData,
-            [name]: type === "checkbox" ? checked : value,
-        });
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        onGuardar(formData);
+        setIsSubmitting(true);
+
+        if (!formData.nombre_completo.trim() || !formData.email.trim() || !formData.perfil_id) {
+            alert("El nombre completo, email y perfil son obligatorios.");
+            setIsSubmitting(false);
+            return;
+        }
+
+        const datosParaEnviar = { ...formData };
+        if (!datosParaEnviar.password) {
+            delete datosParaEnviar.password;
+        }
+
+        try {
+            if (datosIniciales) {
+                // Si se trata de una actualización, debes pasar el ID en la URL
+                console.log("Actualizando usuario:", datosParaEnviar);
+                if (datosIniciales.id) {
+                    await updateItem(datosIniciales.id, datosParaEnviar); // Pasa solo el ID en la URL
+                    console.log("Usuario actualizado con éxito.");
+                } else {
+                    console.error("ID no encontrado para la actualización.");
+                }
+            } else {
+                // Si es un nuevo usuario, mandamos los datos para crear
+                console.log("Creando nuevo usuario:", datosParaEnviar);
+                await createItem(datosParaEnviar);
+                console.log("Usuario creado con éxito.");
+            }
+        } catch (error) {
+            console.error("Error al guardar usuario:", error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
-            <h2 className="mb-4 text-center">Formulario de Usuario</h2>
+            <h2 className="mb-4 text-center">{datosIniciales ? "Editar Usuario" : "Crear Usuario"}</h2>
+
             <div className="mb-3">
-                <label htmlFor="nombre" className="form-label">Nombre</label>
+                <label htmlFor="nombre_completo" className="form-label">Nombre Completo</label>
                 <input
                     type="text"
                     className="form-control"
-                    name="nombre"
-                    id="nombre"
-                    placeholder="Ingrese el nombre"
-                    value={formData.nombre}
+                    name="nombre_completo"
+                    id="nombre_completo"
+                    placeholder="Ingrese el nombre completo"
+                    value={formData.nombre_completo}
                     onChange={handleChange}
+                    required
+                    disabled={isSubmitting}
                 />
             </div>
+
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email</label>
                 <input
@@ -90,8 +137,11 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                     placeholder="Ingrese el email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
+                    disabled={isSubmitting}
                 />
             </div>
+
             <div className="mb-3">
                 <label htmlFor="password" className="form-label">Contraseña</label>
                 <input
@@ -102,8 +152,11 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                     placeholder="Ingrese la contraseña"
                     value={formData.password}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                 />
+                <small className="form-text text-muted">Déjelo en blanco para no cambiar la contraseña.</small>
             </div>
+
             <div className="mb-3">
                 <label htmlFor="perfil_id" className="form-label">Tipo de Perfil</label>
                 <select
@@ -112,18 +165,25 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
                     id="perfil_id"
                     value={formData.perfil_id || ''}
                     onChange={handleChange}
+                    required
+                    disabled={isSubmitting}
                 >
                     <option value="" hidden>Seleccione un perfil</option>
-                    {tiposPerfil.map((tipo) => ( 
+                    {tiposPerfil.map((tipo) => (
                         <option key={tipo.value} value={tipo.value}>
                             {tipo.label}
                         </option>
                     ))}
                 </select>
             </div>
+
             <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-success">Guardar</button>
-                <button type="button" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
+                <button type="submit" className="btn btn-success" disabled={isSubmitting}>
+                    {isSubmitting ? "Guardando..." : datosIniciales ? "Guardar" : "Crear"}
+                </button>
+                <button type="button" className="btn btn-secondary" onClick={onCancelar} disabled={isSubmitting}>
+                    Cancelar
+                </button>
             </div>
         </form>
     );

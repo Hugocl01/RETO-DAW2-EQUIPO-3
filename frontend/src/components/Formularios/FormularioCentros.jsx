@@ -1,6 +1,19 @@
 import { useEffect, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 
+/**
+ * Componente que muestra un formulario para crear o editar un centro. Incluye validación de los campos
+ * y maneja el envío del formulario tanto para crear como para actualizar un centro.
+ * 
+ * @component
+ *
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales para editar un centro. Si no se proporciona, el formulario será para crear un nuevo centro.
+ * @param {function} props.onGuardar - Función que se llama después de guardar los datos (crear o actualizar) de un centro.
+ * @param {function} props.onCancelar - Función que se llama cuando el usuario cancela la acción.
+ * 
+ * @returns {React.Element} El formulario para crear o editar un centro.
+ */
 function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         nombre: "",
@@ -10,6 +23,11 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { createItem, updateItem, loading, error } = useCrud({ nombre: "Centros" });
 
+    /**
+     * Efecto para cargar los datos iniciales del centro cuando se pasa como prop.
+     * 
+     * @param {Object} datosIniciales - Datos de un centro existente para editar.
+     */
     useEffect(() => {
         if (datosIniciales) {
             setFormData({
@@ -20,7 +38,11 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]);
 
-    // Validación del formulario
+    /**
+     * Valida el formulario para asegurarse de que los campos no estén vacíos y que la URL sea válida.
+     * 
+     * @returns {boolean} - Retorna true si el formulario es válido, false si hay errores.
+     */
     const validateForm = () => {
         let errors = {};
         if (!formData.nombre.trim()) {
@@ -35,13 +57,21 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
         return Object.keys(errors).length === 0;
     };
 
-    // Manejo de cambios en los campos del formulario
+    /**
+     * Maneja el cambio en los campos del formulario (nombre, landing_page).
+     * 
+     * @param {Object} event - El evento de cambio del campo.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
 
-    // Manejo del envío del formulario
+    /**
+     * Maneja el envío del formulario. Si es válido, realiza la creación o actualización del centro.
+     * 
+     * @param {Object} event - El evento de envío del formulario.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!validateForm()) {
@@ -51,13 +81,14 @@ function FormularioCentros({ datosIniciales, onGuardar, onCancelar }) {
         setIsSubmitting(true);
 
         try {
-            console.log(formData)
             if (datosIniciales) {
+                // Actualiza el centro si se pasan datos iniciales
                 await updateItem(formData.id, formData);
             } else {
+                // Crea un nuevo centro si no se pasan datos iniciales
                 await createItem(formData);
             }
-            onGuardar(formData);
+            onGuardar(formData); // Llama la función de callback onGuardar
         } catch (error) {
             console.error("Error al guardar:", error);
         } finally {

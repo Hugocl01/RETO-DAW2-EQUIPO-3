@@ -1,8 +1,21 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import Paginator from "../Paginator"; // Asegúrate de la ruta correcta
+import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar y visualizar los equipos. Permite realizar búsqueda 
+ * de equipos y ver la información de cada uno, incluyendo el nombre, centro, 
+ * grupo, entrenador, estado de inscripción y goles. También incluye la 
+ * funcionalidad de paginación.
+ *
+ * @component
+ *
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando el usuario cambia el modo (crear, editar, etc.).
+ * 
+ * @returns {React.Element} El componente `CrudEquipos` para gestionar los equipos.
+ */
 function CrudEquipos({ onModoCambio }) {
   // Memoriza la sección para evitar recrearla en cada render
   const seccion = useMemo(() => ({ nombre: "Equipos" }), []);
@@ -32,14 +45,25 @@ function CrudEquipos({ onModoCambio }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+  /**
+   * Maneja el cambio en el término de búsqueda. Se reinicia a la primera página cada vez que cambia la búsqueda.
+   * 
+   * @param {Object} e - El evento de cambio del campo de búsqueda.
+   */
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reinicia a la primera página en cada búsqueda
   };
 
-  if (loading) return <Spinner />;
-  if (error) return <p>Error: {error}</p>;
-
+  // Si los datos están cargando, mostramos el spinner
+  if (loading) {
+    return <Spinner />;
+  }
+  // Si hay un error en la carga, mostramos un mensaje de error
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+  
   return (
     <div>
       <h2>Equipos</h2>

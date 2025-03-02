@@ -115,7 +115,7 @@ class UsuarioController extends Controller
      */
     public function update(UsuarioRequest $request, Usuario $usuario)
     {
-        $data = $request->only(['nombre_completo', 'email', 'perfil_id']);
+        $data = $request->only(['nombre_completo', 'email', 'password', 'perfil_id']);
         $usuario->update($data);
 
         return response()->json([

@@ -90,7 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Familias.index,Familias.show,Familias.store,Familias.update,Familias.destroy');
     Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias']);
 
-    Route::apiResource('perfiles', PerfilController::class)->only('show')
+    Route::apiResource('perfiles', PerfilController::class)->only('index', 'show')
         ->middleware('ability:Perfiles.show');
     Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles'])
         ->middleware('ability:Perfiles.getListaPerfiles');

@@ -13,6 +13,10 @@ export const useCrud = (seccion) => {
     const [columns, setColumns] = useState([]);
     const entidadNombre = generateSlug(seccion.nombre); // Convertir a slug
 
+    /**
+     * Obtiene los elementos de la entidad desde la API.
+     * Se realiza una solicitud GET para obtener los datos.
+     */
     const fetchItems = async () => {
         setLoading(true);
         setError(null);
@@ -24,7 +28,6 @@ export const useCrud = (seccion) => {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            // console.log(response);
             if (!response.ok) {
                 throw new Error("Error al obtener los datos.");
             }
@@ -43,6 +46,12 @@ export const useCrud = (seccion) => {
         }
     };
 
+    /**
+     * Crea un nuevo elemento.
+     * Se realiza una solicitud POST para crear el elemento en la API.
+     * 
+     * @param {Object} newItem - Objeto con los datos del nuevo elemento.
+     */
     const createItem = async (newItem) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}`, {
@@ -64,6 +73,13 @@ export const useCrud = (seccion) => {
         }
     };
 
+    /**
+    * Actualiza un elemento existente.
+    * Se realiza una solicitud PUT para actualizar el elemento en la API.
+    * 
+    * @param {number} id - ID del elemento a actualizar.
+    * @param {Object} updatedItem - Objeto con los datos actualizados del elemento.
+    */
     const updateItem = async (id, updatedItem) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
@@ -85,6 +101,12 @@ export const useCrud = (seccion) => {
         }
     };
 
+    /**
+     * Elimina un elemento.
+     * Se realiza una solicitud DELETE para eliminar el elemento de la API.
+     * 
+     * @param {number} id - ID del elemento a eliminar.
+     */
     const deleteItem = async (id) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
@@ -105,6 +127,12 @@ export const useCrud = (seccion) => {
         }
     };
 
+    /**
+     * Guarda un nuevo elemento o actualiza uno existente.
+     * Detecta si el objeto `formData` tiene un `id` para decidir si es una creación o una actualización.
+     * 
+     * @param {Object} formData - Datos del elemento. Si incluye un `id`, se actualiza; de lo contrario, se crea.
+     */
     const onGuardar = (formData, modo) => {
         if (modo === "crear") {
             createItem(formData);
