@@ -3,6 +3,17 @@ import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente que gestiona la visualización y edición de los ciclos formativos.
+ * Permite buscar, eliminar y editar ciclos, así como paginar los resultados.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando cambia el modo, por ejemplo, para editar o crear un ciclo.
+ * 
+ * @returns {React.Element} El componente `CrudCiclos` que permite administrar los ciclos formativos.
+ */
 function CrudCiclos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Ciclos" }), []);
@@ -13,7 +24,12 @@ function CrudCiclos({ onModoCambio }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Función segura para evitar errores con valores null/undefined
+    /**
+     * Función segura para convertir valores en minúsculas sin causar errores si el valor es null o undefined.
+     * 
+     * @param {any} value - El valor a convertir a minúsculas.
+     * @returns {string} El valor en minúsculas o una cadena vacía si es null/undefined.
+     */
     const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
     // Filtrar ciclos según el término de búsqueda
@@ -32,12 +48,21 @@ function CrudCiclos({ onModoCambio }) {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja el cambio en el campo de búsqueda.
+     * Reinicia la página a la primera en cada búsqueda.
+     * 
+     * @param {Object} e - El evento de cambio.
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
     };
 
+    // Cargar el spinner mientras se cargan los datos
     if (loading) return <Spinner />;
+
+    // Mostrar un mensaje de error si ocurre uno
     if (error) return <p>Error: {error}</p>;
 
     return (

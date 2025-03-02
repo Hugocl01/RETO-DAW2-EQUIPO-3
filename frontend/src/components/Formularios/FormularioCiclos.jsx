@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { cargarFamilias } from "../../data/FuncionesCombobox";
 
+/**
+ * Obtiene las familias, ya sea desde sessionStorage o desde la API.
+ * Si no hay datos en sessionStorage, los busca en la API y luego los guarda en sessionStorage.
+ * 
+ * @async
+ * @returns {Array} Lista de objetos con propiedades `value` y `label` representando las familias.
+ */
 const fetchFamilias = async () => {
     try {
         // Verifica si los datos ya están en sessionStorage
@@ -29,16 +36,30 @@ const fetchFamilias = async () => {
         }));
 
     } catch (error) {
-        console.error("Error al obtener los familias", error);
+        console.error("Error al obtener las familias", error);
         return [];
     }
 };
 
+/**
+ * Componente para gestionar el formulario de ciclos.
+ * Permite ingresar el nombre del ciclo y seleccionar una familia desde un listado.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales para el formulario. Si se proporcionan, se cargan en el formulario.
+ * @param {function} props.onGuardar - Función que se ejecuta al guardar el formulario. Recibe los datos del formulario.
+ * @param {function} props.onCancelar - Función que se ejecuta al cancelar el formulario.
+ * 
+ * @returns {React.Element} El formulario para gestionar los ciclos.
+ */
 function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({});
     const [errores, setErrores] = useState({});
     const [familias, setFamilias] = useState([]);
 
+    // Cargar las familias al montar el componente
     useEffect(() => {
         const obtenerFamilias = async () => {
             const data = await fetchFamilias();
@@ -47,20 +68,33 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
         obtenerFamilias();
     }, []);
 
+    // Cargar los datos iniciales si existen
     useEffect(() => {
         if (datosIniciales) {
             setFormData(datosIniciales);
         }
     }, [datosIniciales]);
 
+    /**
+     * Maneja el cambio en los campos del formulario.
+     * Actualiza el estado `formData` con los valores de los inputs.
+     * 
+     * @param {Object} event - El evento de cambio.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Maneja el envío del formulario.
+     * Realiza la validación (si la implementas) y llama a `onGuardar` con los datos del formulario.
+     * 
+     * @param {Object} event - El evento de envío.
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Validar antes de guardar
+        // Validar antes de guardar (puedes implementar validaciones aquí)
         onGuardar(formData);
     };
 
