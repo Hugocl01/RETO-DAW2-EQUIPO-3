@@ -3,6 +3,18 @@ import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar y visualizar los partidos. Permite realizar búsquedas de partidos
+ * por fecha, equipos, pabellón, grupo y tipo. Además, permite realizar acciones de edición
+ * y eliminación de partidos, junto con la paginación para navegar entre los partidos.
+ *
+ * @component
+ *
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando el usuario cambia el modo (crear, editar, etc.).
+ * 
+ * @returns {React.Element} El componente `CrudPartidos` para gestionar los partidos.
+ */
 function CrudPartidos({ onModoCambio }) {
     // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Partidos" }), []);
@@ -11,9 +23,12 @@ function CrudPartidos({ onModoCambio }) {
     // Estados para búsqueda y paginación
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Ajusta según tus necesidades
+    const itemsPerPage = 5;
 
-    // Filtrado de items según el término de búsqueda (por ejemplo, por equipos, fecha, grupo)
+    /**
+     * Filtra los partidos según el término de búsqueda. 
+     * Los partidos son filtrados por fecha, equipo local, equipo visitante, pabellón, grupo y tipo.
+     */
     const filteredItems = items.filter((partido) => {
         const query = searchQuery.toLowerCase();
 
@@ -29,19 +44,26 @@ function CrudPartidos({ onModoCambio }) {
         );
     });
 
-
     // Cálculos de paginación
     const totalItems = filteredItems.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja los cambios en el campo de búsqueda. 
+     * Reinicia la paginación a la primera página cuando se cambia la búsqueda.
+     * 
+     * @param {Object} e - El evento de cambio del campo de búsqueda.
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
-        setCurrentPage(1); // Reinicia a la primera página en cada búsqueda
+        setCurrentPage(1); // Reinicia a la primera página al cambiar la búsqueda
     };
 
+    // Si los datos están cargando, se muestra un spinner
     if (loading) return <Spinner />;
+    // Si ocurre un error al cargar los datos, se muestra un mensaje de error
     if (error) return <p>Error: {error}</p>;
 
     return (
@@ -59,7 +81,7 @@ function CrudPartidos({ onModoCambio }) {
                 />
             </div>
 
-            {/* Tabla de datos */}
+            {/* Tabla de Partidos */}
             <table className="table table-bordered table-hover">
                 <thead className="thead-dark">
                     <tr>
@@ -111,7 +133,7 @@ function CrudPartidos({ onModoCambio }) {
                 </tbody>
             </table>
 
-            {/* Componente de paginación reutilizable */}
+            {/* Componente de paginación */}
             <Paginator
                 currentPage={currentPage}
                 totalPages={totalPages}

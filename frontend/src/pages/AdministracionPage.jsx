@@ -8,6 +8,7 @@ import CrudEquipos from "../components/Cruds/CrudEquipos";
 import CrudJugadores from "../components/Cruds/CrudJugadores";
 import CrudPartidos from "../components/Cruds/CrudPartidos";
 import CrudPublicaciones from "../components/Cruds/CrudPublicaciones";
+import CrudPerfiles from "../components/Cruds/CrudPerfiles";
 import CrudActas from "../components/Cruds/CrudActas";
 import CrudUsuarios from "../components/Cruds/CrudUsuarios";
 import CrudRetos from "../components/Cruds/CrudRetos";
@@ -201,6 +202,8 @@ function AdministracionPage() {
                 return <CrudPartidos onModoCambio={handleModoCambio} />;
             case "publicaciones":
                 return <CrudPublicaciones onModoCambio={handleModoCambio} />;
+            case "perfiles":
+                return <CrudPerfiles onModoCambio={handleModoCambio} />;
             case "actas":
                 return <CrudActas onModoCambio={handleModoCambio} />;
             case "usuarios":
