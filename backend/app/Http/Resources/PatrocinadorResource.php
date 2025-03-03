@@ -17,6 +17,7 @@ class PatrocinadorResource extends JsonResource
         return [
             'id'     => $this->id,
             'nombre' => $this->nombre,
+            'landing_page' => $this->landing_page,
             'ruta'   => optional($this->imagen->first())->ruta // Evita error si no hay imagen
         ];
     }
