@@ -11,10 +11,15 @@ class PublicacionController extends Controller
 
     public function index()
     {
-        // Ejemplo: seleccionar algunos campos y cargar relaciones necesarias
-        $publicaciones = Publicacion::select('id', 'titulo', 'portada', 'contenido', 'publicacionable_id', 'publicacionable_type')
-            ->with('publicacionable') // si necesitas la entidad (Equipo, Jugador, etc.)
-            // ->with('imagenes') // si quieres incluir imágenes, etc.
+        $publicaciones = Publicacion::select(
+            'id',
+            'titulo',
+            'portada',
+            'contenido',
+            'publicacionable_id',
+            'publicacionable_type'
+        )
+            ->with(['publicacionable', 'imagenes']) // <-- Aquí agregas la relación de imágenes
             ->get();
 
         if ($publicaciones->isEmpty()) {
@@ -25,10 +30,11 @@ class PublicacionController extends Controller
         }
 
         return response()->json([
-            'status'       => 'success',
+            'status'        => 'success',
             'publicaciones' => PublicacionResource::collection($publicaciones)
         ], 200);
     }
+
 
     public function show($publicacion)
     {
