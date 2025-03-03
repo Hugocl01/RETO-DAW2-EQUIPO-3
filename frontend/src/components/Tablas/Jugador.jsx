@@ -1,5 +1,6 @@
 import { Tooltip } from "react-tooltip";
 import React from "react";
+import "../css/JugadorEquipo.css";
 
 /**
  * Componente Jugador

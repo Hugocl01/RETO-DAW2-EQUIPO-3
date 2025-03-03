@@ -23,7 +23,7 @@ function TablaJugadores() {
   const [cargando, setCargando] = useState(true);
   const [orden, setOrden] = useState({ campo: "", direccion: "asc" });
   const [filtro, setFiltro] = useState("");
-  const [error,setError]=useState();
+  const [error, setError] = useState();
   const navegar = useNavigate();
 
   /**
@@ -40,11 +40,11 @@ function TablaJugadores() {
         const resultado = await api.get("/jugadores");
         if (resultado.data.status === "success") {
           sessionStorage.setItem("jugadores", JSON.stringify(resultado.data.jugadores));
-  
+
           const jugadoresOrdenados = [...resultado.data.jugadores].sort(
             (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
           );
-  
+
           setJugadores(jugadoresOrdenados);
           setTotalJugadores(jugadoresOrdenados.length);
         } else {
@@ -59,20 +59,20 @@ function TablaJugadores() {
         setCargando(false);
       }
     };
-  
+
     const jugadoresGuardados = sessionStorage.getItem("jugadores");
     if (jugadoresGuardados) {
       const jugadoresOrdenados = JSON.parse(jugadoresGuardados).sort(
         (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
       );
-  
+
       setJugadores(jugadoresOrdenados);
       setTotalJugadores(jugadoresOrdenados.length);
       setCargando(false);
     } else {
       cargarJugadores();
     }
-  
+
     window.scrollTo(0, 0);
   }, []);
 
@@ -84,24 +84,24 @@ function TablaJugadores() {
     return <Spinner />;
   }
 
-   /**
-   * Enseño la página de error, cuando haya una página de error
-   */
-   if (error) {
+  /**
+  * Enseño la página de error, cuando haya una página de error
+  */
+  if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
   function navegarDetalleEquipo(slug) {
-      navegar(`/estadisticas/${slug}`);
+    navegar(`/estadisticas/${slug}`);
   }
-  
+
   /**
    * Función envoltorio de navegar que redirecciona a la página de detalle jugador
    * @param {String} slug 
    * @param {String} tipo
    */
   function navegarDetalleJugador(slug) {
-      navegar(`/estadisticas/${slug}`);
+    navegar(`/estadisticas/${slug}`);
   }
 
   /**
@@ -169,7 +169,7 @@ function TablaJugadores() {
 
   return (
     <>
-      <div className="container-fluid mt-5">
+      <div className="tabla container-fluid mt-5">
         <div className="row">
           <div className="col-md-12 p-0 mb-4 w-100 border">
             <input
@@ -181,15 +181,17 @@ function TablaJugadores() {
           </div>
         </div>
         <div className="row bg-primary text-white rounded-top border-bottom py-2">
-          <div className="col-5 col-md-6 text-center font-weight-bold cursor-pointer h5">Nombre</div>
-          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="goles" onClick={ordenarCampo}>
-            Goles {orden.campo === "goles" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          <div className="col-5 col-md-6 text-center font-weight-bold cursor-pointer h5">
+            <p>Nombre</p>
+          </div>
+          <div className="col-3 col-md-2 text-center cursor-pointer h5" data-campo="goles" onClick={ordenarCampo}>
+            <p>Goles</p> {orden.campo === "goles" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
           <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_amarillas" onClick={ordenarCampo}>
-            Amarillas {orden.campo === "tarjetas_amarillas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+            <p>Amarillas</p> {orden.campo === "tarjetas_amarillas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
-          <div className="col-3 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas" onClick={ordenarCampo}>
-            Rojas {orden.campo === "tarjetas_rojas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas" onClick={ordenarCampo}>
+            <p>Rojas</p> {orden.campo === "tarjetas_rojas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
           </div>
         </div>
         {obtenerJugadoresPaginados(jugadoresFiltrados, paginaActual, jugadoresPorPagina).map(jugador => (
@@ -201,7 +203,7 @@ function TablaJugadores() {
           siguientePagina={siguientePagina}
           paginaAnterior={paginaAnterior}
         />
-      </div>
+      </div >
     </>
   );
 }
