@@ -107,7 +107,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Partidos.getListaTipoPartido');
     Route::get('/lista/partidos', [PartidoController::class, 'getListaPartidos']);
 
-    Route::apiResource('publicaciones', PublicacionController::class)
+    Route::apiResource('publicaciones', PublicacionController::class)->except(['index', 'show'])
         ->middleware('ability:Publicaciones.store,Publicaciones.update');
     Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])
         ->middleware('ability:Publicaciones.getListaPublicacionModelos');
