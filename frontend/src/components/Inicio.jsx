@@ -205,7 +205,8 @@ function Inicio() {
                                 {patrocinadores.length > 0 ? patrocinadores.map((patrocinador) => (
                                     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center" key={patrocinador.nombre}>
                                         <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
-                                            <img src={patrocinador.ruta} className="img-fluid" alt={patrocinador.nombre} />
+                                            <img data-tooltip-content="quis" data-toggle={patrocinador.nombre} src={'http://127.0.0.1:8000/storage/' + patrocinador.ruta}
+                                                className="img-fluid" alt={patrocinador.nombre} />
                                         </a>
                                     </div>
                                 )) : (
