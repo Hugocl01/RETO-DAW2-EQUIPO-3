@@ -14,20 +14,16 @@ import "./css/EstilosComun.css";
  * @returns {JSX.Element} Componente de la página de inicio.
  */
 function Inicio() {
-    /** @type {[Array, Function]} Lista de donaciones y su función para actualizarla */
     const [donaciones, setDonaciones] = useState([]);
-    /** @type {[Array, Function]} Lista de retos y su función para actualizarla */
     const [retos, setRetos] = useState([]);
-    /** @type {[Array, Function]} Lista de noticias y su función para actualizarla */
     const [noticias, setNoticias] = useState([]);
+    const [patrocinadores, setPatrocinadores] = useState([]);
 
     const [searchParams] = useSearchParams();
     const status = searchParams.get("inscripcion-status");
 
     useEffect(() => {
-        /**
-         * Obtiene las donaciones desde la API y actualiza el estado.
-         */
+        // Obtener las donaciones
         const obtenerDonaciones = async () => {
             try {
                 const respuesta = await fetch("/api/donaciones");
@@ -41,16 +37,14 @@ function Inicio() {
         };
         obtenerDonaciones();
 
-        /**
-         * Obtiene las publicaciones desde la API y actualiza el estado.
-         */
+        // Obtener publicaciones
         const obtenerPublicaciones = async () => {
             try {
                 const respuesta = await fetch("/api/publicaciones");
                 const data = await respuesta.json();
                 if (data.status === "success") {
                     const publicacionesPortada = data.publicaciones.filter(
-                        (publicacion) => publicacion && publicacion.titulo && publicacion.portada == 'Si'
+                        (publicacion) => publicacion && publicacion.titulo && publicacion.portada === 'Si'
                     );
                     setNoticias(publicacionesPortada);
                 }
@@ -60,17 +54,13 @@ function Inicio() {
         };
         obtenerPublicaciones();
 
-        /**
-         * Obtiene los retos desde la API y actualiza el estado.
-         */
+        // Obtener retos
         const obtenerRetos = async () => {
             try {
-                const respuesta = await fetch("/api//retos");
+                const respuesta = await fetch("/api/retos");
                 const data = await respuesta.json();
                 if (data.status === "success") {
-                    const retosValidos = data.retos.filter(
-                        (reto) => reto && reto.texto
-                    );
+                    const retosValidos = data.retos.filter((reto) => reto && reto.texto);
                     setRetos(retosValidos);
                 }
             } catch (error) {
@@ -78,12 +68,23 @@ function Inicio() {
             }
         };
         obtenerRetos();
+
+        // Obtener patrocinadores
+        const obtenerPatrocinadores = async () => {
+            try {
+                const respuesta = await fetch("/api/patrocinadores");
+                const data = await respuesta.json();
+                if (data.status === "success") {
+                    setPatrocinadores(data.patrocinadores);
+                }
+            } catch (error) {
+                console.error("Error al obtener los patrocinadores:", error);
+            }
+        };
+        obtenerPatrocinadores();
+
     }, []);
 
-    /**
-     * Calcula el total donado sumando todas las donaciones registradas.
-     * @returns {string} Total donado con dos decimales.
-     */
     function totalDonado() {
         if (!donaciones || donaciones.length === 0) {
             return "0.00";
@@ -97,24 +98,20 @@ function Inicio() {
         return totalDonado.toFixed(2);
     }
 
-
     return (
-        /* Contenendor principal */
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
                 <h2 className="text-white text-center mb-4">TORNEO DE FÚTBOL<br />SOLIDARIO</h2>
                 <div className='py-2 d-flex justify-content-center align-items-center'>
                     <a target="_blank" className='d-flex justify-content-center align-items-center' href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional">
-                        <img src="../src/assets/imagenes/cruz-roja.png"></img>
+                        <img src="/assets/imagenes/cruz-roja.png" alt="Cruz Roja" />
                     </a>
                 </div>
             </div>
 
             <div>
-                {status === "success" ? (
+                {status === "success" && (
                     <h1>¡Inscripción confirmada!</h1>
-                ) : (
-                    ''
                 )}
             </div>
 
@@ -150,12 +147,10 @@ function Inicio() {
                     </div>
                 </div>
 
-
                 <div className='seccion2'>
-                    <img src="../src/assets/imagenes/torneo.jpeg"></img>
+                    <img src="/assets/imagenes/torneo.jpeg" alt="Torneo" />
                 </div>
             </section>
-
 
             <section className="carruseles section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Noticias</h1>
@@ -180,7 +175,7 @@ function Inicio() {
                     <div className="col-sm-6 mb-3 mb-sm-0">
                         <div className="card text-center">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
-                                <img src="../src/assets/imagenes/cesta.png" className='w-25 m-4'></img>
+                                <img src="/assets/imagenes/cesta.png" className='w-25 m-4' alt="Cesta" />
                                 <h2>Total Recaudado</h2>
                                 <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
                             </div>
@@ -189,7 +184,7 @@ function Inicio() {
                     <div className="col-sm-6 mb-3 mb-sm-0">
                         <div className="card text-center">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
-                                <img src="../src/assets/imagenes/donate.png" className='w-25 m-4'></img>
+                                <img src="/assets/imagenes/donate.png" className='w-25 m-4' alt="Donar" />
                                 <h2>Hacer una Donación</h2>
                                 <p>Tu ayuda importa. Cada aporte marca la diferencia</p>
                                 <div>
@@ -201,61 +196,27 @@ function Inicio() {
                 </div>
             </section>
 
-
             <section className='patrocinadores'>
                 <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
                     <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
                         <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
                         <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
-                            {/*
-                        {patrocinadores.map((patrocinador) => (
-                            <div className="bg-light w-25 h-40 p-3 rounded-2 text-center">
-                                <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
-                                    <img src="#" alt={patrocinador.nombre} />
-                                    <p className="fw-bold">{patrocinador.nombre}</p>
-                                </a>
-                            </div>
-
-                        ))}
-                        */}
-
                             <div className="row">
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/acicatech.png" className="img-fluid rounded" alt="Imagen 1" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/c&c_color.png" className="img-fluid rounded" alt="Imagen 2" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/soicon.png" className="img-fluid rounded" alt="Imagen 3" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/cantabria_informatica.png" className="img-fluid rounded" alt="Imagen 4" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/cic.png" className="img-fluid rounded" alt="Imagen 5" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/deduce.png" className="img-fluid rounded" alt="Imagen 6" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/deode.png" className="img-fluid rounded" alt="Imagen 7" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/infortec.png" className="img-fluid rounded" alt="Imagen 8" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/netkia.png" className="img-fluid rounded" alt="Imagen 9" />
-                                </div>
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center">
-                                    <img src="../src/assets/imagenes/patrocinadores/seidor.png" className="img-fluid rounded" alt="Imagen 10" />
-                                </div>
+                                {patrocinadores.length > 0 ? patrocinadores.map((patrocinador) => (
+                                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center" key={patrocinador.nombre}>
+                                        <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                                            <img src={patrocinador.ruta} className="img-fluid" alt={patrocinador.nombre} />
+                                        </a>
+                                    </div>
+                                )) : (
+                                    <p>No hay patrocinadores disponibles</p>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-        </div >
+        </div>
     );
 }
 
