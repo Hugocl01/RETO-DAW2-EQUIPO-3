@@ -1,78 +1,74 @@
-import React from 'react';
-import Carousel from './Carouseles/Carousel';
-
 import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
-
-import api from "../services/api.js";
+import Carousel from './Carouseles/Carousel';
 import Spinner from "../components/Spinner.jsx";
-
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
-import CarouselSimple from './Carouseles/CarouselSimple.jsx';
 
+/**
+ * Componente principal de la página de inicio.
+ * 
+ * @component
+ * 
+ * Muestra noticias y retos en carruseles, las donaciones del reto.
+ * @returns {JSX.Element} Componente de la página de inicio.
+ */
 function Inicio() {
-    //arrays para los carruseles
+    /** @type {[Array, Function]} Lista de donaciones y su función para actualizarla */
     const [donaciones, setDonaciones] = useState([]);
-    //const [patrocinadores, setPatrocinadores] = useState([]);
+    /** @type {[Array, Function]} Lista de retos y su función para actualizarla */
     const [retos, setRetos] = useState([]);
+    /** @type {[Array, Function]} Lista de noticias y su función para actualizarla */
+    const [noticias, setNoticias] = useState([]);
 
     const [searchParams] = useSearchParams();
-    const status = searchParams.get("inscripcion-status"); // "success" o lo que hayas enviado
+    const status = searchParams.get("inscripcion-status");
 
-    const noticias = [
-        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 1", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img4.png", title: "Noticia 2", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 3", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 4", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img4.png", title: "Noticia 5", text: "Lorem ipsum dolor sit amet..." },
-        { imagen: "../src/assets/imagenes/img2.png", title: "Noticia 6", text: "Lorem ipsum dolor sit amet..." }
-    ];
-    /*
-        const retos = [
-            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 1", text: "Lorem ipsum dolor sit amet..." },
-            { imagen: "../src/assets/imagenes/img4.png", title: "Reto 2", text: "Lorem ipsum dolor sit amet..." },
-            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 3", text: "Lorem ipsum dolor sit amet..." },
-            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 4", text: "Lorem ipsum dolor sit amet..." },
-            { imagen: "../src/assets/imagenes/img4.png", title: "Reto 5", text: "Lorem ipsum dolor sit amet..." },
-            { imagen: "../src/assets/imagenes/img2.png", title: "Reto 6", text: "Lorem ipsum dolor sit amet..." }
-        ];
-    */
-
-    //obtener donaciones
     useEffect(() => {
+        /**
+         * Obtiene las donaciones desde la API y actualiza el estado.
+         */
         const obtenerDonaciones = async () => {
             try {
-                const respuesta = await api.get("/donaciones");
-                if (respuesta.data.status === "success") {
-                    setDonaciones(respuesta.data.donaciones);
+                const respuesta = await fetch("/api/donaciones");
+                const data = await respuesta.json();
+                if (data.status === "success") {
+                    setDonaciones(data.donaciones);
                 }
             } catch (error) {
                 console.error("Error al obtener las donaciones:", error);
             }
         };
-
         obtenerDonaciones();
 
-        /*const obtenerPatrocinadores = async () => {
+        /**
+         * Obtiene las publicaciones desde la API y actualiza el estado.
+         */
+        const obtenerPublicaciones = async () => {
             try {
-                const respuesta = await api.get("/patrocinadores");
-                if (respuesta.data.status === "success") {
-                    setPatrocinadores(respuesta.data.patrocinadores);
+                const respuesta = await fetch("/api/publicaciones");
+                const data = await respuesta.json();
+                if (data.status === "success") {
+                    const publicacionesPortada = data.publicaciones.filter(
+                        (publicacion) => publicacion && publicacion.titulo && publicacion.portada == 'Si'
+                    );
+                    setNoticias(publicacionesPortada);
                 }
             } catch (error) {
-                console.error("Error al obtener los patrocinadores:", error);
+                console.error("Error al obtener las publicaciones:", error);
             }
         };
+        obtenerPublicaciones();
 
-        obtenerPatrocinadores();
-        */
-
+        /**
+         * Obtiene los retos desde la API y actualiza el estado.
+         */
         const obtenerRetos = async () => {
             try {
-                const respuesta = await api.get("/retos");
-                if (respuesta.data.status === "success") {
-                    const retosValidos = respuesta.data.retos.filter(
+                const respuesta = await fetch("/api//retos");
+                const data = await respuesta.json();
+                if (data.status === "success") {
+                    const retosValidos = data.retos.filter(
                         (reto) => reto && reto.texto
                     );
                     setRetos(retosValidos);
@@ -81,14 +77,16 @@ function Inicio() {
                 console.error("Error al obtener los retos:", error);
             }
         };
-
         obtenerRetos();
     }, []);
 
-
+    /**
+     * Calcula el total donado sumando todas las donaciones registradas.
+     * @returns {string} Total donado con dos decimales.
+     */
     function totalDonado() {
         if (!donaciones || donaciones.length === 0) {
-            return 0;
+            return "0.00";
         }
 
         let totalDonado = 0;
@@ -101,7 +99,7 @@ function Inicio() {
 
 
     return (
-        /*div principal*/
+        /* Contenendor principal */
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
                 <h2 className="text-white text-center mb-4">TORNEO DE FÚTBOL<br />SOLIDARIO</h2>
@@ -159,7 +157,7 @@ function Inicio() {
             </section>
 
 
-            <section className="carruseles section-container text-center">
+            <section className="carruseles section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Noticias</h1>
                 {noticias.length > 0 ? (
                     <Carousel id="carouselNoticias" items={noticias} intervalo={3000} />
@@ -175,25 +173,7 @@ function Inicio() {
                 )}
             </section>
 
-            {/*Solo sale cuando la ventana es mas pequeña*/}
-            <section className="carruselesSimples section-container text-center">
-                <h1 className='text-center'>Noticias</h1>
-                {noticias.length > 0 ? (
-                    <CarouselSimple id="carouselNoticiasSimple" items={noticias} intervalo={3000} />
-                ) : (
-                    <p className="text-center">No hay noticias disponibles</p>
-                )}
-
-                <h1 className='text-center'>Retos</h1>
-                {retos.length > 0 ? (
-                    <CarouselSimple id="carouselRetosSimples" items={retos} intervalo={3000} />
-                ) : (
-                    <p className="text-center">No hay retos disponibles</p>
-                )}
-            </section>
-
-
-            <section className="donaciones container text-center">
+            <section className="donaciones container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Donaciones</h1>
 
                 <div className="row m-5">
@@ -223,9 +203,7 @@ function Inicio() {
 
 
             <section className='patrocinadores'>
-                {/* div de color rojo */}
                 <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                    {/* div de color blanco */}
                     <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
                         <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
                         <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
