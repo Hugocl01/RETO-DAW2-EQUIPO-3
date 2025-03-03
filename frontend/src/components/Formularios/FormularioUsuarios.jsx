@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import { cargarPerfiles } from "../../data/FuncionesCombobox";
+import llamadas from "../../data/FuncionesCombobox";
 
 const fetchTiposPerfil = async () => {
     try {
-        const storedData = sessionStorage.getItem("perfiles");
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            return Object.keys(parsedData).map(key => ({
-                value: key,
-                label: parsedData[key],
-            }));
-        }
 
-        const data = await cargarPerfiles();
+        const data = await llamadas().perfiles();
         if (!data) {
             return [];
         }

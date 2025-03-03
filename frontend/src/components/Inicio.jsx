@@ -104,7 +104,7 @@ function Inicio() {
         /*div principal*/
         <div className="inicio-container">
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
-                <h2 className="text-white text-center mb-4">TORNEO DE FOOTBALL<br />SOLIDARIO</h2>
+                <h2 className="text-white text-center mb-4">TORNEO DE FÚTBOL<br />SOLIDARIO</h2>
                 <div className='py-2 d-flex justify-content-center align-items-center'>
                     <a target="_blank" className='d-flex justify-content-center align-items-center' href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional">
                         <img src="../src/assets/imagenes/cruz-roja.png"></img>
