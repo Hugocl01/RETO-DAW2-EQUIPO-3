@@ -62,14 +62,6 @@ function CrudEstudios({ onModoCambio }) {
     };
 
     /**
-     * Carga los centros y ciclos al montar el componente desde sessionStorage.
-     */
-    useEffect(() => {
-        cargarCentros();
-        cargarCiclos();
-    }, []);
-
-    /**
      * Maneja la edición de un estudio y cambia el modo de la vista a "editar".
      * 
      * @param {Object} estudio - El objeto del estudio a editar.
@@ -94,7 +86,7 @@ function CrudEstudios({ onModoCambio }) {
     if (error) {
         return <p>Error: {error}</p>;
     }
-    
+
     return (
         <div>
             <h2>Estudios</h2>
