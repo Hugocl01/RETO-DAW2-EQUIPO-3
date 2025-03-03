@@ -177,7 +177,7 @@ function DetallesEquipoPage() {
                 </h2>
               </div>
               <div className="row d-flex flex-row flex-wrap justify-content-center align-items-center g-4">
-                {equipo.Jugadores.jugador.map((valor, index) => (
+                {equipo.Jugadores.map((valor, index) => (
                   <div
                     key={index}
                     className="col-12 col-sm-6 col-md-3 mb-4 d-flex justify-content-center align-items-center"

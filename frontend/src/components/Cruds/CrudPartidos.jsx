@@ -24,7 +24,7 @@ function CrudPartidos({ onModoCambio }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-
+    console.log(items);
     /**
      * Filtra los partidos según el término de búsqueda. 
      * Los partidos son filtrados por fecha, equipo local, equipo visitante, pabellón, grupo y tipo.
@@ -100,8 +100,8 @@ function CrudPartidos({ onModoCambio }) {
                     {currentItems.map((partido) => (
                         <tr key={partido.slug}>
                             <td>{partido.fecha}</td>
-                            <td>{partido["equipo local"]}</td>
-                            <td>{partido["equipo visitante"]}</td>
+                            <td>{partido["equipo local"].nombre}</td>
+                            <td>{partido["equipo visitante"].nombre}</td>
                             <td>{partido.pabellón}</td>
                             <td>{partido.grupo}</td>
                             <td>{partido.tipo}</td>
@@ -110,15 +110,8 @@ function CrudPartidos({ onModoCambio }) {
                             <td className="d-flex">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
-                                    onClick={() => onModoCambio("editar", partido)}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    className="btn btn-sm btn-danger"
-                                    onClick={() => deleteItem(partido.slug)}
-                                >
-                                    Eliminar
+                                    onClick={() => onModoCambio("editar", partido)}>
+                                    Actas
                                 </button>
                             </td>
                         </tr>

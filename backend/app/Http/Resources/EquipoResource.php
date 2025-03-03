@@ -22,17 +22,17 @@ class EquipoResource extends JsonResource
             'entrenador'    => $this->usuario?->nombre_completo,
             'inscripcion'   => [
                 'estado'    => $this->inscripcion->estado_id,
-                'comentario'=> $this->inscripcion->comentarios
+                'comentario' => $this->inscripcion->comentarios
             ],
             'stats'         => $this->statsEquipo(),
-            'Jugadores'     => [
-                'jugador'   => $this->jugadores->map(function ($jugador) {
-                    return [
-                            'slug'   => $jugador->slug,
-                            'nombre' => $jugador->nombre_completo,
-                    ];
-                }),
-            ],
+            'Jugadores'     => $this->jugadores->map(function ($jugador) {
+                return [
+                    'id'     => $jugador->id,
+                    'slug'   => $jugador->slug,
+                    'nombre' => $jugador->nombre_completo,
+                ];
+            }),
+
         ];
     }
 }

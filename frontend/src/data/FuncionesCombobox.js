@@ -12,6 +12,7 @@ async function fetchData(endpoint) {
 
     if (datosCacheados) {
         console.log(`Datos cargados desde sessionStorage para el endpoint: ${endpoint}`);
+
         return JSON.parse(datosCacheados); // Si están en sessionStorage, los devolvemos tal cual
     }
 
@@ -23,7 +24,7 @@ async function fetchData(endpoint) {
         if (!response.ok) {
             throw new Error(`Error en la petición: ${response.statusText}`);
         }
-
+        console.log(response);
         const data = await response.json(); // Convertimos la respuesta en JSON
         console.log(`Datos recibidos de la API para ${endpoint}:`, data);
 
@@ -32,7 +33,7 @@ async function fetchData(endpoint) {
         return data; // Devolvemos los datos tal como se reciben
     } catch (error) {
         console.error(`Error al obtener ${endpoint}:`, error);
-        return []; 
+        return [];
     }
 }
 
@@ -47,9 +48,9 @@ const llamadas = () => {
         jugadores: () => fetchData('lista/jugadores'),
         perfiles: () => fetchData('lista/perfiles'),
         partidos: () => fetchData('lista/partidos'),
-        patrocinadores: () => fetchData('lista/patrocinadores'), 
-        retos: () => fetchData('lista/retos'), 
-        ongs: () => fetchData('lista/ongs'), 
+        patrocinadores: () => fetchData('lista/patrocinadores'),
+        retos: () => fetchData('lista/retos'),
+        ongs: () => fetchData('lista/ongs'),
         pabellones: () => fetchData('lista/pabellones'),
     };
 };

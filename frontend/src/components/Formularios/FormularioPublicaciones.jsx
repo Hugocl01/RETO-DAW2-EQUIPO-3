@@ -47,11 +47,11 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
             case 'pabellon': llamada = await llamadas().pabellones(); break;
             default: llamada = {};
         }
-    
+
         if (llamada) {
             let opcionesModificadas;
             // Transformamos el objeto de ID -> nombre a un array de opciones con id y nombre
-            if(tipo.toLowerCase()=='jugador'){
+            if (tipo.toLowerCase() == 'jugador') {
                 opcionesModificadas = Object.keys(llamada).map(key => ({
                     id: key,  // ID como id
                     nombre: llamada[key].nombre // El nombre como nombre
@@ -62,16 +62,16 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                     nombre: llamada[key] // El nombre como nombre
                 }));
             }
-    
+
             setOpcionesPublicacionable(opcionesModificadas); // Asignamos las opciones modificadas
-    
+
             setFormData((prev) => ({
                 ...prev,
                 publicacionable_id: elementoId || "", // Asegurar que el ID inicial se establezca
             }));
         }
     };
-    
+
 
     const handleChange = async (e) => {
         const { name, value, type, checked, files } = e.target;
@@ -196,7 +196,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                         height: 300,
                         menubar: true,
                         plugins: 'advlist autolink lists link image charmap print preview anchor',
-                        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image',
+                        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link',
                     }}
                 />
                 {errores.contenido && <span className="text-danger d-block">{errores.contenido}</span>}
@@ -222,7 +222,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
             {/* Publicacionable ID */}
             {formData.publicacionable_type && (
                 <div className="mb-3">
-                    <label htmlFor="publicacionable_id" className="form-label">Publicación ID</label>
+                    <label htmlFor="publicacionable_id" className="form-label">Nombre</label>
                     <select
                         className="form-select"
                         name="publicacionable_id"
@@ -230,7 +230,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                         value={formData.publicacionable_id}
                         onChange={handleChange}
                     >
-                        <option value="" hidden>Seleccione un ID</option>
+                        <option value="" hidden>Seleccione una opcion</option>
                         {opcionesPublicacionable.map((opcion, index) => (
                             <option key={index} value={opcion.id}>{opcion.nombre}</option>
                         ))}
@@ -267,7 +267,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
 
             {/* Botones */}
             <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-success">{datosIniciales==null?'Crear publicacion':'Guardar publicacion'}</button>
+                <button type="submit" className="btn btn-success">{datosIniciales == null ? 'Crear publicacion' : 'Guardar publicacion'}</button>
                 <button type="reset" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
             </div>
         </form>
