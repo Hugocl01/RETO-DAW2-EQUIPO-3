@@ -49,7 +49,6 @@ function MenuAdministracion({ onSelect}) {
     }, [secciones, seccion]);
 
     const handleSelect = (seccion) => {
-        console.log(seccion);
         onSelect(seccion);
     };
 
