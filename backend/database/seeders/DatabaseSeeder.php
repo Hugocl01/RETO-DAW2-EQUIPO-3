@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
             PerfilSeccionAccionSeeder::class,
             SemifinalFinalSeeder::class,
             PublicacionSeeder::class,
+            ImagenSeeder::class
         ]);
     }
 }

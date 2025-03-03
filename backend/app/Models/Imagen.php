@@ -14,7 +14,7 @@ class Imagen extends Model
 
     protected $fillable = [
         'nombre',
-        'ruta_fichero',
+        'ruta',
         'imagenable_id',
         'imagenable_type',
     ];

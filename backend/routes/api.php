@@ -48,6 +48,7 @@ Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show'
 Route::apiResource('partidos', PartidoController::class)->only(['index', 'show']);
 Route::apiResource('estudios', EstudioController::class)->only(['index']);
 Route::apiResource('publicaciones', PublicacionController::class)->only(['index', 'show']);
+Route::apiResource('patrocinadores', PatrocinadorController::class)->only(['index', 'show']);
 
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
 Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
@@ -126,7 +127,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('ongs',OngController::class);
     Route::get('/lista/ongs', [OngController::class, 'getListaOngs']);
 
-    Route::apiResource('patrocinadores',PatrocinadorController::class);
+    Route::apiResource('patrocinadores',PatrocinadorController::class)->except(['show', 'index']);
     Route::get('/lista/patrocinadores', [PatrocinadorController::class, 'getListaPatrocinadores']);
 
     Route::apiResource('pabellones',PabellonController::class);
