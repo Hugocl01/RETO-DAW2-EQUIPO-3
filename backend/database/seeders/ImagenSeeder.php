@@ -15,28 +15,37 @@ class ImagenSeeder extends Seeder
 {
     public function run()
     {
-        // Obtener todas las rutas de imágenes de patrocinadores
-        $imagenesPatrocinador = Storage::disk('public')->files('imagenes/patrocinadores');
+        // IMPORTANTE: Estar seguro de que en 'patrocinadores' el orden (ID) es el mismo en que se seedearon
+        // O que la referencia al 'nombre' coincide con el que pusiste en tu PatrocinadorSeeder.
 
-        // Obtener el número total de patrocinadores en la base de datos
-        $patrocinadores = Patrocinador::all();
+        // 1) Mapeo manual: 'nombrePatrocinador' => 'nombreDelArchivo'
+        $imagenesPorPatrocinador = [
+            'CEINOR'                          => 'ceinor-20.png',
+            'DISGARSA'                        => 'disgarsa logo.png',
+            'Gimnasio Ubud Fitness Fight'     => 'Gimnasio-Ubud-Fitness-Fight.png',
+            'LIS Data Solutions'              => 'lis (1).png',
+            'EMI Suite 4.0'                   => 'Logo EMI_hc (1).png',
+            'Escuela Cine & TV'               => 'LOGO ESCUELA ROJO.png',
+            'Grupo PITMA'                     => 'LOGO-PITMA-30-ANIV.png',
+            'BM SUPERMERCADOS'                => 'LOGOTIPO-BM_Negro.png',
+            'Café Dromedario'                 => 'LOGOTIPO-CAFÉ-DROMEDARIO-vectorizado.png',
+            'Selcansa'                        => 'selcansa-LOGO-removebg-preview.png',
+        ];
 
-        // Asegurarse de que hay suficientes imágenes para asignar
-        $totalImagenes = count($imagenesPatrocinador);
-        $totalPatrocinadores = count($patrocinadores);
+        foreach ($imagenesPorPatrocinador as $nombrePatro => $archivoImagen) {
+            // 2) Buscamos el patrocinador por su nombre
+            $patrocinador = Patrocinador::where('nombre', $nombrePatro)->first();
 
-        // Asociar imágenes con patrocinadores en orden
-        for ($i = 0; $i < min($totalImagenes, $totalPatrocinadores); $i++) {
-            $ruta = $imagenesPatrocinador[$i];
-            $nombreArchivo = basename($ruta);
-            $patrocinador = $patrocinadores[$i];
-
-            Imagen::create([
-                'nombre' => $nombreArchivo,
-                'ruta' => $ruta,
-                'imagenable_id' => $patrocinador->id,
-                'imagenable_type' => Patrocinador::class,
-            ]);
+            // 3) Creamos el registro en la tabla 'imagens' (o como se llame)
+            if ($patrocinador) {
+                Imagen::create([
+                    'nombre'          => $archivoImagen,
+                    'ruta'            => "imagenes/patrocinadores/$archivoImagen", // la carpeta en public/storage
+                    'imagenable_id'   => $patrocinador->id,
+                    'imagenable_type' => Patrocinador::class,
+                ]);
+            }
         }
     }
+
 }
