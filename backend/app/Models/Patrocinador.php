@@ -45,7 +45,7 @@ class Patrocinador extends Model
         'landing_page'
     ];
 
-    public function imagenes()
+    public function imagen()
     {
         return $this->morphMany(Imagen::class, 'imagenable');
     }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('patrocinadores', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 45);
-            $table->string('landing_page', 45)->nullable();
+            $table->string('nombre', 255);
+            $table->string('landing_page', 255)->nullable();
 
             $table->unsignedBigInteger('usuario_creador_id')->nullable();
             $table->timestamp('fecha_creacion')->useCurrent()->nullable();

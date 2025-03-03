@@ -37,7 +37,7 @@ class ImagenController extends Controller
         // Guardar el registro de la imagen utilizando la relación polimórfica definida en el modelo
         $entity->imagenes()->create([
             'nombre'       => $imagenFile->getClientOriginalName(),
-            'ruta_fichero' => $rutaFichero,
+            'ruta' => $rutaFichero,
         ]);
 
         return response()->json([
