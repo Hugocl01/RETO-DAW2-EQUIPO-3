@@ -78,13 +78,6 @@ function LoginModal({ handleClose }) {
                 <label htmlFor="floatingPassword">Contraseña</label>
             </div>
 
-            <div className="form-check text-start my-3 w-100">
-                <input className="form-check-input" type="checkbox" value="recordar" id="flexCheckDefault" />
-                <label className="form-check-label" htmlFor="flexCheckDefault">
-                    Recordarme
-                </label>
-            </div>
-
             <button className="btn btn-primary w-100 py-2" type="submit">Iniciar sesión</button>
             <p className="mt-5 mb-3 text-body-secondary text-center">© 2025</p>
         </form>
