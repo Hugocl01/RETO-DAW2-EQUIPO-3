@@ -66,24 +66,13 @@ function CrudRetos({ onModoCambio }) {
         setCurrentPage(1);
     };
 
-    /**
-     * Carga los estudios en el `sessionStorage` cuando el componente se monta.
-     * 
-     * Utiliza `useEffect` para cargar los estudios al inicio.
-     *
-     * @returns {void}
-     */
-    useEffect(() => {
-        cargarEstudios();
-    }, []);
-
     if (loading) {
         return <Spinner />;
     }
     if (error) {
         return <p>Error: {error}</p>;
     }
-  
+
     return (
         <div>
             <h2>Retos</h2>
