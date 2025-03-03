@@ -1,4 +1,15 @@
-/* Custom hover effect */
-.cursor-pointer:hover {
-   cursor: pointer;
+.tabla {
+
+   p {
+      font-size: 1em;
+   }
+
+   /* Custom hover effect */
+   .cursor-pointer:hover {
+      cursor: pointer;
+   }
+}
+
+@media (max-width: 780px) {
+    
 }

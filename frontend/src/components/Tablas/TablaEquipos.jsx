@@ -4,6 +4,7 @@ import Spinner from "../Spinner";
 import { useNavigate } from "react-router-dom";
 import Equipo from "../Tablas/Equipo";
 import "../../components/css/Tabla.css";
+import "../css/JugadorEquipo.css";
 import ErrorPage from "../Error";
 
 function TablaEquipos() {
@@ -132,7 +133,7 @@ function TablaEquipos() {
 
   return (
     <>
-      <div className="container-fluid mt-5">
+      <div className="tabla container-fluid mt-5">
         {/* Cabecera */}
         <div className="row bg-primary text-white rounded-top border-bottom py-2">
           <div className="col-md-6 text-center font-weight-bold cursor-pointer h5">

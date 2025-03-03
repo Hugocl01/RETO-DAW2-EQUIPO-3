@@ -7,9 +7,26 @@
     border-color: lightgray !important;
 }
 
-/* En pantallas pequeñas, forzar scroll horizontal */
-@media (max-width: 768px) {
+@media (max-width: 570px) {
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; 
+    }
+
     .table {
-        width: 40%;
+        width: 100%; 
+        table-layout: fixed;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px; 
+        font-size: 14px; 
+        text-overflow: ellipsis; 
+        overflow: hidden; 
+    }
+
+    .table-responsive {
+        display: block; 
     }
 }
