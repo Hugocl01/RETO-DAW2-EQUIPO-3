@@ -1,23 +1,23 @@
 <?php
-
+ 
 namespace App\Http\Requests;
-
+ 
 use Illuminate\Foundation\Http\FormRequest;
-
+ 
 class EquipoRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
     }
-
+ 
     public function rules(): array
     {
         return [
             // Equipo
             'nombre'                      => 'required|string|max:255|unique:equipos,nombre',
             'centro_id'                   => 'required|exists:centros,id',
-
+ 
             // Entrenador
             'entrenador_nombre_completo'  => 'required|string|max:255|min:3',
             'entrenador_email'            => 'required|string|email',
@@ -25,30 +25,31 @@ class EquipoRequest extends FormRequest
             'jugadores.*.nombre_completo' => 'required|string|min:3|max:70',
             'jugadores.*.capitan'         => 'required|integer',
             'jugadores.*.estudio_id'      => 'required|integer|exists:estudios,id',
-
+ 
             // Validar el capitán
             'jugadores.*.dni' => [
-                'required_if:jugadores.*.capitan,1',   // <--- El campo DNI solo se requiere si capitan == 1
+                'required_if:jugadores.*.capitan,1,true', // Cambiado
                 'string',
                 'size:9',
                 'regex:/^\d{8}[A-Za-z]$/',
                 'unique:jugadores,dni'
             ],
             'jugadores.*.email' => [
-                'required_if:jugadores.*.capitan,1',
+                'required_if:jugadores.*.capitan,1,true', // Cambiado
                 'string',
                 'email',
                 'unique:jugadores,email'
             ],
             'jugadores.*.telefono' => [
-                'required_if:jugadores.*.capitan,1',
+                'required_if:jugadores.*.capitan,1,true', // Cambiado
                 'string',
                 'size:9',
             ],
-
+ 
+ 
         ];
     }
-
+ 
     public function messages(): array
     {
         return [
@@ -84,23 +85,40 @@ class EquipoRequest extends FormRequest
             'jugadores.*.email.unique'             => 'El email ya está registrado.',
             'jugadores.*.telefono.string'          => 'El teléfono debe ser una cadena de texto.',
             'jugadores.*.telefono.size'            => 'El teléfono debe tener exactamente 9 caracteres.',
+            'jugadores.*.dni.required_if' => 'El DNI es obligatorio para el capitán.',
+            'jugadores.*.email.required_if' => 'El correo electrónico es obligatorio para el capitán.',
+            'jugadores.*.telefono.required_if' => 'El teléfono es obligatorio para el capitán.',
+ 
         ];
     }
-
+ 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-
             $jugadores = $this->input('jugadores');
-
+ 
             // Asegurar exactamente 1 capitán
             $capitanes = collect($jugadores)->filter(
                 fn($jugador) =>
                 isset($jugador['capitan']) && (bool)$jugador['capitan'] === true
-            )->count();
-
-            if ($capitanes !== 1) {
-                $validator->errors()->add('jugadores', 'Debe de haber un único capitán en el equipo.');
+            );
+ 
+            if ($capitanes->count() !== 1) {
+                $validator->errors()->add('jugadores', 'Debe haber un único capitán en el equipo.');
+            }
+ 
+            // Validar los campos del capitán manualmente
+            $capitan = $capitanes->first();
+            if ($capitan) {
+                if (empty($capitan['dni'])) {
+                    $validator->errors()->add('jugadores.*.dni', 'El DNI es obligatorio para el capitán.');
+                }
+                if (empty($capitan['email'])) {
+                    $validator->errors()->add('jugadores.*.email', 'El correo electrónico es obligatorio para el capitán.');
+                }
+                if (empty($capitan['telefono'])) {
+                    $validator->errors()->add('jugadores.*.telefono', 'El teléfono es obligatorio para el capitán.');
+                }
             }
         });
     }

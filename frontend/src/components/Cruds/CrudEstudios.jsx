@@ -102,13 +102,13 @@ function CrudEstudios({ onModoCambio }) {
             <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control form-control-sm flex-grow-1"
                     placeholder="Buscar estudios..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
                 <button
-                    className="btn btn-success"
+                    className="btn btn-success text-nowrap"
                     onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
                 >
                     Crear Estudio

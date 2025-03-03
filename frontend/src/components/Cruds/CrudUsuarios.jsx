@@ -76,16 +76,16 @@ function CrudUsuarios({ onModoCambio }) {
             <h2>Usuarios</h2>
 
             {/* Buscador  y Boton de crear */}
-            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+            <div className="d-flex justify-content-between align-items-center gap-4 mb-3">
                 <input
                     type="text"
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm flex-grow-1"
                     placeholder="Buscar usuarios..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
                 <button
-                    className="btn btn-success"
+                    className="btn btn-success text-nowrap"
                     onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
                 >
                     Crear Usuario
