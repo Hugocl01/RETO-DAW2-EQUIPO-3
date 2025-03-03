@@ -1,3 +1,4 @@
+/* Estilos de las tarjetas personalizadas */
 .custom-card {
     border-radius: 1em;
     overflow: hidden;
@@ -6,14 +7,11 @@
 }
 
 .custom-card img {
-    height: 200px;
+    height: 180px;
+    /* Usar una altura fija */
     object-fit: cover;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-}
-
-.custom-card:hover {
-    transform: scale(1.03);
 }
 
 .custom-card .card-body {
@@ -26,6 +24,7 @@
     padding: 0.7em 1.5em;
 }
 
+/* Estilo de los títulos y textos */
 .card-title,
 .modal-title {
     text-transform: lowercase;
@@ -46,11 +45,42 @@
     text-transform: uppercase;
 }
 
+/* Estilo para las imágenes dentro del modal */
 .modal-body img {
-    width: 80%;
+    width: 100%;
+    border-radius: 12px;
 }
 
+/* Estilos de los controles de carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    /* Reducir el ancho del área de clic */
+    height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-prev {
+    left: -16px;
+}
+
+.carousel-control-next {
+    right: -16px;
+}
+
+/* Ajuste para pantallas pequeñas */
 @media (max-width: 768px) {
+
+    /* Ajustes en el tamaño de los botones de control del carrusel */
+    .carousel-control-prev {
+        left: 0;
+    }
+
+    .carousel-control-next {
+        right: 0;
+    }
+
     .carousel-item {
         transition: opacity 0.3s ease, transform 0.3s ease;
     }

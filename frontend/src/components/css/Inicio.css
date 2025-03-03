@@ -94,7 +94,6 @@
 
     .introduccion button {
         transition: transform 0.3s ease-in-out;
-
     }
 
     .introduccion button:hover {
@@ -102,14 +101,8 @@
         border-color: transparent;
     }
 
-
-    .carruselesSimples {
-        display: none;
-    }
-
     #contenedorPatros {
         width: 100%;
-
         box-shadow:
             /* sombra arriba */
             0px -5px 10px rgba(0, 0, 0, 0.35),
@@ -173,14 +166,6 @@
 
         .seccion2 {
             display: none;
-        }
-
-        .carruseles {
-            display: none;
-        }
-
-        .carruselesSimples {
-            display: block;
         }
 
         #patrocinadores img {
