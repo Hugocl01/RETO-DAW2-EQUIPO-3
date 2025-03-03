@@ -9,6 +9,7 @@ function Partido({ tipo, objPartido, fnNavegar }) {
   const partido = objPartido;
 
   function handleClick() {
+    console.log(partido);
     fnNavegar(partido.slug);
   }
 
@@ -16,10 +17,10 @@ function Partido({ tipo, objPartido, fnNavegar }) {
    * Creo un identificador único para los accordeones de los partidos
    */
   const collapseId = `collapse-${partido.slug}`;
-console.log(partido)
+  console.log(partido)
   return (
     <div className="accordion card mb-3 shadow-sm" id={`accordion-${partido.slug}`}>
-       {/**
+      {/**
         * Cabecera
         */}
       <div
@@ -36,8 +37,8 @@ console.log(partido)
         {/**
          * Muestro el tipo de partido si no es 'clasificatorio'
          */}
-        {tipo !== "clasificatorio" && tipo!== "" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
-        <h5 className="w-100 text-center m-0">{`Partido: ${partido["equipo local"]} vs ${partido["equipo visitante"]}`}</h5>
+        {tipo !== "clasificatorio" && tipo !== "" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
+        <h5 className="w-100 text-center m-0">{`Partido: ${partido["equipo local"].nombre} vs ${partido["equipo visitante"].nombre}`}</h5>
       </div>
       <div
         id={collapseId}

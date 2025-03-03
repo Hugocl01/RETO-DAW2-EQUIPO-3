@@ -18,10 +18,10 @@ class PartidoResource extends JsonResource
             'slug'              => $this->slug,
             'fecha'             => $this->fecha,
             'duracion'          => $this->duracion,
-            'goles local'       => $this->goles_local??0,
-            'goles visitante'   => $this->goles_visitante??0,
-            'equipo local'      => $this->equipoLocal->nombre,
-            'equipo visitante'  => $this->equipoVisitante->nombre,
+            'goles local'       => $this->goles_local ?? 0,
+            'goles visitante'   => $this->goles_visitante ?? 0,
+            'equipo local'      => EquipoResource::make($this->equipoLocal),
+            'equipo visitante'  => EquipoResource::make($this->equipoVisitante),
             'pabellón'          => $this->pabellon->nombre,
             'grupo' => ($this->tipo->value !== 'clasificatorio')
                 ? null

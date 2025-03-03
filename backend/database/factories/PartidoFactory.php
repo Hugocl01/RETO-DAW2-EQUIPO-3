@@ -21,8 +21,8 @@ class PartidoFactory extends Factory
             'pabellon_id' => 1,
             'fecha' => $this->faker->date(),
             'duracion' => $this->faker->numberBetween(0, 20),
-            'goles_local' => $this->faker->numberBetween(0, 5),
-            'goles_visitante' => $this->faker->numberBetween(0, 5),
+            'goles_local' => 0,
+            'goles_visitante' => 0,
             'usuario_creador_id' => 1
         ];
     }
@@ -32,7 +32,7 @@ class PartidoFactory extends Factory
         return $this->afterCreating(function (Partido $partido) {
             // (1) Crear acta de inicio
             Acta::factory()->create([
-                'jugador_id'    =>null,
+                'jugador_id'    => null,
                 'partido_id'    => $partido->id,
                 'incidencia_id' => 13, // ejemplo de ID para "Inicio"
                 'minuto'        => 0,
@@ -70,12 +70,18 @@ class PartidoFactory extends Factory
                     } else {
                         $partido->increment('goles_visitante');
                     }
+                } else if ($incidenciaId === 2) { // 1 => gol en propia puerta
+                    if ($jugadoresLocal->contains($jugador)) {
+                        $partido->increment('goles_visitante');
+                    } else {
+                        $partido->increment('goles_local');
+                    }
                 }
             }
 
             // (5) Crear acta de final
             Acta::factory()->create([
-                'jugador_id'    =>null,
+                'jugador_id'    => null,
                 'partido_id'    => $partido->id,
                 'incidencia_id' => 14, // ejemplo de ID para "Fin"
                 'minuto'        => $partido->duracion,

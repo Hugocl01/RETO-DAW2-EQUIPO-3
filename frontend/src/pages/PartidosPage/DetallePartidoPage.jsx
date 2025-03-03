@@ -12,7 +12,7 @@ function DetallePartidoPage() {
   const [partido, setPartido] = useState();
   const location = useLocation();
   const [cargando, setCargando] = useState(true);
-  const [error,setError]=useState();
+  const [error, setError] = useState();
 
   /**
    * Se ejecutará la carga de la api cuando cambie la ruta del header con el location
@@ -31,7 +31,7 @@ function DetallePartidoPage() {
             JSON.stringify(resultado.data.partidos)
           );
           setPartido(resultado.data.partidos);
-          
+
         } else {
           /**
            * Si me devuelve otro tipo de estado la api, lo recojo en el estado de error
@@ -42,34 +42,34 @@ function DetallePartidoPage() {
           });
         }
       } catch (error) {
-         /**
-         * Los errores que me recoja el catch, lo guardo en el estado de error
-         */
-         setError({
+        /**
+        * Los errores que me recoja el catch, lo guardo en el estado de error
+        */
+        setError({
           tipo: error.response?.status || error.name,
           mensaje: error.response?.data?.message || "No existe el partido.",
         });
       }
     };
 
-     /**
-     * Cojo el valor del nombre del location
-     * Obtengo luego los valores de la session storage con el nombre del equipo
-     */
-     const nombrePartido = location.pathname.split("/").pop(); 
+    /**
+    * Cojo el valor del nombre del location
+    * Obtengo luego los valores de la session storage con el nombre del equipo
+    */
+    const nombrePartido = location.pathname.split("/").pop();
 
-     const obtenerPartidoSession = sessionStorage.getItem(nombrePartido);
- 
-     /**
-      * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
-      * Si no hay datos, realizo la llamada a la api
-      */
-     if (obtenerPartidoSession) {
-       setPartido(JSON.parse(obtenerPartidoSession)); 
-       setCargando(false);
-     } else {
-       obtenerPartido();
-     }
+    const obtenerPartidoSession = sessionStorage.getItem(nombrePartido);
+
+    /**
+     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+     * Si no hay datos, realizo la llamada a la api
+     */
+    if (obtenerPartidoSession) {
+      setPartido(JSON.parse(obtenerPartidoSession));
+      setCargando(false);
+    } else {
+      obtenerPartido();
+    }
   }, [location]);
 
   /**
@@ -117,11 +117,25 @@ function DetallePartidoPage() {
       /**
        * Me añade la incidencia dependiendo del equipo
        */
-      if (acta.equipo === partido["equipo local"]) {
+      if (acta.equipo === partido["equipo local"].nombre) {
         actasAgrupados[acta.minuto].local = acta.incidencia;
       } else {
         actasAgrupados[acta.minuto].visitante = acta.incidencia;
       }
+      /*
+      if (acta.incidencia === "Gol") {
+        if (acta.equipo === partido["equipo local"].nombre) {
+          setGolesLocal(golesLocal + 1);
+        } else {
+          setGolesVisitante(golesVisitante + 1);
+        }
+      } else if (acta.incidencia === "Gol en propia puerta") {
+        if (acta.equipo === partido["equipo local"].nombre) {
+          setGolesVisitante(golesVisitante + 1);
+        } else {
+          setGolesLocal(golesLocal + 1);
+        }
+      }*/
     });
 
     return actasAgrupados;
@@ -141,7 +155,7 @@ function DetallePartidoPage() {
         <div className="row">
           <div className="col-12">
             <h2 className="mt-5 text-center bg-primary text-white py-3 rounded">
-              Acta {partido["equipo local"]} vs {partido["equipo visitante"]}
+              Acta {partido["equipo local"].nombre} vs {partido["equipo visitante"].nombre}
             </h2>
           </div>
         </div>
