@@ -92,7 +92,12 @@
                     "400": {
                         "description": "Error en la validación de datos"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/centros/{centro}": {
@@ -137,7 +142,12 @@
                     "404": {
                         "description": "Centro no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -197,7 +207,12 @@
                     "404": {
                         "description": "Centro no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -241,7 +256,12 @@
                     "404": {
                         "description": "Centro no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/centros": {
@@ -275,7 +295,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/ciclos": {
@@ -284,7 +309,7 @@
                     "Ciclos"
                 ],
                 "summary": "Obtener todos los ciclos",
-                "description": "Obtener todos los centros.",
+                "description": "Obtener todos los ciclos.",
                 "operationId": "ffdf1a6300cf31a30058bb102f590b2b",
                 "responses": {
                     "200": {
@@ -355,7 +380,12 @@
                     "400": {
                         "description": "Error en la validación de datos"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/ciclos/{ciclo}": {
@@ -400,7 +430,12 @@
                     "404": {
                         "description": "Ciclo no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -460,7 +495,12 @@
                     "404": {
                         "description": "Ciclo no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -504,7 +544,12 @@
                     "404": {
                         "description": "Ciclo no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/ciclos": {
@@ -538,7 +583,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/clasificacion/grupo-a": {
@@ -979,7 +1029,12 @@
                     "400": {
                         "description": "Error en la validación de datos"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/estudios/{estudio}": {
@@ -1025,7 +1080,12 @@
                     "404": {
                         "description": "Estudio no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/estudios": {
@@ -1059,7 +1119,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/familias": {
@@ -2788,7 +2853,12 @@
                     "403": {
                         "description": "Token inválido o ya utilizado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -3259,24 +3329,6 @@
                     "perfil_id": {
                         "type": "integer",
                         "example": 2
-                    },
-                    "usuario_creador_id": {
-                        "type": "integer",
-                        "example": 5
-                    },
-                    "usuario_modificador_id": {
-                        "type": "integer",
-                        "example": 6
-                    },
-                    "fecha_creacion": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-02-14T10:00:00Z"
-                    },
-                    "fecha_modificacion": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2024-02-14T12:00:00Z"
                     }
                 },
                 "type": "object"
