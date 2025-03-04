@@ -7,7 +7,7 @@ function CrudInscripciones() {
     // Memoriza la sección para evitar recrearla en cada render
     const seccion = useMemo(() => ({ nombre: "Inscripciones" }), []);
     const { items: initialItems, loading, error, deleteItem } = useCrud(seccion);
-    
+
     // Estado local para manejar la lista de inscripciones
     const [items, setItems] = useState(initialItems);
 
@@ -66,20 +66,15 @@ function CrudInscripciones() {
         }
     }
 
-    async function actualizarInscripcion(id, estado) {
-        let inscripcion = {
-            'id': id,
-            'estado': estado
-        };
-
+    async function actualizarInscripcion(inscripcion, estado) {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/cambiar-estado/${id}`, {
-                method: 'PUT', 
+            const response = await fetch(`http://127.0.0.1:8000/api/cambiar-estado/${inscripcion.id}`, {
+                method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify(inscripcion)
+                body: JSON.stringify({ estado }) // ✅ Ahora se envía el estado correctamente
             });
 
             if (!response.ok) {
@@ -89,7 +84,7 @@ function CrudInscripciones() {
             const data = await response.json();
 
             // Llamar a la función que actualiza la tabla
-            cargarTabla(); 
+            cargarTabla();
 
             return data;
         } catch (err) {
@@ -98,15 +93,17 @@ function CrudInscripciones() {
         }
     }
 
-    const handleAprobar = async (id) => {
-        console.log(`Inscripción ${id} aprobada`);
-        await actualizarInscripcion(id, 3);
+
+    const handleAprobar = async (inscripcion) => {
+        console.log(`Inscripción aprobada`);
+        await actualizarInscripcion(inscripcion, 3); // Pasa la inscripción y el estado 3
     };
 
-    const handleRechazar = async (id) => {
-        console.log(`Inscripción ${id} rechazada`);
-        await actualizarInscripcion(id, 4);
+    const handleRechazar = async (inscripcion) => {
+        console.log(`Inscripción rechazada`);
+        await actualizarInscripcion(inscripcion, 4); // Pasa la inscripción y el estado 4
     };
+
 
     if (loading) {
         return <Spinner />;
@@ -149,14 +146,14 @@ function CrudInscripciones() {
                             <td className="d-flex gap-2">
                                 <button
                                     className="btn btn-sm btn-success"
-                                    onClick={() => handleAprobar(inscripcion.id)}
+                                    onClick={() => handleAprobar(inscripcion)}
                                     disabled={inscripcion.estado === "No Activa"}
                                 >
                                     Aprobar
                                 </button>
                                 <button
                                     className="btn btn-sm btn-danger"
-                                    onClick={() => handleRechazar(inscripcion.id)}
+                                    onClick={() => handleRechazar(inscripcion)}
                                     disabled={inscripcion.estado === "No Activa"}
                                 >
                                     Rechazar

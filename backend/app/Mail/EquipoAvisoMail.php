@@ -13,16 +13,18 @@ class EquipoAvisoMail extends Mailable
 
     public $inscripcion;
     public $token;
+    public $nuevo_estado;
 
     /**
      * Crea una nueva instancia del mailable.
      *
      * @param Inscripcion $inscripcion
      */
-    public function __construct(Inscripcion $inscripcion, $token = null)
+    public function __construct(Inscripcion $inscripcion, $nuevo_estado, $token = null)
     {
         $this->inscripcion = $inscripcion;
         $this->token = $token;
+        $this->nuevo_estado = $nuevo_estado;
     }
 
     /**
