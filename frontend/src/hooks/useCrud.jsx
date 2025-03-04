@@ -7,6 +7,7 @@ import { generateSlug } from "../utils/stringUtils";
  * @returns {Object} - Estado y funciones para gestionar la entidad.
  */
 export const useCrud = (seccion) => {
+    const url = import.meta.env.VITE_API_URL;
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -21,7 +22,7 @@ export const useCrud = (seccion) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}`, {
+            const response = await fetch(`${url}${entidadNombre}`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -54,7 +55,7 @@ export const useCrud = (seccion) => {
      */
     const createItem = async (newItem) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}`, {
+            const response = await fetch(`${url}${entidadNombre}`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +83,7 @@ export const useCrud = (seccion) => {
     */
     const updateItem = async (id, updatedItem) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
+            const response = await fetch(`${url}${entidadNombre}/${id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -109,7 +110,7 @@ export const useCrud = (seccion) => {
      */
     const deleteItem = async (id) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/${entidadNombre}/${id}`, {
+            const response = await fetch(`${url}${entidadNombre}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-const url = 'http://127.0.0.1:8000/api/';
+const url = import.meta.env.VITE_API_URL;
 
 /**
  * Llama a la API de forma genérica para obtener la lista desde cualquier endpoint.

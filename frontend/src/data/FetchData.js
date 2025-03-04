@@ -1,6 +1,6 @@
 export default async function fetchData(endpoint) {
     const token = localStorage.getItem("token"); // Si necesitas autenticación
-    const url = 'http://127.0.0.1:8000/api/';
+    const url = import.meta.env.VITE_API_URL;
 
 
     try {
@@ -24,7 +24,7 @@ export default async function fetchData(endpoint) {
 
 export async function postData(endpoint, body) {
     const token = localStorage.getItem("token"); // Si necesitas autenticación
-    const url = 'http://127.0.0.1:8000/api/';
+    const url = import.meta.env.VITE_API_URL;
 
     try {
         const response = await fetch(`${url}${endpoint}`, {
