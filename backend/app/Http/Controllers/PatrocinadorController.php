@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\http\Requests\PatrocinadorRequest;
 use App\Http\Resources\PatrocinadorResource;
 use App\Models\Patrocinador; // Asegúrate de importar el modelo
 
@@ -17,6 +17,38 @@ class PatrocinadorController extends Controller
         return response()->json([
             'status' => 'success',
             'patrocinadores' => PatrocinadorResource::collection(Patrocinador::all())
+        ]);
+    }
+
+    public function store(PatrocinadorRequest $request)
+    {
+        $patrocinador = Patrocinador::create($request->validate());
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Patrocinador creado Correctamente',
+            'patrocinador' => new PatrocinadorResource($patrocinador),
+        ], 201);
+    }
+
+    public function update(PatrocinadorRequest $request, Patrocinador $patrocinador)
+    {
+        $patrocinador->update($request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Patrocinador actualizado correctamente',
+            'patrocinador' => new PatrocinadorResource($patrocinador)
+        ]);
+    }
+
+    public function destroy(Patrocinador $patrocinador)
+    {
+        $patrocinador->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Patrocinador eliminado exitosamente'
         ]);
     }
 
