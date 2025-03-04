@@ -212,7 +212,7 @@ function Inicio() {
                                 <div key={patrocinador.nombre} className="p-2 bg-white shadow-sm rounded">
                                     <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
                                         <img
-                                            src={`http://127.0.0.1:8000/storage/${patrocinador.ruta}`}
+                                            src={`http://23.23.87.65/storage/${patrocinador.ruta}`}
                                             className="img-fluid"
                                             alt={patrocinador.nombre}
                                             style={{ maxHeight: "100px", objectFit: "contain", padding: "10px" }}

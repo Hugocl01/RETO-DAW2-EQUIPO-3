@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
 import llamadas from "../../data/FuncionesCombobox";
 
 /**
@@ -87,8 +86,8 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
     console.log(formData);
     return (
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
-            <h2 className="mb-4 text-center">{datosIniciales!=null?'Editar Ciclo':'Crear ciclo'}</h2>
-    
+            <h2 className="mb-4 text-center">{datosIniciales != null ? 'Editar Ciclo' : 'Crear ciclo'}</h2>
+
             {/* Nombre */}
             <div className="mb-3">
                 <label htmlFor="nombre" className="form-label">Nombre</label>
@@ -102,7 +101,7 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             {/* Familia */}
             <div className="mb-3">
                 <label htmlFor="familia_id" className="form-label">Familia</label>
@@ -119,7 +118,7 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
                     ))}
                 </select>
             </div>
-    
+
             {/* Botones */}
             <div className="d-flex justify-content-between">
                 <button type="submit" className="btn btn-success">Guardar</button>
@@ -127,7 +126,7 @@ function FormularioCiclos({ datosIniciales, onGuardar, onCancelar }) {
             </div>
         </form>
     );
-    
+
 }
 
 export default FormularioCiclos;

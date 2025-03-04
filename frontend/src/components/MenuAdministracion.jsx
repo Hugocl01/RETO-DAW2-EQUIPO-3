@@ -18,17 +18,18 @@ function MenuAdministracion({ onSelect }) {
     const sidenavRef = useRef(null);
     const isActive = (path) => (location.pathname === path ? "active" : "");
     const [isSubMenuActive, setIsSubMenuActive] = useState(false);
-    
+
     const toggleSidenav = () => {
         setIsSidenavActive(prevState => !prevState);
     };
 
     useEffect(() => {
+        const url = import.meta.env.VITE_API_URL;
         const fetchSecciones = async () => {
             if (!seguridad?.user?.perfil?.id) return;
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://127.0.0.1:8000/api/perfiles/${seguridad.user.perfil.id}`, {
+                const response = await fetch(`${url}perfiles/${seguridad.user.perfil.id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

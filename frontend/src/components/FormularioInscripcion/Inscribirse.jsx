@@ -1,6 +1,5 @@
 import { useState, useEffect, useId } from "react";
 import JugadorLabel from "./JugadorLabel.jsx";
-import api from "../../services/api.js";
 import Spinner from "../Spinner.jsx";
 import "../css/Inscribirse.css";
 import TarjetaFormulario from "./TarjetaFormulario.jsx";

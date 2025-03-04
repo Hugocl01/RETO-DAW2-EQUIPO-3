@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
 import ErrorPage from "../ErrorPage.jsx";

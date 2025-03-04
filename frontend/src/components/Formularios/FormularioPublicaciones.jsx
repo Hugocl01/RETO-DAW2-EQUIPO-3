@@ -118,9 +118,9 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validarCampos()) return;
-
+        const url = import.meta.env.VITE_API_URL;
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/publicaciones', {
+            const response = await fetch(`${url}publicaciones`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,9 +147,9 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
     const subirImagen = async (publicacionId) => {
         const formDataImagen = new FormData();
         formDataImagen.append('imagen', formData.imagen);
-
+        const url = import.meta.env.VITE_API_URL;
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${publicacionId}/subir-imagen`, {
+            const response = await fetch(`${url}publicaciones/${publicacionId}/subir-imagen`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
                 body: formDataImagen,

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
-import api from "../../services/api";
 import ErrorPage from "../ErrorPage";
 import "../../core/CSS/PartidosPage.css";
 import "../../components/css/EstilosComun.css";

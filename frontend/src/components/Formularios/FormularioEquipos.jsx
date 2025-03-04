@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
 import llamadas from "../../data/FuncionesCombobox";
 
 const fetchEquipos = async () => {
