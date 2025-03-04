@@ -2,7 +2,6 @@ export default async function fetchData(endpoint) {
     const token = localStorage.getItem("token"); // Si necesitas autenticación
     const url = import.meta.env.VITE_API_URL;
 
-
     try {
         const response = await fetch(`${url}${endpoint}`, {
             headers: { Authorization: `Bearer ${token}` }, // Enviar token para autorización
@@ -13,7 +12,6 @@ export default async function fetchData(endpoint) {
         }
 
         const data = await response.json(); // Convertimos la respuesta en JSON
-        console.log(`Datos recibidos de la API para ${endpoint}:`, data);
 
         return data; // Devolvemos los datos tal como se reciben
     } catch (error) {
@@ -23,7 +21,6 @@ export default async function fetchData(endpoint) {
 }
 
 export async function postData(endpoint, body) {
-    const token = localStorage.getItem("token"); // Si necesitas autenticación
     const url = import.meta.env.VITE_API_URL;
 
     try {
@@ -31,22 +28,18 @@ export async function postData(endpoint, body) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, // Enviar token si es necesario
             },
-            body: JSON.stringify(body), // Convertimos el objeto a JSON
+            body: JSON.stringify(body),
         });
 
         if (!response.ok) {
             throw new Error(`Error en la petición: ${response.statusText}`);
         }
-
-        const data = await response.json(); // Convertimos la respuesta en JSON
-        console.log(`Datos recibidos de la API para ${endpoint}:`, data);
-
-        return data; // Devolvemos la respuesta de la API
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(`Error al enviar datos a ${endpoint}:`, error);
-        return { error: true, message: error.message }; // Devolvemos un objeto de error
+        return { error: true, message: error.message };
     }
 }
 

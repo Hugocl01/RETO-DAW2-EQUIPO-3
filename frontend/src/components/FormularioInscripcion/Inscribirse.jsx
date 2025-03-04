@@ -4,6 +4,7 @@ import Spinner from "../Spinner.jsx";
 import "../css/Inscribirse.css";
 import TarjetaFormulario from "./TarjetaFormulario.jsx";
 import { postData } from "../../data/FetchData.js";
+import fetchData from "../../data/FetchData.js";
 
 function Inscribirse() {
   const [capitanId, setCapitanId] = useState(null);
