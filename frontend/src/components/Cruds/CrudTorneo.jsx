@@ -1,8 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import Spinner from "../Spinner";
-import Paginator from "../Paginator"; // Asegúrate de que la ruta es correcta
+import Paginator from "../Paginator";
 
 const url = import.meta.env.VITE_API_URL;
+
+/**
+ * Función para obtener la lista de equipos desde el servidor.
+ * 
+ * @returns {Promise<Array>} Lista de equipos. Si hay un error, se devuelve un arreglo vacío.
+ */
 async function fetchEquipos() {
     try {
         const response = await fetch(`${url}equipos`, {
@@ -25,7 +31,14 @@ async function fetchEquipos() {
     }
 }
 
-export default function CrudTorneos() {
+/**
+ * Componente que maneja el CRUD de torneos, incluyendo inicio, reinicio y listado de equipos.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} El componente de la interfaz de usuario del CRUD de torneos.
+ */
+function CrudTorneos() {
     const [torneo, setTorneo] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -43,6 +56,9 @@ export default function CrudTorneos() {
         getTorneoStatus();
     }, []);
 
+    /**
+     * Función para obtener el estado del torneo, incluyendo los partidos activos y equipos.
+     */
     const getTorneoStatus = async () => {
         setLoading(true);
         try {
@@ -80,6 +96,9 @@ export default function CrudTorneos() {
         }
     };
 
+    /**
+     * Función para iniciar el torneo con la fecha seleccionada.
+     */
     const iniciarTorneo = async () => {
         if (!fechaInicioTorneo) {
             alert("Por favor, selecciona una fecha.");
@@ -115,6 +134,9 @@ export default function CrudTorneos() {
         }
     };
 
+    /**
+     * Función para reiniciar el torneo.
+     */
     const reiniciarTorneo = async () => {
         setLoading(true);
         try {
@@ -219,3 +241,5 @@ export default function CrudTorneos() {
         </div>
     );
 }
+
+export default CrudTorneos;
