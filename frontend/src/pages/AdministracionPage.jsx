@@ -14,6 +14,7 @@ import CrudUsuarios from "../components/Cruds/CrudUsuarios";
 import CrudRetos from "../components/Cruds/CrudRetos";
 import CrudImagenes from "../components/Cruds/CrudImagenes";
 import CrudPabellones from "../components/Cruds/CrudPabellones";
+import CrudPatrocinadores from "../components/Cruds/CrudPatrocinadores";
 import CrudFamilias from "../components/Cruds/CrudFamilias";
 import CrudCiclos from "../components/Cruds/CrudCiclos";
 import CrudCentros from "../components/Cruds/CrudCentros";
@@ -30,6 +31,7 @@ import FormularioUsuarios from "../components/Formularios/FormularioUsuarios";
 import FormularioRetos from "../components/Formularios/FormularioRetos";
 import FormularioImagenes from "../components/Formularios/FormularioImagenes";
 import FormularioPabellones from "../components/Formularios/FormularioPabellones";
+import FormularioPatrocinadores from "../components/Formularios/FormularioPatrocinadores";
 import FormularioFamilias from "../components/Formularios/FormularioFamilias";
 import FormularioCiclos from "../components/Formularios/FormularioCiclos";
 import FormularioCentros from "../components/Formularios/FormularioCentros";
@@ -144,6 +146,14 @@ function AdministracionPage() {
                         onCancelar={() => setModo(null)}
                     />
                 );
+            case "patrocinadores":
+                return (
+                    <FormularioPatrocinadores
+                        datosIniciales={itemSeleccionado}
+                        onGuardar={() => setModo(null)}
+                        onCancelar={() => setModo(null)}
+                    />
+                );
             case "familias":
                 return (
                     <FormularioFamilias
@@ -214,6 +224,8 @@ function AdministracionPage() {
                 return <CrudImagenes onModoCambio={handleModoCambio} />;
             case "pabellones":
                 return <CrudPabellones onModoCambio={handleModoCambio} />;
+            case "patrocinadores":
+                return <CrudPatrocinadores onModoCambio={handleModoCambio} />;
             case "familias":
                 return <CrudFamilias onModoCambio={handleModoCambio} />;
             case "ciclos":
