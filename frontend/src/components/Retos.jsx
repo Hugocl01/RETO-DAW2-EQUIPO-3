@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import api from "../services/api";
 import "./css/EstilosComun.css";
 import "./css/Retos.css";
 import fetchData from '../data/FetchData';

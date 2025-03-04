@@ -2,9 +2,10 @@ import { useState, useEffect, useMemo } from "react";
 import Spinner from "../Spinner";
 import Paginator from "../Paginator"; // Asegúrate de que la ruta es correcta
 
+const url = import.meta.env.VITE_API_URL;
 async function fetchEquipos() {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/equipos`, {
+        const response = await fetch(`${url}equipos`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +47,7 @@ export default function CrudTorneos() {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://127.0.0.1:8000/api/partidos", {
+            const response = await fetch(`${url}partidos`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -93,7 +94,7 @@ export default function CrudTorneos() {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://127.0.0.1:8000/api/comienzo-torneo", {
+            const response = await fetch(`${url}comienzo-torneo`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -118,7 +119,7 @@ export default function CrudTorneos() {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://127.0.0.1:8000/api/reinicio-torneo", {
+            const response = await fetch(`${url}reinicio-torneo`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -209,10 +210,10 @@ export default function CrudTorneos() {
                 </table>
 
                 {/* Paginador */}
-                <Paginator 
-                    currentPage={currentPage} 
-                    totalPages={totalPages} 
-                    onPageChange={setCurrentPage} 
+                <Paginator
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
                 />
             </div>
         </div>

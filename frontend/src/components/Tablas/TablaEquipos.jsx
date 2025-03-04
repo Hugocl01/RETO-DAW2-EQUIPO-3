@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
 import Spinner from "../Spinner";
 import { useNavigate } from "react-router-dom";
 import Equipo from "../Tablas/Equipo";

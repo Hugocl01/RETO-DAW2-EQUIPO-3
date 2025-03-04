@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import CuadroClasificacion from "../components/CuadroClasificacion";
-import api from "../services/api";
 import Spinner from "../components/Spinner.jsx";
 import fetchData from "../data/FetchData";
 

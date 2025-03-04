@@ -77,8 +77,9 @@ function SeguridadProvider({ children }) {
      */
     const login = async (email, password) => {
         setLoading(true);
+        const url = import.meta.env.VITE_API_URL;
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/login', {
+            const response = await fetch(`${url}login`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

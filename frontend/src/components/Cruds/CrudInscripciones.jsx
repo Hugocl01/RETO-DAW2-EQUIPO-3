@@ -46,8 +46,9 @@ function CrudInscripciones() {
     };
 
     async function cargarTabla() {
+        const url = import.meta.env.VITE_API_URL;
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/inscripciones', {
+            const response = await fetch(`${url}inscripciones`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +69,8 @@ function CrudInscripciones() {
 
     async function actualizarInscripcion(inscripcion, estado) {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/cambiar-estado/${inscripcion.id}`, {
+            const url = import.meta.env.VITE_API_URL;
+            const response = await fetch(`${url}cambiar-estado/${inscripcion.id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",

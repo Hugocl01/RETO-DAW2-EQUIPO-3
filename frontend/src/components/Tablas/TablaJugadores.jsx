@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
 import Jugador from "./Jugador";
 import Paginador from "../Paginador";
 import Spinner from "../Spinner";
