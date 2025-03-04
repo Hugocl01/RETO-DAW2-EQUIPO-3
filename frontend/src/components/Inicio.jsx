@@ -168,55 +168,61 @@ function Inicio() {
                 )}
             </section>
 
-            <section className="donaciones container d-flex flex-column justify-content-center align-items-center">
-                <h1 className='text-center'>Donaciones</h1>
+            <section className="donaciones container d-flex flex-column align-items-center py-5">
+                <h1 className="text-center text-primary fw-bold mb-4">Donaciones</h1>
 
-                <div className="row m-5">
-                    <div className="col-sm-6 mb-3 mb-sm-0">
-                        <div className="card text-center">
-                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
-                                <img src="/assets/imagenes/cesta.png" className='w-25 m-4' alt="Cesta" />
-                                <h2>Total Recaudado</h2>
-                                <h2 className='text-success fw-bold'>{totalDonado()}€</h2>
+                <div className="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+                    {/* Tarjeta Total Recaudado */}
+                    <div className="col">
+                        <div className="card shadow-lg border-0 rounded-4 h-100">
+                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
+                                <img src="/assets/imagenes/cesta.png" className="mb-3" alt="Cesta" />
+                                <h2 className="text-dark fw-bold">Total Recaudado</h2>
+                                <h3 className="text-success fw-bold display-5">{totalDonado()}€</h3>
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 mb-3 mb-sm-0">
-                        <div className="card text-center">
-                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-2">
-                                <img src="/assets/imagenes/donate.png" className='w-25 m-4' alt="Donar" />
-                                <h2>Hacer una Donación</h2>
-                                <p>Tu ayuda importa. Cada aporte marca la diferencia</p>
-                                <div>
-                                    <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary">Donar</a>
+
+                    {/* Tarjeta Hacer una Donación */}
+                    <div className="col">
+                        <div className="card shadow-lg border-0 rounded-4 h-100">
+                            <div className="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                                <img src="/assets/imagenes/donate.png" className="mb-3" alt="Donar" />
+                                <h2 className="text-dark fw-bold">Hacer una Donación</h2>
+                                <p className="text-muted lead">Tu ayuda importa. Cada aporte marca la diferencia.</p>
+                                <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary btn-lg mt-3 px-4">
+                                    Donar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="patrocinadores py-5 bg-light">
+                <div className="container text-center">
+                    <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>
+                    <div className="d-flex flex-wrap justify-content-center gap-3">
+                        {patrocinadores.length > 0 ? (
+                            patrocinadores.map((patrocinador) => (
+                                <div key={patrocinador.nombre} className="p-2 bg-white shadow-sm rounded">
+                                    <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                                        <img
+                                            src={`http://127.0.0.1:8000/storage/${patrocinador.ruta}`}
+                                            className="img-fluid"
+                                            alt={patrocinador.nombre}
+                                            style={{ maxHeight: "100px", objectFit: "contain", padding: "10px" }}
+                                        />
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
+                            ))
+                        ) : (
+                            <p className="text-muted">No hay patrocinadores disponibles</p>
+                        )}
                     </div>
                 </div>
             </section>
 
-            <section className='patrocinadores'>
-                <div className="d-flex align-items-center justify-content-center p-2 bg-secondary mt-5" id="contenedorPatros">
-                    <div className="d-flex flex-column justify-content-center align-items-center m-5" id="patrocinadores">
-                        <h1 className='text-center mb-5 mt-5'>Patrocinadores</h1>
-                        <div className="container m-4 p-2 text-center" id="logosPatrocinadores">
-                            <div className="row">
-                                {patrocinadores.length > 0 ? patrocinadores.map((patrocinador) => (
-                                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex justify-content-center align-items-center" key={patrocinador.nombre}>
-                                        <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
-                                            <img data-tooltip-content="quis" data-toggle={patrocinador.nombre} src={'http://127.0.0.1:8000/storage/' + patrocinador.ruta}
-                                                className="img-fluid" alt={patrocinador.nombre} />
-                                        </a>
-                                    </div>
-                                )) : (
-                                    <p>No hay patrocinadores disponibles</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }
