@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import api from "../services/api";
 import "./css/EstilosComun.css";
 import "./css/Retos.css";
+import fetchData from '../data/FetchData';
+
 
 const iconos = [
     "../src/assets/imagenes/retosIconos/entrenador.png",
@@ -32,8 +34,8 @@ function Retos() {
     useEffect(() => {
         const fetchRetos = async () => {
             try {
-                const response = await api.get('/retos');
-                setRetos(response.data.retos || []);
+                const response = await fetchData('retos');
+                setRetos(response.retos || []);
             } catch (error) {
                 console.error("Error al obtener retos:", error);
             }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../ErrorPage";
+import fetchData from "../../data/FetchData";
 
 function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
-  const location=useLocation();
+  const location = useLocation();
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
 
@@ -17,8 +18,8 @@ function DetalleJugadorPage() {
     const nombreJugador = location.pathname.split("/").pop();
     const obtenerJugador = async () => {
       try {
-        const resultado = await api.get(`jugadores/${nombreJugador}`);
-        if (resultado.data.status === "success") {
+        const resultado = await fetchData(`jugadores/${nombreJugador}`);
+        if (resultado.status === "success") {
           /**
            * Obtengo el array de jugadoresMostrados
            * Si no hay, inicializo el array vacio
@@ -30,11 +31,11 @@ function DetalleJugadorPage() {
            * Quiero verificar que no me meta duplicados
            */
           const jugadorExistente = arrayJugadores.find(
-            (e) => e.nombre === resultado.data.jugador.nombre
+            (e) => e.nombre === resultado.jugador.nombre
           );
 
           if (!jugadorExistente) {
-            arrayJugadores.push(resultado.data.jugador);
+            arrayJugadores.push(resultado.jugador);
             sessionStorage.setItem(
               "jugadoresMostrados",
               JSON.stringify(arrayJugadores)
@@ -44,7 +45,7 @@ function DetalleJugadorPage() {
           /**
            * Actualizo el estado de jugador
            */
-          setJugador(resultado.data.jugador);
+          setJugador(resultado.jugador);
         } else {
           setError({
             tipo: "error",

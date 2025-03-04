@@ -5,6 +5,7 @@ import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 import ErrorPage from "../ErrorPage.jsx";
 import "../../../src/components/css/EstilosComun.css";
+import fetchData from "../../data/FetchData.js";
 
 /**
  * Página de Equipos.
@@ -27,13 +28,13 @@ function EquiposPage() {
      */
     const obtenerListadoEquipos = async () => {
       try {
-        const resultado = await api.get("/equipos");
+        const resultado = await fetchData("equipos");
         /**
          * Si el resultado de la llamada es success y la respuesta es un array guardo los datos en el estado y en la sessionStorage
          */
-        if (resultado.data.status === "success" && Array.isArray(resultado.data.equipos)) {
-          setEquipos(resultado.data.equipos);
-          sessionStorage.setItem("equipos", JSON.stringify(resultado.data.equipos));
+        if (resultado.status === "success" && Array.isArray(resultado.equipos)) {
+          setEquipos(resultado.equipos);
+          sessionStorage.setItem("equipos", JSON.stringify(resultado.equipos));
         } else {
           /**
            * Si da fallo, recojo el error
@@ -58,12 +59,12 @@ function EquiposPage() {
         setCargando(false);
       }
     };
-  
+
     /**
      * Recojo los valores de la sessionStorage
      */
     const equiposGuardados = sessionStorage.getItem("equipos");
-  
+
     /**
      * Si hay datos guardados de equipos, guardo los valores en la sessionstorage
      * Si no hay datos, realizo la llamada a la api

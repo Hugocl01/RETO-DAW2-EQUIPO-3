@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import llamadas from "../../data/FuncionesCombobox";
 
 const fetchEquipos = async () => {
     try {
-        const response = await api.get("lista/equipos");
-        return response.data.map(equipo => ({
-            value: equipo.id,
-            label: equipo.nombre
+        const response = await llamadas().equipos();
+        console.log(equipos);
+        return response.data.map((equipo, index) => ({
+            value: index,
+            label: equipo
         }));
     } catch (error) {
         console.error("Error al obtener los equipos", error);

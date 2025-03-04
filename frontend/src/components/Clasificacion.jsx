@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CuadroClasificacion from "../components/CuadroClasificacion";
 import api from "../services/api";
 import Spinner from "../components/Spinner.jsx";
+import fetchData from "../data/FetchData";
 
 import "./css/EstilosComun.css";
 import "./css/Clasificacion.css";
@@ -12,20 +13,20 @@ function Clasificacion() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        const fetchData = async () => {
+        const cargarInformacion = async () => {
             try {
                 // Simulación de una API real para cada grupo
-                const responseA = await api.get('/clasificacion/grupo-a');
-                const responseB = await api.get('/clasificacion/grupo-b');
+                const responseA = await fetchData('clasificacion/grupo-a');
+                const responseB = await fetchData('clasificacion/grupo-b');
 
-                setEquiposA(responseA.data);
-                setEquiposB(responseB.data);
+                setEquiposA(responseA);
+                setEquiposB(responseB);
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
             }
         };
 
-        fetchData();
+        cargarInformacion();
     }, []);
 
     if (!equiposB.length && !equiposA.length) {
