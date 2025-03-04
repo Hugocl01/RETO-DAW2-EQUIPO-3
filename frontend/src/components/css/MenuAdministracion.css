@@ -1,0 +1,64 @@
+.menuAdmin {
+    position: relative;
+
+    .sidenav {
+        position: fixed;
+        top: 60px;
+        bottom: 0;
+        left: 0;
+        width: 240px;
+        background-color: #f8f9fa;
+        opacity: 5;
+        overflow-y: auto;
+        z-index: 1050;
+        transition: transform 0.3s ease;
+    }
+
+    .sidenav.active {
+        transform: translateX(0);
+    }
+
+    .sidenav {
+        transform: translateX(-100%);
+    }
+
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1040;
+    }
+
+    #sidenav-toggle {
+        position: fixed;
+        top: 115px;
+        left: -9px;
+        z-index: 1060;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    #sidenav-toggle i {
+        color: #333;
+    }
+
+    .botonMenuAdmin {
+        background-color: white;
+    }
+
+    .sidebarAdministracion {
+        display: none;
+    }
+
+    @media (max-width: 790px) {
+        aside {
+            display: none;
+        }
+
+        .sidebarAdministracion {
+            display: block;
+        }
+    }
+}

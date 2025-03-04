@@ -2,6 +2,18 @@
     animation: fadeOut 0.3s forwards;
 }
 
+.botonAñadir {
+    width: 20%;
+}
+
+.botonEnviar {
+    width: 20%;
+}
+
+.tituloJugador h5 {
+    margin: 0px;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;
@@ -42,6 +54,23 @@
             width: 100%;
         }
 
+        .botonAñadir {
+            width: 75%;
+        }
+
+        .botonEnviar {
+            width: 75%;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .tituloJugador {
+            flex-direction: column;
+        }
+
+        .tituloJugador h5 {
+            margin-bottom: 0.5em;
+        }
     }
 
 }

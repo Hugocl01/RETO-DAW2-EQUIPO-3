@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./css/CuadroClasificacion.css";
 import "./css/EstilosComun.css";
 
@@ -12,6 +12,7 @@ const CuadroClasificacion = ({ titulo, equipos }) => {
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">{titulo}</h2>
+
       <div className="table-container">
         <div className="table-responsive">
           <table className="table table-bordered table-striped">

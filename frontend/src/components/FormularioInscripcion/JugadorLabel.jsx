@@ -57,8 +57,8 @@ function JugadorLabel({
     >
       <div className="card p-3 bg-light col-11 w-100" id={`jugador-${id}`}>
         {/* Título: Jugador + Toggle capitán */}
-        <div className="w-100 bg-primary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
-          <h5 className="m-0">Jugador {numeroJugador}</h5>
+        <div className="tituloJugador w-100 bg-primary py-2 px-3 text-white rounded d-flex align-items-center justify-content-between">
+          <h5 className="">Jugador {numeroJugador}</h5>
           <div className="form-check form-switch d-flex align-items-center">
             <input
               className="form-check-input me-2"

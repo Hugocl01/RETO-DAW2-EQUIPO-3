@@ -1,0 +1,28 @@
+.infoTorneo {
+    .tarjetaReglas img {
+        width: 80%;
+    }
+
+    .tarjetaReglashorizontal {
+        background-color: white;
+    }
+
+    .tarjetaReglashorizontal span {
+        font-size: 16px;
+    }
+
+    .tarjetaReglashorizontal {
+        display: none;
+    }
+
+    @media (max-width: 767px) {
+        .tarjetaReglas {
+            display: none;
+        }
+
+        .tarjetaReglashorizontal {
+            display: block;
+        }
+    }
+    
+}

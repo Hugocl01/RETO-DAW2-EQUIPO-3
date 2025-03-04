@@ -4,7 +4,7 @@ import api from "../services/api";
 import Spinner from "../components/Spinner.jsx";
 
 import "./css/EstilosComun.css";
-
+import "./css/Clasificacion.css";
 
 function Clasificacion() {
     const [equiposA, setEquiposA] = useState([]);
@@ -35,11 +35,20 @@ function Clasificacion() {
     return (
         <div className="container my-5 d-flex flex-column jusitfy-content-center align-items-center">
             <h1>Clasificación</h1>
-            <div className="row d-flex flex-wrap">
-                <div className="col-md-6">
+            <div className="tabla-normal row d-flex justify-content-center flex-wrap">
+                <div className="cuadro-normal col-6">
                     <CuadroClasificacion titulo="Grupo A" equipos={equiposA} />
                 </div>
-                <div className="col-md-6">
+                <div className="cuadro-normal col-6">
+                    <CuadroClasificacion titulo="Grupo B" equipos={equiposB} />
+                </div>
+            </div>
+
+            <div className="tabla-responsive row d-flex justify-content-center flex-wrap">
+                <div className="cuadro-responsive col-8">
+                    <CuadroClasificacion titulo="Grupo A" equipos={equiposA} />
+                </div>
+                <div className="cuadro-responsive col-8">
                     <CuadroClasificacion titulo="Grupo B" equipos={equiposB} />
                 </div>
             </div>

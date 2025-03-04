@@ -330,7 +330,7 @@ function Inscribirse() {
           {activo === "jugadores" && (
             <div>
               <button
-                className="btn btn-primary ms-3 mb-4 w-25"
+                className="botonAñadir btn btn-primary mt-2 mb-4"
                 onClick={agregarJugador}
               >
                 <i className="bi bi-plus-circle-fill m-2"></i>
@@ -376,7 +376,7 @@ function Inscribirse() {
       )}
 
       {/* Botón para enviar el formulario */}
-      <button className="btn btn-success mt-3 w-25" onClick={handleSubmit}>
+      <button className="botonEnviar btn btn-success mt-3" onClick={handleSubmit}>
         <i className="bi bi-send-fill m-2"></i>
         Enviar
       </button>
