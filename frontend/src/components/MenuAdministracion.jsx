@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SeguridadContext } from "../contexts/SeguridadProvider";
 import { generateSlug } from "../utils/stringUtils";  // Asumimos que la función generateSlug está definida
+import "./css/MenuAdministracion.css";
 
-function MenuAdministracion({ onSelect}) {
+function MenuAdministracion({ onSelect }) {
     const { seguridad } = useContext(SeguridadContext);
     const { seccion } = useParams();
     const navigate = useNavigate();
@@ -11,6 +12,16 @@ function MenuAdministracion({ onSelect}) {
     const [secciones, setSecciones] = useState([]);
     const [selectedSeccion, setSelectedSeccion] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const [isSidenavActive, setIsSidenavActive] = useState(false); // Estado para manejar el toggle del sidenav
+    const [showModal, setShowModal] = useState(false);
+    const sidenavRef = useRef(null);
+    const isActive = (path) => (location.pathname === path ? "active" : "");
+    const [isSubMenuActive, setIsSubMenuActive] = useState(false);
+    
+    const toggleSidenav = () => {
+        setIsSidenavActive(prevState => !prevState);
+    };
 
     useEffect(() => {
         const fetchSecciones = async () => {
@@ -48,30 +59,72 @@ function MenuAdministracion({ onSelect}) {
         if (seccionPorDefecto) onSelect(seccionPorDefecto);
     }, [secciones, seccion]);
 
+    useEffect(() => {
+        // Cuando se entre a una sección, cerramos el sidebar
+        if (isSidenavActive) {
+            toggleSidenav();
+        }
+    }, [seccion]);
+
     const handleSelect = (seccion) => {
         onSelect(seccion);
+        // Cerrar el sidebar al seleccionar una nueva sección
+        if (isSidenavActive) {
+            toggleSidenav();
+        }
     };
 
     return (
-        <aside className="p-3" style={{ minWidth: "240px", height: "100vh" }}>
-            <h4 className="text-center">Administración</h4>
-            {loading ? <p className="text-center">Cargando secciones...</p> : (
-                <ul className="list-group">
-                    {secciones.length > 0 ? (
-                        secciones.map((sec) => (
-                            <li key={sec.id}
-                                className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`}
-                                role="button"
-                                onClick={() => handleSelect(sec)}
-                            >
-                                {sec.nombre}
-                            </li>
-                        ))
-                    ) : <li className="list-group-item text-center text-muted">No hay secciones disponibles</li>}
-                </ul>
-            )}
-        </aside>
-    );  
+        <div className="menuAdmin">
+            <aside className="p-3" style={{ minWidth: "240px", height: "100vh" }}>
+                <h4 className="text-center">Administración</h4>
+                {loading ? <p className="text-center">Cargando secciones...</p> : (
+                    <ul className="list-group">
+                        {secciones.length > 0 ? (
+                            secciones.map((sec) => (
+                                <li key={sec.id}
+                                    className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`}
+                                    role="button"
+                                    onClick={() => handleSelect(sec)}
+                                >
+                                    {sec.nombre}
+                                </li>
+                            ))
+                        ) : <li className="list-group-item text-center text-muted">No hay secciones disponibles</li>}
+                    </ul>
+                )}
+            </aside>
+
+
+            <div className="sidebarAdministracion p-2" ref={sidenavRef} onClick={(e) => e.stopPropagation()}>
+                <div>
+                    <nav id="sidenav-1" className={`sidenav ${isSidenavActive ? "active" : ""}`} onClick={(e) => e.stopPropagation()}>
+                        <h4 className="text-center mt-4">Administración</h4>
+                        {loading ? <p className="text-center">Cargando secciones...</p> : (
+                            <ul className="mx-4 list-group">
+                                {secciones.length > 0 ? (
+                                    secciones.map((sec) => (
+                                        <li key={sec.id}
+                                            className={`list-group-item ${selectedSeccion?.id === sec.id ? "active" : ""}`}
+                                            role="button"
+                                            onClick={() => handleSelect(sec)}
+                                        >
+                                            {sec.nombre}
+                                        </li>
+                                    ))
+                                ) : <li className="list-group-item text-center text-muted">No hay secciones disponibles</li>}
+                            </ul>
+                        )}
+                    </nav>
+                    <button id="sidenav-toggle" className={`toggler-btn ${isSidenavActive ? "active" : ""}`} onClick={toggleSidenav}>
+                        <i className={`bi bi-list-task botonMenuAdmin p-2 rounded border border-primary ${isSidenavActive ? "text-dark" : "text-dark"}`}></i>
+                    </button>
+                </div>
+                {isSidenavActive && <div className="backdrop" onClick={toggleSidenav}></div>}
+            </div>
+
+        </div>
+    );
 }
 
 export default MenuAdministracion;

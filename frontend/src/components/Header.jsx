@@ -15,7 +15,7 @@ function Header() {
   const sidenavRef = useRef(null);
   const isActive = (path) => (location.pathname === path ? "active" : "");
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Función para manejar el toggle del sidenav
   const toggleSidenav = () => {

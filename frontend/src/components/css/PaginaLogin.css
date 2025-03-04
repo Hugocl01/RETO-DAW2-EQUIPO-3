@@ -17,8 +17,8 @@
 
 @media (max-width: 650px) {
     .formulario {
-        width: 100%;
-        height: 100%;
+        width: 85%;
+        height: 65%;
         justify-content: center;
     }
 }

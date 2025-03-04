@@ -105,9 +105,9 @@ function PartidosPage() {
 
         <section className="p-3 mb-5 row my-3 bg-primary rounded-top">
           <h5 className="mb-3 text-white font-weight-bold">Filtros</h5>
-          <div className="w-50 col-md-12 d-flex flex-row justify-content-space-between">
+          <div className="col-12 col-md-6 d-flex flex-column flex-md-row justify-content-between">
             <select
-              className="form-select"
+              className="form-select mb-2 mb-md-0"
               aria-label="Default select example"
               data-seleccion="partidos"
               value={opcionPartidos}
@@ -118,12 +118,9 @@ function PartidosPage() {
               <option value="eliminatorias">Eliminatorias</option>
             </select>
 
-            {/**
-             * Solo mostrar select de grupos si es clasificatorio
-             */}
             {opcionPartidos === "clasificatorio" && (
               <select
-                className="form-select mx-4"
+                className="form-select"
                 aria-label="Default select example"
                 data-seleccion="grupos"
                 value={opcionGrupos}
@@ -135,6 +132,7 @@ function PartidosPage() {
             )}
           </div>
         </section>
+
 
         {/**
          * No se mostrará mientras no hayas seleccionado una opcion válida
