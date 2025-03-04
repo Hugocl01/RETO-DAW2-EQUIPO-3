@@ -127,7 +127,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('ongs',OngController::class);
     Route::get('/lista/ongs', [OngController::class, 'getListaOngs']);
 
-    Route::apiResource('patrocinadores',PatrocinadorController::class)->except(['show', 'index']);
+    Route::apiResource('patrocinadores',PatrocinadorController::class)->except(['show', 'index'])
+        ->middleware('ability:Patrocinadores.store,Patrocinadores.update,Patrocinadores.delete');
     Route::get('/lista/patrocinadores', [PatrocinadorController::class, 'getListaPatrocinadores']);
 
     Route::apiResource('pabellones',PabellonController::class);

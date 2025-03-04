@@ -31,20 +31,20 @@ class PatrocinadorController extends Controller
         ], 201);
     }
 
-    public function update(PatrocinadorRequest $request, Patrocinador $patrocinador)
+    public function update(PatrocinadorRequest $request, Patrocinador $patrocinadore)
     {
-        $patrocinador->update($request->validated());
+        $patrocinadore->update($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Patrocinador actualizado correctamente',
-            'patrocinador' => new PatrocinadorResource($patrocinador)
+            'patrocinador' => new PatrocinadorResource($patrocinadore)
         ]);
     }
 
-    public function destroy(Patrocinador $patrocinador)
+    public function destroy(Patrocinador $patrocinadore)
     {
-        $patrocinador->delete();
+        $patrocinadore->delete();
 
         return response()->json([
             'status' => 'success',
