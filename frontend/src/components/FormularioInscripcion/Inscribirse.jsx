@@ -4,6 +4,7 @@ import api from "../../services/api.js";
 import Spinner from "../Spinner.jsx";
 import "../css/Inscribirse.css";
 import TarjetaFormulario from "./TarjetaFormulario.jsx";
+import { postData } from "../../data/FetchData.js";
 
 function Inscribirse() {
   const [capitanId, setCapitanId] = useState(null);
@@ -136,7 +137,7 @@ function Inscribirse() {
     };
 
     try {
-      const response = await api.post("/equipos", formData);
+      const response = await postData("equipos", formData);
       alert("Formulario enviado correctamente");
       setErrores({}); // Limpiar errores si todo salió bien
     } catch (error) {
@@ -152,14 +153,14 @@ function Inscribirse() {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const respuestaEstudios = await api.get("/estudios");
-        if (respuestaEstudios.data.status === "success") {
-          setEstudios(respuestaEstudios.data.estudios);
+        const respuestaEstudios = await fetchData("estudios");
+        if (respuestaEstudios.status === "success") {
+          setEstudios(respuestaEstudios.estudios);
         }
 
-        const respuestaCentros = await api.get("/centros");
-        if (respuestaCentros.status === 200) {
-          setCentros(respuestaCentros.data.centros);
+        const respuestaCentros = await fetchData("centros");
+        if (respuestaCentros.status === "success") {
+          setCentros(respuestaCentros.centros);
         }
       } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -273,7 +274,7 @@ function Inscribirse() {
                 value={centroSeleccionado}
                 onChange={handleCentroSeleccionadoChange}
               >
-                <option value="">Selecciona un centro</option>
+                <option value="" hidden>Selecciona un centro</option>
                 {Array.isArray(centros) &&
                   centros.map((centro) => (
                     <option key={centro.id} value={centro.id}>

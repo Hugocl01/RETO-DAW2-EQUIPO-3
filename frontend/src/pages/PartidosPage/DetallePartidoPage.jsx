@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import api from "../../services/api";
 import Spinner from "../../components/Spinner";
+import fetchData from "../../data/FetchData";
 
 function DetallePartidoPage() {
   /**
@@ -20,17 +21,18 @@ function DetallePartidoPage() {
   useEffect(() => {
     const obtenerPartido = async () => {
       try {
-        const resultado = await api.get(location.pathname);
-        if (resultado.data.status === "success") {
+        let path = location.pathname.startsWith('/') ? location.pathname.substring(1) : location.pathname;
+        const resultado = await fetchData(path);
+        if (resultado.status === "success") {
           /**
            * Si el resultado es success, guardo los datos del partido en la sessionstorage
            * También guardo el equipo en el estado
            */
           sessionStorage.setItem(
-            resultado.data.partidos.slug,
-            JSON.stringify(resultado.data.partidos)
+            resultado.partidos.slug,
+            JSON.stringify(resultado.partidos)
           );
-          setPartido(resultado.data.partidos);
+          setPartido(resultado.partidos);
 
         } else {
           /**

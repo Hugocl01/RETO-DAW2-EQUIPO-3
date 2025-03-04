@@ -5,6 +5,7 @@ import api from "../../services/api";
 import ErrorPage from "../ErrorPage";
 import "../../core/CSS/PartidosPage.css";
 import "../../components/css/EstilosComun.css";
+import fetchData from "../../data/FetchData";
 /**
  *
  * @returns Página Partidos
@@ -27,20 +28,20 @@ function PartidosPage() {
   useEffect(() => {
     const obtenerPartidos = async () => {
       try {
-        const listaPartidos = await api.get("/partidos");
+        const listaPartidos = await fetchData("partidos");
 
         if (
-          listaPartidos.data.status === "success" &&
-          Array.isArray(listaPartidos.data.partidos)
+          listaPartidos.status === "success" &&
+          Array.isArray(listaPartidos.partidos)
         ) {
           sessionStorage.setItem(
             "partidos",
-            JSON.stringify(listaPartidos.data.partidos)
+            JSON.stringify(listaPartidos.partidos)
           );
-          setPartidos(listaPartidos.data.partidos);
+          setPartidos(listaPartidos.partidos);
         } else {
           setError({
-            tipo: listaPartidos.data.status,
+            tipo: listaPartidos.status,
             mensaje: "Hubo un problema al obtener los partidos.",
           });
         }

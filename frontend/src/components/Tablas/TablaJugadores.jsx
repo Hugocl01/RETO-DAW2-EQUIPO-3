@@ -6,6 +6,7 @@ import Paginador from "../Paginador";
 import Spinner from "../Spinner";
 import "../../components/css/Tabla.css";
 import ErrorPage from "../Error";
+import fetchData from "../../data/FetchData";
 
 function TablaJugadores() {
   /**
@@ -37,11 +38,11 @@ function TablaJugadores() {
   useEffect(() => {
     const cargarJugadores = async () => {
       try {
-        const resultado = await api.get("/jugadores");
-        if (resultado.data.status === "success") {
-          sessionStorage.setItem("jugadores", JSON.stringify(resultado.data.jugadores));
+        const resultado = await fetchData("jugadores");
+        if (resultado.status === "success") {
+          sessionStorage.setItem("jugadores", JSON.stringify(resultado.jugadores));
 
-          const jugadoresOrdenados = [...resultado.data.jugadores].sort(
+          const jugadoresOrdenados = [...resultado.jugadores].sort(
             (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
           );
 

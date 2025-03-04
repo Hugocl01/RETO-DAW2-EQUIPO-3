@@ -4,6 +4,7 @@ import api from "../../services/api.js";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
 import ErrorPage from "../ErrorPage.jsx";
+import fetchData from "../../data/FetchData.js";
 
 function DetallesEquipoPage() {
   const location = useLocation();
@@ -22,8 +23,8 @@ function DetallesEquipoPage() {
      */
     const obtenerEquipo = async () => {
       try {
-        const resultado = await api.get(`equipos/${nombreEquipo}`);
-        if (resultado.data.status === "success") {
+        const resultado = await fetchData(`equipos/${nombreEquipo}`);
+        if (resultado.status === "success") {
           /**
            * Tengo que obtener el array de la session donde tengo los jugadores ya cargados
            * Si me devuelve null, inicializo un array vacío
@@ -35,14 +36,14 @@ function DetallesEquipoPage() {
            *Quiero evitar duplicados
            */
           const equipoExistente = arrayEquipo.find(
-            (e) => e.nombre === resultado.data.equipo.nombre
+            (e) => e.nombre === resultado.equipo.nombre
           );
 
           /**
            * Si no está, lo añade
            */
           if (!equipoExistente) {
-            arrayEquipo.push(resultado.data.equipo);
+            arrayEquipo.push(resultado.equipo);
             sessionStorage.setItem(
               "equiposMostrados",
               JSON.stringify(arrayEquipo)
@@ -52,7 +53,7 @@ function DetallesEquipoPage() {
           /**
            * Actualizo el estado del equipo
            */
-          setEquipo(resultado.data.equipo);
+          setEquipo(resultado.equipo);
         } else {
           /**
            * Si me devuelve otro tipo de estado la API, lo recojo en el estado de error

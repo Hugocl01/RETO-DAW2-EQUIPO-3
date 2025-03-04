@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
+import fetchData from "../data/FetchData";
 
 function RetoPage() {
     const { id } = useParams();
@@ -9,8 +10,8 @@ function RetoPage() {
     useEffect(() => {
         const fetchRetos = async () => {
             try {
-                const response = await api.get(`/retos/${id}`);
-                setReto(response.data.reto || []);
+                const response = await fetchData(`retos/${id}`);
+                setReto(response.reto || []);
             } catch (error) {
                 console.error("Error al obtener retos:", error);
             }

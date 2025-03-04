@@ -6,6 +6,7 @@ import Equipo from "../Tablas/Equipo";
 import "../../components/css/Tabla.css";
 import "../css/JugadorEquipo.css";
 import ErrorPage from "../Error";
+import fetchData from "../../data/FetchData";
 
 function TablaEquipos() {
   const [equipos, setEquipos] = useState();
@@ -17,25 +18,25 @@ function TablaEquipos() {
   useEffect(() => {
     const obtenerEquipos = async () => {
       try {
-        const resultado = await api.get("/equipos");
-  
+        const resultado = await fetchData("equipos");
+
         if (
-          resultado.data.status === "success" &&
-          Array.isArray(resultado.data.equipos)
+          resultado.status === "success" &&
+          Array.isArray(resultado.equipos)
         ) {
           // Guardar los datos en sessionStorage
           sessionStorage.setItem(
             "equipos",
-            JSON.stringify(resultado.data.equipos)
+            JSON.stringify(resultado.equipos)
           );
-  
+
           /**
            * Ordeno antes de guardar en el estado
            */
-          const equiposOrdenados = [...resultado.data.equipos].sort(
+          const equiposOrdenados = [...resultado.equipos].sort(
             (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
           );
-  
+
           setEquipos(equiposOrdenados);
         } else {
           setError({
@@ -53,12 +54,12 @@ function TablaEquipos() {
         setCargando(false);
       }
     };
-  
+
     /**
      * Obtener datos desde sessionStorage
      */
     const equiposGuardados = sessionStorage.getItem("equipos");
-  
+
     if (equiposGuardados) {
       /**
        * Convierto en ObjetoJSON antes de ordenar
@@ -66,28 +67,28 @@ function TablaEquipos() {
       const equiposOrdenados = JSON.parse(equiposGuardados).sort(
         (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
       );
-  
+
       setEquipos(equiposOrdenados);
       setCargando(false);
     } else {
       obtenerEquipos();
     }
-  
+
     /**
      * Esto me llevará al principio de la página
      */
     window.scrollTo(0, 0);
   }, []);
-  
+
 
   if (cargando) {
     return <Spinner></Spinner>;
   }
 
-   /**
-   * Enseño la página de error, cuando haya una página de error
-   */
-   if (error) {
+  /**
+  * Enseño la página de error, cuando haya una página de error
+  */
+  if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
@@ -178,9 +179,9 @@ function TablaEquipos() {
         </div>
 
         {/* Jugadores de la página actual */}
-        {equipos.map((valor) => (
+        {equipos.map((valor, id) => (
           <Equipo
-            key={valor.id}
+            key={id}
             equipo={valor}
             fnNavegar={navegarDetalleEquipo}
           ></Equipo>
