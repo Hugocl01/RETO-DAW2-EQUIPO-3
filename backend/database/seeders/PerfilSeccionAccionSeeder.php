@@ -22,7 +22,7 @@ class PerfilSeccionAccionSeeder extends Seeder
             $acciones = DB::table('acciones')->select('id', 'seccion_id')->get()->groupBy('seccion_id');
 
             $permisos_por_perfil = [
-                'administrador' => ['Equipos', 'Actas', 'Jugadores', 'Usuarios', 'Patrocinadores', 'Retos', 'Centros', 'Perfiles', 'Ciclos', 'Estudios', 'Familias', 'Inscripciones', 'Incidencias', 'Partidos', 'Torneo', 'Publicaciones', 'Imagenes'],
+                'administrador' => ['Equipos', 'Imagenes', 'Actas', 'Jugadores', 'Usuarios', 'Patrocinadores', 'Retos', 'Centros', 'Perfiles', 'Ciclos', 'Estudios', 'Familias', 'Inscripciones', 'Incidencias', 'Partidos', 'Torneo', 'Publicaciones', 'Imagenes'],
                 'entrenador'    => ['Equipos', 'Jugadores'],
                 'periodista'    => ['Publicaciones', 'Imagenes', 'Partidos'],
                 'director'      => ['Torneo', 'Usuarios', 'Retos', 'Centros', 'Familias', 'Estudios'],

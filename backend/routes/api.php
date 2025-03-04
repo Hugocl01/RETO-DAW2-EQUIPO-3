@@ -114,7 +114,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])
         ->middleware('ability:Publicaciones.getListaPublicacionModelos');
 
-    Route::apiResource('imagenes', ImagenController::class);
+    Route::apiResource('imagenes', ImagenController::class)->except(['store', 'update'])
+        ->middleware('ability:Imagenes.index,Imagenes.destroy');
+
+    Route::post('imagenes/{model}/{id}/upload-foto', [ImagenController::class, 'uploadFoto'])
+        ->middleware('ability:Imagenes.uploadFoto');
+
     Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos'])
         ->middleware('ability:Imagenes.getListaImagenModelos');
 
@@ -125,17 +130,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/incidencias', [IncidenciaController::class, 'getListaIncidencias'])
         ->middleware('ability:Incidencias.getListaIncidencias');
 
-    Route::apiResource('ongs',OngController::class);
+    Route::apiResource('ongs', OngController::class);
     Route::get('/lista/ongs', [OngController::class, 'getListaOngs']);
 
-    Route::apiResource('patrocinadores',PatrocinadorController::class)->except(['show', 'index'])
+    Route::apiResource('patrocinadores', PatrocinadorController::class)->except(['show', 'index'])
         ->middleware('ability:Patrocinadores.store,Patrocinadores.update,Patrocinadores.delete');
     Route::get('/lista/patrocinadores', [PatrocinadorController::class, 'getListaPatrocinadores']);
 
-    Route::apiResource('pabellones',PabellonController::class);
+    Route::apiResource('pabellones', PabellonController::class);
     Route::get('/lista/pabellones', [PabellonController::class, 'getListaPabellones']);
 
-    Route::apiResource('actas',ActaController::class)->only('store','show','delete')
+    Route::apiResource('actas', ActaController::class)->only('store', 'show', 'delete')
         ->middleware('ability:Actas.store,Actas.update,Actas.delete');
 
     Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');

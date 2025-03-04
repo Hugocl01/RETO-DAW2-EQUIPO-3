@@ -25,7 +25,7 @@ class SeccionSeeder extends Seeder
             ['nombre' => 'Publicaciones', 'descripcion' => 'Publicaciones sobre las diferentes partes del Torneo Benéfico'],
             ['nombre' => 'Usuarios', 'descripcion' => 'Gestión de usuarios y sus roles en la aplicación.'],
             ['nombre' => 'Retos', 'descripcion' => 'Información de los retos de los centros educativos.'],
-            ['nombre' => 'Imágenes', 'descripcion' => 'Gestión de imágenes asociadas a las entidades.'],
+            ['nombre' => 'Imagenes', 'descripcion' => 'Gestión de imágenes asociadas a las entidades.'],
             ['nombre' => 'Pabellones', 'descripcion' => 'Información sobre los pabellones donde se juegan los partidos.'],
             ['nombre' => 'Familias', 'descripcion' => 'Familias profesionales de FP que participan en los retos.'],
             ['nombre' => 'Ciclos', 'descripcion' => 'Ciclos de FP que participan en los retos.'],
