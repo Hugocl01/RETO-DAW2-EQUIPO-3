@@ -10,8 +10,9 @@
         background-color: #f8f9fa;
         opacity: 5;
         overflow-y: auto;
-        z-index: 1050;
+        z-index: 1045;
         transition: transform 0.3s ease;
+        border-right: 1px solid rgb(201, 196, 196);
     }
 
     .sidenav.active {
@@ -35,7 +36,7 @@
         position: fixed;
         top: 115px;
         left: -9px;
-        z-index: 1060;
+        z-index: 1045;
         font-size: 24px;
         cursor: pointer;
     }
