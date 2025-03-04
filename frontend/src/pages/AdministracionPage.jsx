@@ -201,7 +201,6 @@ function AdministracionPage() {
 
     // Renderiza el componente de CRUD (lista y botones) según la sección actual
     const renderCrud = () => {
-        console.log(selectedSeccion)
         switch (selectedSeccion) {
             case "torneo":
                 return <CrudTorneo onModoCambio={handleModoCambio} />
