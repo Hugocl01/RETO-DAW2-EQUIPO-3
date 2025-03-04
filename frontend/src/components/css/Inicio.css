@@ -64,12 +64,20 @@
 
     .introduccion img {
         width: 100%;
-        height: 85%;
+        height: 86%;
         object-fit: cover;
     }
 
     .titulo {
         background-color: #d9615d21;
+    }
+
+    .introduccion p {
+        font-size: 1.05em;
+    }
+
+    .infoIntroduccion h5 {
+        font-size: 1.1em;
     }
 
     .seccion1 {
@@ -101,7 +109,7 @@
         border-color: transparent;
     }
 
-    #contenedorPatros {
+    .contenedorPatros {
         width: 100%;
         box-shadow:
             /* sombra arriba */
@@ -111,7 +119,7 @@
             0px 5px 10px rgba(0, 0, 0, 0.3);
     }
 
-    #patrocinadores {
+    .patrocinadores {
         background-color: white;
         width: 80%;
         height: 80%;

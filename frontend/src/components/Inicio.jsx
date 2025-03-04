@@ -121,11 +121,11 @@ function Inicio() {
 
             <section className="introduccion section-container w-100">
                 <div className='seccion1'>
-                    <div className='titulo p-5 text-center w-100 mt-3'>
+                    <div className='titulo p-5 text-center w-100'>
                         <h2 className='w-100'>PARTICIPA POR UNA CAUSA SOLIDARIA</h2>
                     </div>
 
-                    <div className='texto mx-5 mt-5 my-2'>
+                    <div className='texto mx-5 mt-4 my-2'>
                         <p>
                             Torrelavega se une por una gran causa en un torneo deportivo con un propósito solidario:
                             recaudar fondos para Cruz Roja. En este evento, la pasión por el deporte y la solidaridad van de la
@@ -133,8 +133,6 @@ function Inicio() {
 
                             Este torneo es el resultado del esfuerzo y la colaboración de muchas personas, incluyendo la
                             participación activa de nuestros alumnos de los institutos de Torrelavega.<br></br><br></br>
-
-                            Acompáñanos durante estos dos días de deporte y solidaridad, y contribuye a una causa que marca la diferencia.
                         </p>
                     </div>
 
@@ -186,7 +184,7 @@ function Inicio() {
                     <div className="col">
                         <div className="card shadow-lg border-0 rounded-4 h-100">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
-                                <img src={cesta} className="mb-3" alt="Cesta" />
+                                <img src={cesta} className="mb-3 w-25" alt="Cesta" />
                                 <h2 className="text-dark fw-bold">Total Recaudado</h2>
                                 <h3 className="text-success fw-bold display-5">{totalDonado()}€</h3>
                             </div>
@@ -197,7 +195,7 @@ function Inicio() {
                     <div className="col">
                         <div className="card shadow-lg border-0 rounded-4 h-100">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
-                                <img src={donate} className="mb-3" alt="Donar" />
+                                <img src={donate} className="mb-3 w-25" alt="Donar" />
                                 <h2 className="text-dark fw-bold">Hacer una Donación</h2>
                                 <p className="text-muted lead">Tu ayuda importa. Cada aporte marca la diferencia.</p>
                                 <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary btn-lg mt-3 px-4">
@@ -209,8 +207,8 @@ function Inicio() {
                 </div>
             </section>
 
-            <section className="patrocinadores py-5 bg-light">
-                <div className="container text-center">
+            <section className="contenedorPatros py-5 bg-secondary">
+                <div className="patrocinadores container text-center">
                     <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>
                     <div className="d-flex flex-wrap justify-content-center gap-3">
                         {patrocinadores.length > 0 ? (
