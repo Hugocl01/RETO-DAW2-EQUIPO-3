@@ -18,6 +18,11 @@ class AccionSeeder extends Seeder
             'Equipos' => [
                 'index'
             ],
+            'Actas' => [
+                'show',
+                'store',
+                'delete',
+            ],
             'Jugadores' => [
                 'index'
             ],
