@@ -23,6 +23,7 @@ use App\Http\Controllers\TorneoController;
 use App\Http\Controllers\OngController;
 use App\Http\Controllers\PatrocinadorController;
 use App\Http\Controllers\PabellonController;
+use App\Http\Controllers\ActaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('pabellones',PabellonController::class);
     Route::get('/lista/pabellones', [PabellonController::class, 'getListaPabellones']);
+
+    Route::apiResource('actas',ActaController::class)->only('store','show','delete')
+        ->middleware('ability:Actas.store,Actas.update,Actas.delete');
 
     Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
     Route::post('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
