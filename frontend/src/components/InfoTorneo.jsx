@@ -1,10 +1,11 @@
 import imagenPrueba from "../assets/imagenes/img1.jpg";
 import logo from "../assets/imagenes/logo.png";
 import "./css/EstilosComun.css";
+import "./css/InfoTorneo.css";
 
 function InfoTorneo() {
     return (
-        <div className="container">
+        <div className="infoTorneo container">
             <div className="text-center">
                 <h1 className="d-inline-block">Información del Torneo</h1>
             </div>
@@ -14,7 +15,7 @@ function InfoTorneo() {
                         <img src={imagenPrueba} alt="Imagen Torneo" className="img-fluid rounded" />
                     </div>
                     <div className="tarjetaReglas">
-                        <div className="card">
+                        <div className="card d-flex flex-column justify-content-center align-items-center">
                             <img src={logo} className="card-img-top" alt="Logo" />
                             <div className="card-body">
                                 <a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
@@ -22,6 +23,16 @@ function InfoTorneo() {
                                     <i className="bi bi-file-earmark-arrow-down fs-4"></i>
                                 </a>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="tarjetaReglashorizontal border rounded px-3 py-2 mb-3">
+                        <div className="w-100 d-flex justify-content-between align-items-center">
+                            <img src={logo} className="w-25" alt="Logo" />
+                            <a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 shadow-sm transition">
+                                <span className="descargarReglas">Descargar Reglas</span>
+                                <i className="bi bi-file-earmark-arrow-down fs-4"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
