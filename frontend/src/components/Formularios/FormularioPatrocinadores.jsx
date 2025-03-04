@@ -1,25 +1,73 @@
 import { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 
+/**
+ * Componente de formulario para crear o editar patrocinadores.
+ *
+ * Permite al usuario ingresar los detalles de un patrocinador, como el nombre y la URL de la landing page.
+ * Puede ser usado tanto para crear un nuevo patrocinador como para editar uno existente, dependiendo de si se pasa un objeto `datosIniciales`.
+ *
+ * @component
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales del patrocinador, si está editando un patrocinador.
+ * @param {Function} props.onGuardar - Función que se llama cuando se guarda el patrocinador.
+ * @param {Function} props.onCancelar - Función que se llama cuando se cancela la acción.
+ */
 function FormularioPatrocinadores({ datosIniciales, onGuardar, onCancelar }) {
+    /**
+     * Estado local para almacenar los datos del formulario.
+     * @type {Object}
+     * @property {string} nombre - Nombre del patrocinador.
+     * @property {string} landing_page - URL de la landing page del patrocinador.
+     */
     const [formData, setFormData] = useState({
         nombre: "",
         landing_page: "",
     });
+
+    /**
+     * Estado para manejar el estado de envío del formulario (si se está enviando).
+     * @type {boolean}
+     * @default false
+     */
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    /**
+     * Hook para gestionar las operaciones CRUD.
+     * @type {Object}
+     * @property {Function} createItem - Función para crear un nuevo patrocinador.
+     * @property {Function} updateItem - Función para actualizar un patrocinador existente.
+     * @property {Function} fetchItems - Función para obtener los patrocinadores.
+     * @property {string|null} error - Mensaje de error si ocurre un problema.
+     */
     const { createItem, updateItem, fetchItems, error } = useCrud({ nombre: "Patrocinadores" });
 
+    /**
+     * Hook que se ejecuta cuando los datos iniciales cambian, para actualizar el formulario.
+     * @param {Object} datosIniciales - Datos del patrocinador si está editando uno.
+     */
     useState(() => {
         if (datosIniciales) {
             setFormData(datosIniciales);
         }
     }, [datosIniciales]);
 
+    /**
+     * Maneja los cambios en los campos del formulario.
+     * 
+     * @param {Event} event - El evento de cambio en el campo del formulario.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Maneja el envío del formulario, ya sea para crear o actualizar un patrocinador.
+     * 
+     * @param {Event} event - El evento de envío del formulario.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);

@@ -22,7 +22,7 @@ class PatrocinadorController extends Controller
 
     public function store(PatrocinadorRequest $request)
     {
-        $patrocinador = Patrocinador::create($request->validate());
+        $patrocinador = Patrocinador::create($request->validated());
 
         return response()->json([
             'status'  => 'success',

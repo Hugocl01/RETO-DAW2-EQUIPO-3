@@ -36,7 +36,6 @@ import FormularioFamilias from "../components/Formularios/FormularioFamilias";
 import FormularioCiclos from "../components/Formularios/FormularioCiclos";
 import FormularioCentros from "../components/Formularios/FormularioCentros";
 import FormularioEstudios from "../components/Formularios/FormularioEstudios";
-import FormularioInscripciones from "../components/Formularios/FormularioInscripciones";
 import Spinner from "../components/Spinner";
 import { generateSlug } from "../utils/stringUtils";
 
@@ -181,14 +180,6 @@ function AdministracionPage() {
             case "estudios":
                 return (
                     <FormularioEstudios
-                        datosIniciales={itemSeleccionado}
-                        onGuardar={() => setModo(null)}
-                        onCancelar={() => setModo(null)}
-                    />
-                );
-            case "inscripciones":
-                return (
-                    <FormularioInscripciones
                         datosIniciales={itemSeleccionado}
                         onGuardar={() => setModo(null)}
                         onCancelar={() => setModo(null)}

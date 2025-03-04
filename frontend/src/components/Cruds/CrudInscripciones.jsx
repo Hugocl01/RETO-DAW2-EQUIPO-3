@@ -3,51 +3,78 @@ import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente que gestiona las inscripciones, permitiendo la búsqueda, aprobación, rechazo y paginación de las inscripciones.
+ *
+ * @component
+ */
 function CrudInscripciones() {
-    // Memoriza la sección para evitar recrearla en cada render
+    /**
+     * Objeto `seccion` que define el nombre de la sección.
+     * @type {Object}
+     * @property {string} nombre - Nombre de la sección.
+     */
     const seccion = useMemo(() => ({ nombre: "Inscripciones" }), []);
-    const { items: initialItems, loading, error, deleteItem } = useCrud(seccion);
 
-    // Estado local para manejar la lista de inscripciones
-    const [items, setItems] = useState(initialItems);
+    /**
+     * Hook para obtener el estado de la solicitud de los datos (cargando y errores).
+     * @type {Object}
+     * @property {boolean} loading - Si los datos están siendo cargados.
+     * @property {string|null} error - Mensaje de error si ocurrió un error al obtener los datos.
+     */
+    const { loading, error } = useCrud(seccion);
 
-    // Actualizar items cuando los datos de useCrud cambien
-    useEffect(() => {
-        setItems(initialItems);
-    }, [initialItems]);
+    /**
+     * Estado para almacenar las inscripciones obtenidas de la API.
+     * @type {Array}
+     * @default []
+     */
+    const [items, setItems] = useState([]);
 
-    // Estados para búsqueda y paginación
+    /**
+     * Estado para almacenar el valor de búsqueda introducido por el usuario.
+     * @type {string}
+     * @default ""
+     */
     const [searchQuery, setSearchQuery] = useState("");
+
+    /**
+     * Estado para almacenar la página actual de la paginación.
+     * @type {number}
+     * @default 1
+     */
     const [currentPage, setCurrentPage] = useState(1);
+
+    /**
+     * Cantidad de inscripciones por página.
+     * @type {number}
+     * @default 5
+     */
     const itemsPerPage = 5;
 
-    // Función para manejar valores null/undefined
-    const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
+    /**
+     * Estado que indica si el componente está recargando los datos (activo cuando se actualiza o se cargan datos).
+     * @type {boolean}
+     * @default false
+     */
+    const [isReloading, setIsReloading] = useState(false);
 
-    // Filtrado de inscripciones según el término de búsqueda
-    const filteredItems = items.filter((inscripcion) => {
-        const query = searchQuery.toLowerCase();
-        return (
-            safeToLower(inscripcion.nombre).includes(query) ||
-            safeToLower(inscripcion.comentarios).includes(query) ||
-            safeToLower(inscripcion.estado).includes(query)
-        );
-    });
+    /**
+     * Hook que se ejecuta al montar el componente, cargando la tabla de inscripciones.
+     */
+    useEffect(() => {
+        cargarTabla();
+    }, []);
 
-    // Cálculos de paginación
-    const totalItems = filteredItems.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
-
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-        setCurrentPage(1);
-    };
-
+    /**
+     * Función para cargar las inscripciones desde la API.
+     * Se actualizan los estados `items` y `isReloading` durante la carga.
+     */
     async function cargarTabla() {
         const url = import.meta.env.VITE_API_URL;
         try {
+            setIsReloading(true); // Activar el Spinner antes de la solicitud
+
             const response = await fetch(`${url}inscripciones`, {
                 method: 'GET',
                 headers: {
@@ -61,14 +88,23 @@ function CrudInscripciones() {
             }
 
             const data = await response.json();
-            setItems(data.inscripciones); // ✅ Actualiza los items en el estado
+            setItems(data.inscripciones);
         } catch (err) {
             console.error('Error al cargar la tabla:', err);
+        } finally {
+            setTimeout(() => setIsReloading(false), 500); // Pausa para la UX
         }
     }
 
+    /**
+     * Función para actualizar el estado de una inscripción.
+     *
+     * @param {Object} inscripcion - Inscripción que se actualizará.
+     * @param {string} estado - El nuevo estado de la inscripción.
+     */
     async function actualizarInscripcion(inscripcion, estado) {
         try {
+            setIsReloading(true); // Activamos el Spinner antes de actualizar
             const url = import.meta.env.VITE_API_URL;
             const response = await fetch(`${url}cambiar-estado/${inscripcion.id}`, {
                 method: 'PUT',
@@ -76,40 +112,90 @@ function CrudInscripciones() {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify({ estado }) // ✅ Ahora se envía el estado correctamente
+                body: JSON.stringify({ estado })
             });
 
             if (!response.ok) {
                 throw new Error("Error al actualizar el estado de la inscripción.");
             }
 
-            const data = await response.json();
-
-            // Llamar a la función que actualiza la tabla
-            cargarTabla();
-
-            return data;
+            await cargarTabla();
         } catch (err) {
             console.error('Error al actualizar la inscripción:', err);
-            return null;
         }
     }
 
-
+    /**
+     * Función que maneja la acción de aprobar una inscripción.
+     *
+     * @param {Object} inscripcion - Inscripción que se aprobará.
+     */
     const handleAprobar = async (inscripcion) => {
-        console.log(`Inscripción aprobada`);
-        await actualizarInscripcion(inscripcion, 3); // Pasa la inscripción y el estado 3
+        await actualizarInscripcion(inscripcion, 3);
     };
 
+    /**
+     * Función que maneja la acción de rechazar una inscripción.
+     *
+     * @param {Object} inscripcion - Inscripción que se rechazará.
+     */
     const handleRechazar = async (inscripcion) => {
-        console.log(`Inscripción rechazada`);
-        await actualizarInscripcion(inscripcion, 4); // Pasa la inscripción y el estado 4
+        await actualizarInscripcion(inscripcion, 4);
     };
 
+    /**
+     * Función que convierte una cadena de texto a minúsculas de forma segura.
+     *
+     * @param {any} value - Valor que se convertirá a minúsculas.
+     * @returns {string} - Cadena de texto en minúsculas.
+     */
+    const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
 
-    if (loading) {
+    /**
+     * Filtra las inscripciones en base al término de búsqueda introducido por el usuario.
+     * 
+     * @type {Array}
+     * @default []
+     */
+    const filteredItems = items.filter((inscripcion) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            safeToLower(inscripcion.nombre).includes(query) ||
+            safeToLower(inscripcion.comentarios).includes(query) ||
+            safeToLower(inscripcion.estado).includes(query)
+        );
+    });
+
+    /**
+     * Calcula la cantidad total de páginas de acuerdo al número de inscripciones filtradas y la cantidad de inscripciones por página.
+     * 
+     * @type {number}
+     * @default 1
+     */
+    const totalItems = filteredItems.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    /**
+     * Calcula el índice de inicio de las inscripciones para la página actual.
+     * 
+     * @type {number}
+     * @default 0
+     */
+    const startIndex = (currentPage - 1) * itemsPerPage;
+
+    /**
+     * Obtiene las inscripciones correspondientes a la página actual.
+     * 
+     * @type {Array}
+     * @default []
+     */
+    const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+
+    // Cargando o error, mostrar Spinner o mensaje de error
+    if (loading || isReloading) {
         return <Spinner />;
     }
+
     if (error) {
         return <p>Error: {error}</p>;
     }
@@ -125,7 +211,7 @@ function CrudInscripciones() {
                     className="form-control form-control-sm flex-grow-1"
                     placeholder="Buscar inscripciones..."
                     value={searchQuery}
-                    onChange={handleSearchChange}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
 
