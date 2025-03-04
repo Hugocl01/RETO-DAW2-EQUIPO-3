@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inscripcion;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\TuNotificacionMail; // Asegúrate de crear este Mailable
+use Illuminate\Http\Request;
 use App\Http\Resources\InscripcionResource;
 use App\Mail\EquipoInscripcionMail;
 use App\Mail\EquipoAvisoMail;
@@ -61,24 +61,47 @@ class InscripcionController extends Controller
         ], 200);
     }
 
-    public function cambiarEstado(Inscripcion $inscripcion)
+    public function cambiarEstado(Request $request, Inscripcion $inscripcion)
     {
-        $inscripcion->estado_id = 3;
+        // Validar que se envía un estado y es un número válido
+        $request->validate([
+            'estado' => 'required|integer|in:3,4' // Solo permite 3 y 4
+        ]);
+
+        $estado_actual = $inscripcion->estado_id;
+        $nuevo_estado = $request->estado;
+
+        // Verificar que solo se pueden hacer las siguientes transiciones:
+        $transiciones_validas = [
+            2 => [3, 4], // De 2 a 3 o 4
+            3 => [4],    // De 3 a 4
+            4 => [3],    // De 4 a 3
+        ];
+
+        if (!isset($transiciones_validas[$estado_actual]) || !in_array($nuevo_estado, $transiciones_validas[$estado_actual])) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Cambio de estado no permitido'
+            ], 400);
+        }
+
+        // Asignar el nuevo estado
+        $inscripcion->estado_id = $nuevo_estado;
 
         if ($inscripcion->save()) {
             $usuario_equipo = $inscripcion->equipo->usuario;
             $token = Str::random(40);
             $usuario_equipo->remember_token = $token;
             $usuario_equipo->save();
-            Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $token));
+            Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $token, $nuevo_estado));
 
             $capitan = $inscripcion->equipo->jugadores()->where('capitan', 1)->first();
-            Mail::to($capitan->email)->send(new EquipoAvisoMail($inscripcion));
+            Mail::to($capitan->email)->send(new EquipoAvisoMail($inscripcion, $nuevo_estado));
         }
 
         return response()->json([
-            'status'         => 'success',
-            'message'        => 'Inscripción Aprobada con éxito'
+            'status'  => 'success',
+            'message' => 'Estado de inscripción actualizado correctamente'
         ], 200);
     }
 

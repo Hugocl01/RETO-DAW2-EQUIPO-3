@@ -1,5 +1,18 @@
 @component('mail::message')
-# Aprobada inscripción de equipo
+
+@if ($nuevo_estado == 4)
+# ❌ Inscripción Rechazada
+
+Lamentamos informarte que la inscripción de tu equipo **{{ $inscripcion->equipo->nombre }}** ha sido rechazada.
+
+@if ($inscripcion->equipo->centro)
+**Centro:** {{ $inscripcion->equipo->centro->nombre }}
+@endif
+
+Si tienes dudas, puedes ponerte en contacto con nosotros.
+
+@else
+# ✅ Aprobada inscripción de equipo
 
 **Nombre del equipo:** {{ $inscripcion->equipo->nombre }}
 **Centro:** {{ $inscripcion->equipo->centro->nombre ?? 'N/D' }}
@@ -16,6 +29,8 @@ Establecer Contraseña
 @component('mail::button', ['url' => 'http://localhost:5173/equipos/' . $inscripcion->equipo->slug])
 Ver Equipo
 @endcomponent
+@endif
+
 @endif
 
 Gracias,
