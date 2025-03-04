@@ -79,7 +79,7 @@ function CrudCentros({ onModoCambio }) {
             <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
                 <input
                     type="text"
-                    className="form-control" form-control-sm flex-grow-1
+                    className="form-control flex-grow-1"
                     placeholder="Buscar centros..."
                     value={searchQuery}
                     onChange={handleSearchChange}
