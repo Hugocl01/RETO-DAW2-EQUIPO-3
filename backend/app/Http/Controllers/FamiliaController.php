@@ -7,13 +7,6 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\FamiliaRequest;
 use App\Http\Resources\FamiliaResource;
 
-namespace App\Http\Controllers;
-
-use App\Models\Familia;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\FamiliaRequest;
-use App\Http\Resources\FamiliaResource;
-
 /**
  * @OA\Tag(
  *     name="Familias",

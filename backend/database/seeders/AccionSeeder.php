@@ -104,7 +104,7 @@ class AccionSeeder extends Seeder
                 'index',
                 'show'
             ],
-            'Imágenes' => [
+            'Imagenes' => [
                 'index',
                 'store',
                 'destroy',

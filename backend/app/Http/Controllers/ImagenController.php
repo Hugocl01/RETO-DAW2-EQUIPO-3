@@ -3,16 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImagenRequest;
+use App\Http\Resources\ImagenResource;
 use App\Models\Imagen;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class ImagenController extends Controller
 {
+    public function index()
+    {
+        $imagenes = Imagen::all();
+
+        return response()->json([
+            'status' => 'success',
+            'imagenes' => ImagenResource::collection($imagenes) // Corrección aquí
+        ], 200);
+    }
+
     public function uploadFoto(ImagenRequest $request, $model, $id)
     {
-        // Construir el nombre de la clase del modelo (ej. 'equipo' => App\Models\Equipo)
         $modelClass = "App\\Models\\" . ucfirst($model);
 
-        // Verificar que la clase existe
         if (!class_exists($modelClass)) {
             return response()->json([
                 'status'  => 'error',
@@ -20,38 +31,62 @@ class ImagenController extends Controller
             ], 404);
         }
 
-        // Buscar la entidad con el ID dado
-        $entity = $modelClass::findOrFail($id);
+        $entity = $modelClass::find($id);
 
-        // Construir la ruta de la carpeta: uploads/{model}s/YYYY/MM/DD
-        // Se convierte el nombre del modelo a minúsculas y se añade una 's' (puedes mejorar la pluralización si es necesario)
+        if (!$entity) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "No se encontró la entidad con ID {$id}."
+            ], 404);
+        }
+
         $subcarpeta = strtolower($model) . 's';
         $fecha = date('Y/m/d');
         $rutaCarpeta = "uploads/{$subcarpeta}/{$fecha}";
 
-        // Subir el archivo
         $imagenFile = $request->file('imagen');
         $rutaFichero = $imagenFile->store($rutaCarpeta, 'public');
-        // Esto lo guarda en: storage/app/public/uploads/{model}s/YYYY/MM/DD
 
-        // Guardar el registro de la imagen utilizando la relación polimórfica definida en el modelo
-        $entity->imagenes()->create([
-            'nombre'       => $imagenFile->getClientOriginalName(),
-            'ruta' => $rutaFichero,
+        $imagen = $entity->imagenes()->create([
+            'nombre' => $imagenFile->getClientOriginalName(),
+            'ruta'   => $rutaFichero,
         ]);
 
         return response()->json([
             'status'  => 'success',
             'message' => "Foto de {$model} subida correctamente.",
             'ruta'    => $rutaFichero,
-        ], 200);
+            'imagen'  => new ImagenResource($imagen),
+        ], 201);
+    }
+
+    public function destroy(Imagen $imagen) // Corrección del nombre de variable
+    {
+        // Eliminar el archivo del almacenamiento
+        Storage::disk('public')->delete($imagen->ruta);
+
+        // Eliminar la imagen de la base de datos
+        $imagen->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Imagen eliminada correctamente'
+        ]);
     }
 
     public function getListaImagenModelos()
     {
+        if (!method_exists(Imagen::class, 'getLista')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'El método getLista no está definido en el modelo Imagen.'
+            ], 500);
+        }
+
         $modelos = Imagen::getLista();
 
         return response()->json([
+            'status' => 'success',
             'modelos' => $modelos,
         ]);
     }
