@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
 import Carousel from './Carouseles/Carousel';
 import Spinner from "../components/Spinner.jsx";
+import cruzRoja from "../assets/imagenes/cruz-roja.png";
+import torneo from "../assets/imagenes/torneo.jpeg";
+import cesta from "../assets/imagenes/cesta.png";
+import donate from "../assets/imagenes/donate.png";
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
 
@@ -104,7 +108,7 @@ function Inicio() {
                 <h2 className="text-white text-center mb-4">TORNEO DE FÚTBOL<br />SOLIDARIO</h2>
                 <div className='py-2 d-flex justify-content-center align-items-center'>
                     <a target="_blank" className='d-flex justify-content-center align-items-center' href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional">
-                        <img src="/assets/imagenes/cruz-roja.png" alt="Cruz Roja" />
+                        <img src={cruzRoja} alt="Cruz Roja" />
                     </a>
                 </div>
             </div>
@@ -148,7 +152,7 @@ function Inicio() {
                 </div>
 
                 <div className='seccion2'>
-                    <img src="/assets/imagenes/torneo.jpeg" alt="Torneo" />
+                    <img src={torneo} alt="Torneo" />
                 </div>
             </section>
 
@@ -176,7 +180,7 @@ function Inicio() {
                     <div className="col">
                         <div className="card shadow-lg border-0 rounded-4 h-100">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-4">
-                                <img src="/assets/imagenes/cesta.png" className="mb-3" alt="Cesta" />
+                                <img src={cesta} className="mb-3" alt="Cesta" />
                                 <h2 className="text-dark fw-bold">Total Recaudado</h2>
                                 <h3 className="text-success fw-bold display-5">{totalDonado()}€</h3>
                             </div>
@@ -187,7 +191,7 @@ function Inicio() {
                     <div className="col">
                         <div className="card shadow-lg border-0 rounded-4 h-100">
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
-                                <img src="/assets/imagenes/donate.png" className="mb-3" alt="Donar" />
+                                <img src={donate} className="mb-3" alt="Donar" />
                                 <h2 className="text-dark fw-bold">Hacer una Donación</h2>
                                 <p className="text-muted lead">Tu ayuda importa. Cada aporte marca la diferencia.</p>
                                 <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary btn-lg mt-3 px-4">

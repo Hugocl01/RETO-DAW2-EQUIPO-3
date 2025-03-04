@@ -44,6 +44,11 @@ class AccionSeeder extends Seeder
                 'update',
                 'getListaPublicacionModelos'
             ],
+            'Patrocinadores' => [
+                'store',
+                'update',
+                'destroy'
+            ],
             'Estudios' => [
                 'index',
                 'store',
