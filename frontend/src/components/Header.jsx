@@ -5,6 +5,7 @@ import YouTubeLiveIndicator from "./YouTubeLiveIndicator";
 import { useLocation } from "react-router-dom";
 import "./css/Header.css";
 import LoginModal from './LoginModal';
+import imagenPerfil from "../assets/imagenes/user.png";
 
 function Header() {
   const { seguridad, logout } = useContext(SeguridadContext);
@@ -127,7 +128,7 @@ function Header() {
                   aria-expanded="false"
                 >
                   <img
-                    src="https://github.com/mdo.png"
+                    src={imagenPerfil}
                     alt="Perfil de usuario"
                     width="32"
                     height="32"
@@ -144,11 +145,6 @@ function Header() {
                   <li>
                     <Link to="/administracion" className="dropdown-item">
                       Administración
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/perfil" className="dropdown-item">
-                      Perfil
                     </Link>
                   </li>
                   <li>
@@ -243,15 +239,14 @@ function Header() {
               {seguridad.user ? (
                 <div className="dropdown text-start">
                   <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="Perfil de usuario" width="32" height="32" className="rounded-circle" />
+                    <img src={imagenPerfil} alt="Perfil de usuario" width="32" height="32" className="rounded-circle" />
                   </a>
                   <ul className="dropdown-menu text-small">
                     <li>
-                      <h2 className="dropdown-header">{seguridad.user.name}</h2>
+                      <h2 className="dropdown-header">{seguridad.user.nombre}</h2>
                     </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><Link to="/administracion" className="dropdown-item" onClick={toggleSidenav}>Administración</Link></li>
-                    <li><Link to="/perfil" className="dropdown-item" onClick={toggleSidenav}>Perfil</Link></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="" onClick={logout}>Cerrar sesión</a></li>
                   </ul>

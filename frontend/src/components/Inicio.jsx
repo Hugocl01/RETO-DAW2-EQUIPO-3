@@ -126,10 +126,16 @@ function Inicio() {
                     </div>
 
                     <div className='texto mx-5 mt-5 my-2'>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Voluptatibus atque dicta excepturi error autem ex deleniti
-                            consequatur. Tempore quasi doloremque rerum beatae necessitatibus
-                            laudantium. Veritatis nobis ipsum iusto repudiandae modi.</p>
+                        <p>
+                            Torrelavega se une por una gran causa en un torneo deportivo con un propósito solidario:
+                            recaudar fondos para Cruz Roja. En este evento, la pasión por el deporte y la solidaridad van de la
+                            mano para ayudar a quienes más lo necesitan.<br></br><br></br>
+
+                            Este torneo es el resultado del esfuerzo y la colaboración de muchas personas, incluyendo la
+                            participación activa de nuestros alumnos de los institutos de Torrelavega.<br></br><br></br>
+
+                            Acompáñanos durante estos dos días de deporte y solidaridad, y contribuye a una causa que marca la diferencia.
+                        </p>
                     </div>
 
                     <div className='mx-5 mt-2'>

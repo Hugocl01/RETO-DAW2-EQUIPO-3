@@ -2,7 +2,7 @@
 header {
     position: sticky;
     top: 0;
-    z-index: 1090;
+    z-index: 1050;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -48,7 +48,7 @@ header li {
     top: 0;
     width: 250px;
     height: 100%;
-    background-color: #ffffffcb;
+    background-color: #ffffffdc;
     padding-top: 80px;
     transition: left 0.3s ease;
     z-index: 1000;
