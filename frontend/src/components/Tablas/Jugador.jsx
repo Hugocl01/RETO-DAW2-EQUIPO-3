@@ -4,20 +4,35 @@ import "../css/JugadorEquipo.css";
 import img1 from '../../assets/imagenes/img1.jpg';
 
 /**
- * Componente Jugador
- * @param {JSON} jugador
- * @returns
+ * Componente para mostrar la información de un jugador.
+ * Permite navegar a la vista detallada del jugador o de su equipo al hacer clic en la imagen o nombre.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.jugador - Objeto que contiene la información del jugador.
+ * @param {Function} props.fnNavegarEquipo - Función para navegar a la vista detallada del equipo.
+ * @param {Function} props.fnNavegarJugador - Función para navegar a la vista detallada del jugador.
+ * @returns {JSX.Element} Componente de jugador.
  */
 function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
 
+  /**
+   * Maneja el clic en la imagen del equipo para navegar a la vista detallada del equipo.
+   *
+   * @param {Object} event - Evento del clic.
+   */
   function handleClickNavegarEquipo(event) {
     event.stopPropagation();
     fnNavegarEquipo(jugador.equipo);
   }
 
-  function handleCLickNavegarJugador(){
-    fnNavegarJugador(jugador.slug)
+  /**
+   * Maneja el clic en el nombre o la fila del jugador para navegar a su vista detallada.
+   */
+  function handleCLickNavegarJugador() {
+    fnNavegarJugador(jugador.slug);
   }
+
   return (
     <div className="row border-bottom py-2" onClick={handleCLickNavegarJugador}>
       {/* Columna para la imagen y el nombre del jugador */}

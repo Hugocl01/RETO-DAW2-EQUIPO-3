@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import llamadas from "../../data/FuncionesCombobox";
 
+/**
+ * Función para obtener la lista de equipos desde la API.
+ *
+ * @async
+ * @function fetchEquipos
+ * @returns {Promise<Array>} Lista de equipos con formato { value, label }.
+ */
 const fetchEquipos = async () => {
     try {
         const response = await llamadas().equipos();
-        console.log(equipos);
         return response.data.map((equipo, index) => ({
             value: index,
             label: equipo
@@ -15,13 +21,25 @@ const fetchEquipos = async () => {
     }
 };
 
+/**
+ * Componente para gestionar un formulario de equipos.
+ * Permite crear o editar un equipo con nombre y selección de equipo.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de equipos.
+ */
 function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         nombre: "",
         equipo: ""
     });
     const [equipos, setEquipos] = useState([]);
-    console.log(datosIniciales)
+
+    // Efecto para cargar los equipos al montar el componente
     useEffect(() => {
         const obtenerEquipos = async () => {
             const data = await fetchEquipos();
@@ -30,14 +48,18 @@ function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
         obtenerEquipos();
     }, []);
 
+    // Efecto para inicializar el formulario con datos iniciales
     useEffect(() => {
         if (datosIniciales) {
-            console.log("Datos Iniciales recibidos:", datosIniciales); // 🔍 Debug
             setFormData(datosIniciales);
         }
     }, [datosIniciales]);
 
-
+    /**
+     * Maneja los cambios en los campos del formulario.
+     *
+     * @param {Object} event - Evento del input.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevFormData => ({
@@ -46,9 +68,13 @@ function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
         }));
     };
 
+    /**
+     * Maneja el envío del formulario.
+     *
+     * @param {Object} event - Evento del formulario.
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Formulario enviado con:", formData);
         onGuardar(formData);
     };
     useEffect(() => {
@@ -57,11 +83,8 @@ function FormularioEquipos({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]);
 
-    console.log("Estado actual del formulario:", formData);
-
     return (
         <form onSubmit={handleSubmit}>
-            {console.log(formData.nombre)}
             <div>
                 <label htmlFor="nombre_completo">Nombre</label>
                 <input

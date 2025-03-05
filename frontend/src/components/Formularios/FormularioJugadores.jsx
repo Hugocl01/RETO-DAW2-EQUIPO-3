@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import llamadas from "../../data/FuncionesCombobox";
 
-
+/**
+ * Función para obtener la lista de equipos desde la API.
+ *
+ * @async
+ * @function fetchEquipos
+ * @returns {Promise<Array>} Lista de equipos con formato { value, label }.
+ */
 const fetchEquipos = async () => {
     try {
         console.log("Cargando equipos desde la API...");
@@ -20,8 +26,13 @@ const fetchEquipos = async () => {
     }
 };
 
-
-
+/**
+ * Función para obtener la lista de estudios desde la API.
+ *
+ * @async
+ * @function fetchEstudios
+ * @returns {Promise<Array>} Lista de estudios con formato { value, label }.
+ */
 const fetchEstudios = async () => {
     try {
         // Si no hay datos en sessionStorage, los obtenemos de la API
@@ -41,7 +52,17 @@ const fetchEstudios = async () => {
     }
 };
 
-
+/**
+ * Componente para gestionar un formulario de jugadores.
+ * Permite crear o editar un jugador con nombre, equipo, estudio y estado de capitán.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de jugadores.
+ */
 function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         nombre_completo: "",
@@ -52,6 +73,7 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
     const [equipos, setEquipos] = useState([]);
     const [estudios, setEstudios] = useState([]);
 
+    // Efecto para cargar los equipos y estudios al montar el componente
     useEffect(() => {
         const obtenerEquipos = async () => {
             const data = await fetchEquipos();
@@ -66,6 +88,7 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
         obtenerEstudios();
     }, []);
 
+    // Efecto para inicializar el formulario con datos iniciales
     useEffect(() => {
         if (datosIniciales) {
             // Aseguramos que equipo_id y estudio_id se asignen correctamente
@@ -78,6 +101,11 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]);
 
+    /**
+     * Maneja los cambios en los campos del formulario.
+     *
+     * @param {Object} event - Evento del input.
+     */
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         // Si es un checkbox, usamos checked en lugar de value
@@ -87,6 +115,11 @@ function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
         });
     };
 
+    /**
+     * Maneja el envío del formulario.
+     *
+     * @param {Object} event - Evento del formulario.
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
         onGuardar(formData);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: pages/InicioPage.jsx</title>
+    <title>JSDoc: Source: components/FormularioInscripcion/TarjetaFormulario.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: pages/InicioPage.jsx</h1>
+    <h1 class="page-title">Source: components/FormularioInscripcion/TarjetaFormulario.jsx</h1>
 
     
 
@@ -26,25 +26,60 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Inicio from "../components/Inicio.jsx";
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+import "../css/TarjetaFormulario.css";
+import "../css/EstilosComun.css";
 
 /**
- * Página de Inicio.
- * 
+ * Componente que representa una tarjeta colapsable con un formulario.
+ * Permite mostrar u ocultar el contenido de la tarjeta al hacer clic en el encabezado.
+ *
  * @component
- * @returns {JSX.Element} - Renderiza la página de inicio.
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.titulo - Título de la tarjeta.
+ * @param {string} props.id - Identificador único de la tarjeta.
+ * @param {React.ReactNode} props.children - Contenido de la tarjeta.
+ * @returns {JSX.Element} Componente de tarjeta colapsable.
  */
-function InicioPage() {
+function TarjetaFormulario({ titulo, id, children }) {
+    const [abiertas, setAbiertas] = useState({});
+
+    /**
+     * Efecto para inicializar el estado de la tarjeta como abierta cuando se monta.
+     */
+    useEffect(() => {
+        setAbiertas((prev) => ({
+            ...prev,
+            [id]: true,
+        }));
+    }, [id]);
+
+    /**
+     * Función para alternar la visibilidad de la tarjeta.
+     */
+    const toggleTarjeta = () => {
+        setAbiertas((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
 
     return (
-        &lt;>
-            &lt;title>Inicio&lt;/title>
-            &lt;Inicio />
-        &lt;/>
+        &lt;div className="card mb-3">
+            &lt;div
+                className="card-header bg-primary text-white"
+                onClick={toggleTarjeta}
+                style={{ cursor: "pointer" }}
+            >
+                {titulo}
+            &lt;/div>
+            {abiertas[id] &amp;&amp; &lt;div className="card-body">{children}&lt;/div>}
+        &lt;/div>
     );
 }
 
-export default InicioPage;</code></pre>
+export default TarjetaFormulario;
+</code></pre>
         </article>
     </section>
 

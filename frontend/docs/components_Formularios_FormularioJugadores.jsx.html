@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Formularios/FormularioRetos.jsx</title>
+    <title>JSDoc: Source: components/Formularios/FormularioJugadores.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Formularios/FormularioRetos.jsx</h1>
+    <h1 class="page-title">Source: components/Formularios/FormularioJugadores.jsx</h1>
 
     
 
@@ -26,41 +26,49 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
-import { useCrud } from "../../hooks/useCrud";
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
 import llamadas from "../../data/FuncionesCombobox";
 
 /**
- * Función para obtener los estudios desde el almacenamiento de sesión o la API.
+ * Función para obtener la lista de equipos desde la API.
  *
- * Esta función primero intenta obtener los estudios desde `sessionStorage`. Si no están disponibles,
- * realiza una solicitud a la API para obtener los estudios y luego los almacena en `sessionStorage`.
- * 
  * @async
- * @returns {Array&lt;Object>} Un arreglo de objetos con las propiedades `value` y `label` de los estudios.
+ * @function fetchEquipos
+ * @returns {Promise&lt;Array>} Lista de equipos con formato { value, label }.
+ */
+const fetchEquipos = async () => {
+    try {
+        console.log("Cargando equipos desde la API...");
+        const data = await llamadas().equipos();
+
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los equipos", error);
+        return [];
+    }
+};
+
+/**
+ * Función para obtener la lista de estudios desde la API.
+ *
+ * @async
+ * @function fetchEstudios
+ * @returns {Promise&lt;Array>} Lista de estudios con formato { value, label }.
  */
 const fetchEstudios = async () => {
     try {
-        const storedData = sessionStorage.getItem("estudios");
-
-        if (storedData) {
-            console.log("Cargando estudios desde sessionStorage");
-            const data = JSON.parse(storedData);
-
-            return Object.keys(data).map(key => ({
-                value: key,
-                label: data[key]
-            }));
-        }
-
         // Si no hay datos en sessionStorage, los obtenemos de la API
         console.log("Cargando estudios desde la API...");
         const data = await llamadas().estudios();
 
-        if (!data) {
-            return [];
-        }
-        
+        if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
+
         return Object.keys(data).map(key => ({
             value: key,
             label: data[key]
@@ -73,45 +81,34 @@ const fetchEstudios = async () => {
 };
 
 /**
- * Componente de formulario para crear o editar un reto.
- * 
- * Este componente maneja la creación y edición de un reto. Permite ingresar un título, texto y seleccionar un estudio.
- * La información se guarda mediante la función `createItem` o `updateItem` del hook `useCrud`.
- * 
+ * Componente para gestionar un formulario de jugadores.
+ * Permite crear o editar un jugador con nombre, equipo, estudio y estado de capitán.
+ *
  * @component
- * @example
- * // Ejemplo de uso del componente
- * &lt;FormularioRetos
- *   datosIniciales={{ titulo: "Reto 1", texto: "Texto del reto", estudio_id: 1 }}
- *   onGuardar={(data) => console.log(data)}
- *   onCancelar={() => console.log("Cancelado")}
- * />
- * 
- * @param {Object} props - Las propiedades del componente.
- * @param {Object} [props.datosIniciales] - Datos iniciales para editar un reto (si existe).
- * @param {function} props.onGuardar - Función a ejecutar cuando se guarda un reto.
- * @param {function} props.onCancelar - Función a ejecutar cuando se cancela el formulario.
- * @returns {React.Element} El formulario de retos.
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de jugadores.
  */
-function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
+function FormularioJugadores({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
-        titulo: "",
-        texto: "",
-        estudio_id: null,
+        nombre_completo: "",
+        equipo_id: "",
+        estudio_id: "",
+        capitan: false,
     });
+    const [equipos, setEquipos] = useState([]);
     const [estudios, setEstudios] = useState([]);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Retos" });
 
-    /**
-     * Carga los estudios desde `sessionStorage` o la API cuando el componente se monta.
-     *
-     * Utiliza el hook `useEffect` para cargar los estudios y actualiza el estado `estudios`.
-     * 
-     * @async
-     * @returns {void}
-     */
+    // Efecto para cargar los equipos y estudios al montar el componente
     useEffect(() => {
+        const obtenerEquipos = async () => {
+            const data = await fetchEquipos();
+            setEquipos(data);
+        };
+        obtenerEquipos();
+
         const obtenerEstudios = async () => {
             const data = await fetchEstudios();
             setEstudios(data);
@@ -119,19 +116,15 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
         obtenerEstudios();
     }, []);
 
-    /**
-     * Carga los datos iniciales cuando `datosIniciales` cambia.
-     *
-     * Si `datosIniciales` contiene información, se actualiza el estado `formData` para reflejar esos datos.
-     * 
-     * @param {Object} datosIniciales - Los datos con los que pre-poblar el formulario.
-     * @returns {void}
-     */
+    // Efecto para inicializar el formulario con datos iniciales
     useEffect(() => {
         if (datosIniciales) {
+            // Aseguramos que equipo_id y estudio_id se asignen correctamente
             setFormData({
                 ...datosIniciales,
-                estudio_id: datosIniciales.estudio?.id || null,
+                equipo_id: datosIniciales.equipo_id || "", // Asignar equipo_id inicial
+                estudio_id: datosIniciales.estudio_id || "", // Asignar estudio_id inicial
+                capitan: datosIniciales.capitan || false, // Asignar capitan si existe
             });
         }
     }, [datosIniciales]);
@@ -139,101 +132,63 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
     /**
      * Maneja los cambios en los campos del formulario.
      *
-     * Esta función se ejecuta cuando el usuario cambia un campo del formulario y actualiza
-     * el estado `formData` con el nuevo valor.
-     * 
-     * @param {Object} event - El evento de cambio del input.
-     * @param {string} event.target.name - El nombre del campo del formulario.
-     * @param {string} event.target.value - El nuevo valor del campo.
-     * @returns {void}
+     * @param {Object} event - Evento del input.
      */
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type, checked } = event.target;
+        // Si es un checkbox, usamos checked en lugar de value
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
     };
 
     /**
-     * Maneja el envío del formulario para crear o actualizar un reto.
+     * Maneja el envío del formulario.
      *
-     * Dependiendo de si los `datosIniciales` están presentes o no, se ejecuta la función
-     * `createItem` o `updateItem` del hook `useCrud`.
-     * 
-     * @async
-     * @param {Object} event - El evento de envío del formulario.
-     * @returns {void}
+     * @param {Object} event - Evento del formulario.
      */
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        setIsSubmitting(true);
-
-        const modo = datosIniciales ? "editar" : "crear";
-
-        try {
-            if (modo === "crear") {
-                await createItem(formData);
-            } else {
-                await updateItem(formData.id, formData);
-            }
-
-            fetchItems();
-            onGuardar(formData);
-        } catch (error) {
-            console.error("Error al guardar reto:", error);
-        } finally {
-            setIsSubmitting(false);
-        }
+        onGuardar(formData);
     };
 
     return (
-        &lt;form
-            onSubmit={handleSubmit}
-            className="container mt-4 p-4 border rounded shadow bg-light"
-        >
-            &lt;h2 className="mb-4 text-center">Formulario de Reto&lt;/h2>
-
-            {/* Input para el título */}
-            &lt;div className="mb-3">
-                &lt;label htmlFor="titulo" className="form-label">Título&lt;/label>
+        &lt;form onSubmit={handleSubmit}>
+            &lt;div>
+                &lt;label htmlFor="nombre_completo">Nombre Completo&lt;/label>
                 &lt;input
                     type="text"
-                    className="form-control"
-                    name="titulo"
-                    id="titulo"
-                    placeholder="Ingrese el título"
-                    value={formData.titulo || ""}
-                    required
+                    name="nombre_completo"
+                    id="nombre_completo"
+                    placeholder="Ingrese su nombre completo"
+                    value={formData.nombre_completo || ""}
                     onChange={handleChange}
-                    disabled={isSubmitting}
                 />
             &lt;/div>
-
-            {/* Textarea para el texto */}
-            &lt;div className="mb-3">
-                &lt;label htmlFor="texto" className="form-label">Texto&lt;/label>
-                &lt;textarea
-                    className="form-control"
-                    name="texto"
-                    id="texto"
-                    placeholder="Ingrese el texto del reto"
-                    value={formData.texto || ""}
-                    required
-                    onChange={handleChange}
-                    style={{ height: "150px", resize: "vertical" }}
-                    disabled={isSubmitting}
-                />
-            &lt;/div>
-
-            {/* Select para el estudio */}
-            &lt;div className="mb-3">
-                &lt;label htmlFor="estudio_id" className="form-label">Estudio&lt;/label>
+            &lt;div>
+                &lt;label htmlFor="equipo_id">Equipo&lt;/label>
                 &lt;select
-                    className="form-select"
+                    name="equipo_id"
+                    id="equipo_id"
+                    value={formData.equipo_id || ""}
+                    onChange={handleChange}
+                >
+                    &lt;option value="" hidden>Seleccione un equipo&lt;/option>
+                    {equipos.map((equipo) => (
+                        &lt;option key={equipo.value} value={equipo.value}>
+                            {equipo.label}
+                        &lt;/option>
+                    ))}
+                &lt;/select>
+            &lt;/div>
+            &lt;div>
+                &lt;label htmlFor="estudio_id">Estudio&lt;/label>
+                &lt;select
                     name="estudio_id"
                     id="estudio_id"
                     value={formData.estudio_id || ""}
-                    required
                     onChange={handleChange}
-                    disabled={isSubmitting}
                 >
                     &lt;option value="" hidden>Seleccione un estudio&lt;/option>
                     {estudios.map((estudio) => (
@@ -243,33 +198,25 @@ function FormularioRetos({ datosIniciales, onGuardar, onCancelar }) {
                     ))}
                 &lt;/select>
             &lt;/div>
-
-            {/* Botones de acción */}
-            &lt;div className="d-flex justify-content-between">
-                &lt;button
-                    type="submit"
-                    className={`btn ${datosIniciales ? "btn-warning" : "btn-success"}`}
-                    disabled={isSubmitting}
-                >
-                    {isSubmitting ? "Guardando..." : datosIniciales ? "Guardar" : "Crear"}
-                &lt;/button>
-                &lt;button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={onCancelar}
-                    disabled={isSubmitting}
-                >
-                    Cancelar
-                &lt;/button>
+            &lt;div>
+                &lt;label htmlFor="capitan">Capitan&lt;/label>
+                &lt;input
+                    type="checkbox"
+                    name="capitan"
+                    id="capitan"
+                    checked={formData.capitan || false}
+                    onChange={handleChange}
+                />
             &lt;/div>
-
-            {/* Mostrar errores si hay */}
-            {error &amp;&amp; &lt;p className="text-danger mt-3">{error}&lt;/p>}
+            &lt;div>
+                &lt;button type="submit">Guardar&lt;/button>
+                &lt;button type="button" onClick={onCancelar}>Cancelar&lt;/button>
+            &lt;/div>
         &lt;/form>
     );
 }
 
-export default FormularioRetos;
+export default FormularioJugadores;
 </code></pre>
         </article>
     </section>

@@ -7,6 +7,13 @@ import "../../components/css/Tabla.css";
 import ErrorPage from "../Error";
 import fetchData from "../../data/FetchData";
 
+/**
+ * Componente para mostrar una tabla de jugadores con sus estadísticas.
+ * Permite ordenar los jugadores por goles, tarjetas amarillas y tarjetas rojas, y filtrar por nombre.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de tabla de jugadores.
+ */
 function TablaJugadores() {
   /**
    * Creo varios estados
@@ -91,21 +98,31 @@ function TablaJugadores() {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
+  /**
+   * Función para navegar a la vista detallada de un equipo.
+   *
+   * @param {string} slug - Identificador único del equipo.
+   */
   function navegarDetalleEquipo(slug) {
     navegar(`/estadisticas/${slug}`);
   }
 
   /**
-   * Función envoltorio de navegar que redirecciona a la página de detalle jugador
-   * @param {String} slug 
-   * @param {String} tipo
+   * Función para navegar a la vista detallada de un jugador.
+   *
+   * @param {string} slug - Identificador único del jugador.
    */
   function navegarDetalleJugador(slug) {
     navegar(`/estadisticas/${slug}`);
   }
 
   /**
-   * Función que obtiene los jugadores de cada página
+   * Función que obtiene los jugadores de cada página.
+   *
+   * @param {Array} jugadores - Lista de jugadores.
+   * @param {number} paginaActual - Página actual.
+   * @param {number} jugadoresPorPagina - Número de jugadores por página.
+   * @returns {Array} Jugadores de la página actual.
    */
   function obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina) {
     const ultimoJugador = paginaActual * jugadoresPorPagina;
@@ -114,7 +131,7 @@ function TablaJugadores() {
   }
 
   /**
-   * Función que avanza a la siguiente página
+   * Función que avanza a la siguiente página.
    */
   const siguientePagina = () => {
     if (paginaActual < Math.ceil(totalJugadores / jugadoresPorPagina)) {
@@ -123,7 +140,7 @@ function TablaJugadores() {
   };
 
   /**
-   * Función que retrocede a la página anterior
+   * Función que retrocede a la página anterior.
    */
   const paginaAnterior = () => {
     if (paginaActual > 1) {
@@ -132,8 +149,9 @@ function TablaJugadores() {
   };
 
   /**
-   * Función que dependiendo de la columna, se ordenará de mayor a menor o menor a mayor al lista de jugadores
-   * @param {*} e 
+   * Función que ordena los jugadores por un campo específico.
+   *
+   * @param {Object} e - Evento del clic.
    */
   function ordenarCampo(e) {
     let campo = e.currentTarget.dataset.campo;
@@ -151,8 +169,9 @@ function TablaJugadores() {
   }
 
   /**
-   * Funcion manejadora para el change del filtro
-   * @param {} e 
+   * Función manejadora para el cambio en el filtro de búsqueda.
+   *
+   * @param {Object} e - Evento del input.
    */
   function handlerChange(e) {
     setFiltro(e.target.value.toLowerCase());
@@ -160,12 +179,11 @@ function TablaJugadores() {
   }
 
   /**
-   * Devuelve el jugador si hay una coincidencia en el valor del filtro
+   * Devuelve los jugadores que coinciden con el filtro de búsqueda.
    */
   const jugadoresFiltrados = jugadores.filter(jugador =>
     jugador.nombre.toLowerCase().includes(filtro)
   );
-
 
   return (
     <>
@@ -203,7 +221,7 @@ function TablaJugadores() {
           siguientePagina={siguientePagina}
           paginaAnterior={paginaAnterior}
         />
-      </div >
+      </div>
     </>
   );
 }

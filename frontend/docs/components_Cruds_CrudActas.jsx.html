@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Cruds/CrudFamilias.jsx</title>
+    <title>JSDoc: Source: components/Cruds/CrudActas.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Cruds/CrudFamilias.jsx</h1>
+    <h1 class="page-title">Source: components/Cruds/CrudActas.jsx</h1>
 
     
 
@@ -29,103 +29,114 @@
             <pre class="prettyprint source linenums"><code>import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import Paginator from "../Paginator";
+import Spinner from "../Spinner";
 
 /**
- * Componente que gestiona la visualización, búsqueda, creación, edición y eliminación de familias.
- * Permite realizar acciones sobre las familias como buscar, editar, eliminar y crear nuevas familias.
- * 
+ * Componente para gestionar la lista de jugadores con funcionalidades CRUD.
+ * Permite buscar, paginar, editar y eliminar jugadores.
+ *
  * @component
- * 
- * @param {Object} props - Las propiedades del componente.
- * @param {function} props.onModoCambio - Función que se ejecuta cuando cambia el modo, como editar o crear una familia.
- * 
- * @returns {React.Element} El componente `CrudFamilias` para gestionar las familias.
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onModoCambio - Función para cambiar el modo (editar, agregar) en el componente padre.
+ * @returns {JSX.Element} Componente de gestión de jugadores.
  */
-function CrudFamilias({ onModoCambio }) {
-    // Memoriza la sección para evitar recrearla en cada render
-    const seccion = useMemo(() => ({ nombre: "Familias" }), []);
+function CrudJugadores({ onModoCambio }) {
+    const seccion = useMemo(() => ({ nombre: "Jugadores" }), []);
+
+    /**
+     * Obtiene los datos de los jugadores mediante el hook useCrud.
+     */
     const { items, loading, error, deleteItem } = useCrud(seccion);
 
-    // Estados para búsqueda y paginación
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Ajusta según tus necesidades
 
     /**
-     * Filtra las familias basándose en el nombre, sin tener en cuenta mayúsculas/minúsculas.
-     * 
-     * @param {Object} familia - El objeto de familia a filtrar.
-     * @returns {boolean} Retorna `true` si la familia cumple con el criterio de búsqueda.
+     * Filtra los jugadores por nombre, equipo, estudio, email, etc.
+     *
+     * @type {Array}
      */
-    const filteredItems = items.filter((familia) =>
-        familia.nombre.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredItems = items.filter((jugador) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            jugador.nombre.toLowerCase().includes(query) ||
+            jugador.equipo.toLowerCase().includes(query) ||
+            jugador.estudio.toLowerCase().includes(query) ||
+            jugador.dni.toLowerCase().includes(query) ||
+            jugador.email.toLowerCase().includes(query) ||
+            jugador.telefono.includes(query)
+        );
+    });
 
-    // Cálculos de paginación
+    /**
+     * Cálculo de la paginación.
+     *
+     * @type {number}
+     */
     const totalItems = filteredItems.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
     /**
-     * Maneja el cambio en el campo de búsqueda y reinicia la página a la primera.
-     * 
-     * @param {Object} e - El evento de cambio en el campo de búsqueda.
+     * Maneja el cambio en el campo de búsqueda.
+     *
+     * @param {Object} e - Evento del input.
      */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1); // Reinicia a la primera página al cambiar la búsqueda
     };
 
-    // Muestra un mensaje mientras se están cargando las familias
-    if (loading) return &lt;p>Cargando familias...&lt;/p>;
-
-    // Muestra un mensaje de error si ocurre un problema
+    if (loading) return &lt;Spinner />;
     if (error) return &lt;p>Error: {error}&lt;/p>;
 
     return (
         &lt;div>
-            &lt;h2>Familias&lt;/h2>
+            &lt;h2>Jugadores&lt;/h2>
 
             {/* Buscador */}
-            &lt;div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+            &lt;div className="mb-3">
                 &lt;input
                     type="text"
-                    className="form-control form-control-sm flex-grow-1"
-                    placeholder="Buscar familias..."
+                    className="form-control"
+                    placeholder="Buscar jugadores..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-                &lt;button
-                    className="btn btn-success text-nowrap"
-                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
-                >
-                    Crear Familia
-                &lt;/button>
             &lt;/div>
 
-            {/* Tabla de Familias */}
+            {/* Tabla de Jugadores */}
             &lt;table className="table table-bordered table-hover">
                 &lt;thead className="thead-dark">
                     &lt;tr>
                         &lt;th>Nombre&lt;/th>
+                        &lt;th>Equipo&lt;/th>
+                        &lt;th>Estudio&lt;/th>
+                        &lt;th>Email&lt;/th>
+                        &lt;th>Teléfono&lt;/th>
                         &lt;th>Acciones&lt;/th>
                     &lt;/tr>
                 &lt;/thead>
                 &lt;tbody>
-                    {currentItems.map((familia) => (
-                        &lt;tr key={familia.id}>
-                            &lt;td>{familia.nombre}&lt;/td>
+                    {currentItems.map((jugador) => (
+                        &lt;tr key={jugador.slug}>
+                            &lt;td>{jugador.nombre}&lt;/td>
+                            &lt;td>{jugador.equipo}&lt;/td>
+                            &lt;td>{jugador.estudio}&lt;/td>
+                            &lt;td>{jugador.email}&lt;/td>
+                            &lt;td>{jugador.telefono}&lt;/td>
                             &lt;td>
                                 &lt;button
                                     className="btn btn-sm btn-warning me-2"
-                                    onClick={() => onModoCambio("editar", familia)}
+                                    onClick={() => onModoCambio("editar", jugador)}
                                 >
                                     Editar
                                 &lt;/button>
                                 &lt;button
                                     className="btn btn-sm btn-danger"
-                                    onClick={() => deleteItem(familia.id)}
+                                    onClick={() => deleteItem(jugador.slug)}
                                 >
                                     Eliminar
                                 &lt;/button>
@@ -134,8 +145,8 @@ function CrudFamilias({ onModoCambio }) {
                     ))}
                     {currentItems.length === 0 &amp;&amp; (
                         &lt;tr>
-                            &lt;td colSpan="2" className="text-center">
-                                No hay familias disponibles.
+                            &lt;td colSpan="6" className="text-center">
+                                No hay jugadores disponibles.
                             &lt;/td>
                         &lt;/tr>
                     )}
@@ -152,8 +163,7 @@ function CrudFamilias({ onModoCambio }) {
     );
 }
 
-export default CrudFamilias;
-</code></pre>
+export default CrudJugadores;</code></pre>
         </article>
     </section>
 

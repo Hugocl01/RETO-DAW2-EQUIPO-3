@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import llamadas from "../../data/FuncionesCombobox";
 
+/**
+ * Función para obtener la lista de incidencias desde la API.
+ *
+ * @async
+ * @function fetchIncidencias
+ * @returns {Promise<Array>} Lista de incidencias con formato { value, label }.
+ */
 const fetchIncidencias = async () => {
     try {
         // Si no hay datos en sessionStorage, los obtenemos de la API
-        console.log("Cargando estudios desde la API...");
+        console.log("Cargando incidencias desde la API...");
         const data = await llamadas().incidencias();
 
         if (!data) return []; // Si hubo un error en la API, devolvemos un array vacío
@@ -15,11 +22,22 @@ const fetchIncidencias = async () => {
         }));
 
     } catch (error) {
-        console.error("Error al obtener los estudios", error);
+        console.error("Error al obtener las incidencias", error);
         return [];
     }
 };
 
+/**
+ * Componente para gestionar un formulario de partidos.
+ * Permite registrar incidencias durante un partido, como goles, tarjetas, etc.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de partidos.
+ */
 function FormularioPartidos({ datosIniciales, onGuardar, onCancelar }) {
     const [equipoSeleccionado, setEquipoSeleccionado] = useState("");
     const [jugadores, setJugadores] = useState([]);
@@ -31,6 +49,7 @@ function FormularioPartidos({ datosIniciales, onGuardar, onCancelar }) {
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState("");
     const [incidenciaSeleccionada, setIncidenciaSeleccionada] = useState("");
 
+    // Efecto para cargar las incidencias al montar el componente
     useEffect(() => {
         const cargarIncidencias = async () => {
             const data = await fetchIncidencias();
@@ -40,6 +59,7 @@ function FormularioPartidos({ datosIniciales, onGuardar, onCancelar }) {
         cargarIncidencias();
     }, []);
 
+    // Efecto para cargar los jugadores del equipo seleccionado
     useEffect(() => {
         if (equipoSeleccionado) {
             const jugadoresEquipo = datosIniciales["equipo local"].nombre === equipoSeleccionado
@@ -49,6 +69,7 @@ function FormularioPartidos({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [equipoSeleccionado, datosIniciales]);
 
+    // Deshabilitar el botón de guardar si no se han completado todos los campos
     const deshabilitarGuardar = !equipoSeleccionado || !jugadorSeleccionado || !incidenciaSeleccionada || !minuto || !comentario;
 
     return (

@@ -35,6 +35,13 @@ import "../../components/css/Tabla.css";
 import ErrorPage from "../Error";
 import fetchData from "../../data/FetchData";
 
+/**
+ * Componente para mostrar una tabla de jugadores con sus estadísticas.
+ * Permite ordenar los jugadores por goles, tarjetas amarillas y tarjetas rojas, y filtrar por nombre.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de tabla de jugadores.
+ */
 function TablaJugadores() {
   /**
    * Creo varios estados
@@ -119,21 +126,31 @@ function TablaJugadores() {
     return &lt;ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
+  /**
+   * Función para navegar a la vista detallada de un equipo.
+   *
+   * @param {string} slug - Identificador único del equipo.
+   */
   function navegarDetalleEquipo(slug) {
     navegar(`/estadisticas/${slug}`);
   }
 
   /**
-   * Función envoltorio de navegar que redirecciona a la página de detalle jugador
-   * @param {String} slug 
-   * @param {String} tipo
+   * Función para navegar a la vista detallada de un jugador.
+   *
+   * @param {string} slug - Identificador único del jugador.
    */
   function navegarDetalleJugador(slug) {
     navegar(`/estadisticas/${slug}`);
   }
 
   /**
-   * Función que obtiene los jugadores de cada página
+   * Función que obtiene los jugadores de cada página.
+   *
+   * @param {Array} jugadores - Lista de jugadores.
+   * @param {number} paginaActual - Página actual.
+   * @param {number} jugadoresPorPagina - Número de jugadores por página.
+   * @returns {Array} Jugadores de la página actual.
    */
   function obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina) {
     const ultimoJugador = paginaActual * jugadoresPorPagina;
@@ -142,7 +159,7 @@ function TablaJugadores() {
   }
 
   /**
-   * Función que avanza a la siguiente página
+   * Función que avanza a la siguiente página.
    */
   const siguientePagina = () => {
     if (paginaActual &lt; Math.ceil(totalJugadores / jugadoresPorPagina)) {
@@ -151,7 +168,7 @@ function TablaJugadores() {
   };
 
   /**
-   * Función que retrocede a la página anterior
+   * Función que retrocede a la página anterior.
    */
   const paginaAnterior = () => {
     if (paginaActual > 1) {
@@ -160,8 +177,9 @@ function TablaJugadores() {
   };
 
   /**
-   * Función que dependiendo de la columna, se ordenará de mayor a menor o menor a mayor al lista de jugadores
-   * @param {*} e 
+   * Función que ordena los jugadores por un campo específico.
+   *
+   * @param {Object} e - Evento del clic.
    */
   function ordenarCampo(e) {
     let campo = e.currentTarget.dataset.campo;
@@ -179,8 +197,9 @@ function TablaJugadores() {
   }
 
   /**
-   * Funcion manejadora para el change del filtro
-   * @param {} e 
+   * Función manejadora para el cambio en el filtro de búsqueda.
+   *
+   * @param {Object} e - Evento del input.
    */
   function handlerChange(e) {
     setFiltro(e.target.value.toLowerCase());
@@ -188,12 +207,11 @@ function TablaJugadores() {
   }
 
   /**
-   * Devuelve el jugador si hay una coincidencia en el valor del filtro
+   * Devuelve los jugadores que coinciden con el filtro de búsqueda.
    */
   const jugadoresFiltrados = jugadores.filter(jugador =>
     jugador.nombre.toLowerCase().includes(filtro)
   );
-
 
   return (
     &lt;>
@@ -231,12 +249,13 @@ function TablaJugadores() {
           siguientePagina={siguientePagina}
           paginaAnterior={paginaAnterior}
         />
-      &lt;/div >
+      &lt;/div>
     &lt;/>
   );
 }
 
-export default TablaJugadores;</code></pre>
+export default TablaJugadores;
+</code></pre>
         </article>
     </section>
 
@@ -246,13 +265,13 @@ export default TablaJugadores;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 23:21:53 GMT+0100 (hora estándar de Europa central)
 </footer>
 
 <script> prettyPrint(); </script>
