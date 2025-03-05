@@ -162,6 +162,81 @@ function Inicio() {
                 </div>
             </section>
 
+            <section className="colaboradores section-container d-flex flex-column justify-content-center align-items-center">
+                <h1 className='text-center'>Colaboradores</h1>
+                <div className="d-flex flex-wrap justify-content-center gap-3">
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/Logo Federación Cantabra futbol.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/LOGO SEDE TORRELAVEGA 1.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/Logo__Besaya.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/Logo_liga_solidaria_fp_cantabria.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/logo_zapaton.jpg"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/logoIESMHP.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+
+                    <div className="p-2 bg-white shadow-sm rounded">
+                        <a href="#s" target="_blank">
+                            <img
+                                src="../../src/assets/imagenes/Logos Colaboradores/Logos Institucionales.png"
+                                className="colaboradorImg img-fluid"
+                                alt=""
+                            />
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <section className="carruseles section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Noticias</h1>
                 {noticias.length > 0 ? (
@@ -219,9 +294,8 @@ function Inicio() {
                                     <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
                                         <img
                                             src={`${apiUrl + patrocinador.ruta}`}
-                                            className="img-fluid"
+                                            className="patrocinadorImg img-fluid"
                                             alt={patrocinador.nombre}
-                                            style={{ maxHeight: "100px", objectFit: "contain", padding: "10px" }}
                                         />
                                     </a>
                                 </div>
