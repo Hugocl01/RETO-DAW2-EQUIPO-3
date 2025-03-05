@@ -32,15 +32,11 @@ function Footer() {
                             </li>
                         </ul>
 
-                        <ul className="w-100 nav col-md-4 d-flex justify-content-start align-items-center list-unstyled mt-4">
+                        <ul className="w-100 nav col-md-4 d-flex justify-content-start align-items-center list-unstyled mt-3">
                             <li className="ms-3">
-                                <a target="_blank" className="text-body-secondary" href="https://www.instagram.com/reto_solidario_ies/" aria-label="Instagram">
-                                    <i className="bi bi-instagram"></i>
-                                </a>
-                            </li>
-                            <li className="ms-3">
-                                <a className="text-body-secondary" href="#" aria-label="Facebook">
-                                    <i className="bi bi-facebook"></i>
+                                <a target="_blank" className="text-body-secondary" href="https://www.instagram.com/iesmiguelherreroligasolidaria/" aria-label="Instagram">
+                                    <i className="bi bi-instagram me-2"></i>
+                                    Instagram
                                 </a>
                             </li>
                         </ul>
