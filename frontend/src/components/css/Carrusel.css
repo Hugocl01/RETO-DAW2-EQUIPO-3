@@ -25,19 +25,9 @@
 }
 
 /* Estilo de los títulos y textos */
-.card-title,
-.modal-title {
-    text-transform: lowercase;
-}
-
 .card-title::first-letter,
 .modal-title::first-letter {
     text-transform: uppercase;
-}
-
-.card-text,
-.modal-body {
-    text-transform: lowercase;
 }
 
 .card-text::first-letter,
