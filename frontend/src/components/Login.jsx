@@ -6,16 +6,64 @@ import Spinner from "./Spinner.jsx";
 import "./css/EstilosComun.css";
 import "./css/PaginaLogin.css";
 
+/**
+ * Componente que maneja el inicio de sesión de los usuarios.
+ * Permite a los usuarios ingresar su correo electrónico y contraseña para iniciar sesión.
+ * 
+ * @component
+ * 
+ * Muestra un formulario de inicio de sesión, valida las credenciales y, si son correctas, redirige al usuario a la página principal.
+ *
+ */
 function Login() {
+    /**
+     * Contexto que proporciona las funciones de autenticación, como `login` y `logout`.
+     * 
+     * @type {Object}
+     * @property {function} login - Función para autenticar a un usuario.
+     * @returns {Object} Resultado de la autenticación.
+     */
     const { login } = useContext(SeguridadContext);
+    
+    /**
+     * Estado que almacena los datos del formulario.
+     * 
+     * @typedef {Object} FormData
+     * @property {string} email - Correo electrónico del usuario.
+     * @property {string} password - Contraseña del usuario.
+     */
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+    /**
+     * Estado que almacena el mensaje de error si ocurre un problema con el inicio de sesión.
+     * 
+     * @type {string|null}
+     */
     const [error, setError] = useState(null);
+
+    /**
+     * Estado que indica si la solicitud de inicio de sesión está en proceso.
+     * 
+     * @type {boolean}
+     */
     const [loading, setLoading] = useState(false);
+
+    /**
+     * Hook para navegar entre páginas.
+     * 
+     * @type {function}
+     */
     const navigate = useNavigate();
 
+    /**
+     * Maneja los cambios en los campos del formulario de inicio de sesión.
+     * Actualiza el estado `formData` con los valores de los campos.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement>} e - El evento de cambio del formulario.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -24,6 +72,13 @@ function Login() {
         });
     };
 
+    /**
+     * Maneja el envío del formulario de inicio de sesión.
+     * Envía las credenciales al servidor y maneja la respuesta.
+     * 
+     * @param {React.FormEvent<HTMLFormElement>} e - El evento de envío del formulario.
+     * @returns {Promise<void>} - Retorna una promesa que maneja la respuesta del inicio de sesión.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
