@@ -109,6 +109,13 @@
         border-color: transparent;
     }
 
+    .colaboradorImg,
+    .patrocinadorImg {
+        max-height: 100px;
+        object-fit: contain;
+        padding: 10px;
+    }
+
     .contenedorPatros {
         width: 100%;
         box-shadow:
