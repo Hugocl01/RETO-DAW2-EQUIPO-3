@@ -4,7 +4,7 @@ import { createContext, useState, useEffect } from "react";
  * Contexto para gestionar la seguridad de la aplicación.
  * Utilizado para compartir información de seguridad (como autenticación, roles de usuario, etc.) en toda la aplicación.
  * 
- * @context
+ * @type {React.Context}
  * @example
  * const { seguridad, login, logout } = useContext(SeguridadContext);
  */
@@ -73,7 +73,7 @@ function SeguridadProvider({ children }) {
      * @function
      * @param {string} email - Correo electrónico del usuario.
      * @param {string} password - Contraseña del usuario.
-     * @returns {Promise<{ success: boolean, error?: string }>} - Objeto con `success: true` si la autenticación fue exitosa, o `success: false` con un mensaje de error en `error`.
+     * @returns {Promise<{success: boolean, error: string | undefined}>} - Objeto con `success: true` si la autenticación fue exitosa, o `success: false` con un mensaje de error en `error`.
      */
     const login = async (email, password) => {
         setLoading(true);

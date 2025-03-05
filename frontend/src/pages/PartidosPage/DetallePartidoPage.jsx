@@ -86,7 +86,9 @@ function DetallePartidoPage() {
 
   /**
    * Función para obtener los actas agrupados por minuto con las incidencias de cada equipo en ese minuto
-   * @returns
+   * 
+   * @returns {Object} - Un objeto donde las claves son los minutos y los valores son objetos con las incidencias de cada equipo.
+   * 
    */
   function obtenerActaAgrupado() {
     let actasAgrupados = {};
@@ -209,4 +211,5 @@ function DetallePartidoPage() {
     </>
   );
 }
+
 export default DetallePartidoPage;
