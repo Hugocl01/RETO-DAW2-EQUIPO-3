@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Partidos/TablaPartidos.jsx</title>
+    <title>JSDoc: Source: components/Spinner.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Partidos/TablaPartidos.jsx</h1>
+    <h1 class="page-title">Source: components/Spinner.jsx</h1>
 
     
 
@@ -26,131 +26,25 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Partido from "./Partido";
-import { useNavigate } from "react-router-dom";
-
-/**
- * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
- * Permite filtrar y mostrar los partidos según el tipo seleccionado.
- *
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente `Spinner` que muestra un indicador de carga (spinner) mientras se cargan datos.
+ * 
  * @component
- * @param {Object} props - Propiedades del componente.
- * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
- * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
- * @param {Array} props.partidos - Lista de partidos a mostrar.
- * @returns {JSX.Element} Componente de tabla de partidos.
+ * @returns {JSX.Element} Componente que representa un spinner de carga.
  */
-function TablaPartidos({ tipo, grupo, partidos }) {
-  const navegar = useNavigate();
-
-  /**
-   * Si no hay partidos, mostrar un mensaje.
-   */
-  if (!partidos || partidos.length === 0) {
-    return &lt;p>No hay partidos disponibles.&lt;/p>;
-  }
-
-  /**
-   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
-   *
-   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
-   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
-   * @returns {Array} Lista de partidos filtrados.
-   */
-  function obtenerPartidosTipo(tipo, grupo = "") {
-    let partidosFiltrados;
-
-    /**
-     * Si la opción es clasificatorio y se ha seleccionado un grupo.
-     */
-    if (tipo === "clasificatorio" &amp;&amp; grupo !== "") {
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === tipo &amp;&amp; p.grupo === grupo
-      );
-    } else if (tipo === "eliminatorias") {
-      /**
-       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
-       */
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === "semifinal" || p.tipo === "final"
-      );
-    } else {
-      partidosFiltrados = partidos;
-    }
-
-    return partidosFiltrados;
-  }
-
-  /**
-   * Navega a la vista detallada de un partido.
-   *
-   * @param {string} slug - Identificador único del partido.
-   */
-  function navegarDetalleResultado(slug) {
-    navegar(`/partidos/${slug}`);
-  }
-
+function Spinner() {
   return (
-    &lt;div className="container-fluid">
-      {/**
-       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
-       */}
-      {tipo === "clasificatorio"  ? (
-        &lt;>
-          &lt;h3>Clasificatorio&lt;/h3>
-          &lt;div>
-            {/**
-             * Muestro los partidos del grupo seleccionado
-             */}
-            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) : tipo === "eliminatorias" ? (
-        &lt;>
-          &lt;h3>Eliminatorias&lt;/h3>
-          &lt;div>
-            {/**
-             * Filtro los partidos de eliminatorias
-             **/}
-            {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) :  (
-        &lt;>
-          &lt;div>
-            {/**
-             * Filtro cuando no seleccionas una opción que te salga el primer partido
-             **/}
-
-            &lt;Partido
-              key={0}
-              tipo={tipo}
-              objPartido={partidos[0]}
-              fnNavegar={navegarDetalleResultado}
-            />
-          &lt;/div>
-        &lt;/>
-      )}
-    &lt;/div>
+    &lt;>
+      &lt;div className="d-flex justify-content-center align-items-center w-100 vh-100">
+        &lt;div className="spinner-border text-secondary" role="status" style={{ width: "150px", height: "150px" }}>
+          &lt;span className="visually-hidden">Cargando...&lt;/span>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
   );
 }
 
-export default TablaPartidos;
-</code></pre>
+export default Spinner;</code></pre>
         </article>
     </section>
 

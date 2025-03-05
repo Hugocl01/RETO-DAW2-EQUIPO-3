@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Partidos/TablaPartidos.jsx</title>
+    <title>JSDoc: Source: components/CuadroClasificacion.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Partidos/TablaPartidos.jsx</h1>
+    <h1 class="page-title">Source: components/CuadroClasificacion.jsx</h1>
 
     
 
@@ -26,130 +26,82 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Partido from "./Partido";
-import { useNavigate } from "react-router-dom";
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import "./css/CuadroClasificacion.css";
+import "./css/EstilosComun.css";
 
 /**
- * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
- * Permite filtrar y mostrar los partidos según el tipo seleccionado.
- *
+ * Componente que muestra una tabla de clasificación de equipos.
+ * 
  * @component
- * @param {Object} props - Propiedades del componente.
- * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
- * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
- * @param {Array} props.partidos - Lista de partidos a mostrar.
- * @returns {JSX.Element} Componente de tabla de partidos.
+ * @param {Object} props - Las propiedades del componente.
+ * @param {string} props.titulo - El título que se mostrará encima de la tabla.
+ * @param {Array&lt;Object>} props.equipos - Un array de objetos que representan los equipos y sus estadísticas.
+ * @param {string} props.equipos[].equipo - El nombre del equipo.
+ * @param {number} props.equipos[].partidos_jugados - El número de partidos jugados por el equipo.
+ * @param {number} props.equipos[].puntos - Los puntos acumulados por el equipo.
+ * @param {number} props.equipos[].goles_favor - Los goles a favor del equipo.
+ * @param {number} props.equipos[].goles_contra - Los goles en contra del equipo.
+ * @param {number} props.equipos[].diferencia_goles - La diferencia de goles del equipo (goles a favor - goles en contra).
+ * @returns {JSX.Element} El componente de la tabla de clasificación.
  */
-function TablaPartidos({ tipo, grupo, partidos }) {
-  const navegar = useNavigate();
+const CuadroClasificacion = ({ titulo, equipos }) => {
+  const [filaSeleccionada, setFilaSeleccionada] = useState(null);
 
   /**
-   * Si no hay partidos, mostrar un mensaje.
+   * Maneja el evento de clic en una fila de la tabla.
+   * 
+   * @param {number} index - El índice de la fila que se ha clickeado.
    */
-  if (!partidos || partidos.length === 0) {
-    return &lt;p>No hay partidos disponibles.&lt;/p>;
-  }
-
-  /**
-   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
-   *
-   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
-   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
-   * @returns {Array} Lista de partidos filtrados.
-   */
-  function obtenerPartidosTipo(tipo, grupo = "") {
-    let partidosFiltrados;
-
-    /**
-     * Si la opción es clasificatorio y se ha seleccionado un grupo.
-     */
-    if (tipo === "clasificatorio" &amp;&amp; grupo !== "") {
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === tipo &amp;&amp; p.grupo === grupo
-      );
-    } else if (tipo === "eliminatorias") {
-      /**
-       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
-       */
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === "semifinal" || p.tipo === "final"
-      );
-    } else {
-      partidosFiltrados = partidos;
-    }
-
-    return partidosFiltrados;
-  }
-
-  /**
-   * Navega a la vista detallada de un partido.
-   *
-   * @param {string} slug - Identificador único del partido.
-   */
-  function navegarDetalleResultado(slug) {
-    navegar(`/partidos/${slug}`);
-  }
+  const handleRowClick = (index) => {
+    setFilaSeleccionada(filaSeleccionada === index ? null : index);
+  };
 
   return (
-    &lt;div className="container-fluid">
-      {/**
-       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
-       */}
-      {tipo === "clasificatorio"  ? (
-        &lt;>
-          &lt;h3>Clasificatorio&lt;/h3>
-          &lt;div>
-            {/**
-             * Muestro los partidos del grupo seleccionado
-             */}
-            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) : tipo === "eliminatorias" ? (
-        &lt;>
-          &lt;h3>Eliminatorias&lt;/h3>
-          &lt;div>
-            {/**
-             * Filtro los partidos de eliminatorias
-             **/}
-            {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) :  (
-        &lt;>
-          &lt;div>
-            {/**
-             * Filtro cuando no seleccionas una opción que te salga el primer partido
-             **/}
+    &lt;div className="container my-5">
+      &lt;h2 className="text-center mb-4">{titulo}&lt;/h2>
 
-            &lt;Partido
-              key={0}
-              tipo={tipo}
-              objPartido={partidos[0]}
-              fnNavegar={navegarDetalleResultado}
-            />
-          &lt;/div>
-        &lt;/>
-      )}
+      &lt;div className="table-container">
+        &lt;div className="table-responsive">
+          &lt;table className="table table-bordered table-striped">
+            &lt;thead className="table-light">
+              &lt;tr>
+                &lt;th className="text-center align-middle">Posición&lt;/th>
+                &lt;th className="text-center align-middle">Equipo&lt;/th>
+                &lt;th className="text-center align-middle">Partidos Jugados&lt;/th>
+                &lt;th className="text-center align-middle">Puntos&lt;/th>
+                &lt;th className="text-center align-middle">Goles a Favor&lt;/th>
+                &lt;th className="text-center align-middle">Goles en Contra&lt;/th>
+                &lt;th className="text-center align-middle">Diferencia de Goles&lt;/th>
+              &lt;/tr>
+            &lt;/thead>
+            &lt;tbody>
+              {equipos.map((equipo, fila) => (
+                &lt;tr
+                  key={equipo.equipo}
+                  className={`${fila &lt; 2 ? "table-success" : ""} ${filaSeleccionada === fila ? "selected-row" : ""}`}
+                  onClick={() => handleRowClick(fila)}
+                >
+                  &lt;td>{fila + 1}&lt;/td>
+                  &lt;td>{equipo.equipo}&lt;/td>
+                  &lt;td>{equipo.partidos_jugados}&lt;/td>
+                  &lt;td>{equipo.puntos}&lt;/td>
+                  &lt;td>{equipo.goles_favor}&lt;/td>
+                  &lt;td>{equipo.goles_contra}&lt;/td>
+                  &lt;td className={equipo.diferencia_goles >= 0 ? "text-success" : "text-danger"}>
+                    {equipo.diferencia_goles}
+                  &lt;/td>
+                &lt;/tr>
+              ))}
+            &lt;/tbody>
+          &lt;/table>
+        &lt;/div>
+      &lt;/div>
     &lt;/div>
   );
-}
+};
 
-export default TablaPartidos;
+export default CuadroClasificacion;
 </code></pre>
         </article>
     </section>

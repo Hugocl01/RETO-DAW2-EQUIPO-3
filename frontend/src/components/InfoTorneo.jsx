@@ -3,17 +3,30 @@ import logo from "../assets/imagenes/logo.png";
 import "./css/EstilosComun.css";
 import "./css/InfoTorneo.css";
 
+/**
+ * Componente `InfoTorneo` que muestra la información detallada sobre un torneo.
+ * Incluye una imagen del torneo, un enlace para descargar las reglas y un texto descriptivo.
+ * 
+ * @returns {JSX.Element} El elemento JSX que representa la información del torneo.
+ */
 function InfoTorneo() {
     return (
         <div className="infoTorneo container">
+            {/* Título de la sección */}
             <div className="text-center">
                 <h1 className="d-inline-block">Información del Torneo</h1>
             </div>
+
+            {/* Contenido principal en dos columnas */}
             <div className="row">
+                {/* Columna izquierda: Imagen y tarjetas de reglas */}
                 <div className="col-md-4 d-flex flex-column gap-3">
+                    {/* Imagen del torneo */}
                     <div className="text-center">
                         <img src={imagenPrueba} alt="Imagen Torneo" className="img-fluid rounded" />
                     </div>
+
+                    {/* Tarjeta para descargar reglas (versión vertical) */}
                     <div className="tarjetaReglas">
                         <div className="card d-flex flex-column justify-content-center align-items-center">
                             <img src={logo} className="card-img-top" alt="Logo" />
@@ -26,6 +39,7 @@ function InfoTorneo() {
                         </div>
                     </div>
 
+                    {/* Tarjeta para descargar reglas (versión horizontal) */}
                     <div className="tarjetaReglashorizontal border rounded px-3 py-2 mb-3">
                         <div className="w-100 d-flex justify-content-between align-items-center">
                             <img src={logo} className="w-25" alt="Logo" />
@@ -36,6 +50,8 @@ function InfoTorneo() {
                         </div>
                     </div>
                 </div>
+
+                {/* Columna derecha: Texto descriptivo del torneo */}
                 <div className="col-md-8">
                     <div className="p-4 bg-light border rounded text-left">
                         <p>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Partidos/TablaPartidos.jsx</title>
+    <title>JSDoc: Source: components/Paginator.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Partidos/TablaPartidos.jsx</h1>
+    <h1 class="page-title">Source: components/Paginator.jsx</h1>
 
     
 
@@ -26,130 +26,62 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Partido from "./Partido";
-import { useNavigate } from "react-router-dom";
+            <pre class="prettyprint source linenums"><code>import React from "react";
 
 /**
- * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
- * Permite filtrar y mostrar los partidos según el tipo seleccionado.
- *
+ * Componente `Paginator` que permite navegar entre páginas.
+ * 
  * @component
  * @param {Object} props - Propiedades del componente.
- * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
- * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
- * @param {Array} props.partidos - Lista de partidos a mostrar.
- * @returns {JSX.Element} Componente de tabla de partidos.
+ * @param {number} props.currentPage - Número de la página actual.
+ * @param {number} props.totalPages - Número total de páginas.
+ * @param {Function} props.onPageChange - Función que se ejecuta al cambiar de página.
+ * @returns {JSX.Element} Componente de paginación.
  */
-function TablaPartidos({ tipo, grupo, partidos }) {
-  const navegar = useNavigate();
-
-  /**
-   * Si no hay partidos, mostrar un mensaje.
-   */
-  if (!partidos || partidos.length === 0) {
-    return &lt;p>No hay partidos disponibles.&lt;/p>;
-  }
-
-  /**
-   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
-   *
-   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
-   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
-   * @returns {Array} Lista de partidos filtrados.
-   */
-  function obtenerPartidosTipo(tipo, grupo = "") {
-    let partidosFiltrados;
+const Paginator = ({ currentPage, totalPages, onPageChange }) => {
+    /**
+     * Maneja el evento de ir a la página anterior.
+     */
+    const handlePrevPage = () => {
+        if (currentPage > 1) onPageChange(currentPage - 1);
+    };
 
     /**
-     * Si la opción es clasificatorio y se ha seleccionado un grupo.
+     * Maneja el evento de ir a la página siguiente.
      */
-    if (tipo === "clasificatorio" &amp;&amp; grupo !== "") {
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === tipo &amp;&amp; p.grupo === grupo
-      );
-    } else if (tipo === "eliminatorias") {
-      /**
-       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
-       */
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === "semifinal" || p.tipo === "final"
-      );
-    } else {
-      partidosFiltrados = partidos;
-    }
+    const handleNextPage = () => {
+        if (currentPage &lt; totalPages) onPageChange(currentPage + 1);
+    };
 
-    return partidosFiltrados;
-  }
+    return (
+        &lt;div className="d-flex justify-content-center align-items-center gap-3 my-3">
+            {/* Botón para ir a la página anterior */}
+            &lt;button
+                className="btn btn-primary"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+            >
+                Anterior
+            &lt;/button>
 
-  /**
-   * Navega a la vista detallada de un partido.
-   *
-   * @param {string} slug - Identificador único del partido.
-   */
-  function navegarDetalleResultado(slug) {
-    navegar(`/partidos/${slug}`);
-  }
+            {/* Indicador de página actual y total de páginas */}
+            &lt;span>
+                Página {currentPage} de {totalPages}
+            &lt;/span>
 
-  return (
-    &lt;div className="container-fluid">
-      {/**
-       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
-       */}
-      {tipo === "clasificatorio"  ? (
-        &lt;>
-          &lt;h3>Clasificatorio&lt;/h3>
-          &lt;div>
-            {/**
-             * Muestro los partidos del grupo seleccionado
-             */}
-            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) : tipo === "eliminatorias" ? (
-        &lt;>
-          &lt;h3>Eliminatorias&lt;/h3>
-          &lt;div>
-            {/**
-             * Filtro los partidos de eliminatorias
-             **/}
-            {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) :  (
-        &lt;>
-          &lt;div>
-            {/**
-             * Filtro cuando no seleccionas una opción que te salga el primer partido
-             **/}
+            {/* Botón para ir a la página siguiente */}
+            &lt;button
+                className="btn btn-primary"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages || totalPages === 0}
+            >
+                Siguiente
+            &lt;/button>
+        &lt;/div>
+    );
+};
 
-            &lt;Partido
-              key={0}
-              tipo={tipo}
-              objPartido={partidos[0]}
-              fnNavegar={navegarDetalleResultado}
-            />
-          &lt;/div>
-        &lt;/>
-      )}
-    &lt;/div>
-  );
-}
-
-export default TablaPartidos;
+export default Paginator;
 </code></pre>
         </article>
     </section>

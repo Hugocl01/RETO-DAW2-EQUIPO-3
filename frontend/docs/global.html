@@ -950,6 +950,116 @@
     
 
     
+    <h4 class="name" id="Clasificacion"><span class="type-signature"></span>Clasificacion<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente para mostrar la clasificación de los equipos en dos grupos (A y B).Permite visualizar la clasificación en formato normal y responsive.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Clasificacion.jsx.html">components/Clasificacion.jsx</a>, <a href="components_Clasificacion.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente de clasificación.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="CrudCentros"><span class="type-signature"></span>CrudCentros<span class="signature">(props)</span><span class="type-signature"> &rarr; {React.Element}</span></h4>
     
 
@@ -3835,6 +3945,401 @@
     
 
     
+    <h4 class="name" id="CuadroClasificacion"><span class="type-signature"></span>CuadroClasificacion<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente que muestra una tabla de clasificación de equipos.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Las propiedades del componente.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>titulo</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">El título que se mostrará encima de la tabla.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>equipos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Un array de objetos que representan los equipos y sus estadísticas.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>equipo</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">El nombre del equipo.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>partidos_jugados</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">El número de partidos jugados por el equipo.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>puntos</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Los puntos acumulados por el equipo.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>goles_favor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Los goles a favor del equipo.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>goles_contra</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Los goles en contra del equipo.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>diferencia_goles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">La diferencia de goles del equipo (goles a favor - goles en contra).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_CuadroClasificacion.jsx.html">components/CuadroClasificacion.jsx</a>, <a href="components_CuadroClasificacion.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    El componente de la tabla de clasificación.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="DetalleEstadisticaPage"><span class="type-signature"></span>DetalleEstadisticaPage<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -3923,7 +4428,7 @@
     
 
     
-    <h4 class="name" id="Equipo"><span class="type-signature"></span>Equipo<span class="signature">(equipoObtenido, fnNavegar)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    <h4 class="name" id="Equipo"><span class="type-signature"></span>Equipo<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
     
@@ -3931,7 +4436,7 @@
 
 
 <div class="description">
-    Componente Equipo
+    Componente para mostrar la información básica de un equipo.Permite navegar a la vista detallada del equipo al hacer clic en la tarjeta.
 </div>
 
 
@@ -3944,6 +4449,48 @@
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Propiedades del componente.
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -3983,7 +4530,7 @@
 
             
 
-            <td class="description last">Objeto con la información del equipo.</td>
+            <td class="description last">Objeto que contiene la información del equipo.</td>
         </tr>
 
     
@@ -4006,7 +4553,14 @@
 
             
 
-            <td class="description last">Función para navegar a los detalles del equipo.</td>
+            <td class="description last">Función para navegar a la vista detallada del equipo.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4047,7 +4601,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Equipo.jsx.html">components/Equipo.jsx</a>, <a href="components_Equipo.jsx.html#line10">line 10</a>
+        <a href="components_Equipo.jsx.html">components/Equipo.jsx</a>, <a href="components_Equipo.jsx.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -4075,6 +4629,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Componente de equipo.
+</div>
+
 
 
 <dl>
@@ -7840,6 +8398,116 @@
     
 
     
+    <h4 class="name" id="Galeria"><span class="type-signature"></span>Galeria<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente que muestra una galería de imágenes con un pie de foto.Este componente renderiza una sección de galería que contiene un título y una cuadrícula de tarjetas.Cada tarjeta muestra una imagen y un pie de foto numerado. La imagen utilizada es la misma para todaslas tarjetas, y se genera un total de 8 tarjetas utilizando un array de longitud 8.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Galeria.jsx.html">components/Galeria.jsx</a>, <a href="components_Galeria.jsx.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    El componente de la galería, que incluye un título y una cuadrícula de tarjetas.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="GaleriaPage"><span class="type-signature"></span>GaleriaPage<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
@@ -7950,6 +8618,226 @@
     
 
     
+    <h4 class="name" id="Header"><span class="type-signature"></span>Header<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Header` que representa la cabecera de la aplicación.Incluye la navegación principal, el menú lateral y la gestión de la sesión de usuario.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Header.jsx.html">components/Header.jsx</a>, <a href="components_Header.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    El elemento JSX que representa la cabecera de la aplicación.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="InfoTorneo"><span class="type-signature"></span>InfoTorneo<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `InfoTorneo` que muestra la información detallada sobre un torneo.Incluye una imagen del torneo, un enlace para descargar las reglas y un texto descriptivo.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_InfoTorneo.jsx.html">components/InfoTorneo.jsx</a>, <a href="components_InfoTorneo.jsx.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    El elemento JSX que representa la información del torneo.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="Inicio"><span class="type-signature"></span>Inicio<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
@@ -8002,7 +8890,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Inicio.jsx.html">components/Inicio.jsx</a>, <a href="components_Inicio.jsx.html#line20">line 20</a>
+        <a href="components_Inicio.jsx.html">components/Inicio.jsx</a>, <a href="components_Inicio.jsx.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -9349,6 +10237,165 @@
     
 
     
+    <h4 class="name" id="MenuAdministracion"><span class="type-signature"></span>MenuAdministracion<span class="signature">(onSelect)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `MenuAdministracion` que muestra un menú de administración con secciones disponibles.Permite seleccionar una sección y maneja la navegación entre ellas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>onSelect</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Función que se ejecuta al seleccionar una sección.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_MenuAdministracion.jsx.html">components/MenuAdministracion.jsx</a>, <a href="components_MenuAdministracion.jsx.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente del menú de administración.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="Migas"><span class="type-signature"></span>Migas<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element|null}</span></h4>
     
 
@@ -9544,6 +10591,537 @@
         
 <div class="param-desc">
     - Renderiza la página de organización.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Paginador"><span class="type-signature"></span>Paginador<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Paginador` que permite navegar entre páginas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Propiedades del componente.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>paginaActual</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número de la página actual.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>totalPaginas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número total de páginas.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>siguientePagina</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Función para ir a la siguiente página.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paginaAnterior</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Función para ir a la página anterior.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Paginador.jsx.html">components/Paginador.jsx</a>, <a href="components_Paginador.jsx.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente de paginación.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Paginator"><span class="type-signature"></span>Paginator<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Paginator` que permite navegar entre páginas.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Propiedades del componente.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currentPage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número de la página actual.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>totalPages</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Número total de páginas.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onPageChange</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Función que se ejecuta al cambiar de página.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Paginator.jsx.html">components/Paginator.jsx</a>, <a href="components_Paginator.jsx.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente de paginación.
 </div>
 
 
@@ -9826,6 +11404,116 @@
     
 
     
+    <h4 class="name" id="Partidos"><span class="type-signature"></span>Partidos<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Partidos` que muestra una lista de partidos con información sobre los equipos y la hora del partido.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Partidos.jsx.html">components/Partidos.jsx</a>, <a href="components_Partidos.jsx.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente que representa la lista de partidos.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="PartidosPage"><span class="type-signature"></span>PartidosPage<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -10002,6 +11690,116 @@
         
 <div class="param-desc">
     - Renderiza la página de perfil de usuario.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Retos"><span class="type-signature"></span>Retos<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Retos` que muestra una lista de retos con sus detalles.Cada reto tiene un icono, un título, una descripción y un modal para ver más detalles.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Retos.jsx.html">components/Retos.jsx</a>, <a href="components_Retos.jsx.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente que representa la lista de retos.
 </div>
 
 
@@ -10424,6 +12222,116 @@
         
 <div class="param-desc">
     - Elemento JSX que proporciona el contexto de seguridad.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Spinner"><span class="type-signature"></span>Spinner<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `Spinner` que muestra un indicador de carga (spinner) mientras se cargan datos.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Spinner.jsx.html">components/Spinner.jsx</a>, <a href="components_Spinner.jsx.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Componente que representa un spinner de carga.
 </div>
 
 
@@ -11273,6 +13181,119 @@
     <dd>
         
 <span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="YouTubeLiveIndicator"><span class="type-signature"></span>YouTubeLiveIndicator<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Componente `YouTubeLiveIndicator` que verifica si un canal de YouTube está en vivoy muestra un indicador visual si es así.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_YouTubeLiveIndicator.jsx.html">components/YouTubeLiveIndicator.jsx</a>, <a href="components_YouTubeLiveIndicator.jsx.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Un indicador de "Directo" si el canal está en vivo, o `null` si no lo está.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+|
+
+<span class="param-type">null</span>
 
 
     </dd>
@@ -13161,13 +15182,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#Clasificacion">Clasificacion</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#CuadroClasificacion">CuadroClasificacion</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#Galeria">Galeria</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#InfoTorneo">InfoTorneo</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MenuAdministracion">MenuAdministracion</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Paginador">Paginador</a></li><li><a href="global.html#Paginator">Paginator</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#Partidos">Partidos</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#Retos">Retos</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#Spinner">Spinner</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#YouTubeLiveIndicator">YouTubeLiveIndicator</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 23:21:53 GMT+0100 (hora estándar de Europa central)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 06 2025 00:24:19 GMT+0100 (hora estándar de Europa central)
 </footer>
 
 <script> prettyPrint(); </script>

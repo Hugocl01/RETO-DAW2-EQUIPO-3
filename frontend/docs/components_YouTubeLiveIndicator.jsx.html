@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Partidos/TablaPartidos.jsx</title>
+    <title>JSDoc: Source: components/YouTubeLiveIndicator.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Partidos/TablaPartidos.jsx</h1>
+    <h1 class="page-title">Source: components/YouTubeLiveIndicator.jsx</h1>
 
     
 
@@ -26,130 +26,53 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Partido from "./Partido";
-import { useNavigate } from "react-router-dom";
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
 
 /**
- * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
- * Permite filtrar y mostrar los partidos según el tipo seleccionado.
- *
+ * Componente `YouTubeLiveIndicator` que verifica si un canal de YouTube está en vivo
+ * y muestra un indicador visual si es así.
+ * 
  * @component
- * @param {Object} props - Propiedades del componente.
- * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
- * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
- * @param {Array} props.partidos - Lista de partidos a mostrar.
- * @returns {JSX.Element} Componente de tabla de partidos.
+ * @returns {JSX.Element | null} Un indicador de "Directo" si el canal está en vivo, o `null` si no lo está.
  */
-function TablaPartidos({ tipo, grupo, partidos }) {
-  const navegar = useNavigate();
+function YouTubeLiveIndicator() {
+  const [isLive, setIsLive] = useState(false);
+
+  // Usar variables de entorno en Vite con import.meta.env
+  const channelId = import.meta.env.VITE_CHANNEL_ID; // ID del canal de YouTube
+  const apiKey = import.meta.env.VITE_YOUTUBE_API; // Clave de la API de YouTube
 
   /**
-   * Si no hay partidos, mostrar un mensaje.
+   * Efecto para verificar si el canal de YouTube está en vivo.
+   * Se ejecuta cuando cambian `channelId` o `apiKey`.
    */
-  if (!partidos || partidos.length === 0) {
-    return &lt;p>No hay partidos disponibles.&lt;/p>;
-  }
-
-  /**
-   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
-   *
-   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
-   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
-   * @returns {Array} Lista de partidos filtrados.
-   */
-  function obtenerPartidosTipo(tipo, grupo = "") {
-    let partidosFiltrados;
-
-    /**
-     * Si la opción es clasificatorio y se ha seleccionado un grupo.
-     */
-    if (tipo === "clasificatorio" &amp;&amp; grupo !== "") {
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === tipo &amp;&amp; p.grupo === grupo
-      );
-    } else if (tipo === "eliminatorias") {
-      /**
-       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
-       */
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === "semifinal" || p.tipo === "final"
-      );
-    } else {
-      partidosFiltrados = partidos;
+  useEffect(() => {
+    if (!channelId || !apiKey) {
+      console.error("Faltan las variables de entorno.");
+      return;
     }
 
-    return partidosFiltrados;
-  }
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&amp;channelId=${channelId}&amp;eventType=live&amp;type=video&amp;key=${apiKey}`;
 
-  /**
-   * Navega a la vista detallada de un partido.
-   *
-   * @param {string} slug - Identificador único del partido.
-   */
-  function navegarDetalleResultado(slug) {
-    navegar(`/partidos/${slug}`);
-  }
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLive(data.items &amp;&amp; data.items.length > 0);
+      })
+      .catch((error) => {
+        console.error("Error al comprobar el estado en directo de YouTube:", error);
+      });
+  }, [channelId, apiKey]);
 
-  return (
-    &lt;div className="container-fluid">
-      {/**
-       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
-       */}
-      {tipo === "clasificatorio"  ? (
-        &lt;>
-          &lt;h3>Clasificatorio&lt;/h3>
-          &lt;div>
-            {/**
-             * Muestro los partidos del grupo seleccionado
-             */}
-            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) : tipo === "eliminatorias" ? (
-        &lt;>
-          &lt;h3>Eliminatorias&lt;/h3>
-          &lt;div>
-            {/**
-             * Filtro los partidos de eliminatorias
-             **/}
-            {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) :  (
-        &lt;>
-          &lt;div>
-            {/**
-             * Filtro cuando no seleccionas una opción que te salga el primer partido
-             **/}
-
-            &lt;Partido
-              key={0}
-              tipo={tipo}
-              objPartido={partidos[0]}
-              fnNavegar={navegarDetalleResultado}
-            />
-          &lt;/div>
-        &lt;/>
-      )}
-    &lt;/div>
-  );
+  // Mostrar el indicador de "Directo" si el canal está en vivo
+  return isLive
+    ? &lt;span className="badge rounded-pill bg-danger text-white ms-2">
+        &lt;i className="bi bi-broadcast-pin me-1">&lt;/i> Directo
+      &lt;/span>
+    : null;
 }
 
-export default TablaPartidos;
+export default YouTubeLiveIndicator;
 </code></pre>
         </article>
     </section>

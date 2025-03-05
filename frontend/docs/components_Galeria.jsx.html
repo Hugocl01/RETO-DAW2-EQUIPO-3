@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Partidos/TablaPartidos.jsx</title>
+    <title>JSDoc: Source: components/Galeria.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Partidos/TablaPartidos.jsx</h1>
+    <h1 class="page-title">Source: components/Galeria.jsx</h1>
 
     
 
@@ -26,130 +26,49 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Partido from "./Partido";
-import { useNavigate } from "react-router-dom";
+            <pre class="prettyprint source linenums"><code>import "./css/EstilosComun.css";
+import img2 from "../assets/imagenes/img2.png";
 
 /**
- * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
- * Permite filtrar y mostrar los partidos según el tipo seleccionado.
- *
+ * Componente que muestra una galería de imágenes con un pie de foto.
+ * 
+ * Este componente renderiza una sección de galería que contiene un título y una cuadrícula de tarjetas.
+ * Cada tarjeta muestra una imagen y un pie de foto numerado. La imagen utilizada es la misma para todas
+ * las tarjetas, y se genera un total de 8 tarjetas utilizando un array de longitud 8.
+ * 
  * @component
- * @param {Object} props - Propiedades del componente.
- * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
- * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
- * @param {Array} props.partidos - Lista de partidos a mostrar.
- * @returns {JSX.Element} Componente de tabla de partidos.
+ * @returns {JSX.Element} El componente de la galería, que incluye un título y una cuadrícula de tarjetas.
  */
-function TablaPartidos({ tipo, grupo, partidos }) {
-  const navegar = useNavigate();
+function Galeria() {
+    return (
+        &lt;div className="container mt-4">
+            {/* Título de la galería */}
+            &lt;div className="d-flex justify-content-center align-items-center">
+                &lt;h1>Galería&lt;/h1>
+            &lt;/div>
 
-  /**
-   * Si no hay partidos, mostrar un mensaje.
-   */
-  if (!partidos || partidos.length === 0) {
-    return &lt;p>No hay partidos disponibles.&lt;/p>;
-  }
+            {/* Cuadrícula de tarjetas */}
+            &lt;div className="row justify-content-center">
+                {Array.from({ length: 8 }).map((_, index) => (
+                    &lt;div key={index} className="col-md-4 col-sm-6 col-12 mb-4">
+                        {/* Tarjeta individual */}
+                        &lt;div className="card">
+                            {/* Imagen de la tarjeta */}
+                            &lt;img src={img2} className="card-img-top" alt="..." />
 
-  /**
-   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
-   *
-   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
-   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
-   * @returns {Array} Lista de partidos filtrados.
-   */
-  function obtenerPartidosTipo(tipo, grupo = "") {
-    let partidosFiltrados;
-
-    /**
-     * Si la opción es clasificatorio y se ha seleccionado un grupo.
-     */
-    if (tipo === "clasificatorio" &amp;&amp; grupo !== "") {
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === tipo &amp;&amp; p.grupo === grupo
-      );
-    } else if (tipo === "eliminatorias") {
-      /**
-       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
-       */
-      partidosFiltrados = partidos.filter(
-        (p) => p.tipo === "semifinal" || p.tipo === "final"
-      );
-    } else {
-      partidosFiltrados = partidos;
-    }
-
-    return partidosFiltrados;
-  }
-
-  /**
-   * Navega a la vista detallada de un partido.
-   *
-   * @param {string} slug - Identificador único del partido.
-   */
-  function navegarDetalleResultado(slug) {
-    navegar(`/partidos/${slug}`);
-  }
-
-  return (
-    &lt;div className="container-fluid">
-      {/**
-       * Mostrar según el tipo de partido: clasificatorio, eliminatorias o amistoso
-       */}
-      {tipo === "clasificatorio"  ? (
-        &lt;>
-          &lt;h3>Clasificatorio&lt;/h3>
-          &lt;div>
-            {/**
-             * Muestro los partidos del grupo seleccionado
-             */}
-            {obtenerPartidosTipo(tipo, grupo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) : tipo === "eliminatorias" ? (
-        &lt;>
-          &lt;h3>Eliminatorias&lt;/h3>
-          &lt;div>
-            {/**
-             * Filtro los partidos de eliminatorias
-             **/}
-            {obtenerPartidosTipo(tipo).map((valor, indice) => (
-              &lt;Partido
-                key={indice}
-                tipo={tipo}
-                objPartido={valor}
-                fnNavegar={navegarDetalleResultado}
-              />
-            ))}
-          &lt;/div>
-        &lt;/>
-      ) :  (
-        &lt;>
-          &lt;div>
-            {/**
-             * Filtro cuando no seleccionas una opción que te salga el primer partido
-             **/}
-
-            &lt;Partido
-              key={0}
-              tipo={tipo}
-              objPartido={partidos[0]}
-              fnNavegar={navegarDetalleResultado}
-            />
-          &lt;/div>
-        &lt;/>
-      )}
-    &lt;/div>
-  );
+                            {/* Cuerpo de la tarjeta con el pie de foto */}
+                            &lt;div className="card-body text-center">
+                                &lt;h5 className="card-title">Pie de Foto {index + 1}&lt;/h5>
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                ))}
+            &lt;/div>
+        &lt;/div>
+    );
 }
 
-export default TablaPartidos;
+export default Galeria;
 </code></pre>
         </article>
     </section>

@@ -1,5 +1,16 @@
 import React from "react";
 
+/**
+ * Componente `Paginador` que permite navegar entre páginas.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {number} props.paginaActual - Número de la página actual.
+ * @param {number} props.totalPaginas - Número total de páginas.
+ * @param {Function} props.siguientePagina - Función para ir a la siguiente página.
+ * @param {Function} props.paginaAnterior - Función para ir a la página anterior.
+ * @returns {JSX.Element} Componente de paginación.
+ */
 function Paginador({
   paginaActual,
   totalPaginas,
@@ -18,6 +29,7 @@ function Paginador({
           Anterior
         </button>
 
+        {/* Número de página actual */}
         <p>{paginaActual}</p>
 
         {/* Botón siguiente */}

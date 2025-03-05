@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/Footer.jsx</title>
+    <title>JSDoc: Source: components/InfoTorneo.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/Footer.jsx</h1>
+    <h1 class="page-title">Source: components/InfoTorneo.jsx</h1>
 
     
 
@@ -26,76 +26,90 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import "./css/Footer.css";
-import netkia from "../assets/imagenes/patrocinadores/netkia.png";
+            <pre class="prettyprint source linenums"><code>import imagenPrueba from "../assets/imagenes/img1.jpg";
+import logo from "../assets/imagenes/logo.png";
+import "./css/EstilosComun.css";
+import "./css/InfoTorneo.css";
 
 /**
- * Componente de pie de página de la aplicación.
- * Contiene información de copyright y enlaces a redes sociales.
+ * Componente `InfoTorneo` que muestra la información detallada sobre un torneo.
+ * Incluye una imagen del torneo, un enlace para descargar las reglas y un texto descriptivo.
  * 
- * @component
- * @returns {JSX.Element} Elemento JSX que representa el pie de página.
+ * @returns {JSX.Element} El elemento JSX que representa la información del torneo.
  */
-function Footer() {
-
+function InfoTorneo() {
     return (
-        &lt;footer className="footer d-flex flex-wrap justify-content-between align-items-center p-4 mt-4 border-top">
-            &lt;div className="container">
-                &lt;div className="row">
-                    {/* Ahora la primera columna ocupa el 40% en pantallas medianas */}
-                    &lt;div className="col-md-4 primera">
-                        &lt;p>Contacto&lt;/p>
-                        &lt;ul className="list-unstyled">
-                            &lt;li>
-                                &lt;i className="bi bi-envelope-fill me-2">&lt;/i>
-                                ies.miguel.herrero.pereda@educantabria.es
-                            &lt;/li>
-                            &lt;li>
-                                &lt;i className="bi bi-telephone-fill me-2">&lt;/i>
-                                942 88 24 98
-                            &lt;/li>
-                            &lt;li>
-                                &lt;i className="bi bi-geo-alt-fill me-2">&lt;/i>
-                                P.º de Julio Hauzeur, 59, 39300, Torrelavega, Cantabria
-                            &lt;/li>
-                        &lt;/ul>
+        &lt;div className="infoTorneo container">
+            {/* Título de la sección */}
+            &lt;div className="text-center">
+                &lt;h1 className="d-inline-block">Información del Torneo&lt;/h1>
+            &lt;/div>
 
-                        &lt;ul className="w-100 nav col-md-4 d-flex justify-content-start align-items-center list-unstyled mt-3">
-                            &lt;li className="ms-3">
-                                &lt;a target="_blank" className="text-body-secondary" href="https://www.instagram.com/iesmiguelherreroligasolidaria/" aria-label="Instagram">
-                                    &lt;i className="bi bi-instagram me-2">&lt;/i>
-                                    Instagram
-                                &lt;/a>
-                            &lt;/li>
-                        &lt;/ul>
+            {/* Contenido principal en dos columnas */}
+            &lt;div className="row">
+                {/* Columna izquierda: Imagen y tarjetas de reglas */}
+                &lt;div className="col-md-4 d-flex flex-column gap-3">
+                    {/* Imagen del torneo */}
+                    &lt;div className="text-center">
+                        &lt;img src={imagenPrueba} alt="Imagen Torneo" className="img-fluid rounded" />
                     &lt;/div>
-                    {/* La segunda columna ahora ocupa el 30% */}
-                    &lt;div className="col-md-3">
-                        &lt;p>Información&lt;/p>
-                        &lt;ul className="list-unstyled">
-                            &lt;li>
-                                Política de privacidad
-                            &lt;/li>
-                        &lt;/ul>
-                    &lt;/div>
-                    {/* La tercera columna también ocupa el 30% */}
-                    &lt;div className="col-md-3">
-                        &lt;p>Colaboradores&lt;/p>
-                        &lt;ul className="list-unstyled d-flex">
-                            &lt;li className="me-4">
-                                &lt;a href="#">
-                                    &lt;img src={netkia} className="img-fluid rounded" alt="Colaborador 1" />
+
+                    {/* Tarjeta para descargar reglas (versión vertical) */}
+                    &lt;div className="tarjetaReglas">
+                        &lt;div className="card d-flex flex-column justify-content-center align-items-center">
+                            &lt;img src={logo} className="card-img-top" alt="Logo" />
+                            &lt;div className="card-body">
+                                &lt;a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
+                                    &lt;span>Descargar Reglas&lt;/span>
+                                    &lt;i className="bi bi-file-earmark-arrow-down fs-4">&lt;/i>
                                 &lt;/a>
-                            &lt;/li>
-                        &lt;/ul>
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+
+                    {/* Tarjeta para descargar reglas (versión horizontal) */}
+                    &lt;div className="tarjetaReglashorizontal border rounded px-3 py-2 mb-3">
+                        &lt;div className="w-100 d-flex justify-content-between align-items-center">
+                            &lt;img src={logo} className="w-25" alt="Logo" />
+                            &lt;a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 shadow-sm transition">
+                                &lt;span className="descargarReglas">Descargar Reglas&lt;/span>
+                                &lt;i className="bi bi-file-earmark-arrow-down fs-4">&lt;/i>
+                            &lt;/a>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+
+                {/* Columna derecha: Texto descriptivo del torneo */}
+                &lt;div className="col-md-8">
+                    &lt;div className="p-4 bg-light border rounded text-left">
+                        &lt;p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quasi sapiente cum dolor quae consectetur labore eos quis omnis possimus nam,
+                            nisi, dolore ad vitae accusantium rem error neque reprehenderit.
+                            Nemo, reprehenderit sint aut totam deleniti aliquam quidem hic provident! Similique consequatur vel voluptate nulla a, aperiam sed eligendi, qui
+                            exercitationem explicabo asperiores labore eaque eveniet expedita. Ut, dolore maiores?
+                            Ipsum, eos vel distinctio tempore et fugiat dolores! A, cumque alias quae excepturi iste, provident autem officia velit obcaecati numquam adipisci,
+                            accusamus consectetur hic quas earum eligendi nihil. Rerum, eos.&lt;br>&lt;/br>&lt;br>&lt;/br>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio minima, libero qui tempore culpa inventore sed magnam a provident deleniti laboriosam
+                            recusandae repudiandae quaerat ipsam voluptatum eaque amet aliquid laborum?
+                            Quis distinctio ratione delectus enim dolor consectetur hic maiores porro totam, soluta accusamus consequatur quae! Repellendus aperiam quis ipsum.
+                            Quibusdam adipisci iure impedit deserunt accusamus reprehenderit provident architecto, dolor dolorum!
+                            Minus eos eius quidem quas laboriosam, aperiam expedita possimus, laborum earum debitis veritatis, vel explicabo optio minima accusamus rerum
+                            repellat ad doloribus tempora quo voluptates architecto necessitatibus. Laudantium, et debitis.
+                            Placeat laborum aspernatur quia quaerat eum ad temporibus amet consequuntur, eveniet magnam eius nostrum. Incidunt optio fuga, quo, accusantium
+                            neque rerum illum iure deleniti eligendi eum tempore doloremque temporibus quidem?&lt;br>&lt;/br>&lt;br>&lt;/br>
+                            Facere facilis consectetur ipsum tempore voluptatem iure? Ex soluta ab facilis eligendi, autem quae aspernatur accusamus hic expedita harum, aperiam,
+                            saepe earum dolorum commodi unde voluptates corrupti adipisci recusandae corporis?&lt;br>&lt;/br>&lt;br>&lt;/br>
+                            Harum consequuntur sint sunt earum dolorum, amet dicta non magnam ut repellendus beatae quod et, alias ipsa eaque est rem id blanditiis animi.
+                            Blanditiis sapiente illum voluptatum, quos odit maiores.
+                        &lt;/p>
                     &lt;/div>
                 &lt;/div>
             &lt;/div>
-        &lt;/footer>
+        &lt;/div>
     );
 }
 
-export default Footer;
+export default InfoTorneo;
 </code></pre>
         </article>
     </section>

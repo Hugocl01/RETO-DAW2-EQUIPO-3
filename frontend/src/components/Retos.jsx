@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import "./css/EstilosComun.css";
 import "./css/Retos.css";
-
 import entrenador from "../assets/imagenes/retosIconos/entrenador.png";
 import marcador from "../assets/imagenes/retosIconos/marcador.png";
 import corazon from "../assets/imagenes/retosIconos/corazon.png";
@@ -19,12 +18,10 @@ import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
 import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
 import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
 import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
-
 import img2 from "../assets/imagenes/img2.png";
-
 import fetchData from '../data/FetchData';
 
-
+// Lista de iconos para los retos
 const iconos = [
     entrenador,
     marcador,
@@ -47,10 +44,20 @@ const iconos = [
 
 const imagenDefault = img2; // Imagen por defecto si no hay una disponible
 
+/**
+ * Componente `Retos` que muestra una lista de retos con sus detalles.
+ * Cada reto tiene un icono, un título, una descripción y un modal para ver más detalles.
+ * 
+ * @component
+ * @returns {JSX.Element} Componente que representa la lista de retos.
+ */
 function Retos() {
     const [retos, setRetos] = useState([]);
     const [selectedReto, setSelectedReto] = useState(null);
 
+    /**
+     * Efecto para obtener los retos al montar el componente.
+     */
     useEffect(() => {
         const fetchRetos = async () => {
             try {
@@ -71,6 +78,7 @@ function Retos() {
                     <div className="row">
                         {retos.map((reto, index) => (
                             <div className="col-lg-3 col-md-4 col-sm-6 mb-3 text-center" key={reto.id}>
+                                {/* Tarjeta del reto */}
                                 <div className="card h-100 mx-auto p-3 d-flex flex-column justify-content-center align-items-center" style={{ width: '85%' }}>
                                     <img src={iconos[index % iconos.length]} className="card-img-top" alt={reto.titulo} />
                                     <div className="card-body">
@@ -89,7 +97,7 @@ function Retos() {
                                     </div>
                                 </div>
 
-                                {/* Modal individual para cada reto */}
+                                {/* Modal para ver más detalles del reto */}
                                 <div className="modal fade" id={`leerMasModal_${reto.id}`} tabIndex="-1" aria-hidden="true">
                                     <div className="modal-dialog modal-lg">
                                         <div className="modal-content">
