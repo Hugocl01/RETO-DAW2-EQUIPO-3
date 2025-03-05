@@ -8,12 +8,10 @@ import CrudEquipos from "../components/Cruds/CrudEquipos";
 import CrudJugadores from "../components/Cruds/CrudJugadores";
 import CrudPartidos from "../components/Cruds/CrudPartidos";
 import CrudPublicaciones from "../components/Cruds/CrudPublicaciones";
-import CrudPerfiles from "../components/Cruds/CrudPerfiles";
 import CrudActas from "../components/Cruds/CrudActas";
 import CrudUsuarios from "../components/Cruds/CrudUsuarios";
 import CrudRetos from "../components/Cruds/CrudRetos";
 import CrudImagenes from "../components/Cruds/CrudImagenes";
-import CrudPabellones from "../components/Cruds/CrudPabellones";
 import CrudPatrocinadores from "../components/Cruds/CrudPatrocinadores";
 import CrudFamilias from "../components/Cruds/CrudFamilias";
 import CrudCiclos from "../components/Cruds/CrudCiclos";
@@ -203,8 +201,6 @@ function AdministracionPage() {
                 return <CrudPartidos onModoCambio={handleModoCambio} />;
             case "publicaciones":
                 return <CrudPublicaciones onModoCambio={handleModoCambio} />;
-            case "perfiles":
-                return <CrudPerfiles onModoCambio={handleModoCambio} />;
             case "actas":
                 return <CrudActas onModoCambio={handleModoCambio} />;
             case "usuarios":
@@ -213,8 +209,6 @@ function AdministracionPage() {
                 return <CrudRetos onModoCambio={handleModoCambio} />;
             case "imagenes":
                 return <CrudImagenes onModoCambio={handleModoCambio} />;
-            case "pabellones":
-                return <CrudPabellones onModoCambio={handleModoCambio} />;
             case "patrocinadores":
                 return <CrudPatrocinadores onModoCambio={handleModoCambio} />;
             case "familias":

@@ -1,4 +1,5 @@
 import "./css/Footer.css";
+import netkia from "../assets/imagenes/patrocinadores/netkia.png";
 
 /**
  * Componente de pie de página de la aplicación.
@@ -59,7 +60,7 @@ function Footer() {
                         <ul className="list-unstyled d-flex">
                             <li className="me-4">
                                 <a href="#">
-                                    <img src="../src/assets/imagenes/patrocinadores/netkia.png" className="img-fluid rounded" alt="Colaborador 1" />
+                                    <img src={netkia} className="img-fluid rounded" alt="Colaborador 1" />
                                 </a>
                             </li>
                         </ul>

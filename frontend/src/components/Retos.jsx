@@ -1,30 +1,51 @@
 import { useEffect, useState } from 'react';
 import "./css/EstilosComun.css";
 import "./css/Retos.css";
+
+import entrenador from "../assets/imagenes/retosIconos/entrenador.png";
+import marcador from "../assets/imagenes/retosIconos/marcador.png";
+import corazon from "../assets/imagenes/retosIconos/corazon.png";
+import masaje from "../assets/imagenes/retosIconos/masaje.png";
+import jabon from "../assets/imagenes/retosIconos/jabon.png";
+import termal from "../assets/imagenes/retosIconos/termal.png";
+import camara from "../assets/imagenes/retosIconos/camara.png";
+import sonido from "../assets/imagenes/retosIconos/sonido.png";
+import red from "../assets/imagenes/retosIconos/red.png";
+import pc from "../assets/imagenes/retosIconos/pc.png";
+import servidor from "../assets/imagenes/retosIconos/servidor.png";
+import coche from "../assets/imagenes/retosIconos/coche.png";
+import grafico from "../assets/imagenes/retosIconos/grafico.png";
+import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
+import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
+import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
+import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
+
+import img2 from "../assets/imagenes/img2.png";
+
 import fetchData from '../data/FetchData';
 
 
 const iconos = [
-    "../src/assets/imagenes/retosIconos/entrenador.png",
-    "../src/assets/imagenes/retosIconos/marcador.png",
-    "../src/assets/imagenes/retosIconos/corazon.png",
-    "../src/assets/imagenes/retosIconos/masaje.png",
-    "../src/assets/imagenes/retosIconos/jabon.png",
-    "../src/assets/imagenes/retosIconos/termal.png",
-    "../src/assets/imagenes/retosIconos/camara.png",
-    "../src/assets/imagenes/retosIconos/sonido.png",
-    "../src/assets/imagenes/retosIconos/red.png",
-    "../src/assets/imagenes/retosIconos/pc.png",
-    "../src/assets/imagenes/retosIconos/servidor.png",
-    "../src/assets/imagenes/retosIconos/coche.png",
-    "../src/assets/imagenes/retosIconos/grafico.png",
-    "../src/assets/imagenes/retosIconos/camiseta.png",
-    "../src/assets/imagenes/retosIconos/food-truck.png",
-    "../src/assets/imagenes/retosIconos/lapiz.png",
-    "../src/assets/imagenes/retosIconos/inclusion.png",
+    entrenador,
+    marcador,
+    corazon,
+    masaje,
+    jabon,
+    termal,
+    camara,
+    sonido,
+    red,
+    pc,
+    servidor,
+    coche,
+    grafico,
+    camiseta,
+    food_truck,
+    lapiz,
+    inclusion
 ];
 
-const imagenDefault = "../src/assets/imagenes/img2.png"; // Imagen por defecto si no hay una disponible
+const imagenDefault = img2; // Imagen por defecto si no hay una disponible
 
 function Retos() {
     const [retos, setRetos] = useState([]);

@@ -1,4 +1,4 @@
-import { Tooltip } from "react-tooltip";
+import img1 from '../../assets/imagenes/img1.jpg';
 
 function Equipo({ equipo, fnNavegar }) {
   function handleClickNavegar() {
@@ -10,7 +10,7 @@ function Equipo({ equipo, fnNavegar }) {
       <div className="col-6 d-flex flex-row justify-content-center text" onClick={handleClickNavegar}>
         <div className="d-flex flex-row w-75  ">
           <img
-            src="../src/assets/imagenes/img1.jpg"
+            src={img1}
             alt={`imagen${equipo.slug}`}
             style={{ width: "20%" }}
             className="flex-1"

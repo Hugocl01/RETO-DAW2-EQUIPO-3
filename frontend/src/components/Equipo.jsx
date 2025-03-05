@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/EquipoPage.css";
+import img1 from '../assets/imagenes/img1.jpg';
 /**
  * Componente Equipo
  * @param {Object} equipoObtenido - Objeto con la información del equipo.
@@ -22,7 +23,7 @@ function Equipo({ equipoObtenido, fnNavegar }) {
     <div className="col">
       <div className="card contEquipo shadow-sm m-2" onClick={handleClick} id="equipos">
         <img
-          src="src/assets/imagenes/img1.jpg"
+          src={img1}
           alt={equipoObtenido.nombre}
           className="card-img-top"
           style={{ height: '250px', objectFit: 'cover' }} // Ajusta el tamaño de la imagen

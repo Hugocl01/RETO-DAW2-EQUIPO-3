@@ -1,6 +1,7 @@
 import { Tooltip } from "react-tooltip";
 import React from "react";
 import "../css/JugadorEquipo.css";
+import img1 from '../../assets/imagenes/img1.jpg';
 
 /**
  * Componente Jugador
@@ -23,7 +24,7 @@ function Jugador({ jugador, fnNavegarEquipo, fnNavegarJugador }) {
       <div className="col-5 col-md-6 d-flex flex-row justify-content-center text-center">
         <div className="d-flex flex-row w-75">
           <img
-            src="../src/assets/imagenes/img1.jpg"
+            src={img1}
             alt={`imagen${jugador.equipo}`}
             style={{ width: "20%" }}
             data-tooltip-id="imgEquipo"

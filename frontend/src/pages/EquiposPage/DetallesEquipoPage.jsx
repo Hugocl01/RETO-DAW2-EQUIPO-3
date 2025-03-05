@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
+import img1 from '../../assets/imagenes/img1.jpg';
 import ErrorPage from "../ErrorPage.jsx";
 import fetchData from "../../data/FetchData.js";
 
@@ -146,7 +147,7 @@ function DetallesEquipoPage() {
                 <div className="d-flex flex-column justify-content-center align-items-center">
                   <div>
                     <img
-                      src={"../../src/assets/imagenes/img1.jpg"}
+                      src={img1}
                       alt="imagenPatrocinador"
                       className="img-fluid w-75"
                     />
