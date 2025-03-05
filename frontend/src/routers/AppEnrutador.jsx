@@ -7,7 +7,7 @@ import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
 import DetalleEstadisticaPage from "../pages/DetalleEstadisticaPage.jsx";
 
 /**
- * Utilizo al carga perezosa o diferida para cada pages
+ * Utilizo la carga perezosa o diferida para cada página.
  */
 const BaseLayout = lazy(() => import("../layouts/BaseLayout.jsx"));
 const InicioPage = lazy(() => import("../pages/InicioPage.jsx"));
