@@ -42,22 +42,11 @@ function Footer() {
                         </ul>
                     </div>
                     {/* La segunda columna ahora ocupa el 30% */}
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <p>Información</p>
                         <ul className="list-unstyled">
                             <li>
                                 Política de privacidad
-                            </li>
-                        </ul>
-                    </div>
-                    {/* La tercera columna también ocupa el 30% */}
-                    <div className="col-md-3">
-                        <p>Colaboradores</p>
-                        <ul className="list-unstyled d-flex">
-                            <li className="me-4">
-                                <a href="#">
-                                    <img src={netkia} className="img-fluid rounded" alt="Colaborador 1" />
-                                </a>
                             </li>
                         </ul>
                     </div>
