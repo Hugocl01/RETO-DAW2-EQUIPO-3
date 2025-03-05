@@ -27,29 +27,29 @@ La aplicación web a desarrollar pretende visualizar esta iniciativa en la sede 
 
 ### **3. Producto Obtenido**
 Nuestra aplicacion web cuenta con:
-- Pagina de inicio con informacion sobre el torneo, carrouseles de publicaciones y retos, colaboradores y patrocinadores y seccion de donativos
-- Pagina para ver toda la informacion de los equipos participantes y poder entrar a los detalles de los jugadores
-- Pagina para ver los resultados de los partidos, filtrados por tipo de partido, Eliminatorios o Clasificatorios, grupo A o B
-- Pagina para ver la clasificacion del los grupos A y B
-- Pagina de estadísticas de los jugadores y equipos (goles, tarjetas amarillas y tarjetas rojas)
-- Pagina de galeria 
-- Formulario para inscripcion
-- Seccion de administracion con todas las opciones que el administrador puede gestionar
+- **Pagina de inicio** con información sobre el torneo, carruseles de publicaciones y retos, sección de colaboradores y patrocinadores, y apartado para donaciones.
+- **Página de equipos,** donde se muestra información sobre los equipos participantes y detalles de los jugadores.
+- **Página de resultados,** que permite ver los resultados de los partidos con filtros por tipo de partido (Eliminatorios o Clasificatorios) y por grup
+- **Página de clasificación** para los grupos A y B.
+- **Página de estadísticas** de jugadores y equipos (goles, tarjetas amarillas y tarjetas rojas).
+- **Galería de imágenes** del torneo.
+- **Formulario de inscripción** para equipos.
+- **Sección de administración,** donde el administrador puede gestionar:
     - Jugadores
     - Partidos
     - Actas 
     - Usuarios
 
 ### **4. Mejoras sobre los requisitos del producto**
-- **Crud de administrador:** Se trata de una parte de la pagina en la que se econtrarán todas las opciones que el administrador puede gestionar, como equipos, partidos, usuarios ect... con un diseño intuitivo y sencillo, para que sea mas facil la gestión del torneo  
+- **CRUD de administrador:** Se trata de una parte de la pagina en la que se econtrarán todas las opciones que el administrador puede gestionar, como equipos, partidos, usuarios ect... con un diseño intuitivo y sencillo, para que sea mas facil la gestión del torneo
 
-- **Torneo automático:** A través de los resultados se van creando los partidos del torneo  
+- **Torneo automático:** Los partidos se generan automáticamente a partir de los resultados.
 
-- **Conexion en directo a la retrasmisión:** Botón "en directo" que permitirá acceder a la retrasmision  
+- **Conexion en directo:** Botón "En Directo" que permite acceder a la retransmisión del torneo. 
 
-- **Conexion directa a redes sociales:** Se podrán ver los seguidores, entre otras cosas, de las redes sociales del torneo  
+- **Integración con Redes Sociales:** Posibilidad de visualizar información de las redes sociales del torneo, como seguidores y publicaciones. 
 
-- **Email de confirmacion:** Se enviará un email al entrenador y al capitan par confirmara su incripción para poder ser aprobada
+- **Correo de confirmacion:** Se envía un email al entrenador y capitán para confirmar su inscripción antes de ser aprobada.
 
 ### **5. Lo que falta por implementar**
 
