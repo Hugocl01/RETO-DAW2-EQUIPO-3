@@ -12,7 +12,7 @@
 
 ### **1. Introducción**
 **RETO TORNEO SOLIDARIO 2025 - SEDE TORRELAVEGA**  
-La Consejería de Educación de Cantabria plantea el reto del torneo de futbol solidario creando dos sedes Torrelavega y Santander. 
+La Consejería de Educación de Cantabria plantea el reto del torneo de futbol solidario creando dos sedes: Torrelavega y Santander. 
 
 Dentro de la sede de Torrelavega se desarrollan diferentes retos que contribuyen en la realización del evento nuestro ciclo se encargará de el diseño y desarrollo web de la aplicacion web.
 
@@ -26,10 +26,22 @@ La aplicación web a desarrollar pretende visualizar esta iniciativa en la sede 
 - Paula Rivero Herreros
 
 ### **3. Producto Obtenido**
-Nuestra aplicación web 
+Nuestra aplicacion web cuenta con:
+- Pagina de inicio con informacion sobre el torneo, carrouseles de publicaciones y retos, colaboradores y patrocinadores y seccion de donativos
+- Pagina para ver toda la informacion de los equipos participantes y poder entrar a los detalles de los jugadores
+- Pagina para ver los resultados de los partidos, filtrados por tipo de partido, Eliminatorios o Clasificatorios, grupo A o B
+- Pagina para ver la clasificacion del los grupos A y B
+- Pagina de estadísticas de los jugadores y equipos (goles, tarjetas amarillas y tarjetas rojas)
+- Pagina de galeria 
+- Formulario para inscripcion
+- Seccion de administracion con todas las opciones que el administrador puede gestionar
+    - Jugadores
+    - Partidos
+    - Actas 
+    - Usuarios
 
 ### **4. Mejoras sobre los requisitos del producto**
-- **CRUD de administrador:** Se trata de una parte de la pagina en la que se econtrarán todas las opciones que el administrador puede gestionar, como equipos, partidos, usuarios ect... con un diseño intuitivo y sencillo, para que sea mas facil la gestión del torneo  
+- **Crud de administrador:** Se trata de una parte de la pagina en la que se econtrarán todas las opciones que el administrador puede gestionar, como equipos, partidos, usuarios ect... con un diseño intuitivo y sencillo, para que sea mas facil la gestión del torneo  
 
 - **Torneo automático:** A través de los resultados se van creando los partidos del torneo  
 
