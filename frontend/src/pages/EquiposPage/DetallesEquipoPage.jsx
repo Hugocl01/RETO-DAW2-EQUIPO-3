@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
 import img1 from '../../assets/imagenes/img1.jpg';
+import messi from "../../assets/imagenes/messi.jpg";
 import ErrorPage from "../ErrorPage.jsx";
 import fetchData from "../../data/FetchData.js";
 
@@ -189,7 +190,7 @@ function DetallesEquipoPage() {
                         {/* Parte frontal de la carta (imagen) */}
                         <div className="flip-card-front">
                           <img
-                            src={`../../src/assets/imagenes/messi.jpg`} // Cambiar para cada jugador
+                            src={messi} // Cambiar para cada jugador
                             alt="imagenJugador"
                             className="card-img-top img-fluid rounded"
                           />

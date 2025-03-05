@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/Carrusel.css";
 import "../css/EstilosComun.css";
+import img2 from "../../assets/imagenes/img2.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -72,7 +73,7 @@ function Carousel({ id, items, intervalo }) {
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
                                                 <div className="card shadow-lg custom-card">
                                                     <img
-                                                        src={item?.imagen || "../src/assets/imagenes/img2.png"}
+                                                        src={item?.imagen || img2}
                                                         className="card-img-top"
                                                         alt={item?.titulo || "Sin título"}
                                                     />
@@ -131,7 +132,7 @@ function Carousel({ id, items, intervalo }) {
                             {selectedItem ? (
                                 <>
                                     <img
-                                        src={selectedItem?.imagen || "../src/assets/imagenes/img2.png"}
+                                        src={selectedItem?.imagen || img2}
                                         className="img-fluid mb-3"
                                         alt={selectedItem.titulo}
                                     />
