@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docs": "jsdoc 'src/**/*.{js,jsx}' --destination docs"
   },
   "dependencies": {
     "@tinymce/tinymce-react": "^6.0.0",
@@ -28,6 +29,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "jsdoc": "^4.0.4",
     "vite": "^6.1.0"
   }
 }
