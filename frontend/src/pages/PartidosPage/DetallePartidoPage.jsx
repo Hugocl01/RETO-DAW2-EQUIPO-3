@@ -51,6 +51,8 @@ function DetallePartidoPage() {
           tipo: error.response?.status || error.name,
           mensaje: error.response?.data?.message || "No existe el partido.",
         });
+      }finally{
+        setCargando(false);
       }
     };
 
