@@ -1,0 +1,1 @@
+import{r as o,d as i,j as t,N as n}from"./index-D8IbmME8.js";function u({children:a,redirectTo:r="/login"}){const{seguridad:e,loading:s}=o.useContext(i);return s?t.jsx("div",{children:"Cargando..."}):e.user?a:t.jsx(n,{to:r})}export{u as default};
