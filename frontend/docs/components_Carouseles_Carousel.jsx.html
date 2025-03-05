@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Carouseles/Carousel.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Carouseles/Carousel.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import "../css/Carrusel.css";
+import "../css/EstilosComun.css";
+import img2 from "../../assets/imagenes/img2.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+/**
+ * Componente de carrusel para mostrar elementos en grupos ajustables según el tamaño de la pantalla.
+ *
+ * @component
+ * 
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.id - Identificador único para el carrusel.
+ * @param {Array} props.items - Lista de elementos a mostrar en el carrusel.
+ * @param {number} props.intervalo - Intervalo de cambio automático en milisegundos.
+ * @returns {JSX.Element} Carrusel de elementos con opción de leer más.
+ */
+function Carousel({ id, items, intervalo }) {
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [itemsPerSlide, setItemsPerSlide] = useState(3);
+
+    // Detectar el tamaño de la pantalla y ajustar la cantidad de tarjetas por diapositiva
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth &lt; 768) {
+                setItemsPerSlide(1); // Móviles: 1 tarjeta
+            } else if (window.innerWidth &lt; 992) {
+                setItemsPerSlide(2); // Tablets: 2 tarjetas
+            } else {
+                setItemsPerSlide(3); // Escritorio: 3 tarjetas
+            }
+        };
+
+        handleResize(); // Llamar una vez al montar el componente
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Agrupar elementos según el número de tarjetas por diapositiva
+    const groupedItems = [];
+    for (let i = 0; i &lt; items.length; i += itemsPerSlide) {
+        groupedItems.push(items.slice(i, i + itemsPerSlide));
+    }
+
+    return (
+        &lt;div className="contenido-carousel">
+            &lt;div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
+                {/* Indicadores del carrusel */}
+                &lt;div className="carousel-indicators">
+                    {groupedItems.map((_, index) => (
+                        &lt;button
+                            key={index}
+                            type="button"
+                            data-bs-target={`#${id}`}
+                            data-bs-slide-to={index}
+                            className={index === 0 ? "active" : ""}
+                            aria-current={index === 0 ? "true" : "false"}
+                            aria-label={`Slide ${index + 1}`}
+                        >&lt;/button>
+                    ))}
+                &lt;/div>
+
+                {/* Contenido del carrusel */}
+                &lt;div className="carousel-inner p-5">
+                    {groupedItems.map((group, index) => (
+                        &lt;div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                            &lt;div className="container">
+                                &lt;div className="row justify-content-center">
+                                    {group.map((item, i) => (
+                                        item ? (
+                                            &lt;div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
+                                                &lt;div className="card shadow-lg custom-card">
+                                                    &lt;img
+                                                        src={item?.imagen || img2}
+                                                        className="card-img-top"
+                                                        alt={item?.titulo || "Sin título"}
+                                                    />
+                                                    &lt;div className="card-body d-flex flex-column justify-content-between">
+                                                        &lt;h4 className="card-title">{item?.titulo || "Sin título"}&lt;/h4>
+                                                        &lt;p className="card-text">
+                                                            {item?.texto
+                                                                ? item.texto.length > 160 
+                                                                    ? `${item.texto.substring(0, 150)}...`
+                                                                    : item.texto
+                                                                : item?.contenido
+                                                                    ? item.contenido.length > 160
+                                                                        ? `${item.contenido.substring(0, 150)}...`
+                                                                        : item.contenido
+                                                                    : "No hay contenido disponible"}
+                                                        &lt;/p>
+                                                        &lt;button
+                                                            className="btn btn-success"
+                                                            onClick={() => setSelectedItem(item)}
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target={`#leerMasModal_${id}`}
+                                                        >
+                                                            LEER MÁS
+                                                        &lt;/button>
+                                                    &lt;/div>
+                                                &lt;/div>
+                                            &lt;/div>
+                                        ) : null
+                                    ))}
+                                &lt;/div>
+                            &lt;/div>
+                        &lt;/div>
+                    ))}
+                &lt;/div>
+
+                {/* Controles del carrusel */}
+                &lt;button className="carousel-control-prev" type="button" data-bs-target={`#${id}`} data-bs-slide="prev">
+                    &lt;span className="carousel-control-prev-icon" aria-hidden="true">&lt;/span>
+                    &lt;span className="visually-hidden">Previous&lt;/span>
+                &lt;/button>
+                &lt;button className="carousel-control-next" type="button" data-bs-target={`#${id}`} data-bs-slide="next">
+                    &lt;span className="carousel-control-next-icon" aria-hidden="true">&lt;/span>
+                    &lt;span className="visually-hidden">Next&lt;/span>
+                &lt;/button>
+            &lt;/div>
+
+            {/* Modal de lectura ampliada */}
+            &lt;div className="modal fade" id={`leerMasModal_${id}`} tabIndex="-1" aria-hidden="true">
+                &lt;div className="modal-dialog modal-lg">
+                    &lt;div className="modal-content">
+                        &lt;div className="modal-header">
+                            &lt;h5 className="modal-title">{selectedItem ? selectedItem.titulo : "Título"}&lt;/h5>
+                            &lt;button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">&lt;/button>
+                        &lt;/div>
+                        &lt;div className="modal-body">
+                            {selectedItem ? (
+                                &lt;>
+                                    &lt;img
+                                        src={selectedItem?.imagen || img2}
+                                        className="img-fluid mb-3"
+                                        alt={selectedItem.titulo}
+                                    />
+                                    &lt;h4 className="card-title mb-4">{selectedItem?.titulo || "Sin título"}&lt;/h4>
+                                    &lt;p>{selectedItem.texto || selectedItem.contenido}&lt;/p>
+                                &lt;/>
+                            ) : (
+                                &lt;p>Cargando...&lt;/p>
+                            )}
+                        &lt;/div>
+                        &lt;div className="modal-footer">
+                            &lt;button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                Cerrar
+                            &lt;/button>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+}
+
+export default Carousel;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

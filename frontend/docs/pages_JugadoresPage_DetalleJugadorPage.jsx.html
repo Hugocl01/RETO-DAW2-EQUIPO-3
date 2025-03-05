@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/JugadoresPage/DetalleJugadorPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/JugadoresPage/DetalleJugadorPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Spinner from "../../components/Spinner";
+import ErrorPage from "../ErrorPage";
+import fetchData from "../../data/FetchData";
+import img1 from '../../assets/imagenes/img1.jpg';
+
+function DetalleJugadorPage() {
+  const [jugador, setJugador] = useState(null);
+  const location = useLocation();
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    /**
+     * Cojo el valor del slug del jugador desde la URL (última parte de location.pathname)
+     */
+    const nombreJugador = location.pathname.split("/").pop();
+    const obtenerJugador = async () => {
+      try {
+        const resultado = await fetchData(`jugadores/${nombreJugador}`);
+        if (resultado.status === "success") {
+          /**
+           * Obtengo el array de jugadoresMostrados
+           * Si no hay, inicializo el array vacio
+           */
+          let arrayJugadores =
+            JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
+
+          /**
+           * Quiero verificar que no me meta duplicados
+           */
+          const jugadorExistente = arrayJugadores.find(
+            (e) => e.nombre === resultado.jugador.nombre
+          );
+
+          if (!jugadorExistente) {
+            arrayJugadores.push(resultado.jugador);
+            sessionStorage.setItem(
+              "jugadoresMostrados",
+              JSON.stringify(arrayJugadores)
+            );
+          }
+
+          /**
+           * Actualizo el estado de jugador
+           */
+          setJugador(resultado.jugador);
+        } else {
+          setError({
+            tipo: "error",
+            mensaje: "Hubo un problema al obtener el jugador.",
+          });
+        }
+      } catch (error) {
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No existe el jugador.",
+        });
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    /**
+     * Obtengo el array de JugadoresMostrados desde la session
+     */
+    const obtenerJugadorSession =
+      JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
+
+    /**
+     * Busco al jugador por su slug
+     */
+    const jugadorEnStorage = obtenerJugadorSession.find(
+      (e) => e.slug === nombreJugador
+    );
+
+    if (jugadorEnStorage) {
+      setJugador(jugadorEnStorage);
+      setCargando(false);
+    } else {
+      obtenerJugador();
+    }
+
+    /**
+     * Desplazo la página arriba del todo
+     */
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  /**
+   * Enseño la página de error, cuando haya una página de error
+   */
+  if (error) {
+    return &lt;ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
+  if (cargando) {
+    return &lt;Spinner>&lt;/Spinner>;
+  }
+
+  return (
+    &lt;>
+      &lt;title>Detalles de jugador&lt;/title>
+      &lt;div className="container-fluid w-75 my-5">
+        &lt;div className="card">
+          &lt;div className="card-header bg-primary text-white">
+            &lt;h2>Detalle Jugador&lt;/h2>
+          &lt;/div>
+          &lt;div className="card-body">
+            &lt;div className="row">
+              {/**
+               * Columna para la información del jugador
+               */}
+              &lt;div className="col-md-6 d-flex flex-column justify-content-between align-items-center">
+                &lt;h3 className="card-title text-center">Información Personal&lt;/h3>
+                {/* Nueva forma de mostrar si es capitán */}
+                {jugador.capitan === 1 &amp;&amp; jugador.equipo &amp;&amp; (
+                  &lt;p className="card-text">
+                    &lt;strong>Capitán del equipo&lt;/strong>
+
+                    &lt;span className="">{jugador.equipo.nombre}&lt;/span>
+                  &lt;/p>
+                )}
+                &lt;p className="card-text">
+                  &lt;strong>Nombre Completo: &lt;/strong>
+                  {jugador.nombre}
+                &lt;/p>
+
+                &lt;p className="card-text">
+                  &lt;strong>Goles Marcados:&lt;/strong> {jugador.stats.goles}
+                &lt;/p>
+                &lt;p className="card-text">
+                  &lt;strong>Tarjetas Amarillas: &lt;/strong>{" "}
+                  {jugador.stats.tarjetas_amarillas}
+                &lt;/p>
+
+                &lt;p className="card-text">
+                  &lt;strong>Tarjetas Rojas: &lt;/strong>{" "}
+                  {jugador.stats.tarjetas_rojas}
+                &lt;/p>
+
+                &lt;p className="card-text">
+                  &lt;strong>Email:&lt;/strong> {jugador.email}
+                &lt;/p>
+                &lt;p className="card-text">
+                  &lt;strong>Equipo:&lt;/strong> {jugador.equipo}
+                &lt;/p>
+              &lt;/div>
+              {/*
+               *Columna para la foto del jugador
+               */}
+              &lt;div className="col-md-6">
+                &lt;img
+                  src={img1}
+                  alt={`${jugador.nombre} ${jugador.primer_apellido}`}
+                  className="img-fluid mb-3"
+                  style={{ maxWidth: "100%" }}
+                />
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default DetalleJugadorPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

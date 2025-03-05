@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Cruds/CrudPatrocinadores.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Cruds/CrudPatrocinadores.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useMemo, useState } from "react";
+import { useCrud } from "../../hooks/useCrud";
+import Paginator from "../Paginator";
+import Spinner from "../Spinner";
+
+/**
+ * Componente para gestionar la lista de patrocinadores.
+ *
+ * Este componente permite visualizar, buscar, editar y eliminar patrocinadores.
+ * También permite la paginación de los patrocinadores listados.
+ *
+ * @component
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onModoCambio - Función que maneja el cambio entre los diferentes modos de operación, como "crear" y "editar".
+ */
+function CrudPatrocinadores({ onModoCambio }) {
+    /**
+     * Sección utilizada para gestionar los patrocinadores.
+     * @type {Object}
+     * @property {string} nombre - El nombre de la sección.
+     */
+    const seccion = useMemo(() => ({ nombre: "Patrocinadores" }), []);
+
+    /**
+     * Hook para gestionar las operaciones CRUD.
+     * @type {Object}
+     * @property {Array} items - Array de patrocinadores obtenidos.
+     * @property {boolean} loading - Estado de carga para la lista de patrocinadores.
+     * @property {string|null} error - Mensaje de error si ocurre algún problema con las operaciones CRUD.
+     * @property {Function} deleteItem - Función para eliminar un patrocinador.
+     */
+    const { items, loading, error, deleteItem } = useCrud(seccion);
+
+    /**
+     * Estado para almacenar el término de búsqueda en el campo de búsqueda.
+     * @type {string}
+     * @default ""
+     */
+    const [searchQuery, setSearchQuery] = useState("");
+
+    /**
+     * Estado para controlar la página actual de la paginación.
+     * @type {number}
+     * @default 1
+     */
+    const [currentPage, setCurrentPage] = useState(1);
+
+    /**
+     * Número de elementos a mostrar por página.
+     * @type {number}
+     * @default 5
+     */
+    const itemsPerPage = 5;
+
+    /**
+     * Convierte el valor a minúsculas si es un string, para realizar búsquedas insensibles a mayúsculas.
+     * 
+     * @param {string} value - El valor a convertir a minúsculas.
+     * @returns {string} El valor en minúsculas o un string vacío si no se proporciona valor.
+     */
+    const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
+
+    /**
+     * Filtra los patrocinadores de acuerdo al término de búsqueda.
+     * 
+     * @type {Array}
+     * @returns {Array} Array de patrocinadores filtrados.
+     */
+    const filteredItems = items.filter((patrocinador) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            safeToLower(patrocinador.nombre).includes(query) ||
+            safeToLower(patrocinador.landing_page).includes(query)
+        );
+    });
+
+    /**
+     * Número total de elementos filtrados.
+     * @type {number}
+     */
+    const totalItems = filteredItems.length;
+
+    /**
+     * Número total de páginas basadas en el número de elementos y elementos por página.
+     * @type {number}
+     */
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    /**
+     * Índice de inicio para la paginación.
+     * @type {number}
+     */
+    const startIndex = (currentPage - 1) * itemsPerPage;
+
+    /**
+     * Elementos actuales que se mostrarán en la página actual.
+     * @type {Array}
+     */
+    const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+
+    /**
+     * Maneja el cambio en el campo de búsqueda y restablece la página a la primera.
+     * 
+     * @param {Event} e - El evento de cambio en el campo de búsqueda.
+     */
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1);
+    };
+
+    if (loading) {
+        return &lt;Spinner />;
+    }
+
+    if (error) {
+        return &lt;p>Error: {error}&lt;/p>;
+    }
+
+    return (
+        &lt;div>
+            &lt;h2>Patrocinadores&lt;/h2>
+
+            &lt;div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+                &lt;input
+                    type="text"
+                    className="form-control"
+                    placeholder="Buscar patrocinadores..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+                &lt;button
+                    className="btn btn-success"
+                    onClick={() => onModoCambio("crear")}
+                >
+                    Crear Patrocinador
+                &lt;/button>
+            &lt;/div>
+
+            &lt;table className="table table-bordered table-hover">
+                &lt;thead className="thead-dark">
+                    &lt;tr>
+                        &lt;th>Nombre&lt;/th>
+                        &lt;th>Landing Page&lt;/th>
+                        &lt;th>Acciones&lt;/th>
+                    &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                    {currentItems.map((patrocinador) => (
+                        &lt;tr key={patrocinador.id}>
+                            &lt;td>{patrocinador.nombre}&lt;/td>
+                            &lt;td>
+                                &lt;a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                                    {patrocinador.landing_page}
+                                &lt;/a>
+                            &lt;/td>
+                            &lt;td className="d-flex">
+                                &lt;button
+                                    className="btn btn-sm btn-warning me-2"
+                                    onClick={() => onModoCambio("editar", patrocinador)}
+                                >
+                                    Editar
+                                &lt;/button>
+                                &lt;button
+                                    className="btn btn-sm btn-danger"
+                                    onClick={() => deleteItem(patrocinador.id)}
+                                >
+                                    Eliminar
+                                &lt;/button>
+                            &lt;/td>
+                        &lt;/tr>
+                    ))}
+                    {currentItems.length === 0 &amp;&amp; (
+                        &lt;tr>
+                            &lt;td colSpan="3" className="text-center">
+                                No hay patrocinadores disponibles.
+                            &lt;/td>
+                        &lt;/tr>
+                    )}
+                &lt;/tbody>
+            &lt;/table>
+
+            &lt;Paginator
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
+        &lt;/div>
+    );
+}
+
+export default CrudPatrocinadores;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

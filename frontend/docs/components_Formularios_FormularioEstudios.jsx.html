@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Formularios/FormularioEstudios.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Formularios/FormularioEstudios.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+import { useCrud } from "../../hooks/useCrud";
+import llamadas from "../../data/FuncionesCombobox";
+
+/**
+ * Función para obtener los centros desde sessionStorage o la API.
+ * Si no hay datos en sessionStorage, se obtiene de la API.
+ * 
+ * @returns {Promise&lt;Array&lt;{value: string, label: string}>>} Lista de centros en formato [{value: string, label: string}]
+ */
+const fetchCentros = async () => {
+    try {
+        const storedData = sessionStorage.getItem("centros");
+
+        if (storedData) {
+            console.log("Cargando centros desde sessionStorage");
+            const data = JSON.parse(storedData);
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        // Si no hay datos en sessionStorage, los obtenemos de la API
+        console.log("Cargando centros desde la API...");
+        const data = await llamadas().centros();
+
+        if (!data) return []; // Si hubo un error, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los centros", error);
+        return [];
+    }
+};
+
+/**
+ * Función para obtener los ciclos desde sessionStorage o la API.
+ * Si no hay datos en sessionStorage, se obtiene de la API.
+ * 
+ * @returns {Promise&lt;Array&lt;{value: string, label: string}>>} Lista de ciclos en formato [{value: string, label: string}]
+ */
+const fetchCiclos = async () => {
+    try {
+        const storedData = sessionStorage.getItem("ciclos");
+
+        if (storedData) {
+            console.log("Cargando ciclos desde sessionStorage");
+            const data = JSON.parse(storedData);
+            return Object.keys(data).map(key => ({
+                value: key,
+                label: data[key]
+            }));
+        }
+
+        console.log("Cargando ciclos desde la API...");
+        const data = await llamadas().ciclos();
+
+        if (!data) return []; // Si hubo un error, devolvemos un array vacío
+
+        return Object.keys(data).map(key => ({
+            value: key,
+            label: data[key]
+        }));
+
+    } catch (error) {
+        console.error("Error al obtener los ciclos", error);
+        return [];
+    }
+};
+
+/**
+ * Componente para crear o editar un registro de estudio, permitiendo seleccionar un centro, ciclo y curso.
+ * El formulario puede usarse tanto para agregar nuevos estudios como para editar un estudio existente.
+ * 
+ * @component
+ * @example
+ * // Ejemplo de uso del componente
+ * &lt;FormularioEstudios
+ *     datosIniciales={{ centro_id: "1", ciclo_id: "2", curso: "1" }}
+ *     onGuardar={handleGuardar}
+ *     onCancelar={handleCancelar}
+ * />
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} [props.datosIniciales] - Datos iniciales para editar un estudio.
+ * @param {function} props.onGuardar - Función que se ejecuta cuando se guarda el formulario.
+ * @param {function} props.onCancelar - Función que se ejecuta cuando se cancela el formulario.
+ * @returns {React.Element} El formulario de estudios.
+ */
+function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
+    const [formData, setFormData] = useState({
+        centro_id: "",
+        ciclo_id: "",
+        curso_id: "",
+    });
+    const [centros, setCentros] = useState([]);
+    const [ciclos, setCiclos] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Estudios" });
+
+    /**
+     * Carga los centros y ciclos al montar el componente.
+     */
+    useEffect(() => {
+        const obtenerCentros = async () => {
+            const data = await fetchCentros();
+            setCentros(data);  // Cargamos los centros en el estado
+        };
+        obtenerCentros();
+    
+        const obtenerCiclos = async () => {
+            const data = await fetchCiclos();
+            setCiclos(data);  // Cargamos los ciclos en el estado
+        };
+        obtenerCiclos();
+
+    }, []);
+
+    /**
+     * Actualiza los valores del formulario cuando cambian los datos iniciales.
+     */
+    useEffect(() => {
+        // Este useEffect se ejecuta cuando centros o ciclos cambian
+        if (datosIniciales &amp;&amp; centros.length > 0 &amp;&amp; ciclos.length > 0) {
+            // Buscamos el ID del centro usando el nombre (label)
+            const centroSeleccionado = centros.find(centro => centro.label === datosIniciales.centro);
+    
+            // Buscamos el ID del ciclo usando el nombre (label)
+            const cicloSeleccionado = ciclos.find(ciclo => ciclo.label === datosIniciales.ciclo);
+    
+            // Asignamos los valores al estado formData
+            setFormData({
+                centro_id: centroSeleccionado ? centroSeleccionado.value : "",
+                ciclo_id: cicloSeleccionado ? cicloSeleccionado.value : "",
+                curso_id: datosIniciales.curso || "",
+            });
+        }
+    }, [datosIniciales, centros, ciclos]);  // Este useEffect se ejecuta cuando datosIniciales, centros o ciclos cambian
+    
+
+    /**
+     * Maneja el cambio de valores en el formulario.
+     * 
+     * @param {Object} event - El evento de cambio en el formulario.
+     * @param {string} event.target.name - El nombre del campo modificado.
+     * @param {string} event.target.value - El nuevo valor del campo.
+     */
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    /**
+     * Maneja el envío del formulario.
+     * 
+     * Si el formulario tiene datos iniciales, se actualiza el estudio existente,
+     * si no, se crea uno nuevo.
+     * 
+     * @param {Object} event - El evento de envío del formulario.
+     */
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            if (datosIniciales) {
+                await updateItem(datosIniciales.id, formData);
+            } else {
+                await createItem(formData);
+            }
+
+            fetchItems();
+            onGuardar(formData);
+        } catch (error) {
+            console.error("Error al guardar estudio:", error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+    return (
+        &lt;form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
+            &lt;h2 className="mb-4 text-center">{datosIniciales!=null?'Editar estudio':'Crear estudio'}&lt;/h2>
+
+            {/* Selector de Centro */}
+            &lt;div className="mb-3">
+                &lt;label htmlFor="centro_id" className="form-label">Centro&lt;/label>
+                &lt;select
+                    name="centro_id"
+                    id="centro_id"
+                    className="form-select"
+                    value={formData.centro_id}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                >
+                    &lt;option value="" hidden>Seleccione un centro&lt;/option>
+                    {centros.map((centro) => (
+                        &lt;option key={centro.value} value={centro.value}>{centro.label}&lt;/option>
+                    ))}
+                &lt;/select>
+            &lt;/div>
+
+            {/* Selector de Ciclo */}
+            &lt;div className="mb-3">
+                &lt;label htmlFor="ciclo_id" className="form-label">Ciclo&lt;/label>
+                &lt;select
+                    name="ciclo_id"
+                    id="ciclo_id"
+                    className="form-select"
+                    value={formData.ciclo_id}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                >
+                    &lt;option value="" hidden>Seleccione un ciclo&lt;/option>
+                    {ciclos.map((ciclo) => (
+                        &lt;option key={ciclo.value} value={ciclo.value} selected={datosIniciales.ciclo === ciclo.label}>{ciclo.label}&lt;/option>
+                    ))}
+                &lt;/select>
+            &lt;/div>
+
+            {/* Selector de Curso */}
+            &lt;div className="mb-3">
+                &lt;label htmlFor="curso_id" className="form-label">Curso&lt;/label>
+                &lt;select
+                    name="curso_id"
+                    id="curso_id"
+                    className="form-select"
+                    value={formData.curso_id}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                >
+                    &lt;option value="" hidden>Seleccione un curso&lt;/option>
+                    &lt;option value="1">1º&lt;/option>
+                    &lt;option value="2">2º&lt;/option>
+                &lt;/select>
+            &lt;/div>
+
+            {/* Botones */}
+            &lt;button type="submit" className="btn btn-success" disabled={isSubmitting}>
+                {isSubmitting ? "Guardando..." : "Guardar"}
+            &lt;/button>
+            &lt;button type="button" className="btn btn-secondary ms-2" onClick={onCancelar} disabled={isSubmitting}>
+                Cancelar
+            &lt;/button>
+
+            {error &amp;&amp; &lt;p className="text-danger mt-3">{error}&lt;/p>}
+        &lt;/form>
+    );
+}
+
+export default FormularioEstudios;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

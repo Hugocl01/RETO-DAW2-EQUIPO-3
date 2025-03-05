@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Tablas/TablaEquipos.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Tablas/TablaEquipos.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import Spinner from "../Spinner";
+import { useNavigate } from "react-router-dom";
+import Equipo from "../Tablas/Equipo";
+import "../../components/css/Tabla.css";
+import "../css/JugadorEquipo.css";
+import ErrorPage from "../Error";
+import fetchData from "../../data/FetchData";
+
+function TablaEquipos() {
+  const [equipos, setEquipos] = useState();
+  const [cargando, setCargando] = useState(true);
+  const [orden, setOrden] = useState({ campo: "", direccion: "asc" });
+  const [error, setError] = useState();
+  const navegar = useNavigate();
+
+  useEffect(() => {
+    const obtenerEquipos = async () => {
+      try {
+        const resultado = await fetchData("equipos");
+
+        if (
+          resultado.status === "success" &amp;&amp;
+          Array.isArray(resultado.equipos)
+        ) {
+          // Guardar los datos en sessionStorage
+          sessionStorage.setItem(
+            "equipos",
+            JSON.stringify(resultado.equipos)
+          );
+
+          /**
+           * Ordeno antes de guardar en el estado
+           */
+          const equiposOrdenados = [...resultado.equipos].sort(
+            (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
+          );
+
+          setEquipos(equiposOrdenados);
+        } else {
+          setError({
+            tipo: "error",
+            mensaje: "Hubo un problema al obtener los equipos.",
+          });
+        }
+      } catch (error) {
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje:
+            error.response?.data?.message || "No hay equipos disponibles.",
+        });
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    /**
+     * Obtener datos desde sessionStorage
+     */
+    const equiposGuardados = sessionStorage.getItem("equipos");
+
+    if (equiposGuardados) {
+      /**
+       * Convierto en ObjetoJSON antes de ordenar
+       */
+      const equiposOrdenados = JSON.parse(equiposGuardados).sort(
+        (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
+      );
+
+      setEquipos(equiposOrdenados);
+      setCargando(false);
+    } else {
+      obtenerEquipos();
+    }
+
+    /**
+     * Esto me llevará al principio de la página
+     */
+    window.scrollTo(0, 0);
+  }, []);
+
+
+  if (cargando) {
+    return &lt;Spinner>&lt;/Spinner>;
+  }
+
+  /**
+  * Enseño la página de error, cuando haya una página de error
+  */
+  if (error) {
+    return &lt;ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
+  /**
+   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
+   * @param {String} slug
+   */
+  function navegarDetalleEquipo(slug) {
+    navegar(`/estadisticas/${slug}`);
+  }
+
+  /**Función para ordenar un campo */
+  function ordenarCampo(e) {
+    let campo = e.target.dataset.campo;
+    /**
+     * Controlo que si vamos a modificar el estado que ya está ordenado asc, me lo ordene desc
+     * Si el campo no está ordenado, pues me lo ordene ascendentemente
+     */
+    const direccion =
+      orden.campo === campo &amp;&amp; orden.direccion === "asc" ? "desc" : "asc";
+    setOrden({ campo, direccion });
+
+    /**
+     *  Utilizo el sort para ordenar
+     */
+    const equiposOrdenados = equipos.sort((equipoA, equipoB) => {
+      /**
+       * Guardo los valores del jugadorA y jugadorB para luego ordenar por el campo específico
+       */
+      let valorEquipoA = equipoA.stats[campo];
+      let valorEquipoB = equipoB.stats[campo];
+
+      /**
+       * Dependiendo de si se la direccion del ordenamiento es asc o desc, se ordenará de mayor a menor o menor a mayor
+       */
+      return direccion === "asc"
+        ? valorEquipoA - valorEquipoB
+        : valorEquipoB - valorEquipoA;
+    });
+
+    setEquipos(equiposOrdenados);
+  }
+
+  return (
+    &lt;>
+      &lt;div className="tabla container-fluid mt-5">
+        {/* Cabecera */}
+        &lt;div className="row bg-primary text-white rounded-top border-bottom py-2">
+          &lt;div className="col-md-6 text-center font-weight-bold cursor-pointer h5">
+            Nombre
+          &lt;/div>
+          &lt;div
+            className="col-md-2 text-center cursor-pointer h5"
+            data-campo="goles"
+            onClick={ordenarCampo}
+          >
+            Goles{" "}
+            {orden.campo === "goles"
+              ? orden.direccion === "asc"
+                ? "⬆"
+                : "⬇"
+              : ""}
+          &lt;/div>
+          &lt;div
+            className="col-md-2 text-center cursor-pointer h5"
+            data-campo="tarjetas_amarillas"
+            onClick={ordenarCampo}
+          >
+            Amarillas{" "}
+            {orden.campo === "tarjetas_amarillas"
+              ? orden.direccion === "asc"
+                ? "⬆"
+                : "⬇"
+              : ""}
+          &lt;/div>
+          &lt;div
+            className="col-md-2 text-center cursor-pointer h5"
+            data-campo="tarjetas_rojas"
+            onClick={ordenarCampo}
+          >
+            Rojas{" "}
+            {orden.campo === "tarjetas_rojas"
+              ? orden.direccion === "asc"
+                ? "⬆"
+                : "⬇"
+              : ""}
+          &lt;/div>
+        &lt;/div>
+
+        {/* Jugadores de la página actual */}
+        {equipos.map((valor, id) => (
+          &lt;Equipo
+            key={id}
+            equipo={valor}
+            fnNavegar={navegarDetalleEquipo}
+          >&lt;/Equipo>
+        ))}
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default TablaEquipos;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

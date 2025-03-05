@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Cruds/CrudCentros.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Cruds/CrudCentros.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useMemo, useState } from "react";
+import { useCrud } from "../../hooks/useCrud";
+import Paginator from "../Paginator";
+import Spinner from "../Spinner";
+
+/**
+ * Componente para gestionar los centros. Permite listar, buscar, editar y eliminar centros.
+ * También soporta la paginación de los elementos listados.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando el usuario cambia el modo entre "crear" o "editar". Recibe el modo y los datos del centro si es necesario.
+ * 
+ * @returns {React.Element} El componente para gestionar los centros.
+ */
+function CrudCentros({ onModoCambio }) {
+    // Memoriza la sección para evitar recrearla en cada render
+    const seccion = useMemo(() => ({ nombre: "Centros" }), []);
+    const { items, loading, error, deleteItem } = useCrud(seccion);
+
+    // Estados para búsqueda y paginación
+    const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    /**
+     * Función segura para evitar errores con valores null/undefined.
+     * Convierte el valor en minúsculas si no es nulo ni indefinido.
+     * 
+     * @param {string|null|undefined} value - Valor a convertir a minúsculas.
+     * @returns {string} El valor convertido a minúsculas o una cadena vacía si es nulo o indefinido.
+     */
+    const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
+
+    /**
+     * Filtra los centros en función del término de búsqueda. Compara el nombre y la landing page de cada centro con el término de búsqueda.
+     * 
+     * @returns {Array} Lista de centros que coinciden con el término de búsqueda.
+     */
+    const filteredItems = items.filter((centro) => {
+        const query = searchQuery.toLowerCase();
+
+        return (
+            safeToLower(centro.nombre).includes(query) ||
+            safeToLower(centro.landing_page).includes(query)
+        );
+    });
+
+    // Cálculos de paginación
+    const totalItems = filteredItems.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+
+    /**
+     * Maneja el cambio en el campo de búsqueda, actualizando el estado del término de búsqueda y reiniciando la paginación.
+     * 
+     * @param {Object} e - El evento de cambio.
+     */
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
+    };
+
+    // Mostrar el cargando o el error
+    if (loading) {
+        return &lt;Spinner />;
+    }
+    if (error) {
+        return &lt;p>Error: {error}&lt;/p>;
+    }
+    
+    return (
+        &lt;div>
+            &lt;h2>Centros&lt;/h2>
+
+            {/* Buscador */}
+            &lt;div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+                &lt;input
+                    type="text"
+                    className="form-control flex-grow-1"
+                    placeholder="Buscar centros..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+                &lt;button
+                    className="btn btn-success text-nowrap"
+                    onClick={() => onModoCambio("crear")} // Cambia el modo a "crear"
+                >
+                    Crear Centro
+                &lt;/button>
+            &lt;/div>
+
+            {/* Tabla de datos */}
+            &lt;table className="table table-bordered table-hover">
+                &lt;thead className="thead-dark">
+                    &lt;tr>
+                        &lt;th>Nombre&lt;/th>
+                        &lt;th>Landing Page&lt;/th>
+                        &lt;th>Acciones&lt;/th>
+                    &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                    {currentItems.map((centro) => (
+                        &lt;tr key={centro.id}>
+                            &lt;td>{centro.nombre}&lt;/td>
+                            &lt;td>
+                                &lt;a href={centro.landing_page} target="_blank" rel="noopener noreferrer">
+                                    {centro.landing_page}
+                                &lt;/a>
+                            &lt;/td>
+                            &lt;td className="d-flex">
+                                &lt;button
+                                    className="btn btn-sm btn-warning me-2"
+                                    onClick={() => onModoCambio("editar", centro)}
+                                >
+                                    Editar
+                                &lt;/button>
+                                &lt;button
+                                    className="btn btn-sm btn-danger"
+                                    onClick={() => deleteItem(centro.id)}
+                                >
+                                    Eliminar
+                                &lt;/button>
+                            &lt;/td>
+                        &lt;/tr>
+                    ))}
+                    {currentItems.length === 0 &amp;&amp; (
+                        &lt;tr>
+                            &lt;td colSpan="3" className="text-center">
+                                No hay centros disponibles.
+                            &lt;/td>
+                        &lt;/tr>
+                    )}
+                &lt;/tbody>
+            &lt;/table>
+
+            {/* Paginación */}
+            &lt;Paginator
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
+        &lt;/div>
+    );
+}
+
+export default CrudCentros;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

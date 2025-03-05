@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useContext, useState } from "react";
+import { SeguridadContext } from "../contexts/SeguridadProvider.jsx";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Spinner from "./Spinner.jsx";
+import "./css/EstilosComun.css";
+import "./css/PaginaLogin.css";
+
+/**
+ * Componente que maneja el inicio de sesión de los usuarios.
+ * Permite a los usuarios ingresar su correo electrónico y contraseña para iniciar sesión.
+ * 
+ * @component
+ * 
+ * Muestra un formulario de inicio de sesión, valida las credenciales y, si son correctas, redirige al usuario a la página principal.
+ *
+ */
+function Login() {
+    /**
+     * Contexto que proporciona las funciones de autenticación, como `login` y `logout`.
+     * 
+     * @type {Object}
+     * @property {function} login - Función para autenticar a un usuario.
+     * @returns {Object} Resultado de la autenticación.
+     */
+    const { login } = useContext(SeguridadContext);
+    
+    /**
+     * Estado que almacena los datos del formulario.
+     * 
+     * @typedef {Object} FormData
+     * @property {string} email - Correo electrónico del usuario.
+     * @property {string} password - Contraseña del usuario.
+     */
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    /**
+     * Estado que almacena el mensaje de error si ocurre un problema con el inicio de sesión.
+     * 
+     * @type {string|null}
+     */
+    const [error, setError] = useState(null);
+
+    /**
+     * Estado que indica si la solicitud de inicio de sesión está en proceso.
+     * 
+     * @type {boolean}
+     */
+    const [loading, setLoading] = useState(false);
+
+    /**
+     * Hook para navegar entre páginas.
+     * 
+     * @type {function}
+     */
+    const navigate = useNavigate();
+
+    /**
+     * Maneja los cambios en los campos del formulario de inicio de sesión.
+     * Actualiza el estado `formData` con los valores de los campos.
+     * 
+     * @param {React.ChangeEvent&lt;HTMLInputElement>} e - El evento de cambio del formulario.
+     */
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    /**
+     * Maneja el envío del formulario de inicio de sesión.
+     * Envía las credenciales al servidor y maneja la respuesta.
+     * 
+     * @param {React.FormEvent&lt;HTMLFormElement>} e - El evento de envío del formulario.
+     * @returns {Promise&lt;void>} - Retorna una promesa que maneja la respuesta del inicio de sesión.
+     */
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+        setLoading(true);
+
+        const result = await login(formData.email, formData.password);
+
+        setLoading(false);
+
+        if (!result.success) {
+            setError(result.error);
+            setFormData((prevData) => ({ ...prevData, password: '' }));
+        } else {
+            navigate("/");
+        }
+    };
+
+    return (
+        &lt;div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+            {loading ? (
+                &lt;Spinner />
+            ) : (
+                &lt;form onSubmit={handleSubmit} className="formulario shadow-lg bg-white rounded p-5 text-center">
+                    &lt;Link to="/" className="position-absolute top-0 start-0 ms-3 mt-3 text-decoration-none text-primary">
+                        &lt;i className="bi bi-arrow-left me-2">&lt;/i> Volver al Inicio
+                    &lt;/Link>
+                    
+                    &lt;h1 className="h3 mb-4 fw-bold">Iniciar sesión&lt;/h1>
+                    {error &amp;&amp; &lt;div className="alert alert-danger">{error}&lt;/div>}
+                    
+                    &lt;div className="form-floating mb-3">
+                        &lt;input
+                            type="email"
+                            className="form-control"
+                            id="floatingInput"
+                            name="email"
+                            placeholder="correo@ejemplo.com"
+                            onChange={handleChange}
+                            value={formData.email}
+                            required
+                            disabled={loading}
+                        />
+                        &lt;label htmlFor="floatingInput">Correo electrónico&lt;/label>
+                    &lt;/div>
+                    
+                    &lt;div className="form-floating mb-3">
+                        &lt;input
+                            type="password"
+                            className="form-control"
+                            id="floatingPassword"
+                            name="password"
+                            placeholder="Contraseña"
+                            onChange={handleChange}
+                            value={formData.password}
+                            required
+                            disabled={loading}
+                        />
+                        &lt;label htmlFor="floatingPassword">Contraseña&lt;/label>
+                    &lt;/div>
+                    
+                    &lt;button className="btn btn-primary w-100 py-2" type="submit" disabled={loading}>
+                        {loading ? &lt;Spinner /> : "Iniciar sesión"}
+                    &lt;/button>
+                    
+                    &lt;p className="mt-4 text-muted">© 2025&lt;/p>
+                &lt;/form>
+            )}
+        &lt;/div>
+    );
+}
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

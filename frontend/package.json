@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "docs": "jsdoc 'src/**/*.{js,jsx}' --destination docs"
+    "docs": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "@tinymce/tinymce-react": "^6.0.0",

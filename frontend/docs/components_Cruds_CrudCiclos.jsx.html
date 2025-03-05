@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Cruds/CrudCiclos.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Cruds/CrudCiclos.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useMemo, useState } from "react";
+import { useCrud } from "../../hooks/useCrud";
+import Paginator from "../Paginator";
+import Spinner from "../Spinner";
+
+/**
+ * Componente que gestiona la visualización y edición de los ciclos formativos.
+ * Permite buscar, eliminar y editar ciclos, así como paginar los resultados.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {function} props.onModoCambio - Función que se ejecuta cuando cambia el modo, por ejemplo, para editar o crear un ciclo.
+ * 
+ * @returns {React.Element} El componente `CrudCiclos` que permite administrar los ciclos formativos.
+ */
+function CrudCiclos({ onModoCambio }) {
+    // Memoriza la sección para evitar recrearla en cada render
+    const seccion = useMemo(() => ({ nombre: "Ciclos" }), []);
+    const { items, loading, error, deleteItem } = useCrud(seccion);
+
+    // Estados para búsqueda y paginación
+    const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    /**
+     * Función segura para convertir valores en minúsculas sin causar errores si el valor es null o undefined.
+     * 
+     * @param {any} value - El valor a convertir a minúsculas.
+     * @returns {string} El valor en minúsculas o una cadena vacía si es null/undefined.
+     */
+    const safeToLower = (value) => (value ? value.toString().toLowerCase() : "");
+
+    // Filtrar ciclos según el término de búsqueda
+    const filteredItems = items.filter((ciclo) => {
+        const query = searchQuery.toLowerCase();
+
+        return (
+            safeToLower(ciclo.nombre).includes(query) ||
+            safeToLower(ciclo.familia_id?.nombre).includes(query)
+        );
+    });
+
+    // Cálculos de paginación
+    const totalItems = filteredItems.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+
+    /**
+     * Maneja el cambio en el campo de búsqueda.
+     * Reinicia la página a la primera en cada búsqueda.
+     * 
+     * @param {Object} e - El evento de cambio.
+     */
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1); // Reiniciar a la primera página en cada búsqueda
+    };
+
+    // Cargar el spinner mientras se cargan los datos
+    if (loading) {
+        return &lt;Spinner />;
+    }
+    // Mostrar un mensaje de error si ocurre uno
+    if (error) {
+        return &lt;p>Error: {error}&lt;/p>;
+    }
+    
+    return (
+        &lt;div>
+            &lt;h2>Ciclos Formativos&lt;/h2>
+
+            {/* Buscador */}
+            &lt;div className="mb-3">
+                &lt;input
+                    type="text"
+                    className="form-control"
+                    placeholder="Buscar ciclos..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+            &lt;/div>
+
+            {/* Tabla de datos */}
+            &lt;table className="table table-bordered table-hover">
+                &lt;thead className="thead-dark">
+                    &lt;tr>
+                        &lt;th>Nombre&lt;/th>
+                        &lt;th>Familia Profesional&lt;/th>
+                        &lt;th>Acciones&lt;/th>
+                    &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                    {currentItems.map((ciclo) => (
+                        &lt;tr key={ciclo.id}>
+                            &lt;td>{ciclo.nombre}&lt;/td>
+                            &lt;td>{ciclo.familia_id?.nombre || "Sin familia"}&lt;/td>
+                            &lt;td className="d-flex">
+                                &lt;button
+                                    className="btn btn-sm btn-warning me-2"
+                                    onClick={() => onModoCambio("editar", ciclo)}
+                                >
+                                    Editar
+                                &lt;/button>
+                                &lt;button
+                                    className="btn btn-sm btn-danger"
+                                    onClick={() => deleteItem(ciclo.id)}
+                                >
+                                    Eliminar
+                                &lt;/button>
+                            &lt;/td>
+                        &lt;/tr>
+                    ))}
+                    {currentItems.length === 0 &amp;&amp; (
+                        &lt;tr>
+                            &lt;td colSpan="3" className="text-center">
+                                No hay ciclos disponibles.
+                            &lt;/td>
+                        &lt;/tr>
+                    )}
+                &lt;/tbody>
+            &lt;/table>
+
+            {/* Paginación */}
+            &lt;Paginator
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
+        &lt;/div>
+    );
+}
+
+export default CrudCiclos;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

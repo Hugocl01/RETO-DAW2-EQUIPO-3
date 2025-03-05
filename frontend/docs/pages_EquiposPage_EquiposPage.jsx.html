@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/EquiposPage/EquiposPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/EquiposPage/EquiposPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Equipo from "../../components/Equipo";
+import Spinner from "../../components/Spinner.jsx";
+import ErrorPage from "../ErrorPage.jsx";
+import "../../../src/components/css/EstilosComun.css";
+import fetchData from "../../data/FetchData.js";
+
+/**
+ * Página de Equipos.
+ *
+ * Esta página obtiene y muestra una lista de equipos.
+ *
+ * @component
+ * @returns {JSX.Element} - Renderiza la lista de equipos o una página de error.
+ */
+function EquiposPage() {
+  const [equipos, setEquipos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
+  const navegar = useNavigate();
+
+  useEffect(() => {
+
+    /**
+     * Funcion envoltorio para realizar llamada a la api
+     */
+    const obtenerListadoEquipos = async () => {
+      try {
+        const resultado = await fetchData("equipos");
+        /**
+         * Si el resultado de la llamada es success y la respuesta es un array guardo los datos en el estado y en la sessionStorage
+         */
+        if (resultado.status === "success" &amp;&amp; Array.isArray(resultado.equipos)) {
+          setEquipos(resultado.equipos);
+          sessionStorage.setItem("equipos", JSON.stringify(resultado.equipos));
+        } else {
+          /**
+           * Si da fallo, recojo el error
+           */
+          setError({
+            tipo: "error",
+            mensaje: "Hubo un problema al obtener los equipos.",
+          });
+        }
+      } catch (error) {
+        /**
+         * Recojo cualquier tipo de error que me recoja el catch
+         */
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No hay equipos disponibles.",
+        });
+      } finally {
+        /**
+         * Salte el catch o no, se dejará de cargar la página
+         */
+        setCargando(false);
+      }
+    };
+
+    /**
+     * Recojo los valores de la sessionStorage
+     */
+    const equiposGuardados = sessionStorage.getItem("equipos");
+
+    /**
+     * Si hay datos guardados de equipos, guardo los valores en la sessionstorage
+     * Si no hay datos, realizo la llamada a la api
+     */
+    if (equiposGuardados) {
+      setEquipos(JSON.parse(equiposGuardados));
+      setCargando(false);
+    } else {
+      obtenerListadoEquipos();
+    }
+
+    /**
+     * Esto me llevará al principio de la página
+     */
+    window.scrollTo(0, 0);
+  }, []);
+  /**
+   * Enseño la página de error, cuando haya una página de error
+   */
+  if (error) {
+    return &lt;ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
+  /**
+   * Mientras cargue la respuesta de la api, muestro un spinner
+   */
+  if (cargando) {
+    return &lt;Spinner />;
+  }
+
+  /**
+   * Navega a la página de detalles equipo
+   * @param {String} slug
+   */
+  function navegarDetalleEquipo(slug) {
+    navegar(`/equipos/${slug}`);
+  }
+
+  return (
+    &lt;>
+      &lt;title>Equipos&lt;/title>
+      &lt;section className="container-fluid w-75" id="equipos">
+        &lt;div className="row mb-4">
+          &lt;div className="d-flex justify-content-center align-items-center">
+            &lt;h1>Listado de Equipos&lt;/h1>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="row d-flex justify-content-center align-items-center row-cols-1 row-cols-md-3 g-5">
+          {equipos.map((equipo) => (
+            &lt;Equipo
+              key={equipo.slug}
+              equipoObtenido={equipo}
+              fnNavegar={navegarDetalleEquipo}
+            />
+          ))}
+        &lt;/div>
+      &lt;/section>
+    &lt;/>
+  );
+}
+
+export default EquiposPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#PerfilPage">PerfilPage</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Wed Mar 05 2025 22:25:31 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
