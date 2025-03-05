@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../ErrorPage";
 import fetchData from "../../data/FetchData";
+import img1 from '../../assets/imagenes/img1.jpg';
 
 function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
@@ -151,7 +152,7 @@ function DetalleJugadorPage() {
                */}
               <div className="col-md-6">
                 <img
-                  src={"../../src/assets/imagenes/img1.jpg"}
+                  src={img1}
                   alt={`${jugador.nombre} ${jugador.primer_apellido}`}
                   className="img-fluid mb-3"
                   style={{ maxWidth: "100%" }}

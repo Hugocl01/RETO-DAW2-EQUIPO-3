@@ -1,4 +1,5 @@
 import "./css/EstilosComun.css";
+import img2 from "../assets/imagenes/img2.png";
 
 function Galeria() {
 
@@ -11,7 +12,7 @@ function Galeria() {
                 {Array.from({ length: 8 }).map((_, index) => (
                     <div key={index} className="col-md-4 col-sm-6 col-12 mb-4">
                         <div className="card">
-                            <img src="../src/assets/imagenes/img2.png" className="card-img-top" alt="..." />
+                            <img src={img2} className="card-img-top" alt="..." />
                             <div className="card-body text-center">
                                 <h5 className="card-title">Pie de Foto {index + 1}</h5>
                             </div>

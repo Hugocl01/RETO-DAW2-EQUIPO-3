@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import fetchData from "../../data/FetchData";
+import img1 from '../../assets/imagenes/img1.jpg';
 
 function DetallePartidoPage() {
   /**
@@ -123,20 +124,7 @@ function DetallePartidoPage() {
       } else {
         actasAgrupados[acta.minuto].visitante = acta.incidencia;
       }
-      /*
-      if (acta.incidencia === "Gol") {
-        if (acta.equipo === partido["equipo local"].nombre) {
-          setGolesLocal(golesLocal + 1);
-        } else {
-          setGolesVisitante(golesVisitante + 1);
-        }
-      } else if (acta.incidencia === "Gol en propia puerta") {
-        if (acta.equipo === partido["equipo local"].nombre) {
-          setGolesVisitante(golesVisitante + 1);
-        } else {
-          setGolesLocal(golesLocal + 1);
-        }
-      }*/
+     
     });
 
     return actasAgrupados;
@@ -165,7 +153,7 @@ function DetallePartidoPage() {
         <div className="row my-5">
           <div className="col-4 d-flex flex-row justify-content-around align-items-center">
             <img
-              src={"../../src/assets/imagenes/img1.jpg"}
+              src={img1}
               alt="imagenPatrocinador"
               className="img-fluid rounded"
               style={{ width: "100%" }}
@@ -178,7 +166,7 @@ function DetallePartidoPage() {
           </div>
           <div className="col-4 d-flex flex-row justify-content-around align-items-center">
             <img
-              src={"../../src/assets/imagenes/img1.jpg"}
+              src={img1}
               alt="imagenPatrocinador"
               className="img-fluid rounded"
               style={{ width: "100%" }}

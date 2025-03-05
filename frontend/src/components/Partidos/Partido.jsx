@@ -9,7 +9,6 @@ function Partido({ tipo, objPartido, fnNavegar }) {
   const partido = objPartido;
 
   function handleClick() {
-    console.log(partido);
     fnNavegar(partido.slug);
   }
 
@@ -17,7 +16,6 @@ function Partido({ tipo, objPartido, fnNavegar }) {
    * Creo un identificador único para los accordeones de los partidos
    */
   const collapseId = `collapse-${partido.slug}`;
-  console.log(partido)
   return (
     <div className="accordion card mb-3 shadow-sm" id={`accordion-${partido.slug}`}>
       {/**

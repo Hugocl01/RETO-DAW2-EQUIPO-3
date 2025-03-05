@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom";
 import "./css/Header.css";
 import LoginModal from './LoginModal';
 import imagenPerfil from "../assets/imagenes/user.png";
+import logo from '../assets/imagenes/logo.png';
+
 
 function Header() {
   const { seguridad, logout } = useContext(SeguridadContext);
@@ -54,7 +56,7 @@ function Header() {
           {/* Logo con enlace a la página principal */}
           <div className="flex-grow-0" id="logo">
             <Link to="/" className="d-flex justify-content-flex-start align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-              <img src="../src/assets/imagenes/logo.png" alt="Logo" />
+              <img src={logo} alt="Logo" />
             </Link>
           </div>
 
