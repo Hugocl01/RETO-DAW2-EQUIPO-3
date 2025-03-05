@@ -124,12 +124,6 @@ function CrudEstudios({ onModoCambio }) {
                             <td>{estudio.curso}</td>
                             <td className="d-flex">
                                 <button
-                                    className="btn btn-sm btn-warning me-2"
-                                    onClick={() => handleEditar(estudio)}
-                                >
-                                    Editar
-                                </button>
-                                <button
                                     className="btn btn-sm btn-danger"
                                     onClick={() => deleteItem(estudio.id)}
                                 >
