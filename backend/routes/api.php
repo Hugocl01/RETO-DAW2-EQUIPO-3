@@ -51,6 +51,7 @@ Route::apiResource('perfiles', PerfilController::class)->only('show');
 Route::apiResource('estudios', EstudioController::class)->only(['index']);
 Route::apiResource('publicaciones', PublicacionController::class)->only(['index', 'show']);
 Route::apiResource('patrocinadores', PatrocinadorController::class)->only(['index', 'show']);
+Route::apiResource('imagenes', ImagenController::class)->only('index');
 
 Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA']);
 Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
@@ -115,8 +116,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])
         ->middleware('ability:Publicaciones.getListaPublicacionModelos');
 
-    Route::apiResource('imagenes', ImagenController::class)->except(['store', 'update'])
-        ->middleware('ability:Imagenes.index,Imagenes.destroy');
+    Route::apiResource('imagenes', ImagenController::class)->except(['store', 'update','index'])
+        ->middleware('ability:Imagenes.destroy');
 
     Route::post('imagenes/{model}/{id}/upload-foto', [ImagenController::class, 'uploadFoto'])
         ->middleware('ability:Imagenes.uploadFoto');
