@@ -103,4 +103,4 @@ git clone https://github.com/Hugocl01/RETO-DAW2-EQUIPO-3.git
 #### Frontend (React)
 Hemos generado documentación automática del código del frontend utilizando **JSDoc**. Esta documentación proporciona una descripción detallada de los componentes, funciones y props utilizados en el proyecto.
 
-Documentacion: [Documentación del Frontend](/frontend/docs/index.html)
+Documentacion: [Documentación del Frontend](./frontend/docs/index.html)
