@@ -17,8 +17,6 @@ class Publicacion extends Model
         'contenido',
         'publicacionable_id',
         'publicacionable_type',
-        'ruta_video',
-        'ruta_audio',
         'portada',
     ];
 

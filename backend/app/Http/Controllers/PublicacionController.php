@@ -18,9 +18,7 @@ class PublicacionController extends Controller
             'contenido',
             'publicacionable_id',
             'publicacionable_type'
-        )
-            ->with(['publicacionable', 'imagenes']) // <-- Aquí agregas la relación de imágenes
-            ->get();
+        )->get();
 
         if ($publicaciones->isEmpty()) {
             return response()->json([
@@ -46,39 +44,49 @@ class PublicacionController extends Controller
 
     public function store(PublicacionRequest $request)
     {
-        // Validación de datos
         $validatedData = $request->validated();
+
+        // Tipos permitidos
+        $tiposValidos = ['Equipo', 'Partido', 'Patrocinador', 'Jugador', 'Reto', 'Ong', 'Pabellon'];
+
+        if (!in_array($validatedData['publicacionable_type'], $tiposValidos)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tipo de entidad no válido.',
+            ], 400);
+        }
+
+        $modelClass = "App\\Models\\" . $validatedData['publicacionable_type'];
+
+        if (!class_exists($modelClass)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Modelo no encontrado.',
+            ], 404);
+        }
+
+        $publicacionable = $modelClass::find($validatedData['publicacionable_id']);
+
+        if (!$publicacionable) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Entidad asociada no encontrada.',
+            ], 404);
+        }
 
         // Crear la publicación
         $publicacion = Publicacion::create([
-            'titulo'               => $validatedData['titulo'],
-            'contenido'            => $validatedData['contenido'] ?? null,
-            'publicacionable_type' => $validatedData['publicacionable_type'],
-            'publicacionable_id'   => $validatedData['publicacionable_id'],
-            'ruta_video'           => $validatedData['ruta_video'] ?? null,
-            'ruta_audio'           => $validatedData['ruta_audio'] ?? null,
-            'portada'              => $validatedData['portada'] ?? false,
+            'titulo' => $validatedData['titulo'],
+            'contenido' => $validatedData['contenido'] ?? null,
+            'publicacionable_type' => $modelClass,
+            'publicacionable_id' => $validatedData['publicacionable_id'],
+            'portada' => $validatedData['portada'] ?? false,
         ]);
 
-        // Procesar el array de imágenes si existen
-        if ($request->hasFile('imagenes')) {
-            foreach ($request->file('imagenes') as $imagen) {
-                // Almacenar la imagen en la carpeta 'public/publicaciones/imagenes'
-                // Se asume que el disco 'public' está configurado en config/filesystems.php
-                $ruta = $imagen->store('publicaciones/imagenes', 'public');
-
-                // Crear el registro de imagen asociado mediante la relación polimórfica
-                $publicacion->imagenes()->create([
-                    'ruta' => $ruta,
-                    // Aquí podrías agregar otros campos si tu modelo Imagen los requiere (por ejemplo, 'nombre')
-                ]);
-            }
-        }
-
-        // Retornar la respuesta (podrías usar un Resource para formatear la salida)
         return response()->json([
-            'status'      => 'success',
-            'publicacion' => $publicacion,
+            'status' => 'success',
+            'message' => 'Publicación creada correctamente.',
+            'publicacion' => new PublicacionResource($publicacion),
         ], 201);
     }
 

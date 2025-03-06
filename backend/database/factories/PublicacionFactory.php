@@ -18,8 +18,6 @@ class PublicacionFactory extends Factory
             'publicacionable_type'  => 'App\\Models\\Equipo',
             // Se asigna un ID aleatorio; en un caso real podrías relacionarlo con registros existentes
             'publicacionable_id'    => $this->faker->numberBetween(1, 10),
-            'ruta_video'            => null,
-            'ruta_audio'            => null,
             'portada'               => $this->faker->boolean,
         ];
     }

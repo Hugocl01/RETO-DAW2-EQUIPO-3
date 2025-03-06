@@ -21,10 +21,6 @@ return new class extends Migration
             // Esto crea publicacionable_id (bigInteger) y publicacionable_type (string)
             $table->morphs('publicacionable');
 
-            // Opcional: si la publicación tiene video/audio
-            $table->string('ruta_video')->nullable();
-            $table->string('ruta_audio')->nullable();
-
             // Opcional: si va a portada
             $table->boolean('portada')->default(false);
 

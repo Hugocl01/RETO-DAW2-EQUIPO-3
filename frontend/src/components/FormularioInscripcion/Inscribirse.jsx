@@ -123,7 +123,7 @@ function Inscribirse() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Construimos el formData que se enviará a Laravel
+    // Construimos el formData
     const formData = {
       nombre: nombreEquipo,
       centro_id: centroSeleccionado,
@@ -133,7 +133,6 @@ function Inscribirse() {
         return {
           nombre_completo: jugador.nombre_completo,
           estudio_id: jugador.estudio_id,
-          // Solo el capitán lleva dni, email y teléfono
           dni: jugador.id === capitanId ? jugador.dni : null,
           email: jugador.id === capitanId ? jugador.email : null,
           telefono: jugador.id === capitanId ? jugador.telefono : null,
@@ -142,18 +141,28 @@ function Inscribirse() {
       }),
     };
 
-    try {
-      const response = await postData("equipos", formData);
-      alert("Formulario enviado correctamente");
-      setErrores({}); // Limpiar errores si todo salió bien
-    } catch (error) {
-      console.error("Error al enviar el formulario", error);
-      // Si hubo validaciones de Laravel con status=422, se capturan aquí
-      if (error.response && error.response.status === 422) {
-        setErrores(error.response.data.errors);
+    // Llamamos a postData y guardamos la respuesta
+    const response = await postData("equipos", formData);
+
+    // Verificamos si hubo error
+    if (response.error) {
+      // Manejo de errores
+      if (response.status === 422) {
+        // Esto significa que es un error de validación
+        if (response.data && response.data.errors) {
+          setErrores(response.data.errors);
+        }
+      } else {
+        // Otro tipo de error (403, 500, etc.)
+        console.error("Error no manejado:", response);
       }
+    } else {
+      // Éxito: no hay error
+      alert("Formulario enviado correctamente");
+      setErrores({});
     }
   };
+
 
   // Carga de datos inicial (estudios y centros) desde el back
   useEffect(() => {

@@ -47,6 +47,7 @@ Route::apiResource('centros', CentroController::class)->only(['index']);
 Route::apiResource('equipos', EquipoController::class)->only(['store', 'index', 'show']);
 Route::apiResource('jugadores', JugadorController::class)->only(['index', 'show']);
 Route::apiResource('partidos', PartidoController::class)->only(['index', 'show']);
+Route::apiResource('perfiles', PerfilController::class)->only('show');
 Route::apiResource('estudios', EstudioController::class)->only(['index']);
 Route::apiResource('publicaciones', PublicacionController::class)->only(['index', 'show']);
 Route::apiResource('patrocinadores', PatrocinadorController::class)->only(['index', 'show']);
@@ -89,8 +90,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Familias.index,Familias.show,Familias.store,Familias.update,Familias.destroy');
     Route::get('/lista/familias', [FamiliaController::class, 'getListaFamilias']);
 
-    Route::apiResource('perfiles', PerfilController::class)->only('index', 'show')
-        ->middleware('ability:Perfiles.show');
+    Route::apiResource('perfiles', PerfilController::class)->only('index')
+        ->middleware('ability:Perfiles.index');
     Route::get('/lista/perfiles', [PerfilController::class, 'getListaPerfiles'])
         ->middleware('ability:Perfiles.getListaPerfiles');
 

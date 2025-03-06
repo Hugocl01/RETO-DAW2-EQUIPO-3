@@ -71,7 +71,6 @@ function CrudTorneos() {
                 }
             });
 
-            if (!response.ok) throw new Error("Error al obtener los partidos");
 
             const data = await response.json();
             const partidosData = data.partidos || [];
