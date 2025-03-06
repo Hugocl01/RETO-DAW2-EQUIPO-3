@@ -48,9 +48,11 @@ import fetchData from "../data/FetchData";
  */
 function Inicio() {
   const [donaciones, setDonaciones] = useState([]);
-  const [retos, setRetos ] = useState([]);
+  const [retos, setRetos] = useState([]);
   const [noticias, setNoticias] = useState([]);
   const [patrocinadores, setPatrocinadores] = useState([]);
+  const [imagenes, setImagenes] = useState([]);
+
 
   const [searchParams] = useSearchParams();
   const status = searchParams.get("inscripcion-status");
@@ -141,6 +143,21 @@ function Inicio() {
       }
     };
     obtenerPatrocinadores();
+
+    // Obtener imagenes
+    const obtenerImagenes = async () => {
+      try {
+        const respuesta = await fetch("/api/imagenes");
+        const data = await respuesta.json();
+        if (data.status === "success") {
+          setImagenes(data.imagenes);
+        }
+      } catch (error) {
+        console.error("Error al obtener las imagenes:", error);
+      }
+    };
+    obtenerImagenes();
+
   }, []);
 
   /**
@@ -380,30 +397,38 @@ function Inicio() {
           <h1 className="mb-4 mt-5 text-primary fw-bold">Patrocinadores</h1>
           <div className="d-flex flex-wrap justify-content-center gap-3">
             {patrocinadores.length > 0 ? (
-              patrocinadores.map((patrocinador) => (
-                <div
-                  key={patrocinador.nombre}
-                  className="p-2 bg-white shadow-sm rounded"
-                >
-                  <a
-                    href={patrocinador.landing_page}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={`${apiUrl + patrocinador.ruta}`}
-                      className="patrocinadorImg img-fluid"
-                      alt={patrocinador.nombre}
-                    />
-                  </a>
-                </div>
-              ))
+              patrocinadores.map((patrocinador) => {
+                // Buscar la imagen correspondiente al patrocinador en la lista de imágenes
+                const imagenPatrocinador = imagenes.find(
+                  (img) =>
+                    img.imagenable_type === "App\\Models\\Patrocinador" &&
+                    img.imagenable_id === patrocinador.id
+                );
+
+                // Construir la URL de la imagen si existe, o usar una imagen por defecto
+                const urlImagen = imagenPatrocinador
+                  ? `${apiUrl}/${imagenPatrocinador.ruta}`.replace('/api/', '/storage')
+                  : defaultImagen;
+
+                console.log(urlImagen);
+
+
+                return (
+                  <div key={patrocinador.nombre} className="p-2 bg-white shadow-sm rounded">
+                    <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                      <img src={urlImagen} className="patrocinadorImg img-fluid" alt={patrocinador.nombre} />
+                    </a>
+                  </div>
+                );
+              })
             ) : (
               <p className="text-muted">No hay patrocinadores disponibles</p>
             )}
           </div>
         </div>
       </section>
+
+
     </div>
   );
 }
