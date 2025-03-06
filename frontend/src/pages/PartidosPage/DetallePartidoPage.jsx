@@ -4,6 +4,12 @@ import Spinner from "../../components/Spinner";
 import fetchData from "../../data/FetchData";
 import img1 from '../../assets/imagenes/img1.jpg';
 
+/**
+ * Componente `DetallePartidoPage` que muestra los detalles de un partido, incluyendo las incidencias agrupadas por minuto.
+ * 
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de detalles del partido.
+ */
 function DetallePartidoPage() {
   /**
    * Estado para almacenar el estado partido
@@ -16,7 +22,8 @@ function DetallePartidoPage() {
   const [error, setError] = useState();
 
   /**
-   * Se ejecutará la carga de la api cuando cambie la ruta del header con el location
+   * Efecto que se ejecuta cuando cambia la ubicación (URL).
+   * Obtiene los datos del partido desde la API o desde la sesión de almacenamiento.
    */
   useEffect(() => {
     const obtenerPartido = async () => {
@@ -66,7 +73,7 @@ function DetallePartidoPage() {
     const obtenerPartidoSession = sessionStorage.getItem(nombrePartido);
 
     /**
-     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+     * Si hay datos en la sessionStorage, utilizo esos datos y la asigno al estado equipo
      * Si no hay datos, realizo la llamada a la api
      */
     if (obtenerPartidoSession) {
@@ -88,7 +95,11 @@ function DetallePartidoPage() {
    * Función para obtener los actas agrupados por minuto con las incidencias de cada equipo en ese minuto
    * 
    * @returns {Object} - Un objeto donde las claves son los minutos y los valores son objetos con las incidencias de cada equipo.
-   * 
+   * @example
+   * {
+   *   10: { local: "Gol", visitante: "" },
+   *   45: { local: "", visitante: "Tarjeta amarilla" }
+   * }
    */
   function obtenerActaAgrupado() {
     let actasAgrupados = {};

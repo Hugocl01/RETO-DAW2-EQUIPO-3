@@ -27,7 +27,6 @@ const OrganizacionPage = lazy(() => import("../pages/OrganizacionPage.jsx"));
 const RetoPage = lazy(() => import("../pages/RetoPage.jsx"));
 const GaleriaPage = lazy(() => import("../pages/GaleriaPage.jsx"));
 const InscribirsePage = lazy(() => import("../pages/InscribirsePage.jsx"));
-const PerfilPage = lazy(() => import("../pages/PerfilPage.jsx"));
 const SetPasswordPage = lazy(() => import("../pages/SetPasswordForm.jsx"));
 const AdministracionPage = lazy(() =>
   import("../pages/AdministracionPage.jsx")
@@ -186,16 +185,6 @@ function AppEnrutador() {
               <Suspense fallback={<Spinner />}>
                 <InscribirsePage />
               </Suspense>
-            }
-          />
-          <Route
-            path="perfil"
-            element={
-              <RutaPrivada>
-                <Suspense fallback={<Spinner />}>
-                  <PerfilPage />
-                </Suspense>
-              </RutaPrivada>
             }
           />
 

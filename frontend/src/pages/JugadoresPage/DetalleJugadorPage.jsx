@@ -5,24 +5,38 @@ import ErrorPage from "../ErrorPage";
 import fetchData from "../../data/FetchData";
 import img1 from '../../assets/imagenes/img1.jpg';
 
+/**
+ * Componente `DetalleJugadorPage` que muestra los detalles de un jugador, incluyendo su información personal y estadísticas.
+ * 
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de detalles del jugador.
+ */
 function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
   const location = useLocation();
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState();
 
+  /**
+   * Efecto que se ejecuta cuando cambia la ubicación (URL).
+   * Obtiene los datos del jugador desde la API o desde la sesión de almacenamiento.
+   */
   useEffect(() => {
     /**
      * Cojo el valor del slug del jugador desde la URL (última parte de location.pathname)
      */
     const nombreJugador = location.pathname.split("/").pop();
+
+    /**
+     * Función envoltorio que realiza la llamada a la API para obtener los datos del jugador.
+     */
     const obtenerJugador = async () => {
       try {
         const resultado = await fetchData(`jugadores/${nombreJugador}`);
         if (resultado.status === "success") {
           /**
            * Obtengo el array de jugadoresMostrados
-           * Si no hay, inicializo el array vacio
+           * Si no hay, inicializo el array vacío
            */
           let arrayJugadores =
             JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
@@ -63,7 +77,7 @@ function DetalleJugadorPage() {
     };
 
     /**
-     * Obtengo el array de JugadoresMostrados desde la session
+     * Obtengo el array de JugadoresMostrados desde la sesión
      */
     const obtenerJugadorSession =
       JSON.parse(sessionStorage.getItem("jugadoresMostrados")) || [];
@@ -95,6 +109,9 @@ function DetalleJugadorPage() {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
+  /**
+   * Mientras cargue, muestro el spinner
+   */
   if (cargando) {
     return <Spinner></Spinner>;
   }
@@ -148,7 +165,7 @@ function DetalleJugadorPage() {
                 </p>
               </div>
               {/*
-               *Columna para la foto del jugador
+               * Columna para la foto del jugador
                */}
               <div className="col-md-6">
                 <img
