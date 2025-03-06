@@ -14,7 +14,9 @@ import "./css/EstilosComun.css";
  * 
  * @component
  * 
- * Muestra noticias y retos en carruseles, las donaciones del reto.
+ * Muestra noticias y retos en carruseles, las donaciones del reto, y la información sobre el torneo solidario.
+ * También incluye una sección de colaboradores y patrocinadores.
+ * 
  * @returns {JSX.Element} Componente de la página de inicio.
  */
 function Inicio() {
@@ -28,6 +30,9 @@ function Inicio() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    /**
+     * Efecto para obtener datos de donaciones, publicaciones, retos y patrocinadores al montar el componente.
+     */
     useEffect(() => {
         // Obtener las donaciones
         const obtenerDonaciones = async () => {
@@ -91,6 +96,11 @@ function Inicio() {
 
     }, []);
 
+    /**
+     * Calcula el total de donaciones recaudadas.
+     * 
+     * @returns {string} El total de donaciones formateado como una cadena con dos decimales.
+     */
     function totalDonado() {
         if (!donaciones || donaciones.length === 0) {
             return "0.00";
@@ -106,6 +116,7 @@ function Inicio() {
 
     return (
         <div className="inicio-container">
+            {/* Sección de la imagen de inicio */}
             <div className="imagenInicio d-flex flex-column justify-content-center align-items-center p-4">
                 <h2 className="text-white text-center mb-4">TORNEO DE FÚTBOL<br />SOLIDARIO</h2>
                 <div className='py-2 d-flex justify-content-center align-items-center'>
@@ -115,12 +126,14 @@ function Inicio() {
                 </div>
             </div>
 
+            {/* Mensaje de confirmación de inscripción */}
             <div>
                 {status === "success" && (
                     <h1>¡Inscripción confirmada!</h1>
                 )}
             </div>
 
+            {/* Sección de introducción */}
             <section className="introduccion section-container w-100">
                 <div className='seccion1'>
                     <div className='titulo p-5 text-center w-100'>
@@ -143,7 +156,7 @@ function Inicio() {
                     </div>
 
                     <div className='infoIntroduccion border border-secondary rounded p-3 mx-5 mt-5'>
-                        <h4 className='text-center mb-4'>Informacion del Torneo</h4>
+                        <h4 className='text-center mb-4'>Información del Torneo</h4>
                         <h5>
                             <i className="bi bi-calendar me-2"></i>
                             13 y 14 de Marzo de 2025
@@ -162,6 +175,7 @@ function Inicio() {
                 </div>
             </section>
 
+            {/* Sección de colaboradores */}
             <section className="colaboradores section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Colaboradores</h1>
                 <div className="d-flex flex-wrap justify-content-center gap-3">
@@ -237,6 +251,7 @@ function Inicio() {
                 </div>
             </section>
 
+            {/* Sección de carruseles de noticias y retos */}
             <section className="carruseles section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Noticias</h1>
                 {noticias.length > 0 ? (
@@ -253,6 +268,7 @@ function Inicio() {
                 )}
             </section>
 
+            {/* Sección de donaciones */}
             <section className="donaciones container d-flex flex-column align-items-center py-5">
                 <h1 className="text-center text-primary fw-bold mb-4">Donaciones</h1>
 
@@ -284,6 +300,7 @@ function Inicio() {
                 </div>
             </section>
 
+            {/* Sección de patrocinadores */}
             <section className="contenedorPatros py-5 bg-secondary">
                 <div className="patrocinadores container text-center">
                     <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>

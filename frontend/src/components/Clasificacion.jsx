@@ -6,11 +6,20 @@ import fetchData from "../data/FetchData";
 import "./css/EstilosComun.css";
 import "./css/Clasificacion.css";
 
+/**
+ * Componente para mostrar la clasificación de los equipos en dos grupos (A y B).
+ * Permite visualizar la clasificación en formato normal y responsive.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de clasificación.
+ */
 function Clasificacion() {
     const [equiposA, setEquiposA] = useState([]);
     const [equiposB, setEquiposB] = useState([]);
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Efecto para cargar la información de los equipos al montar el componente
     useEffect(() => {
         const cargarInformacion = async () => {
             try {
@@ -22,12 +31,15 @@ function Clasificacion() {
                 setEquiposB(responseB);
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         cargarInformacion();
     }, []);
 
+    // Muestra un spinner mientras se cargan los datos
     if (!equiposB.length && !equiposA.length) {
         return <Spinner />;
     }

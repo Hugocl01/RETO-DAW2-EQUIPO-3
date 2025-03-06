@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import llamadas from "../../data/FuncionesCombobox";
 
+/**
+ * Función para obtener la lista de tipos de perfil desde la API.
+ *
+ * @async
+ * @function fetchTiposPerfil
+ * @returns {Promise<Array>} Lista de tipos de perfil con formato { value, label }.
+ */
 const fetchTiposPerfil = async () => {
     try {
-
         const data = await llamadas().perfiles();
         if (!data) {
             return [];
@@ -21,6 +27,17 @@ const fetchTiposPerfil = async () => {
     }
 };
 
+/**
+ * Componente para gestionar un formulario de usuarios.
+ * Permite crear o editar un usuario con nombre, email, contraseña y tipo de perfil.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de usuarios.
+ */
 function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
     const [formData, setFormData] = useState({
         nombre_completo: "",
@@ -33,7 +50,7 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Usuarios" });
 
-    // Use useEffect solo para cargar perfiles una vez
+    // Efecto para cargar los tipos de perfil al montar el componente
     useEffect(() => {
         const obtenerTiposPerfil = async () => {
             const data = await fetchTiposPerfil();
@@ -45,7 +62,7 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [tiposPerfil]); // Solo se ejecuta si tiposPerfil está vacío
 
-    // UseEffect para establecer datos iniciales en el formulario solo si cambian
+    // Efecto para inicializar el formulario con datos iniciales
     useEffect(() => {
         if (datosIniciales) {
             setFormData((prevData) => ({
@@ -57,11 +74,21 @@ function FormularioUsuarios({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales]); // Solo se ejecuta cuando datosIniciales cambian
 
+    /**
+     * Maneja los cambios en los campos del formulario.
+     *
+     * @param {Object} event - Evento del input.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Maneja el envío del formulario.
+     *
+     * @param {Object} event - Evento del formulario.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);

@@ -2,9 +2,15 @@ import Partido from "./Partido";
 import { useNavigate } from "react-router-dom";
 
 /**
- * Componente para las tablas de los partidos
- * @param {*} param0
- * @returns
+ * Componente para mostrar una tabla de partidos según su tipo (clasificatorio, eliminatorias, etc.).
+ * Permite filtrar y mostrar los partidos según el tipo seleccionado.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
+ * @param {string} props.grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
+ * @param {Array} props.partidos - Lista de partidos a mostrar.
+ * @returns {JSX.Element} Componente de tabla de partidos.
  */
 function TablaPartidos({ tipo, grupo, partidos }) {
   const navegar = useNavigate();
@@ -15,17 +21,19 @@ function TablaPartidos({ tipo, grupo, partidos }) {
   if (!partidos || partidos.length === 0) {
     return <p>No hay partidos disponibles.</p>;
   }
+
   /**
-   * Funcion que obtiene los partidos filtrados por si son clasificatorios o eliminatorias
-   * @param {String} tipo es el tipo de enfrentamiento, si es clasificatorio o eliminatoria
-   * @param {Int} grupo
-   * @returns
+   * Filtra los partidos según el tipo y el grupo (si es clasificatorio).
+   *
+   * @param {string} tipo - Tipo de partido (clasificatorio, eliminatorias, etc.).
+   * @param {string} grupo - Grupo de clasificación (solo aplica para partidos clasificatorios).
+   * @returns {Array} Lista de partidos filtrados.
    */
   function obtenerPartidosTipo(tipo, grupo = "") {
     let partidosFiltrados;
 
     /**
-     * Si la opción es clasificatorio y haya seleccionado alguna opción del grupo
+     * Si la opción es clasificatorio y se ha seleccionado un grupo.
      */
     if (tipo === "clasificatorio" && grupo !== "") {
       partidosFiltrados = partidos.filter(
@@ -33,7 +41,7 @@ function TablaPartidos({ tipo, grupo, partidos }) {
       );
     } else if (tipo === "eliminatorias") {
       /**
-       * Si el tipo es distinto a clasificatorio, es decir, eliminatorias
+       * Si el tipo es eliminatorias, filtrar partidos de semifinales y finales.
        */
       partidosFiltrados = partidos.filter(
         (p) => p.tipo === "semifinal" || p.tipo === "final"
@@ -45,6 +53,11 @@ function TablaPartidos({ tipo, grupo, partidos }) {
     return partidosFiltrados;
   }
 
+  /**
+   * Navega a la vista detallada de un partido.
+   *
+   * @param {string} slug - Identificador único del partido.
+   */
   function navegarDetalleResultado(slug) {
     navegar(`/partidos/${slug}`);
   }

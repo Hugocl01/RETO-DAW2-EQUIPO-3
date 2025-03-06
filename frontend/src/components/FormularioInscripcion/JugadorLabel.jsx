@@ -2,6 +2,28 @@ import { useState } from "react";
 import "../css/Inscribirse.css";
 import "../css/JugadorLabel.css";
 
+/**
+ * Componente para mostrar y gestionar la información de un jugador.
+ * Permite editar los datos del jugador, marcarlo como capitán y eliminarlo.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.id - Identificador único del jugador.
+ * @param {string} props.nombre_completo - Nombre completo del jugador.
+ * @param {string} props.estudio_id - ID del estudio del jugador.
+ * @param {string} props.dniCapitan - DNI del capitán (si es capitán).
+ * @param {string} props.emailCapitan - Email del capitán (si es capitán).
+ * @param {string} props.telefonoCapitan - Teléfono del capitán (si es capitán).
+ * @param {boolean} props.esCapitan - Indica si el jugador es capitán.
+ * @param {Function} props.onRemove - Función para eliminar el jugador.
+ * @param {Function} props.onSetCapitan - Función para marcar/desmarcar como capitán.
+ * @param {boolean} props.isCapitanDisabled - Indica si el jugador puede ser marcado como capitán.
+ * @param {Object} props.errores - Errores de validación para los campos del jugador.
+ * @param {Array} props.estudios - Lista de estudios disponibles.
+ * @param {number} props.numeroJugador - Número del jugador en la lista.
+ * @param {Function} props.onJugadorChange - Función para notificar cambios en los datos del jugador.
+ * @returns {JSX.Element} Componente de etiqueta de jugador.
+ */
 function JugadorLabel({
   id,
   nombre_completo,
@@ -27,7 +49,12 @@ function JugadorLabel({
   const [email, setEmail] = useState(emailCapitan || "");
   const [telefono, setTelefono] = useState(telefonoCapitan || "");
 
-  // Manejo de cambios en los inputs. Actualiza el estado local y avisa al padre (onJugadorChange) para mantener sincronizado.
+  /**
+   * Maneja los cambios en los inputs. Actualiza el estado local y notifica al componente padre.
+   *
+   * @param {string} campo - Nombre del campo que cambió.
+   * @param {string} valor - Nuevo valor del campo.
+   */
   const handleInputChange = (campo, valor) => {
     if (valor !== undefined && valor !== null) {
       if (campo === "nombre_completo") setNombre(valor);
@@ -41,7 +68,9 @@ function JugadorLabel({
     }
   };
 
-  // Eliminar jugador (con un breve efecto de fade-out)
+  /**
+   * Elimina el jugador con un breve efecto de fade-out.
+   */
   const handleDelete = () => {
     setAnimating(true);
     setTimeout(() => {
@@ -51,9 +80,8 @@ function JugadorLabel({
 
   return (
     <div
-      className={`labelJugador d-flex justify-content-flex align-items-center pe-3 mb-4 h-100 ${
-        animating ? "fade-out" : ""
-      }`}
+      className={`labelJugador d-flex justify-content-flex align-items-center pe-3 mb-4 h-100 ${animating ? "fade-out" : ""
+        }`}
     >
       <div className="card p-3 bg-light col-11 w-100" id={`jugador-${id}`}>
         {/* Título: Jugador + Toggle capitán */}

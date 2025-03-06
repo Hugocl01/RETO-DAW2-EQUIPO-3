@@ -20,23 +20,26 @@ function EquiposPage() {
   const [error, setError] = useState(null);
   const navegar = useNavigate();
 
+  /**
+   * Efecto que se ejecuta al montar el componente.
+   * Obtiene la lista de equipos desde la API o desde la sesión de almacenamiento.
+   */
   useEffect(() => {
-
     /**
-     * Funcion envoltorio para realizar llamada a la api
+     * Función envoltorio para realizar la llamada a la API.
      */
     const obtenerListadoEquipos = async () => {
       try {
         const resultado = await fetchData("equipos");
         /**
-         * Si el resultado de la llamada es success y la respuesta es un array guardo los datos en el estado y en la sessionStorage
+         * Si el resultado de la llamada es success y la respuesta es un array, guardo los datos en el estado y en la sessionStorage.
          */
         if (resultado.status === "success" && Array.isArray(resultado.equipos)) {
           setEquipos(resultado.equipos);
           sessionStorage.setItem("equipos", JSON.stringify(resultado.equipos));
         } else {
           /**
-           * Si da fallo, recojo el error
+           * Si da fallo, recojo el error.
            */
           setError({
             tipo: "error",
@@ -45,7 +48,7 @@ function EquiposPage() {
         }
       } catch (error) {
         /**
-         * Recojo cualquier tipo de error que me recoja el catch
+         * Recojo cualquier tipo de error que me recoja el catch.
          */
         setError({
           tipo: error.response?.status || error.name,
@@ -53,20 +56,20 @@ function EquiposPage() {
         });
       } finally {
         /**
-         * Salte el catch o no, se dejará de cargar la página
+         * Salte el catch o no, se dejará de cargar la página.
          */
         setCargando(false);
       }
     };
 
     /**
-     * Recojo los valores de la sessionStorage
+     * Recojo los valores de la sessionStorage.
      */
     const equiposGuardados = sessionStorage.getItem("equipos");
 
     /**
-     * Si hay datos guardados de equipos, guardo los valores en la sessionstorage
-     * Si no hay datos, realizo la llamada a la api
+     * Si hay datos guardados de equipos, guardo los valores en la sessionStorage.
+     * Si no hay datos, realizo la llamada a la API.
      */
     if (equiposGuardados) {
       setEquipos(JSON.parse(equiposGuardados));
@@ -76,27 +79,29 @@ function EquiposPage() {
     }
 
     /**
-     * Esto me llevará al principio de la página
+     * Esto me llevará al principio de la página.
      */
     window.scrollTo(0, 0);
   }, []);
+
   /**
-   * Enseño la página de error, cuando haya una página de error
+   * Enseño la página de error, cuando haya una página de error.
    */
   if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
   /**
-   * Mientras cargue la respuesta de la api, muestro un spinner
+   * Mientras cargue la respuesta de la API, muestro un spinner.
    */
   if (cargando) {
     return <Spinner />;
   }
 
   /**
-   * Navega a la página de detalles equipo
-   * @param {String} slug
+   * Navega a la página de detalles del equipo.
+   * 
+   * @param {string} slug - El identificador único del equipo.
    */
   function navegarDetalleEquipo(slug) {
     navegar(`/equipos/${slug}`);

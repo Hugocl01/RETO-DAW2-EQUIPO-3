@@ -1,15 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import DetalleJugadorPage from "./JugadoresPage/DetalleJugadorPage"; 
-import DetalleEquipoPage from "./EquiposPage/DetallesEquipoPage"; 
+import DetalleJugadorPage from "./JugadoresPage/DetalleJugadorPage";
+import DetalleEquipoPage from "./EquiposPage/DetallesEquipoPage";
 
 /**
- * Es una page para redireccionar en las estadisticas, dependiendo si es un jugador o equipo
+ * Página `DetalleEstadisticaPage` que redirige a la página de detalles de un jugador o equipo según el slug proporcionado.
+ * 
+ * @component
+ * @returns {JSX.Element | null} - Elemento JSX que representa la página de detalles de estadísticas (jugador o equipo), o `null` si no se encuentra el tipo.
  */
 function DetalleEstadisticaPage() {
   const { slug } = useParams(); // Obtiene el slug de la URL
   const [tipo, setTipo] = useState(null); // Estado para determinar el tipo (jugador o equipo)
 
+  /**
+   * Efecto que se ejecuta cuando cambia el slug.
+   * Determina si el slug pertenece a un jugador o a un equipo.
+   */
   useEffect(() => {
     // Función para determinar si el slug pertenece a un jugador o a un equipo
     const determinarTipo = () => {
@@ -35,10 +42,10 @@ function DetalleEstadisticaPage() {
 
   // Renderiza el componente adecuado según el tipo
   if (tipo === "jugador") {
-    return <DetalleJugadorPage/>;
+    return <DetalleJugadorPage />;
   } else if (tipo === "equipo") {
-    return <DetalleEquipoPage/>;
-  } 
+    return <DetalleEquipoPage />;
+  }
 }
 
 export default DetalleEstadisticaPage;

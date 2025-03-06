@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import llamadas from '../../data/FuncionesCombobox';
 
+/**
+ * Componente para gestionar un formulario de publicaciones.
+ * Permite crear o editar una publicación con título, contenido, tipo de publicación, imagen, etc.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para el formulario.
+ * @param {Function} props.onGuardar - Función para manejar el envío del formulario.
+ * @param {Function} props.onCancelar - Función para manejar la cancelación del formulario.
+ * @returns {JSX.Element} Componente de formulario de publicaciones.
+ */
 const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
     const [formData, setFormData] = useState({
         titulo: '',
@@ -18,6 +29,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
     const [errores, setErrores] = useState({ titulo: '', contenido: '', imagen: '' });
     const token = localStorage.getItem('token');
 
+    // Efecto para inicializar el formulario con datos iniciales
     useEffect(() => {
         if (datosIniciales) {
             setFormData((prev) => ({
@@ -35,6 +47,14 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         }
     }, [datosIniciales]);
 
+    /**
+     * Carga las opciones de publicación según el tipo seleccionado.
+     *
+     * @async
+     * @function cargarOpciones
+     * @param {string} tipo - Tipo de publicación (equipo, partido, jugador, etc.).
+     * @param {string} elementoId - ID del elemento seleccionado.
+     */
     const cargarOpciones = async (tipo, elementoId) => {
         let llamada;
         switch (tipo.toLowerCase()) {
@@ -72,7 +92,11 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         }
     };
 
-
+    /**
+     * Maneja los cambios en los campos del formulario.
+     *
+     * @param {Object} e - Evento del input.
+     */
     const handleChange = async (e) => {
         const { name, value, type, checked, files } = e.target;
 
@@ -92,10 +116,20 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         }
     };
 
+    /**
+     * Maneja los cambios en el editor de texto.
+     *
+     * @param {string} content - Contenido del editor.
+     */
     const handleEditorChange = (content) => {
         setFormData((prev) => ({ ...prev, contenido: content }));
     };
 
+    /**
+     * Valida los campos del formulario.
+     *
+     * @returns {boolean} `true` si todos los campos son válidos, `false` en caso contrario.
+     */
     const validarCampos = () => {
         const nuevosErrores = { titulo: '', contenido: '', imagen: '' };
 
@@ -115,6 +149,11 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         return Object.values(nuevosErrores).every((error) => error === '');
     };
 
+    /**
+     * Maneja el envío del formulario.
+     *
+     * @param {Object} e - Evento del formulario.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validarCampos()) return;
@@ -144,6 +183,13 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         }
     };
 
+    /**
+     * Sube la imagen asociada a la publicación.
+     *
+     * @async
+     * @function subirImagen
+     * @param {string} publicacionId - ID de la publicación.
+     */
     const subirImagen = async (publicacionId) => {
         const formDataImagen = new FormData();
         formDataImagen.append('imagen', formData.imagen);

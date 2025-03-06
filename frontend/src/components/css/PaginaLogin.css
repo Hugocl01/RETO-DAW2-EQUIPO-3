@@ -1,9 +1,6 @@
 .formulario {
-    width: 50%;
-    height: 55%;
     justify-content: space-between;
     background-color: rgba(211, 211, 211, 0.308);
-
 
     a {
         color: black;

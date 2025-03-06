@@ -7,6 +7,12 @@ import messi from "../../assets/imagenes/messi.jpg";
 import ErrorPage from "../ErrorPage.jsx";
 import fetchData from "../../data/FetchData.js";
 
+/**
+ * Componente `DetallesEquipoPage` que muestra los detalles de un equipo, incluyendo su información y la lista de jugadores.
+ * 
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de detalles del equipo.
+ */
 function DetallesEquipoPage() {
   const location = useLocation();
   const [equipo, setEquipo] = useState();
@@ -14,11 +20,16 @@ function DetallesEquipoPage() {
   const [error, setError] = useState();
   const navegar = useNavigate();
 
+  /**
+   * Efecto que se ejecuta cuando cambia la ubicación (URL).
+   * Obtiene los datos del equipo desde la API o desde la sesión de almacenamiento.
+   */
   useEffect(() => {
     /**
      * Cojo el valor del nombre del equipo desde la URL (última parte de location.pathname)
      */
     const nombreEquipo = location.pathname.split("/").pop();
+
     /**
      * Función envoltorio que realiza la llamada a la API para obtener los datos del equipo
      */
@@ -34,7 +45,7 @@ function DetallesEquipoPage() {
             JSON.parse(sessionStorage.getItem("equiposMostrados")) || [];
 
           /**
-           *Quiero evitar duplicados
+           * Quiero evitar duplicados
            */
           const equipoExistente = arrayEquipo.find(
             (e) => e.nombre === resultado.equipo.nombre
@@ -127,7 +138,8 @@ function DetallesEquipoPage() {
 
   /**
    * Redirijo a la página de detalle jugador
-   * @param {String} slug
+   * 
+   * @param {string} slug - El identificador único del jugador.
    */
   function navegarDetalleJugador(slug) {
     navegar(`${location.pathname}/${slug}`);

@@ -5,24 +5,47 @@ import ErrorPage from "../ErrorPage";
 import "../../core/CSS/PartidosPage.css";
 import "../../components/css/EstilosComun.css";
 import fetchData from "../../data/FetchData";
+
 /**
+ * Página `PartidosPage` que muestra los resultados de los partidos, permitiendo filtrar por tipo (clasificatorio o eliminatorias) y grupo (A o B).
  *
- * @returns Página Partidos
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de partidos.
  */
 function PartidosPage() {
   /**
-   * Creo estados para guardar los partidos
-   * OpcionPartidos es para guardar el estado al cambiar de clasificatorio o eliminatorias
-   * OpcionGrupos es para guardar el estado cuando queramos ver los partidos del del grupo A o b
+   * Estado para almacenar la lista de partidos.
+   * @type {Array}
    */
   const [partidos, setPartidos] = useState(null);
+
+  /**
+   * Estado para almacenar la opción seleccionada de tipo de partido (clasificatorio o eliminatorias).
+   * @type {string}
+   */
   const [opcionPartidos, setOpcionPartidos] = useState("");
+
+  /**
+   * Estado para almacenar la opción seleccionada de grupo (A o B).
+   * @type {string}
+   */
   const [opcionGrupos, setGrupos] = useState("A");
+
+  /**
+   * Estado para indicar si la página está cargando.
+   * @type {boolean}
+   */
   const [cargando, setCargando] = useState(true);
+
+  /**
+   * Estado para almacenar errores.
+   * @type {Object}
+   */
   const [error, setError] = useState();
 
   /**
-   * Se ejecuta al cargar el componente
+   * Efecto que se ejecuta al cargar el componente.
+   * Obtiene los partidos desde la API o desde la sesión de almacenamiento.
    */
   useEffect(() => {
     const obtenerPartidos = async () => {
@@ -53,7 +76,7 @@ function PartidosPage() {
 
     const obtenerPartidosSession = sessionStorage.getItem("partidos");
     /**
-     * Si hay datos en la sessioStorage, utilizo esos datos y la asigno al estado equipo
+     * Si hay datos en la sessionStorage, utilizo esos datos y la asigno al estado equipo
      * Si no hay datos, realizo la llamada a la api
      */
     if (obtenerPartidosSession) {
@@ -73,7 +96,7 @@ function PartidosPage() {
   }
 
   /**
-   * Hasta que no cargue los partidos, se mostrará el spinner
+   * Mientras cargue, muestro el spinner
    */
   if (cargando) {
     return <Spinner />;
@@ -81,7 +104,8 @@ function PartidosPage() {
 
   /**
    * Manejador para los cambios que se produzcan en los selectores
-   * @param {event} e
+   * 
+   * @param {Event} e - Evento de cambio en los selectores.
    */
   function handleChange(e) {
     const seleccion = e.target.dataset.seleccion;
@@ -133,9 +157,8 @@ function PartidosPage() {
           </div>
         </section>
 
-
         {/**
-         * No se mostrará mientras no hayas seleccionado una opcion válida
+         * No se mostrará mientras no hayas seleccionado una opción válida
          */}
         <section className="row">
           <>

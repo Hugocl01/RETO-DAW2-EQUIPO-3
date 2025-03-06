@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Tablas/TablaJugadores.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Tablas/TablaJugadores.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Jugador from "./Jugador";
+import Paginador from "../Paginador";
+import Spinner from "../Spinner";
+import "../../components/css/Tabla.css";
+import ErrorPage from "../Error";
+import fetchData from "../../data/FetchData";
+
+/**
+ * Componente para mostrar una tabla de jugadores con sus estadísticas.
+ * Permite ordenar los jugadores por goles, tarjetas amarillas y tarjetas rojas, y filtrar por nombre.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de tabla de jugadores.
+ */
+function TablaJugadores() {
+  /**
+   * Creo varios estados
+   * Estado para guardar la lista de jugadores
+   * Estado para guardar la página actual en la que se encuentra el usuario
+   * Estado para guardar el número de jugadores que hay en total
+   * Estado para cuando, esté cargando los datos de la api, aparezca un spinner
+   * Estado para guardar el orden de filtrado, con la columna afectada
+   * Estado para guardar el nombre del jugador que introduzco en el filtro
+   */
+  const [jugadores, setJugadores] = useState([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [totalJugadores, setTotalJugadores] = useState(0);
+  const [cargando, setCargando] = useState(true);
+  const [orden, setOrden] = useState({ campo: "", direccion: "asc" });
+  const [filtro, setFiltro] = useState("");
+  const [error, setError] = useState();
+  const navegar = useNavigate();
+
+  /**
+   * Número de jugadores a mostrar en cada página
+   */
+  const jugadoresPorPagina = 10;
+
+  /**
+   * Se ejecutará en cuanto cargue la página
+   */
+  useEffect(() => {
+    const cargarJugadores = async () => {
+      try {
+        const resultado = await fetchData("jugadores");
+        if (resultado.status === "success") {
+          sessionStorage.setItem("jugadores", JSON.stringify(resultado.jugadores));
+
+          const jugadoresOrdenados = [...resultado.jugadores].sort(
+            (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
+          );
+
+          setJugadores(jugadoresOrdenados);
+          setTotalJugadores(jugadoresOrdenados.length);
+        } else {
+          setError({ tipo: "error", mensaje: "Hubo un problema al obtener los jugadores." });
+        }
+      } catch (error) {
+        setError({
+          tipo: error.response?.status || error.name,
+          mensaje: error.response?.data?.message || "No hay jugadores disponibles.",
+        });
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    const jugadoresGuardados = sessionStorage.getItem("jugadores");
+    if (jugadoresGuardados) {
+      const jugadoresOrdenados = JSON.parse(jugadoresGuardados).sort(
+        (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
+      );
+
+      setJugadores(jugadoresOrdenados);
+      setTotalJugadores(jugadoresOrdenados.length);
+      setCargando(false);
+    } else {
+      cargarJugadores();
+    }
+
+    window.scrollTo(0, 0);
+  }, []);
+
+  /**
+   * Mientras cargue los datos, muestro el spinner
+   */
+
+  if (cargando) {
+    return &lt;Spinner />;
+  }
+
+  /**
+  * Enseño la página de error, cuando haya una página de error
+  */
+  if (error) {
+    return &lt;ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+  }
+
+  /**
+   * Función para navegar a la vista detallada de un equipo.
+   *
+   * @param {string} slug - Identificador único del equipo.
+   */
+  function navegarDetalleEquipo(slug) {
+    navegar(`/estadisticas/${slug}`);
+  }
+
+  /**
+   * Función para navegar a la vista detallada de un jugador.
+   *
+   * @param {string} slug - Identificador único del jugador.
+   */
+  function navegarDetalleJugador(slug) {
+    navegar(`/estadisticas/${slug}`);
+  }
+
+  /**
+   * Función que obtiene los jugadores de cada página.
+   *
+   * @param {Array} jugadores - Lista de jugadores.
+   * @param {number} paginaActual - Página actual.
+   * @param {number} jugadoresPorPagina - Número de jugadores por página.
+   * @returns {Array} Jugadores de la página actual.
+   */
+  function obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina) {
+    const ultimoJugador = paginaActual * jugadoresPorPagina;
+    const primerJugador = ultimoJugador - jugadoresPorPagina;
+    return jugadores.slice(primerJugador, ultimoJugador);
+  }
+
+  /**
+   * Función que avanza a la siguiente página.
+   */
+  const siguientePagina = () => {
+    if (paginaActual &lt; Math.ceil(totalJugadores / jugadoresPorPagina)) {
+      setPaginaActual(paginaActual + 1);
+    }
+  };
+
+  /**
+   * Función que retrocede a la página anterior.
+   */
+  const paginaAnterior = () => {
+    if (paginaActual > 1) {
+      setPaginaActual(paginaActual - 1);
+    }
+  };
+
+  /**
+   * Función que ordena los jugadores por un campo específico.
+   *
+   * @param {Object} e - Evento del clic.
+   */
+  function ordenarCampo(e) {
+    let campo = e.currentTarget.dataset.campo;
+    const direccion = orden.campo === campo &amp;&amp; orden.direccion === "asc" ? "desc" : "asc";
+    setOrden({ campo, direccion });
+
+    const jugadoresOrdenados = [...jugadores].sort((a, b) => {
+      let valorA = a.stats[campo] || 0;
+      let valorB = b.stats[campo] || 0;
+      return direccion === "asc" ? valorA - valorB : valorB - valorA;
+    });
+
+    setJugadores(jugadoresOrdenados);
+    setPaginaActual(1);
+  }
+
+  /**
+   * Función manejadora para el cambio en el filtro de búsqueda.
+   *
+   * @param {Object} e - Evento del input.
+   */
+  function handlerChange(e) {
+    setFiltro(e.target.value.toLowerCase());
+    setPaginaActual(1);
+  }
+
+  /**
+   * Devuelve los jugadores que coinciden con el filtro de búsqueda.
+   */
+  const jugadoresFiltrados = jugadores.filter(jugador =>
+    jugador.nombre.toLowerCase().includes(filtro)
+  );
+
+  return (
+    &lt;>
+      &lt;div className="tabla container-fluid mt-5">
+        &lt;div className="row">
+          &lt;div className="col-md-12 p-0 mb-4 w-100 border">
+            &lt;input
+              type="text"
+              className="form-control"
+              placeholder="Buscar por nombre..."
+              onChange={handlerChange}
+            />
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="row bg-primary text-white rounded-top border-bottom py-2">
+          &lt;div className="col-5 col-md-6 text-center font-weight-bold cursor-pointer h5">
+            &lt;p>Nombre&lt;/p>
+          &lt;/div>
+          &lt;div className="col-3 col-md-2 text-center cursor-pointer h5" data-campo="goles" onClick={ordenarCampo}>
+            &lt;p>Goles&lt;/p> {orden.campo === "goles" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          &lt;/div>
+          &lt;div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_amarillas" onClick={ordenarCampo}>
+            &lt;p>Amarillas&lt;/p> {orden.campo === "tarjetas_amarillas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          &lt;/div>
+          &lt;div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas" onClick={ordenarCampo}>
+            &lt;p>Rojas&lt;/p> {orden.campo === "tarjetas_rojas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          &lt;/div>
+        &lt;/div>
+        {obtenerJugadoresPaginados(jugadoresFiltrados, paginaActual, jugadoresPorPagina).map(jugador => (
+          &lt;Jugador key={jugador.slug} jugador={jugador} fnNavegarEquipo={navegarDetalleEquipo} fnNavegarJugador={navegarDetalleJugador} />
+        ))}
+        &lt;Paginador
+          paginaActual={paginaActual}
+          totalPaginas={Math.ceil(jugadoresFiltrados.length / jugadoresPorPagina)}
+          siguientePagina={siguientePagina}
+          paginaAnterior={paginaAnterior}
+        />
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default TablaJugadores;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdministracionPage">AdministracionPage</a></li><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#Clasificacion">Clasificacion</a></li><li><a href="global.html#ClasificacionPage">ClasificacionPage</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#CuadroClasificacion">CuadroClasificacion</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#DetalleJugadorPage">DetalleJugadorPage</a></li><li><a href="global.html#DetallePartidoPage">DetallePartidoPage</a></li><li><a href="global.html#DetallesEquipoPage">DetallesEquipoPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#EstadisticasPage">EstadisticasPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioEstudios">FormularioEstudios</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#Galeria">Galeria</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#InfoTorneo">InfoTorneo</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MainEntry">MainEntry</a></li><li><a href="global.html#MenuAdministracion">MenuAdministracion</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Paginador">Paginador</a></li><li><a href="global.html#Paginator">Paginator</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#Partidos">Partidos</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#RetoPage">RetoPage</a></li><li><a href="global.html#Retos">Retos</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#SetPasswordForm">SetPasswordForm</a></li><li><a href="global.html#Spinner">Spinner</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#YouTubeLiveIndicator">YouTubeLiveIndicator</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchCentros">fetchCentros</a></li><li><a href="global.html#fetchCiclos">fetchCiclos</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 06 2025 03:17:04 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

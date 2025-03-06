@@ -1,19 +1,18 @@
 import Galeria from "../components/Galeria.jsx";
 
 /**
- * Página de Galeria.
+ * Página `GaleriaPage` que muestra la galería de imágenes.
  * 
  * @component
- * @returns {JSX.Element} - Renderiza la página de galeria.
+ * @returns {JSX.Element} - Elemento JSX que representa la página de galería.
  */
 function GaleriaPage() {
-
     return (
         <>
             <title>Galería</title>
             <Galeria />
         </>
-    )
+    );
 }
 
 export default GaleriaPage;

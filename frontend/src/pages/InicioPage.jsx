@@ -1,13 +1,12 @@
 import Inicio from "../components/Inicio.jsx";
 
 /**
- * Página de Inicio.
+ * Página `InicioPage` que muestra la página de inicio de la aplicación.
  * 
  * @component
- * @returns {JSX.Element} - Renderiza la página de inicio.
+ * @returns {JSX.Element} - Elemento JSX que representa la página de inicio.
  */
 function InicioPage() {
-
     return (
         <>
             <title>Inicio</title>

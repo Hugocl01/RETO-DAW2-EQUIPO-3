@@ -7,6 +7,13 @@ import "../css/JugadorEquipo.css";
 import ErrorPage from "../Error";
 import fetchData from "../../data/FetchData";
 
+/**
+ * Componente para mostrar una tabla de equipos con sus estadísticas.
+ * Permite ordenar los equipos por goles, tarjetas amarillas y tarjetas rojas.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de tabla de equipos.
+ */
 function TablaEquipos() {
   const [equipos, setEquipos] = useState();
   const [cargando, setCargando] = useState(true);
@@ -14,6 +21,7 @@ function TablaEquipos() {
   const [error, setError] = useState();
   const navegar = useNavigate();
 
+  // Efecto para cargar los equipos al montar el componente
   useEffect(() => {
     const obtenerEquipos = async () => {
       try {
@@ -92,14 +100,19 @@ function TablaEquipos() {
   }
 
   /**
-   * Función que envuelve le useNavigate y que me sirve para navegar a la página de detalles del equipo
-   * @param {String} slug
+   * Función para navegar a la vista detallada de un equipo.
+   *
+   * @param {string} slug - Identificador único del equipo.
    */
   function navegarDetalleEquipo(slug) {
     navegar(`/estadisticas/${slug}`);
   }
 
-  /**Función para ordenar un campo */
+  /**
+   * Función para ordenar los equipos por un campo específico.
+   *
+   * @param {Object} e - Evento del clic.
+   */
   function ordenarCampo(e) {
     let campo = e.target.dataset.campo;
     /**
@@ -177,7 +190,7 @@ function TablaEquipos() {
           </div>
         </div>
 
-        {/* Jugadores de la página actual */}
+        {/* Equipos de la página actual */}
         {equipos.map((valor, id) => (
           <Equipo
             key={id}

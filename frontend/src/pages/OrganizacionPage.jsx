@@ -2,10 +2,10 @@ import InfoTorneo from "../components/InfoTorneo";
 import Retos from "../components/Retos";
 
 /**
- * Página de Organización.
+ * Página `OrganizacionPage` que muestra información sobre la organización del torneo y los retos asociados.
  * 
  * @component
- * @returns {JSX.Element} - Renderiza la página de organización.
+ * @returns {JSX.Element} - Elemento JSX que representa la página de organización.
  */
 function OrganizacionPage() {
     return (

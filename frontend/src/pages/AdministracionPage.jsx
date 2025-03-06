@@ -37,20 +37,42 @@ import FormularioEstudios from "../components/Formularios/FormularioEstudios";
 import Spinner from "../components/Spinner";
 import { generateSlug } from "../utils/stringUtils";
 
+/**
+ * Componente `AdministracionPage` que gestiona la administración de diferentes secciones (equipos, jugadores, partidos, etc.).
+ * Permite crear, editar y mostrar listas de elementos según la sección seleccionada.
+ *
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de administración.
+ */
 function AdministracionPage() {
     // Obtenemos la sección actual desde la URL
     const { seccion } = useParams();
     const navigate = useNavigate();
     const { seguridad } = useContext(SeguridadContext);
 
-    // Estado para determinar si estamos en modo "crear", "editar" o mostrando la lista (null)
+    /**
+     * Estado para determinar si estamos en modo "crear", "editar" o mostrando la lista (null).
+     * @type {string | null}
+     */
     const [modo, setModo] = useState(null);
-    // Estado para almacenar el item seleccionado (para editar)
+
+    /**
+     * Estado para almacenar el item seleccionado (para editar).
+     * @type {Object | null}
+     */
     const [itemSeleccionado, setItemSeleccionado] = useState(null);
-    // Estado para almacenar la sección seleccionada (basada en el objeto de MenuAdministracion)
+
+    /**
+     * Estado para almacenar la sección seleccionada (basada en el objeto de MenuAdministracion).
+     * @type {string}
+     */
     const [selectedSeccion, setSelectedSeccion] = useState(seccion ? generateSlug(seccion) : "");
 
-    // Función que se pasa al menú y se ejecuta al seleccionar una sección.
+    /**
+     * Función que se pasa al menú y se ejecuta al seleccionar una sección.
+     * 
+     * @param {Object} seccionSeleccionada - La sección seleccionada en el menú.
+     */
     const handleMenuSelect = (seccionSeleccionada) => {
         const seccionNombreSlug = generateSlug(seccionSeleccionada.nombre);  // Aseguramos que el nombre se convierte a slug
         if (modo != null) {
@@ -64,19 +86,32 @@ function AdministracionPage() {
         }
     };
 
+    /**
+     * Efecto que se ejecuta cuando cambia el modo.
+     * Actualiza la URL según la sección seleccionada.
+     */
     useEffect(() => {
         if (modo == null) {
             navigate(`/administracion/${selectedSeccion}`);
         }
     }, [modo]);
 
-    // Función para cambiar el modo (por ejemplo, al editar o crear)
+    /**
+     * Función para cambiar el modo (por ejemplo, al editar o crear).
+     * 
+     * @param {string} nuevoModo - El nuevo modo ("crear" o "editar").
+     * @param {Object | null} item - El item seleccionado para editar (opcional).
+     */
     const handleModoCambio = (nuevoModo, item = null) => {
         setModo(nuevoModo);
         setItemSeleccionado(item);
     };
 
-    // Renderiza el formulario según la sección actual y el modo (crear o editar)
+    /**
+     * Renderiza el formulario según la sección actual y el modo (crear o editar).
+     * 
+     * @returns {JSX.Element} - El formulario correspondiente a la sección seleccionada.
+     */
     const renderFormulario = () => {
         switch (selectedSeccion) {
             case "jugadores":
@@ -188,13 +223,17 @@ function AdministracionPage() {
         }
     };
 
-    // Renderiza el componente de CRUD (lista y botones) según la sección actual
+    /**
+     * Renderiza el componente de CRUD (lista y botones) según la sección actual.
+     * 
+     * @returns {JSX.Element} - El componente de CRUD correspondiente a la sección seleccionada.
+     */
     const renderCrud = () => {
         switch (selectedSeccion) {
             case "torneo":
-                return <CrudTorneo onModoCambio={handleModoCambio} />
+                return <CrudTorneo onModoCambio={handleModoCambio} />;
             case "equipos":
-                return <CrudEquipos onModoCambio={handleModoCambio} />
+                return <CrudEquipos onModoCambio={handleModoCambio} />;
             case "jugadores":
                 return <CrudJugadores onModoCambio={handleModoCambio} />;
             case "partidos":

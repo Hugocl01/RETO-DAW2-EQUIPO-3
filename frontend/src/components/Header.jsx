@@ -8,7 +8,12 @@ import LoginModal from './LoginModal';
 import imagenPerfil from "../assets/imagenes/user.png";
 import logo from '../assets/imagenes/logo.png';
 
-
+/**
+ * Componente `Header` que representa la cabecera de la aplicación.
+ * Incluye la navegación principal, el menú lateral y la gestión de la sesión de usuario.
+ * 
+ * @returns {JSX.Element} El elemento JSX que representa la cabecera de la aplicación.
+ */
 function Header() {
   const { seguridad, logout } = useContext(SeguridadContext);
   const location = useLocation();
@@ -20,18 +25,31 @@ function Header() {
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Función para manejar el toggle del sidenav
+  /**
+   * Función para alternar la visibilidad del menú lateral (sidenav).
+   */
   const toggleSidenav = () => {
     setIsSidenavActive(prevState => !prevState);
   };
 
+  /**
+   * Función para mostrar el modal de inicio de sesión.
+   */
   const handleShow = () => setShowModal(true);
+
+  /**
+   * Función para ocultar el modal de inicio de sesión.
+   */
   const handleClose = () => setShowModal(false);
 
+  /**
+   * Función para alternar la visibilidad del submenú en el menú lateral.
+   */
   const toggleSubMenu = () => {
     setIsSubMenuActive(prevState => !prevState);
   };
 
+  // Efecto para manejar clics fuera del menú lateral
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidenavRef.current && !sidenavRef.current.contains(event.target)) {
@@ -47,7 +65,6 @@ function Header() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isSidenavActive]);
-
 
   return (
     <header>
@@ -119,7 +136,7 @@ function Header() {
             </ul>
           </div>
 
-          {/* Button to trigger modal */}
+          {/* Botón para abrir el modal de inicio de sesión */}
           <div className="flex-grow-0" id="iniciarSesion">
             {seguridad.user ? (
               <div className="dropdown text-end">
@@ -182,6 +199,7 @@ function Header() {
         </div>
       </div>
 
+      {/* Menú lateral (sidenav) */}
       <div className="sidebar p-2" ref={sidenavRef} onClick={(e) => e.stopPropagation()}>
         <div className="flex-grow-0" id="logoSidebar">
           <Link to="/">

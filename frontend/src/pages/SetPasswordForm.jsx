@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+/**
+ * Componente para establecer una nueva contraseña.
+ * Este componente permite al usuario establecer una nueva contraseña después de haber recibido un enlace de restablecimiento.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <SetPasswordForm />
+ * )
+ */
 const SetPasswordForm = () => {
     const { id, token } = useParams(); // Obtener ID y token desde la URL
     const navigate = useNavigate();
@@ -9,6 +19,12 @@ const SetPasswordForm = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    /**
+     * Maneja el envío del formulario para establecer la nueva contraseña.
+     * 
+     * @param {Event} e - El evento de envío del formulario.
+     * @async
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== passwordConfirm) {

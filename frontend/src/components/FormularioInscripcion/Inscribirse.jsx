@@ -6,6 +6,12 @@ import TarjetaFormulario from "./TarjetaFormulario.jsx";
 import { postData } from "../../data/FetchData.js";
 import fetchData from "../../data/FetchData.js";
 
+/**
+ * Componente para la inscripción de un equipo, incluyendo datos del equipo, entrenador y jugadores.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de inscripción de equipo.
+ */
 function Inscribirse() {
   const [capitanId, setCapitanId] = useState(null);
 

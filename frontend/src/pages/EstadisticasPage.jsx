@@ -3,14 +3,23 @@ import TablaEquipos from "../components/Tablas/TablaEquipos";
 import TablaJugadores from "../components/Tablas/TablaJugadores";
 import "../components/css/EstilosComun.css";
 
+/**
+ * Página `EstadisticasPage` que muestra estadísticas de jugadores o equipos, permitiendo alternar entre ambas vistas.
+ * 
+ * @component
+ * @returns {JSX.Element} - Elemento JSX que representa la página de estadísticas.
+ */
 function EstadisticasPage() {
   /**
-   * Estado que cambiará la tabla que se mostrará
+   * Estado que controla qué tabla se muestra (jugadores o equipos).
+   * @type {string}
    */
   const [tabla, setTabla] = useState("jugadores");
 
   /**
-   * Función que maneja el click cambiando el estado tabla, donde se mostrará una tabla diferente
+   * Maneja el clic en los botones para cambiar entre las tablas de jugadores y equipos.
+   * 
+   * @param {Event} e - Evento de clic en el botón.
    */
   function handleClick(e) {
     let accionBtn = e.target.dataset.accion;
@@ -20,6 +29,7 @@ function EstadisticasPage() {
       setTabla("jugadores");
     }
   }
+
   return (
     <>
       <title>Estadisticas</title>

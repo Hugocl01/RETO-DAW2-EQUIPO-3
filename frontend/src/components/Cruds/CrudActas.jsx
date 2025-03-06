@@ -1,17 +1,34 @@
 import { useMemo, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import Paginator from "../Paginator"; // Asegúrate de la ruta correcta
+import Paginator from "../Paginator";
 import Spinner from "../Spinner";
 
+/**
+ * Componente para gestionar la lista de jugadores con funcionalidades CRUD.
+ * Permite buscar, paginar, editar y eliminar jugadores.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onModoCambio - Función para cambiar el modo (editar, agregar) en el componente padre.
+ * @returns {JSX.Element} Componente de gestión de jugadores.
+ */
 function CrudJugadores({ onModoCambio }) {
     const seccion = useMemo(() => ({ nombre: "Jugadores" }), []);
+
+    /**
+     * Obtiene los datos de los jugadores mediante el hook useCrud.
+     */
     const { items, loading, error, deleteItem } = useCrud(seccion);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Ajusta según tus necesidades
 
-    // Filtra los jugadores por nombre, equipo, estudio, email, etc.
+    /**
+     * Filtra los jugadores por nombre, equipo, estudio, email, etc.
+     *
+     * @type {Array}
+     */
     const filteredItems = items.filter((jugador) => {
         const query = searchQuery.toLowerCase();
         return (
@@ -24,12 +41,21 @@ function CrudJugadores({ onModoCambio }) {
         );
     });
 
-    // Cálculo de la paginación.
+    /**
+     * Cálculo de la paginación.
+     *
+     * @type {number}
+     */
     const totalItems = filteredItems.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
+    /**
+     * Maneja el cambio en el campo de búsqueda.
+     *
+     * @param {Object} e - Evento del input.
+     */
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1); // Reinicia a la primera página al cambiar la búsqueda

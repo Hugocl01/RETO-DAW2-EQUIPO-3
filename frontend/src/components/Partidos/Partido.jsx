@@ -1,25 +1,35 @@
 import { Tooltip } from "react-tooltip";
 
 /**
- * Componente para cada partido
- * @param {*} param0
- * @returns
+ * Componente para mostrar la información de un partido.
+ * Permite expandir y contraer la información del partido y navegar a la vista detallada del partido.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.tipo - Tipo de partido (clasificatorio, amistoso, etc.).
+ * @param {Object} props.objPartido - Objeto que contiene la información del partido.
+ * @param {Function} props.fnNavegar - Función para navegar a la vista detallada del partido.
+ * @returns {JSX.Element} Componente de partido.
  */
 function Partido({ tipo, objPartido, fnNavegar }) {
   const partido = objPartido;
 
+  /**
+   * Maneja el clic en el ícono para ver el acta del partido.
+   */
   function handleClick() {
     fnNavegar(partido.slug);
   }
 
   /**
-   * Creo un identificador único para los accordeones de los partidos
+   * Crea un identificador único para el acordeón del partido.
    */
   const collapseId = `collapse-${partido.slug}`;
+
   return (
     <div className="accordion card mb-3 shadow-sm" id={`accordion-${partido.slug}`}>
       {/**
-        * Cabecera
+        * Cabecera del acordeón
         */}
       <div
         className="accordion-button w-100 card-header bg-primary text-white"
