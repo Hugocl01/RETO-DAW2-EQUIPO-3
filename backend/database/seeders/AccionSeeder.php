@@ -96,7 +96,7 @@ class AccionSeeder extends Seeder
                 'destroy'
             ],
             'Actas' => [
-                'index',
+                'show',
                 'store',
                 'update'
             ],

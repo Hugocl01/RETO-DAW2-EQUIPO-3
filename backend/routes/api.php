@@ -143,7 +143,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/pabellones', [PabellonController::class, 'getListaPabellones']);
 
     Route::apiResource('actas', ActaController::class)->only('store', 'show', 'delete')
-        ->middleware('ability:Actas.store,Actas.update,Actas.delete');
+        ->middleware('ability:Actas.store,Actas.show,Actas.delete');
 
     Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
     Route::post('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
