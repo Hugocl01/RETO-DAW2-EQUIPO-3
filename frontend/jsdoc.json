@@ -10,6 +10,6 @@
     "opts": {
         "destination": "../docs/",
         "recurse": true,
-        "template": "templates/default"
+        "template": "node_modules/clean-jsdoc-theme"
     }
 }
