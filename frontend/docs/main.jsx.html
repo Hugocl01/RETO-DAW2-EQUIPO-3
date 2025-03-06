@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/InfoTorneo.jsx</title>
+    <title>JSDoc: Source: main.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/InfoTorneo.jsx</h1>
+    <h1 class="page-title">Source: main.jsx</h1>
 
     
 
@@ -26,90 +26,58 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import imagenPrueba from "../assets/imagenes/img1.jpg";
-import logo from "../assets/imagenes/logo.png";
-import "./css/EstilosComun.css";
-import "./css/InfoTorneo.css";
+            <pre class="prettyprint source linenums"><code>import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+// Imports para Bootstrap y Bootstrap Icons
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./custom.css"; 
+import "./index.css";
+
+import { SeguridadProvider } from './contexts/SeguridadProvider.jsx';
+import AppEnrutador from './routers/AppEnrutador.jsx';
 
 /**
- * Componente `InfoTorneo` que muestra la información detallada sobre un torneo.
- * Incluye una imagen del torneo, un enlace para descargar las reglas y un texto descriptivo.
+ * Punto de entrada principal de la aplicación.
+ * Este archivo es responsable de inicializar la aplicación de React y montar el árbol de componentes en el DOM.
  * 
- * @returns {JSX.Element} El elemento JSX que representa la información del torneo.
+ * - Se aplica el `SeguridadProvider` para que todos los componentes hijos puedan acceder a los datos de seguridad/autenticación.
+ * - Se importa y aplica Bootstrap y Bootstrap Icons para los estilos y la funcionalidad de la interfaz de usuario.
+ * - Se utiliza `StrictMode` para activar advertencias sobre el ciclo de vida de los componentes y posibles problemas.
+ * 
+ * @module MainEntry
+ * @function
+ * @example
+ * // Este archivo se ejecuta al iniciar la aplicación.
+ * // No es necesario invocar una función manualmente, ya que es el punto de entrada.
  */
-function InfoTorneo() {
-    return (
-        &lt;div className="infoTorneo container">
-            {/* Título de la sección */}
-            &lt;div className="text-center">
-                &lt;h1 className="d-inline-block">Información del Torneo&lt;/h1>
-            &lt;/div>
 
-            {/* Contenido principal en dos columnas */}
-            &lt;div className="row">
-                {/* Columna izquierda: Imagen y tarjetas de reglas */}
-                &lt;div className="col-md-4 d-flex flex-column gap-3">
-                    {/* Imagen del torneo */}
-                    &lt;div className="text-center">
-                        &lt;img src={imagenPrueba} alt="Imagen Torneo" className="img-fluid rounded" />
-                    &lt;/div>
-
-                    {/* Tarjeta para descargar reglas (versión vertical) */}
-                    &lt;div className="tarjetaReglas">
-                        &lt;div className="card d-flex flex-column justify-content-center align-items-center">
-                            &lt;img src={logo} className="card-img-top" alt="Logo" />
-                            &lt;div className="card-body">
-                                &lt;a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
-                                    &lt;span>Descargar Reglas&lt;/span>
-                                    &lt;i className="bi bi-file-earmark-arrow-down fs-4">&lt;/i>
-                                &lt;/a>
-                            &lt;/div>
-                        &lt;/div>
-                    &lt;/div>
-
-                    {/* Tarjeta para descargar reglas (versión horizontal) */}
-                    &lt;div className="tarjetaReglashorizontal border rounded px-3 py-2 mb-3">
-                        &lt;div className="w-100 d-flex justify-content-between align-items-center">
-                            &lt;img src={logo} className="w-25" alt="Logo" />
-                            &lt;a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 shadow-sm transition">
-                                &lt;span className="descargarReglas">Descargar Reglas&lt;/span>
-                                &lt;i className="bi bi-file-earmark-arrow-down fs-4">&lt;/i>
-                            &lt;/a>
-                        &lt;/div>
-                    &lt;/div>
-                &lt;/div>
-
-                {/* Columna derecha: Texto descriptivo del torneo */}
-                &lt;div className="col-md-8">
-                    &lt;div className="p-4 bg-light border rounded text-left">
-                        &lt;p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quasi sapiente cum dolor quae consectetur labore eos quis omnis possimus nam,
-                            nisi, dolore ad vitae accusantium rem error neque reprehenderit.
-                            Nemo, reprehenderit sint aut totam deleniti aliquam quidem hic provident! Similique consequatur vel voluptate nulla a, aperiam sed eligendi, qui
-                            exercitationem explicabo asperiores labore eaque eveniet expedita. Ut, dolore maiores?
-                            Ipsum, eos vel distinctio tempore et fugiat dolores! A, cumque alias quae excepturi iste, provident autem officia velit obcaecati numquam adipisci,
-                            accusamus consectetur hic quas earum eligendi nihil. Rerum, eos.&lt;br>&lt;/br>&lt;br>&lt;/br>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio minima, libero qui tempore culpa inventore sed magnam a provident deleniti laboriosam
-                            recusandae repudiandae quaerat ipsam voluptatum eaque amet aliquid laborum?
-                            Quis distinctio ratione delectus enim dolor consectetur hic maiores porro totam, soluta accusamus consequatur quae! Repellendus aperiam quis ipsum.
-                            Quibusdam adipisci iure impedit deserunt accusamus reprehenderit provident architecto, dolor dolorum!
-                            Minus eos eius quidem quas laboriosam, aperiam expedita possimus, laborum earum debitis veritatis, vel explicabo optio minima accusamus rerum
-                            repellat ad doloribus tempora quo voluptates architecto necessitatibus. Laudantium, et debitis.
-                            Placeat laborum aspernatur quia quaerat eum ad temporibus amet consequuntur, eveniet magnam eius nostrum. Incidunt optio fuga, quo, accusantium
-                            neque rerum illum iure deleniti eligendi eum tempore doloremque temporibus quidem?&lt;br>&lt;/br>&lt;br>&lt;/br>
-                            Facere facilis consectetur ipsum tempore voluptatem iure? Ex soluta ab facilis eligendi, autem quae aspernatur accusamus hic expedita harum, aperiam,
-                            saepe earum dolorum commodi unde voluptates corrupti adipisci recusandae corporis?&lt;br>&lt;/br>&lt;br>&lt;/br>
-                            Harum consequuntur sint sunt earum dolorum, amet dicta non magnam ut repellendus beatae quod et, alias ipsa eaque est rem id blanditiis animi.
-                            Blanditiis sapiente illum voluptatum, quos odit maiores.
-                        &lt;/p>
-                    &lt;/div>
-                &lt;/div>
-            &lt;/div>
-        &lt;/div>
-    );
-}
-
-export default InfoTorneo;
+/**
+ * Renderiza la aplicación en el elemento del DOM con el ID `root`.
+ * 
+ * @function
+ * @returns {void}
+ * @example
+ * // Monta la aplicación en el DOM.
+ * createRoot(document.getElementById('root')).render(
+ *     &lt;StrictMode>
+ *         &lt;SeguridadProvider>
+ *             &lt;AppEnrutador />
+ *         &lt;/SeguridadProvider>
+ *     &lt;/StrictMode>
+ * );
+ */
+createRoot(document.getElementById('root')).render(
+    &lt;StrictMode>
+        {/* Proveedor de seguridad que envuelve la aplicación */}
+        &lt;SeguridadProvider>
+            {/* Componente de enrutamiento de la aplicación */}
+            &lt;AppEnrutador />
+        &lt;/SeguridadProvider>
+    &lt;/StrictMode>,
+);
 </code></pre>
         </article>
     </section>

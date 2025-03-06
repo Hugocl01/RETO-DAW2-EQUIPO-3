@@ -1,5 +1,5 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 // Imports para Bootstrap y Bootstrap Icons
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,10 +19,27 @@ import AppEnrutador from './routers/AppEnrutador.jsx';
  * - Se importa y aplica Bootstrap y Bootstrap Icons para los estilos y la funcionalidad de la interfaz de usuario.
  * - Se utiliza `StrictMode` para activar advertencias sobre el ciclo de vida de los componentes y posibles problemas.
  * 
+ * @module MainEntry
  * @function
  * @example
  * // Este archivo se ejecuta al iniciar la aplicación.
  * // No es necesario invocar una función manualmente, ya que es el punto de entrada.
+ */
+
+/**
+ * Renderiza la aplicación en el elemento del DOM con el ID `root`.
+ * 
+ * @function
+ * @returns {void}
+ * @example
+ * // Monta la aplicación en el DOM.
+ * createRoot(document.getElementById('root')).render(
+ *     <StrictMode>
+ *         <SeguridadProvider>
+ *             <AppEnrutador />
+ *         </SeguridadProvider>
+ *     </StrictMode>
+ * );
  */
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -32,4 +49,4 @@ createRoot(document.getElementById('root')).render(
             <AppEnrutador />
         </SeguridadProvider>
     </StrictMode>,
-)
+);
