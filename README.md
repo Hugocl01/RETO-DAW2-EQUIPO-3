@@ -94,9 +94,13 @@ git clone https://github.com/Hugocl01/RETO-DAW2-EQUIPO-3.git
 
 > Con todos estos pasos completados, el frontend estará disponible en el puerto que te indique React.
 
-## Documentación del Código
+## Documentación del reto
 
-### Frontend (React)
+[Documentación](Documentacion/Documentacion%20del%20Reto%20-%20Markdown/documentacionReto.md)
+
+### Documentación del Código
+
+#### Frontend (React)
 Hemos generado documentación automática del código del frontend utilizando **JSDoc**. Esta documentación proporciona una descripción detallada de los componentes, funciones y props utilizados en el proyecto.
 
-Documentacion: [Documentación del Frontend](https://hugocl01.github.io/RETO-DAW2-EQUIPO-3/frontend/docs/index.html)
+Documentacion: [Documentación del Frontend](/frontend/docs/index.html)
