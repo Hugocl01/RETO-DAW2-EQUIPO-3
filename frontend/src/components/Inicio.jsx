@@ -48,7 +48,7 @@ import fetchData from "../data/FetchData";
  */
 function Inicio() {
   const [donaciones, setDonaciones] = useState([]);
-  const [retos, setRetos] = useState([]);
+  const [retos, setRetos ] = useState([]);
   const [noticias, setNoticias] = useState([]);
   const [patrocinadores, setPatrocinadores] = useState([]);
 
