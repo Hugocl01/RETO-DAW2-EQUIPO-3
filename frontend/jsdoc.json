@@ -8,7 +8,7 @@
         ]
     },
     "opts": {
-        "destination": "docs/",
+        "destination": "../docs/",
         "recurse": true,
         "template": "templates/default"
     }

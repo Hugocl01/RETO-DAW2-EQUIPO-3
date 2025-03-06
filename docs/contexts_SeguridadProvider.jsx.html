@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contexts/SeguridadProvider.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contexts/SeguridadProvider.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createContext, useState, useEffect } from "react";
+
+/**
+ * Contexto para gestionar la seguridad de la aplicación.
+ * Utilizado para compartir información de seguridad (como autenticación, roles de usuario, etc.) en toda la aplicación.
+ * 
+ * @type {React.Context}
+ * @example
+ * const { seguridad, login, logout } = useContext(SeguridadContext);
+ */
+const SeguridadContext = createContext();
+
+/**
+ * Proveedor del contexto de seguridad.
+ * Envuelve los componentes hijos y proporciona el contexto de autenticación.
+ *
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {React.ReactNode} props.children - Componentes hijos que tendrán acceso al contexto.
+ * @returns {JSX.Element} - Elemento JSX que proporciona el contexto de seguridad.
+ */
+function SeguridadProvider({ children }) {
+    /**
+     * Estado que almacena la autenticación, el usuario y el token.
+     * @typedef {Object} SeguridadState
+     * @property {boolean} auth - Indica si el usuario está autenticado.
+     * @property {Object|null} user - Datos del usuario autenticado (id, name, email) o `null` si no hay usuario.
+     * @property {string|null} token - Token de autenticación o `null` si no hay sesión activa.
+     */
+    const [seguridad, setSeguridad] = useState({
+        auth: false,
+        user: null,
+        token: null
+    });
+
+    /**
+     * Estado que indica si la autenticación está siendo verificada.
+     * Se usa para evitar desincronización y la redirección prematura antes de que se carguen los datos de sesión.
+     * 
+     * @type {boolean}
+     */
+    const [loading, setLoading] = useState(true);
+
+    /**
+     * Carga los datos de sesión almacenados en `localStorage` cuando la aplicación se inicia.
+     */
+    useEffect(() => {
+        try {
+            const storedToken = localStorage.getItem("token");
+            const storedUser = localStorage.getItem("user");
+
+            if (storedToken &amp;&amp; storedUser) {
+                setSeguridad({
+                    auth: true,
+                    user: JSON.parse(storedUser),
+                    token: storedToken
+                });
+            }
+        } catch (error) {
+            console.error("Error al cargar datos de sesión:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+        }
+
+        setLoading(false);
+    }, []);
+
+    /**
+     * Inicia sesión con las credenciales del usuario y almacena el estado de autenticación.
+     * Guarda el token y los datos del usuario en el estado global y en `localStorage`.
+     *
+     * @async
+     * @function
+     * @param {string} email - Correo electrónico del usuario.
+     * @param {string} password - Contraseña del usuario.
+     * @returns {Promise&lt;{success: boolean, error: string | undefined}>} - Objeto con `success: true` si la autenticación fue exitosa, o `success: false` con un mensaje de error en `error`.
+     */
+    const login = async (email, password) => {
+        setLoading(true);
+        const url = import.meta.env.VITE_API_URL;
+        try {
+            const response = await fetch(`${url}login`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (!response.ok) {
+                throw new Error("Credenciales incorrectas o problema al iniciar sesión.");
+            }
+
+            const data = await response.json();
+
+            // Si la respuesta es exitosa, obtenemos el token y usuario
+            const { token, usuario } = data;
+
+            // Guarda en el estado global
+            setSeguridad({
+                auth: true,
+                user: usuario,
+                token: token
+            });
+
+            // Guarda en localStorage
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(usuario));
+
+            return { success: true };
+        } catch (error) {
+            let errorMessage = "Error desconocido";
+
+            if (error.message.includes("401")) {
+                errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+            } else if (error.message.includes("500")) {
+                errorMessage = "Error interno del servidor. Inténtalo más tarde.";
+            } else if (error.message.includes("NetworkError")) {
+                errorMessage = "No se pudo conectar con el servidor.";
+            } else {
+                errorMessage = error.message || "Error en la autenticación.";
+            }
+
+            return { success: false, error: errorMessage };
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    /**
+     * Cierra la sesión del usuario, eliminando la información de sesión.
+     * 
+     * @function
+     */
+    const logout = () => {
+        setSeguridad({
+            auth: false,
+            user: null,
+            token: null
+        });
+
+        // Elimina el user y el token de localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    };
+
+    return (
+        &lt;SeguridadContext.Provider value={{ seguridad, login, logout, loading }}>
+            {children}
+        &lt;/SeguridadContext.Provider>
+    );
+}
+
+export { SeguridadContext, SeguridadProvider };</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdministracionPage">AdministracionPage</a></li><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#Clasificacion">Clasificacion</a></li><li><a href="global.html#ClasificacionPage">ClasificacionPage</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#CuadroClasificacion">CuadroClasificacion</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#DetalleJugadorPage">DetalleJugadorPage</a></li><li><a href="global.html#DetallePartidoPage">DetallePartidoPage</a></li><li><a href="global.html#DetallesEquipoPage">DetallesEquipoPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#EstadisticasPage">EstadisticasPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#Galeria">Galeria</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#InfoTorneo">InfoTorneo</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MainEntry">MainEntry</a></li><li><a href="global.html#MenuAdministracion">MenuAdministracion</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Paginador">Paginador</a></li><li><a href="global.html#Paginator">Paginator</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#Partidos">Partidos</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#RetoPage">RetoPage</a></li><li><a href="global.html#Retos">Retos</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#SetPasswordForm">SetPasswordForm</a></li><li><a href="global.html#Spinner">Spinner</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#YouTubeLiveIndicator">YouTubeLiveIndicator</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 06 2025 11:55:27 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

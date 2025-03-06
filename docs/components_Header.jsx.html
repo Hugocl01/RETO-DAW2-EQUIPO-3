@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Header.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Header.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { SeguridadContext } from "../contexts/SeguridadProvider";
+import YouTubeLiveIndicator from "./YouTubeLiveIndicator";
+import { useLocation } from "react-router-dom";
+import "./css/Header.css";
+import LoginModal from './LoginModal';
+import imagenPerfil from "../assets/imagenes/user.png";
+import logo from '../assets/imagenes/logo.png';
+
+/**
+ * Componente `Header` que representa la cabecera de la aplicación.
+ * Incluye la navegación principal, el menú lateral y la gestión de la sesión de usuario.
+ * 
+ * @returns {JSX.Element} El elemento JSX que representa la cabecera de la aplicación.
+ */
+function Header() {
+  const { seguridad, logout } = useContext(SeguridadContext);
+  const location = useLocation();
+
+  const [isSidenavActive, setIsSidenavActive] = useState(false); // Estado para manejar el toggle del sidenav
+  const [showModal, setShowModal] = useState(false);
+  const sidenavRef = useRef(null);
+  const isActive = (path) => (location.pathname === path ? "active" : "");
+  const [isSubMenuActive, setIsSubMenuActive] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  /**
+   * Función para alternar la visibilidad del menú lateral (sidenav).
+   */
+  const toggleSidenav = () => {
+    setIsSidenavActive(prevState => !prevState);
+  };
+
+  /**
+   * Función para mostrar el modal de inicio de sesión.
+   */
+  const handleShow = () => setShowModal(true);
+
+  /**
+   * Función para ocultar el modal de inicio de sesión.
+   */
+  const handleClose = () => setShowModal(false);
+
+  /**
+   * Función para alternar la visibilidad del submenú en el menú lateral.
+   */
+  const toggleSubMenu = () => {
+    setIsSubMenuActive(prevState => !prevState);
+  };
+
+  // Efecto para manejar clics fuera del menú lateral
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidenavRef.current &amp;&amp; !sidenavRef.current.contains(event.target)) {
+        setIsSidenavActive(false);
+      }
+    };
+
+    if (isSidenavActive) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isSidenavActive]);
+
+  return (
+    &lt;header>
+      &lt;div className="contenidoCabecera container p-3">
+        &lt;div className="w-100 d-flex align-items-center justify-content-between gap-3" id="contenidoHeader">
+          {/* Logo con enlace a la página principal */}
+          &lt;div className="flex-grow-0" id="logo">
+            &lt;Link to="/" className="d-flex justify-content-flex-start align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+              &lt;img src={logo} alt="Logo" />
+            &lt;/Link>
+          &lt;/div>
+
+          {/* Barra de navegación (centrada) */}
+          &lt;div className="d-flex align-items-center justify-content-center flex-grow-1" id="menu">
+            &lt;ul className="nav col-13 col-lg-auto me-lg-auto mb-3 d-flex justify-content-center align-items-center mb-md-0">
+              &lt;li>
+                &lt;Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                  INICIO
+                &lt;/Link>
+              &lt;/li>
+
+              &lt;li>
+                &lt;Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu">
+                  EQUIPOS
+                &lt;/Link>
+              &lt;/li>
+
+              &lt;li className="nav-item dropdown">
+                &lt;Link to="/partidos" className={`nav-link px-2 link-body-emphasis ${isActive("/partidos")}`} id="elementoMenu" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                  TORNEO
+                &lt;/Link>
+                &lt;ul className="dropdown-menu">
+                  &lt;li>
+                    &lt;Link to="/partidos" className="dropdown-item">
+                      RESULTADOS
+                    &lt;/Link>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;Link to="/clasificacion" className="dropdown-item">
+                      CLASIFICACIÓN
+                    &lt;/Link>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;Link to="/estadisticas" className="dropdown-item">
+                      ESTADÍSTICAS
+                    &lt;/Link>
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/li>
+
+              &lt;li>
+                &lt;Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive("/organizacion")}`} id="elementoMenu">
+                  ORGANIZACIÓN
+                &lt;/Link>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu">
+                  GALERÍA
+                &lt;/Link>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu">
+                  INSCRIBIRSE
+                &lt;/Link>
+              &lt;/li>
+              &lt;li className="d-flex align-items-center">
+                &lt;YouTubeLiveIndicator />
+              &lt;/li>
+            &lt;/ul>
+          &lt;/div>
+
+          {/* Botón para abrir el modal de inicio de sesión */}
+          &lt;div className="flex-grow-0" id="iniciarSesion">
+            {seguridad.user ? (
+              &lt;div className="dropdown text-end">
+                &lt;a
+                  href="#"
+                  className="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  &lt;img
+                    src={imagenPerfil}
+                    alt="Perfil de usuario"
+                    width="32"
+                    height="32"
+                    className="rounded-circle"
+                  />
+                &lt;/a>
+                &lt;ul className="dropdown-menu text-small">
+                  &lt;li>
+                    &lt;h2 className="dropdown-header">{seguridad.user.nombre}&lt;/h2>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;hr className="dropdown-divider" />
+                  &lt;/li>
+                  &lt;li>
+                    &lt;Link to="/administracion" className="dropdown-item">
+                      Administración
+                    &lt;/Link>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;hr className="dropdown-divider" />
+                  &lt;/li>
+                  &lt;li>
+                    &lt;a className="dropdown-item" href="" onClick={logout}>
+                      Cerrar sesión
+                    &lt;/a>
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/div>
+            ) : (
+              &lt;button className="btn btn-primary text-white" onClick={handleShow}>
+                Iniciar sesión
+              &lt;/button>
+            )}
+          &lt;/div>
+          {showModal &amp;&amp; (
+            &lt;>
+              &lt;div className="modal-backdrop fade show">&lt;/div>
+              &lt;div className="modal fade show d-block" tabIndex="-1">
+                &lt;div className="modal-dialog">
+                  &lt;div className="modal-content">
+                    &lt;div className="modal-body">
+                      &lt;LoginModal handleClose={handleClose} />
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+            &lt;/>
+          )}
+        &lt;/div>
+      &lt;/div>
+
+      {/* Menú lateral (sidenav) */}
+      &lt;div className="sidebar p-2" ref={sidenavRef} onClick={(e) => e.stopPropagation()}>
+        &lt;div className="flex-grow-0" id="logoSidebar">
+          &lt;Link to="/">
+            &lt;img src="../src/assets/imagenes/logo.png" alt="Logo" />
+          &lt;/Link>
+        &lt;/div>
+
+        &lt;div>
+          &lt;nav id="sidenav-1" className={`sidenav ${isSidenavActive ? "active" : ""}`} onClick={(e) => e.stopPropagation()}>
+            &lt;ul className="nav col-13 col-lg-auto me-lg-auto mb-3 d-flex flex-column justify-content-start align-items-start mb-md-0 p-4">
+              &lt;li>
+                &lt;Link to="/" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu" onClick={toggleSidenav}>
+                  INICIO
+                &lt;/Link>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/equipos" className={`nav-link px-2 link-body-emphasis ${isActive("/")}`} id="elementoMenu" onClick={toggleSidenav}>
+                  EQUIPOS
+                &lt;/Link>
+              &lt;/li>
+              &lt;li className="nav-item">
+                &lt;Link to="#" className={`nav-link px-2 link-body-emphasis ${isActive("/torneo")}`} id="elementoMenu" onClick={toggleSubMenu}>
+                  TORNEO
+                &lt;/Link>
+                &lt;ul className={`submenu ${isSubMenuActive ? "active" : ""}`} style={{ maxHeight: isSubMenuActive ? "500px" : "0", opacity: isSubMenuActive ? "1" : "0" }}>
+                  &lt;li>
+                    &lt;Link to="/partidos" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>RESULTADOS&lt;/Link>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;Link to="/clasificacion" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>CLASIFICACIÓN&lt;/Link>
+                  &lt;/li>
+                  &lt;li>
+                    &lt;Link to="/estadisticas" className="nav-link px-2 link-body-emphasis" onClick={toggleSidenav}>ESTADÍSTICAS&lt;/Link>
+                  &lt;/li>
+                &lt;/ul>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/organizacion" className={`nav-link px-2 link-body-emphasis ${isActive("/organizacion")}`} id="elementoMenu" onClick={toggleSidenav}>
+                  ORGANIZACIÓN
+                &lt;/Link>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu" onClick={toggleSidenav}>
+                  GALERÍA
+                &lt;/Link>
+              &lt;/li>
+              &lt;li>
+                &lt;Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu" onClick={toggleSidenav}>
+                  INSCRIBIRSE
+                &lt;/Link>
+              &lt;/li>
+              &lt;li className="d-flex align-items-center">
+                &lt;YouTubeLiveIndicator />
+              &lt;/li>
+            &lt;/ul>
+            &lt;div className="flex-grow-0 px-4" id="iniciarSesion">
+              {seguridad.user ? (
+                &lt;div className="dropdown text-start">
+                  &lt;a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+                    &lt;img src={imagenPerfil} alt="Perfil de usuario" width="32" height="32" className="rounded-circle" />
+                  &lt;/a>
+                  &lt;ul className="dropdown-menu text-small">
+                    &lt;li>
+                      &lt;h2 className="dropdown-header">{seguridad.user.nombre}&lt;/h2>
+                    &lt;/li>
+                    &lt;li>&lt;hr className="dropdown-divider" />&lt;/li>
+                    &lt;li>&lt;Link to="/administracion" className="dropdown-item" onClick={toggleSidenav}>Administración&lt;/Link>&lt;/li>
+                    &lt;li>&lt;hr className="dropdown-divider" />&lt;/li>
+                    &lt;li>&lt;a className="dropdown-item" href="" onClick={logout}>Cerrar sesión&lt;/a>&lt;/li>
+                  &lt;/ul>
+                &lt;/div>
+              ) : (
+                &lt;Link to="/login" className="btn btn-primary text-black ms-2 text-white" onClick={toggleSidenav}>
+                  Iniciar sesión
+                &lt;/Link>
+              )}
+            &lt;/div>
+          &lt;/nav>
+          &lt;button id="sidenav-toggle" className={`toggler-btn ${isSidenavActive ? "active" : ""}`} onClick={toggleSidenav}>
+            &lt;i className={`bi bi-list ${isSidenavActive ? "text-dark" : "text-dark"}`}>&lt;/i>
+          &lt;/button>
+        &lt;/div>
+        {isSidenavActive &amp;&amp; &lt;div className="backdrop" onClick={toggleSidenav}>&lt;/div>}
+      &lt;/div>
+    &lt;/header>
+  );
+}
+
+export default Header;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdministracionPage">AdministracionPage</a></li><li><a href="global.html#AppEnrutador">AppEnrutador</a></li><li><a href="global.html#AppLayout">AppLayout</a></li><li><a href="global.html#BaseLayout">BaseLayout</a></li><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#Clasificacion">Clasificacion</a></li><li><a href="global.html#ClasificacionPage">ClasificacionPage</a></li><li><a href="global.html#CrudCentros">CrudCentros</a></li><li><a href="global.html#CrudCiclos">CrudCiclos</a></li><li><a href="global.html#CrudEquipos">CrudEquipos</a></li><li><a href="global.html#CrudEstudios">CrudEstudios</a></li><li><a href="global.html#CrudFamilias">CrudFamilias</a></li><li><a href="global.html#CrudImagenes">CrudImagenes</a></li><li><a href="global.html#CrudInscripciones">CrudInscripciones</a></li><li><a href="global.html#CrudJugadores">CrudJugadores</a></li><li><a href="global.html#CrudPartidos">CrudPartidos</a></li><li><a href="global.html#CrudPatrocinadores">CrudPatrocinadores</a></li><li><a href="global.html#CrudPublicaciones">CrudPublicaciones</a></li><li><a href="global.html#CrudRetos">CrudRetos</a></li><li><a href="global.html#CrudTorneos">CrudTorneos</a></li><li><a href="global.html#CrudUsuarios">CrudUsuarios</a></li><li><a href="global.html#CuadroClasificacion">CuadroClasificacion</a></li><li><a href="global.html#DetalleEstadisticaPage">DetalleEstadisticaPage</a></li><li><a href="global.html#DetalleJugadorPage">DetalleJugadorPage</a></li><li><a href="global.html#DetallePartidoPage">DetallePartidoPage</a></li><li><a href="global.html#DetallesEquipoPage">DetallesEquipoPage</a></li><li><a href="global.html#Equipo">Equipo</a></li><li><a href="global.html#EquiposPage">EquiposPage</a></li><li><a href="global.html#ErrorPage">ErrorPage</a></li><li><a href="global.html#EstadisticasPage">EstadisticasPage</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormularioCentros">FormularioCentros</a></li><li><a href="global.html#FormularioCiclos">FormularioCiclos</a></li><li><a href="global.html#FormularioEquipos">FormularioEquipos</a></li><li><a href="global.html#FormularioFamilias">FormularioFamilias</a></li><li><a href="global.html#FormularioJugadores">FormularioJugadores</a></li><li><a href="global.html#FormularioPartidos">FormularioPartidos</a></li><li><a href="global.html#FormularioPatrocinadores">FormularioPatrocinadores</a></li><li><a href="global.html#FormularioPublicaciones">FormularioPublicaciones</a></li><li><a href="global.html#FormularioRetos">FormularioRetos</a></li><li><a href="global.html#FormularioUsuarios">FormularioUsuarios</a></li><li><a href="global.html#Galeria">Galeria</a></li><li><a href="global.html#GaleriaPage">GaleriaPage</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#InfoTorneo">InfoTorneo</a></li><li><a href="global.html#Inicio">Inicio</a></li><li><a href="global.html#InicioPage">InicioPage</a></li><li><a href="global.html#Inscribirse">Inscribirse</a></li><li><a href="global.html#InscribirsePage">InscribirsePage</a></li><li><a href="global.html#Jugador">Jugador</a></li><li><a href="global.html#JugadorLabel">JugadorLabel</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MainEntry">MainEntry</a></li><li><a href="global.html#MenuAdministracion">MenuAdministracion</a></li><li><a href="global.html#Migas">Migas</a></li><li><a href="global.html#OrganizacionPage">OrganizacionPage</a></li><li><a href="global.html#Paginador">Paginador</a></li><li><a href="global.html#Paginator">Paginator</a></li><li><a href="global.html#Partido">Partido</a></li><li><a href="global.html#Partidos">Partidos</a></li><li><a href="global.html#PartidosPage">PartidosPage</a></li><li><a href="global.html#RetoPage">RetoPage</a></li><li><a href="global.html#Retos">Retos</a></li><li><a href="global.html#RutaPrivada">RutaPrivada</a></li><li><a href="global.html#SeguridadContext">SeguridadContext</a></li><li><a href="global.html#SeguridadProvider">SeguridadProvider</a></li><li><a href="global.html#SetPasswordForm">SetPasswordForm</a></li><li><a href="global.html#Spinner">Spinner</a></li><li><a href="global.html#TablaEquipos">TablaEquipos</a></li><li><a href="global.html#TablaJugadores">TablaJugadores</a></li><li><a href="global.html#TablaPartidos">TablaPartidos</a></li><li><a href="global.html#TarjetaFormulario">TarjetaFormulario</a></li><li><a href="global.html#TorneoPage">TorneoPage</a></li><li><a href="global.html#YouTubeLiveIndicator">YouTubeLiveIndicator</a></li><li><a href="global.html#cargarOpciones">cargarOpciones</a></li><li><a href="global.html#fetchData">fetchData</a></li><li><a href="global.html#fetchEquipos">fetchEquipos</a></li><li><a href="global.html#fetchEstudios">fetchEstudios</a></li><li><a href="global.html#fetchFamilias">fetchFamilias</a></li><li><a href="global.html#fetchIncidencias">fetchIncidencias</a></li><li><a href="global.html#fetchTiposPerfil">fetchTiposPerfil</a></li><li><a href="global.html#generateSlug">generateSlug</a></li><li><a href="global.html#subirImagen">subirImagen</a></li><li><a href="global.html#useCrud">useCrud</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 06 2025 11:55:27 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
