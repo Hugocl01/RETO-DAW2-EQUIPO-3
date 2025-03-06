@@ -93,7 +93,7 @@ class InscripcionController extends Controller
             $token = Str::random(40);
             $usuario_equipo->remember_token = $token;
             $usuario_equipo->save();
-            Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $token, $nuevo_estado));
+            Mail::to($usuario_equipo->email)->send(new EquipoAvisoMail($inscripcion, $nuevo_estado, $usuario_equipo->remember_token));
 
             $capitan = $inscripcion->equipo->jugadores()->where('capitan', 1)->first();
             Mail::to($capitan->email)->send(new EquipoAvisoMail($inscripcion, $nuevo_estado));

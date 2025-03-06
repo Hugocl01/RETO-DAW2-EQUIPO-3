@@ -4,7 +4,7 @@ import llamadas from '../../data/FuncionesCombobox';
 
 /**
  * Componente para gestionar un formulario de publicaciones.
- * Permite crear o editar una publicación con título, contenido, tipo de publicación, imagen, etc.
+ * Permite crear o editar una publicación con título, contenido, tipo de publicación
  *
  * @component
  * @param {Object} props - Propiedades del componente.
@@ -19,14 +19,11 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
         contenido: '',
         publicacionable_type: '',
         publicacionable_id: '',
-        ruta_video: '',
-        ruta_audio: '',
         portada: false,
-        imagen: null,
     });
 
     const [opcionesPublicacionable, setOpcionesPublicacionable] = useState([]);
-    const [errores, setErrores] = useState({ titulo: '', contenido: '', imagen: '' });
+    const [errores, setErrores] = useState({ titulo: '', contenido: ''});
     const token = localStorage.getItem('token');
 
     // Efecto para inicializar el formulario con datos iniciales
@@ -37,7 +34,6 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                 ...datosIniciales,
                 publicacionable_type: datosIniciales.seccion,
                 publicacionable_id: datosIniciales.elemento,
-                imagen: null, // Evita problemas con archivos
             }));
 
             // Si hay un tipo de publicación inicial, cargar sus opciones
@@ -131,7 +127,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
      * @returns {boolean} `true` si todos los campos son válidos, `false` en caso contrario.
      */
     const validarCampos = () => {
-        const nuevosErrores = { titulo: '', contenido: '', imagen: '' };
+        const nuevosErrores = { titulo: '', contenido: ''};
 
         if (formData.portada) {
             if (!formData.titulo.trim()) {
@@ -139,9 +135,6 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
             }
             if (!formData.contenido.trim()) {
                 nuevosErrores.contenido = 'El contenido es obligatorio si la publicación está en la portada.';
-            }
-            if (!formData.imagen) {
-                nuevosErrores.imagen = 'Una imagen es obligatoria si la publicación está en la portada.';
             }
         }
 
@@ -157,60 +150,36 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validarCampos()) return;
+
         const url = import.meta.env.VITE_API_URL;
+        const formDataEnvio = new FormData();
+
+        formDataEnvio.append('titulo', formData.titulo);
+        formDataEnvio.append('contenido', formData.contenido);
+        formDataEnvio.append('publicacionable_type', formData.publicacionable_type);
+        formDataEnvio.append('publicacionable_id', formData.publicacionable_id);
+        formDataEnvio.append('portada', formData.portada ? '1' : '0');
+
         try {
             const response = await fetch(`${url}publicaciones`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(formData),
+                headers: { Authorization: `Bearer ${token}` },
+                body: formDataEnvio,
             });
 
             const data = await response.json();
             if (response.ok) {
-                console.log('Publicación creada con ID:', data.publicacion.id);
-                if (formData.imagen) {
-                    await subirImagen(data.publicacion.id);
-                }
                 alert('Publicación creada con éxito');
+                if (onGuardar) onGuardar(data.publicacion);
             } else {
                 console.error('Error en la creación:', data);
+                alert(`Error: ${data.message}`);
             }
         } catch (error) {
             console.error('Error al enviar la publicación:', error);
         }
     };
 
-    /**
-     * Sube la imagen asociada a la publicación.
-     *
-     * @async
-     * @function subirImagen
-     * @param {string} publicacionId - ID de la publicación.
-     */
-    const subirImagen = async (publicacionId) => {
-        const formDataImagen = new FormData();
-        formDataImagen.append('imagen', formData.imagen);
-        const url = import.meta.env.VITE_API_URL;
-        try {
-            const response = await fetch(`${url}publicaciones/${publicacionId}/subir-imagen`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: formDataImagen,
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Imagen subida correctamente:', data);
-            } else {
-                console.error('Error al subir imagen:', data);
-            }
-        } catch (error) {
-            console.error('Error al subir imagen:', error);
-        }
-    };
 
     return (
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
@@ -276,7 +245,7 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                         value={formData.publicacionable_id}
                         onChange={handleChange}
                     >
-                        <option value="" hidden>Seleccione una opcion</option>
+                        <option value="" hidden>Seleccione una opción</option>
                         {opcionesPublicacionable.map((opcion, index) => (
                             <option key={index} value={opcion.id}>{opcion.nombre}</option>
                         ))}
@@ -297,23 +266,11 @@ const FormularioPublicaciones = ({ datosIniciales, onGuardar, onCancelar }) => {
                 <label className="form-check-label" htmlFor="portada">Usar como portada</label>
             </div>
 
-            {/* Subida de Imagen */}
-            <div className="mb-3">
-                <label htmlFor="imagen" className="form-label">Subir Imagen</label>
-                <input
-                    type="file"
-                    className="form-control"
-                    name="imagen"
-                    id="imagen"
-                    accept="image/*"
-                    onChange={handleChange}
-                />
-                {errores.imagen && <span className="text-danger d-block">{errores.imagen}</span>}
-            </div>
-
             {/* Botones */}
             <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-success">{datosIniciales == null ? 'Crear publicacion' : 'Guardar publicacion'}</button>
+                <button type="submit" className="btn btn-success">
+                    {datosIniciales == null ? 'Crear publicación' : 'Guardar publicación'}
+                </button>
                 <button type="reset" className="btn btn-secondary" onClick={onCancelar}>Cancelar</button>
             </div>
         </form>
