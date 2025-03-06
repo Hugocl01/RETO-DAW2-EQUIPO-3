@@ -15,6 +15,10 @@
         display: none;
     }
 
+    .subrayado {
+        text-decoration: underline;
+    }
+
     @media (max-width: 767px) {
         .tarjetaReglas {
             display: none;
