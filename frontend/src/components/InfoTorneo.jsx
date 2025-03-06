@@ -31,7 +31,7 @@ function InfoTorneo() {
                         <div className="card d-flex flex-column justify-content-center align-items-center">
                             <img src={logo} className="card-img-top" alt="Logo" />
                             <div className="card-body">
-                                <a href="#" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
+                                <a target="_blank" href="/reglas.pdf" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
                                     <span>Descargar Reglas</span>
                                     <i className="bi bi-file-earmark-arrow-down fs-4"></i>
                                 </a>
@@ -55,24 +55,44 @@ function InfoTorneo() {
                 <div className="col-md-8">
                     <div className="p-4 bg-light border rounded text-left">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quasi sapiente cum dolor quae consectetur labore eos quis omnis possimus nam,
-                            nisi, dolore ad vitae accusantium rem error neque reprehenderit.
-                            Nemo, reprehenderit sint aut totam deleniti aliquam quidem hic provident! Similique consequatur vel voluptate nulla a, aperiam sed eligendi, qui
-                            exercitationem explicabo asperiores labore eaque eveniet expedita. Ut, dolore maiores?
-                            Ipsum, eos vel distinctio tempore et fugiat dolores! A, cumque alias quae excepturi iste, provident autem officia velit obcaecati numquam adipisci,
-                            accusamus consectetur hic quas earum eligendi nihil. Rerum, eos.<br></br><br></br>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio minima, libero qui tempore culpa inventore sed magnam a provident deleniti laboriosam
-                            recusandae repudiandae quaerat ipsam voluptatum eaque amet aliquid laborum?
-                            Quis distinctio ratione delectus enim dolor consectetur hic maiores porro totam, soluta accusamus consequatur quae! Repellendus aperiam quis ipsum.
-                            Quibusdam adipisci iure impedit deserunt accusamus reprehenderit provident architecto, dolor dolorum!
-                            Minus eos eius quidem quas laboriosam, aperiam expedita possimus, laborum earum debitis veritatis, vel explicabo optio minima accusamus rerum
-                            repellat ad doloribus tempora quo voluptates architecto necessitatibus. Laudantium, et debitis.
-                            Placeat laborum aspernatur quia quaerat eum ad temporibus amet consequuntur, eveniet magnam eius nostrum. Incidunt optio fuga, quo, accusantium
-                            neque rerum illum iure deleniti eligendi eum tempore doloremque temporibus quidem?<br></br><br></br>
-                            Facere facilis consectetur ipsum tempore voluptatem iure? Ex soluta ab facilis eligendi, autem quae aspernatur accusamus hic expedita harum, aperiam,
-                            saepe earum dolorum commodi unde voluptates corrupti adipisci recusandae corporis?<br></br><br></br>
-                            Harum consequuntur sint sunt earum dolorum, amet dicta non magnam ut repellendus beatae quod et, alias ipsa eaque est rem id blanditiis animi.
-                            Blanditiis sapiente illum voluptatum, quos odit maiores.
+                            Para alcanzar las metas, este proyecto buscará recoger la mayor cantidad de
+                            alimentos y recursos económicos posibles.
+                            Cruz Roja gestionará tanto los alimentos no perecederos recogidos
+                            como los recursos económicos generados, para que lleguen a las realidades
+                            sociales que más lo necesitan.
+                            <br></br><br></br>
+                            El Torneo Solidario se disputará en dos fases: la primera con la colaboración
+                            de las empresas patrocinadoras y la segunda de forma paralela a la
+                            celebración del Torneo Deportivo.
+                            <br></br><br></br>
+
+                            <span className="subrayado">Patrocinios:</span><br></br>
+                            A cada uno de los equipos participantes se les asignará un patrocinador.
+
+                            <br></br><br></br>
+                            <span className="subrayado">Recogida de alimentos y recaudación de fondos:</span><br></br>
+                            El Torneo Solidario se llevará a cabo de manera paralela a la celebración
+                            del Torneo Deportivo.
+                            No solo los jugadores podrán donar, sino también sus compañeros de clase,
+                            amistades y familiares.<br></br>
+                            Durante el desarrollo de los torneos, se venderán agua, bebidas isotónicas
+                            y alimentos saludables preparados por los alumnos del Ciclo Formativo de
+                            Cocina, en su reto “Catering para un evento deportivo”. Todo el dinero
+                            recaudado durante los dos días se donará, junto con los alimentos, a
+                            Cruz Roja.
+                            <br></br><br></br>
+                            <span className="subrayado">Donaciones:</span><br></br>
+                            ¿Te gustaría contribuir? ¡Es muy fácil! Acércate a nuestro pabellón deportivo
+                            en Torrelavega y trae alimentos no perecederos para ayudar a llenar nuestras
+                            cestas de donación. <br></br>Durante el evento, estaremos recogiendo alimentos
+                            para apoyar a las familias más necesitadas de nuestra comunidad.
+                            Tu generosidad hará posible que aquellos que enfrentan dificultades
+                            tengan acceso a alimentos nutritivos y básicos. ¡Cada kilo cuenta!
+
+                            Si prefieres apoyarnos económicamente, ¡no hay problema! Puede donar a traves del
+
+                            <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional"> enlace de la Cruz Roja</a>
+
                         </p>
                     </div>
                 </div>

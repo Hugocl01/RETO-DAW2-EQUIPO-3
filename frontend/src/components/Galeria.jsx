@@ -1,5 +1,5 @@
 import "./css/EstilosComun.css";
-import img2 from "../assets/imagenes/img2.png";
+import imagenDefault from "../assets/imagenes/default.jpg";
 
 /**
  * Componente que muestra una galería de imágenes con un pie de foto.
@@ -26,7 +26,7 @@ function Galeria() {
                         {/* Tarjeta individual */}
                         <div className="card">
                             {/* Imagen de la tarjeta */}
-                            <img src={img2} className="card-img-top" alt="..." />
+                            <img src={imagenDefault} className="card-img-top" alt="..." />
 
                             {/* Cuerpo de la tarjeta con el pie de foto */}
                             <div className="card-body text-center">

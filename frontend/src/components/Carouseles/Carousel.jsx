@@ -6,17 +6,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 /**
- * Componente de carrusel para mostrar elementos en grupos ajustables según el tamaño de la pantalla.
+ * Componente de carrusel para mostrar elementos con imágenes configurables.
  *
  * @component
  * 
  * @param {Object} props - Propiedades del componente.
  * @param {string} props.id - Identificador único para el carrusel.
  * @param {Array} props.items - Lista de elementos a mostrar en el carrusel.
+ * @param {Array} props.imagenes - Array de imágenes que se asignarán a cada elemento de `items`.
  * @param {number} props.intervalo - Intervalo de cambio automático en milisegundos.
  * @returns {JSX.Element} Carrusel de elementos con opción de leer más.
  */
-function Carousel({ id, items, intervalo }) {
+function Carousel({ id, items, imagenes, intervalo }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemsPerSlide, setItemsPerSlide] = useState(3);
 
@@ -44,6 +45,12 @@ function Carousel({ id, items, intervalo }) {
         groupedItems.push(items.slice(i, i + itemsPerSlide));
     }
 
+    // Se asegura de que cada item tenga la imagen correspondiente del array `imagenes`
+    const itemsConImagenes = items.map((item, index) => ({
+        ...item,
+        imagen: imagenes[index] || img2, // Asignación de imagen por defecto si no hay imagen
+    }));
+
     return (
         <div className="contenido-carousel">
             <div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
@@ -68,31 +75,33 @@ function Carousel({ id, items, intervalo }) {
                         <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                             <div className="container">
                                 <div className="row justify-content-center">
-                                    {group.map((item, i) => (
-                                        item ? (
+                                    {group.map((item, i) => {
+                                        const itemIndex = index * itemsPerSlide + i; // Obtener el índice real
+                                        const itemConImagen = itemsConImagenes[itemIndex]; // Obtener item con imagen
+                                        return itemConImagen ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
                                                 <div className="card shadow-lg custom-card">
                                                     <img
-                                                        src={item?.imagen || img2}
+                                                        src={itemConImagen.imagen || img2}
                                                         className="card-img-top"
-                                                        alt={item?.titulo || "Sin título"}
+                                                        alt={itemConImagen?.titulo || "Sin título"}
                                                     />
                                                     <div className="card-body d-flex flex-column justify-content-between">
-                                                        <h4 className="card-title">{item?.titulo || "Sin título"}</h4>
-                                                        <p className="card-text">
-                                                            {item?.texto
-                                                                ? item.texto.length > 160 
-                                                                    ? `${item.texto.substring(0, 150)}...`
-                                                                    : item.texto
-                                                                : item?.contenido
-                                                                    ? item.contenido.length > 160
-                                                                        ? `${item.contenido.substring(0, 150)}...`
-                                                                        : item.contenido
+                                                        <h4 className="card-title text-lowercase">{itemConImagen?.titulo || "Sin título"}</h4>
+                                                        <p className="card-text text-lowercase">
+                                                            {itemConImagen?.texto
+                                                                ? itemConImagen.texto.length > 160
+                                                                    ? `${itemConImagen.texto.substring(0, 150)}...`
+                                                                    : itemConImagen.texto
+                                                                : itemConImagen?.contenido
+                                                                    ? itemConImagen.contenido.length > 160
+                                                                        ? `${itemConImagen.contenido.substring(0, 150)}...`
+                                                                        : itemConImagen.contenido
                                                                     : "No hay contenido disponible"}
                                                         </p>
                                                         <button
                                                             className="btn btn-success"
-                                                            onClick={() => setSelectedItem(item)}
+                                                            onClick={() => setSelectedItem(itemConImagen)}
                                                             data-bs-toggle="modal"
                                                             data-bs-target={`#leerMasModal_${id}`}
                                                         >
@@ -101,8 +110,8 @@ function Carousel({ id, items, intervalo }) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        ) : null
-                                    ))}
+                                        ) : null;
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -125,19 +134,19 @@ function Carousel({ id, items, intervalo }) {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">{selectedItem ? selectedItem.titulo : "Título"}</h5>
+                            <h5 className="modal-title text-lowercase">{selectedItem ? selectedItem.titulo : "Título"}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {selectedItem ? (
                                 <>
                                     <img
-                                        src={selectedItem?.imagen || img2}
+                                        src={selectedItem.imagen || img2}
                                         className="img-fluid mb-3"
-                                        alt={selectedItem.titulo}
+                                        alt={selectedItem.titulo || "Imagen"}
                                     />
-                                    <h4 className="card-title mb-4">{selectedItem?.titulo || "Sin título"}</h4>
-                                    <p>{selectedItem.texto || selectedItem.contenido}</p>
+                                    <h4 className="card-title mb-4 text-lowercase">{selectedItem.titulo || "Sin título"}</h4>
+                                    <p className="text-lowercase">{selectedItem.texto || selectedItem.contenido}</p>
                                 </>
                             ) : (
                                 <p>Cargando...</p>

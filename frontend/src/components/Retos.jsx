@@ -18,7 +18,7 @@ import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
 import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
 import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
 import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
-import img2 from "../assets/imagenes/img2.png";
+import imagenDefault from "../assets/imagenes/default.jpg";
 import fetchData from '../data/FetchData';
 
 // Lista de iconos para los retos
@@ -42,8 +42,6 @@ const iconos = [
     inclusion
 ];
 
-const imagenDefault = img2; // Imagen por defecto si no hay una disponible
-
 /**
  * Componente `Retos` que muestra una lista de retos con sus detalles.
  * Cada reto tiene un icono, un título, una descripción y un modal para ver más detalles.
@@ -55,9 +53,6 @@ function Retos() {
     const [retos, setRetos] = useState([]);
     const [selectedReto, setSelectedReto] = useState(null);
 
-    /**
-     * Efecto para obtener los retos al montar el componente.
-     */
     useEffect(() => {
         const fetchRetos = async () => {
             try {
@@ -79,13 +74,15 @@ function Retos() {
                         {retos.map((reto, index) => (
                             <div className="col-lg-3 col-md-4 col-sm-6 mb-3 text-center" key={reto.id}>
                                 {/* Tarjeta del reto */}
-                                <div className="card h-100 mx-auto p-3 d-flex flex-column justify-content-center align-items-center" style={{ width: '85%' }}>
+                                <div className="card h-100 mx-auto p-3 d-flex flex-column justify-content-between align-items-center" style={{ width: '85%' }}>
                                     <img src={iconos[index % iconos.length]} className="card-img-top" alt={reto.titulo} />
                                     <div className="card-body">
-                                        <h5 className="card-title">{reto.titulo}</h5>
-                                        <p className="card-text">
+                                        <h5 className="card-title text-lowercase">{reto.titulo}</h5>
+                                        <p className="card-text text-lowercase">
                                             {reto.texto.length > 80 ? reto.texto.slice(0, 80) + '...' : reto.texto}
                                         </p>
+                                    </div>
+                                    <div className="card-footer">
                                         <button
                                             className="btn btn-primary"
                                             onClick={() => setSelectedReto(reto)}
@@ -102,16 +99,11 @@ function Retos() {
                                     <div className="modal-dialog modal-lg">
                                         <div className="modal-content">
                                             <div className="modal-header">
-                                                <h5 className="modal-title">{reto.titulo}</h5>
+                                                <h5 className="modal-title text-lowercase">{reto.titulo}</h5>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
-                                                <img
-                                                    src={reto.imagen || imagenDefault}
-                                                    className="img-fluid mb-3"
-                                                    alt={reto.titulo}
-                                                />
-                                                <p>{reto.texto}</p>
+                                                <p className='text-lowercase'>{reto.texto}</p>
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
@@ -129,5 +121,6 @@ function Retos() {
         </>
     );
 }
+
 
 export default Retos;

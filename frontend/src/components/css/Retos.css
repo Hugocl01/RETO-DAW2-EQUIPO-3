@@ -17,4 +17,9 @@
     .card img {
         max-width: 9em;
     }
+
+    .card-footer {
+        background-color: transparent;
+        border-color: transparent;
+    }
 }

@@ -6,9 +6,29 @@ import cruzRoja from "../assets/imagenes/cruz-roja.png";
 import torneo from "../assets/imagenes/torneo.jpeg";
 import cesta from "../assets/imagenes/cesta.png";
 import donate from "../assets/imagenes/donate.png";
+import defaultImagen from "../assets/imagenes/default.jpg";
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
 
+import entrenador from "../assets/imagenes/retos/entrenador.jpg";
+import daw from "../assets/imagenes/retos/daw.jpg";
+import coche from "../assets/imagenes/retos/coche.jpg";
+import gestionEmpresa from "../assets/imagenes/retos/gestionEmpresa.png";
+import marcador from "../assets/imagenes/retosIconos/marcador.png";
+import corazon from "../assets/imagenes/retosIconos/corazon.png";
+import masaje from "../assets/imagenes/retosIconos/masaje.png";
+import jabon from "../assets/imagenes/retosIconos/jabon.png";
+import termal from "../assets/imagenes/retosIconos/termal.png";
+import camara from "../assets/imagenes/retosIconos/camara.png";
+import sonido from "../assets/imagenes/retosIconos/sonido.png";
+import red from "../assets/imagenes/retosIconos/red.png";
+import servidor from "../assets/imagenes/retosIconos/servidor.png";
+import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
+import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
+import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
+import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
+
+import fetchData from '../data/FetchData';
 /**
  * Componente principal de la página de inicio.
  * 
@@ -29,6 +49,28 @@ function Inicio() {
     const status = searchParams.get("inscripcion-status");
 
     const apiUrl = import.meta.env.VITE_API_URL;
+
+
+    const imagenesRetos = [
+        entrenador,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        daw,
+        defaultImagen,
+        coche,
+        gestionEmpresa,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen,
+        defaultImagen
+    ];
+
 
     /**
      * Efecto para obtener datos de donaciones, publicaciones, retos y patrocinadores al montar el componente.
@@ -151,9 +193,11 @@ function Inicio() {
                         </p>
                     </div>
 
-                    <div className='mx-5 mt-2'>
-                        <button type="button" className="btn btn-primary fs-6 btn-lg px-5">INSCRÍBETE</button>
-                    </div>
+                    <a href="/inscribirse" className='ms-5'>
+                        <button type="button" className="btn btn-primary fs-6 btn-lg px-5">
+                            INSCRÍBETE
+                        </button>
+                    </a>
 
                     <div className='infoIntroduccion border border-secondary rounded p-3 mx-5 mt-5'>
                         <h4 className='text-center mb-4'>Información del Torneo</h4>
@@ -176,7 +220,7 @@ function Inicio() {
             </section>
 
             {/* Sección de colaboradores */}
-            <section className="colaboradores section-container d-flex flex-column justify-content-center align-items-center">
+            <section className="colaboradores section-container d-flex flex-column justify-content-center align-items-center m-3">
                 <h1 className='text-center'>Colaboradores</h1>
                 <div className="d-flex flex-wrap justify-content-center gap-3">
                     <div className="p-2 bg-white shadow-sm rounded">
@@ -255,14 +299,14 @@ function Inicio() {
             <section className="carruseles section-container d-flex flex-column justify-content-center align-items-center">
                 <h1 className='text-center'>Noticias</h1>
                 {noticias.length > 0 ? (
-                    <Carousel id="carouselNoticias" items={noticias} intervalo={3000} />
+                    <Carousel id="carouselNoticias" items={noticias} imagenes={imagenesRetos} intervalo={3000} />
                 ) : (
                     <p className="text-center">No hay noticias disponibles</p>
                 )}
 
                 <h1 className='text-center'>Retos</h1>
                 {retos.length > 0 ? (
-                    <Carousel id="carouselRetos" items={retos} intervalo={3000} />
+                    <Carousel id="carouselRetos" items={retos} imagenes={imagenesRetos} intervalo={3000} />
                 ) : (
                     <p className="text-center">No hay retos disponibles</p>
                 )}
@@ -290,8 +334,8 @@ function Inicio() {
                             <div className="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
                                 <img src={donate} className="mb-3 w-25" alt="Donar" />
                                 <h2 className="text-dark fw-bold">Hacer una Donación</h2>
-                                <p className="text-muted lead">Tu ayuda importa. Cada aporte marca la diferencia.</p>
-                                <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary btn-lg mt-3 px-4">
+                                <p className="">Tu ayuda importa. Cada aporte marca la diferencia.</p>
+                                <a target="_blank" href="https://cercadeti.cruzroja.es/ligasolidariadeformacionprofesional" className="btn btn-primary btn-lg mt-2 px-4">
                                     Donar
                                 </a>
                             </div>
@@ -303,7 +347,7 @@ function Inicio() {
             {/* Sección de patrocinadores */}
             <section className="contenedorPatros py-5 bg-secondary">
                 <div className="patrocinadores container text-center">
-                    <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>
+                    <h1 className="mb-4 mt-5 text-primary fw-bold">Patrocinadores</h1>
                     <div className="d-flex flex-wrap justify-content-center gap-3">
                         {patrocinadores.length > 0 ? (
                             patrocinadores.map((patrocinador) => (
