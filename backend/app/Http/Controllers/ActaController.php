@@ -7,11 +7,42 @@ use App\Http\Requests\ActaRequest;
 use App\Http\Resources\ActaResource;
 use App\Models\Acta;
 
+/**
+ * @OA\Tag(
+ *     name="Actas",
+ *     description="Operaciones relacionadas con las actas"
+ * )
+ */
 class ActaController extends Controller
 {
-
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/actas",
+     *     summary="Crear una nueva acta",
+     *     description="Crea una nueva acta y la almacena en la base de datos.",
+     *     operationId="storeActa",
+     *     tags={"Actas"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"partido_id", "jugador_id", "incidencia_id", "minuto", "comentario"},
+     *             @OA\Property(property="partido_id", type="integer", example=10),
+     *             @OA\Property(property="jugador_id", type="integer", example=5),
+     *             @OA\Property(property="incidencia_id", type="integer", example=2),
+     *             @OA\Property(property="minuto", type="integer", example=45),
+     *             @OA\Property(property="comentario", type="string", example="Gol de cabeza después de un córner")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Acta creada correctamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Acta")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación"
+     *     )
+     * )
      */
     public function store(ActaRequest $request)
     {
@@ -20,24 +51,67 @@ class ActaController extends Controller
         return response()->json([
             'status'  => 'success',
             'message' => 'Acta creada correctamente',
-            'acta' => new ActaResource($acta),
+            'acta'    => new ActaResource($acta),
         ], 201);
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/actas/{id}",
+     *     summary="Obtener detalles de un acta",
+     *     description="Obtiene la información detallada de un acta específica.",
+     *     operationId="showActa",
+     *     tags={"Actas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del acta",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalle del acta",
+     *         @OA\JsonContent(ref="#/components/schemas/Acta")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Acta no encontrada"
+     *     )
+     * )
      */
     public function show(Acta $acta)
     {
         return response()->json([
             'status'  => 'success',
             'message' => 'Detalle del Acta',
-            'acta' => new ActaResource($acta),
+            'acta'    => new ActaResource($acta),
         ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/actas/{id}",
+     *     summary="Eliminar un acta",
+     *     description="Elimina un acta de la base de datos.",
+     *     operationId="deleteActa",
+     *     tags={"Actas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del acta a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Acta eliminada exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Acta no encontrada"
+     *     )
+     * )
      */
     public function destroy(Acta $acta)
     {

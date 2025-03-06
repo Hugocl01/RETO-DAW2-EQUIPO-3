@@ -15,6 +15,135 @@
         }
     ],
     "paths": {
+        "/api/actas": {
+            "post": {
+                "tags": [
+                    "Actas"
+                ],
+                "summary": "Crear una nueva acta",
+                "description": "Crea una nueva acta y la almacena en la base de datos.",
+                "operationId": "storeActa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "partido_id",
+                                    "jugador_id",
+                                    "incidencia_id",
+                                    "minuto",
+                                    "comentario"
+                                ],
+                                "properties": {
+                                    "partido_id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "jugador_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "incidencia_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "minuto": {
+                                        "type": "integer",
+                                        "example": 45
+                                    },
+                                    "comentario": {
+                                        "type": "string",
+                                        "example": "Gol de cabeza después de un córner"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Acta creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Acta"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/actas/{id}": {
+            "get": {
+                "tags": [
+                    "Actas"
+                ],
+                "summary": "Obtener detalles de un acta",
+                "description": "Obtiene la información detallada de un acta específica.",
+                "operationId": "showActa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del acta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle del acta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Acta"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Acta no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Actas"
+                ],
+                "summary": "Eliminar un acta",
+                "description": "Elimina un acta de la base de datos.",
+                "operationId": "deleteActa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del acta a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Acta eliminada exitosamente"
+                    },
+                    "404": {
+                        "description": "Acta no encontrada"
+                    }
+                }
+            }
+        },
         "/api/centros": {
             "get": {
                 "tags": [
@@ -1343,6 +1472,127 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/imagenes": {
+            "get": {
+                "tags": [
+                    "Imágenes"
+                ],
+                "summary": "Obtener todas las imágenes",
+                "description": "Devuelve una lista de todas las imágenes almacenadas en la base de datos.",
+                "operationId": "indexImagenes",
+                "responses": {
+                    "200": {
+                        "description": "Lista de imágenes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Imagen"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/imagenes/{model}/{id}": {
+            "post": {
+                "tags": [
+                    "Imágenes"
+                ],
+                "summary": "Subir una imagen a un modelo específico",
+                "description": "Sube una imagen y la asocia a un modelo como `Patrocinador`, `Equipo`, etc.",
+                "operationId": "uploadFoto",
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "path",
+                        "description": "Nombre del modelo al que se le asociará la imagen (Ejemplo: 'Patrocinador')",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Patrocinador"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la entidad del modelo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "imagen"
+                                ],
+                                "properties": {
+                                    "imagen": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Imagen subida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Imagen"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modelo o entidad no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/imagenes/{id}": {
+            "delete": {
+                "tags": [
+                    "Imágenes"
+                ],
+                "summary": "Eliminar una imagen",
+                "description": "Elimina una imagen de la base de datos y del almacenamiento.",
+                "operationId": "deleteImagen",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la imagen a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Imagen eliminada correctamente"
+                    },
+                    "404": {
+                        "description": "Imagen no encontrada"
                     }
                 }
             }
@@ -2864,6 +3114,45 @@
     },
     "components": {
         "schemas": {
+            "Acta": {
+                "title": "Acta",
+                "description": "Modelo de Acta",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "partido_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "jugador_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "incidencia_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "minuto": {
+                        "type": "integer",
+                        "example": 45
+                    },
+                    "comentario": {
+                        "type": "string",
+                        "example": "Gol de cabeza después de un córner"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "Centro": {
                 "title": "Centro",
                 "required": [
@@ -3045,6 +3334,41 @@
                         "description": "Nombre de la familia",
                         "type": "string",
                         "example": "CFGS Estética Integral y Bienestar"
+                    }
+                },
+                "type": "object"
+            },
+            "Imagen": {
+                "title": "Imagen",
+                "description": "Modelo de Imagen",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "imagen1.png"
+                    },
+                    "ruta": {
+                        "type": "string",
+                        "example": "uploads/patrocinadores/imagen1.png"
+                    },
+                    "imagenable_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "imagenable_type": {
+                        "type": "string",
+                        "example": "App\\\\Models\\\\Patrocinador"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -3345,6 +3669,10 @@
     },
     "tags": [
         {
+            "name": "Actas",
+            "description": "Operaciones relacionadas con las actas"
+        },
+        {
             "name": "Centros",
             "description": "Operaciones relacionadas con los centros"
         },
@@ -3371,6 +3699,10 @@
         {
             "name": "Familias",
             "description": "Operaciones relacionadas con las familias"
+        },
+        {
+            "name": "Imágenes",
+            "description": "Operaciones relacionadas con imágenes"
         },
         {
             "name": "Inscripciones",
