@@ -82,7 +82,7 @@ class RetoSeeder extends Seeder
             ],[
                 'titulo' => 'DISEÑO Y DESARROLLO WEB SEDE TORRELAVEGA',
                 'texto' => 'Desarrollo de una página web con información relativa a la liga solidaria FP centrada en la sede
-                    de Torrelavega. COMPLETAD VOSOTROS CON MÁS INFORMACIÓN. ===========> HIJOS DE LA GRAN PUTA',
+                    de Torrelavega. COMPLETAD VOSOTROS CON MÁS INFORMACIÓN,
                 'estudio_id' => 10
             ],
             [
