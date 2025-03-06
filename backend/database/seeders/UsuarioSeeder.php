@@ -23,7 +23,7 @@ class UsuarioSeeder extends Seeder
 
         Usuario::create([
             'nombre_completo' => 'Hugo Cayon',
-            'email' => 'admin@admin.es',
+            'email' => 'hugo@hotmail.es',
             'password' => bcrypt('adminadmin'),
             'usuario_creador_id' => 1,
             'perfil_id' => 2,
@@ -31,10 +31,18 @@ class UsuarioSeeder extends Seeder
 
         Usuario::create([
             'nombre_completo' => 'Paula Rivero',
-            'email' => 'admin2@admin.es',
+            'email' => 'paula@hotmail.es',
             'password' => bcrypt('adminadmin'),
             'usuario_creador_id' => 1,
-            'perfil_id' => 2,
+            'perfil_id' => 3,
+        ]);
+
+        Usuario::create([
+            'nombre_completo' => 'Adrian Tresgallo',
+            'email' => 'adrian@hotmail.es',
+            'password' => bcrypt('adminadmin'),
+            'usuario_creador_id' => 1,
+            'perfil_id' => 4,
         ]);
     }
 }
