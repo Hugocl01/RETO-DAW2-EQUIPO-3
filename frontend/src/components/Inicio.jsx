@@ -397,21 +397,27 @@ function Inicio() {
           <h1 className="mb-4 mt-5 text-primary fw-bold">Patrocinadores</h1>
           <div className="d-flex flex-wrap justify-content-center gap-3">
             {patrocinadores.length > 0 ? (
-              patrocinadores.map((patrocinador) => {
-                // Buscar la imagen correspondiente al patrocinador en la lista de imágenes
-                const imagenPatrocinador = imagenes.find(
-                  (img) =>
-                    img.imagenable_type === "App\\Models\\Patrocinador" &&
-                    img.imagenable_id === patrocinador.id
+              patrocinadores.slice(0, 10).map((patrocinador, index) => {
+                // Filtrar solo las imágenes que pertenecen a patrocinadores
+                const imagenesPatrocinadores = imagenes.filter(
+                  (img) => img.imagenable_type === "App\\Models\\Patrocinador"
+                );
+
+                // Limitar el número de imágenes al mínimo entre la cantidad de patrocinadores o las imágenes disponibles
+                const maxImagenes = Math.min(patrocinadores.length, imagenesPatrocinadores.length, 10);
+
+                // Si el índice supera el número máximo de imágenes, no renderizar más
+                if (index >= maxImagenes) return null;
+
+                // Buscar la imagen correspondiente
+                const imagenPatrocinador = imagenesPatrocinadores.find(
+                  (img) => img.imagenable_id === patrocinador.id
                 );
 
                 // Construir la URL de la imagen si existe, o usar una imagen por defecto
                 const urlImagen = imagenPatrocinador
                   ? `${apiUrl}/${imagenPatrocinador.ruta}`.replace('/api/', '/storage')
                   : defaultImagen;
-
-                console.log(urlImagen);
-
 
                 return (
                   <div key={patrocinador.nombre} className="p-2 bg-white shadow-sm rounded">
@@ -427,7 +433,6 @@ function Inicio() {
           </div>
         </div>
       </section>
-
 
     </div>
   );
