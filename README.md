@@ -98,6 +98,8 @@ git clone https://github.com/Hugocl01/RETO-DAW2-EQUIPO-3.git
 
 [Documentación](Documentacion/Documentacion%20del%20Reto%20-%20Markdown/documentacionReto.md)
 
+[Manual de usuario](Documentacion/Documentacion%20del%20Reto%20-%20Markdown/Manual%20de%20Usuario.pdf)
+
 ### Documentación del Código
 
 #### Frontend (React)
