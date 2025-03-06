@@ -55,7 +55,7 @@ function Inicio() {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("inscripcion-status");
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.production.VITE_API_URL;
 
   const imagenesRetos = [
     entrenador,
