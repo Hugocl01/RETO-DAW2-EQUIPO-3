@@ -1,5 +1,6 @@
 import imagenPrueba from "../assets/imagenes/img1.jpg";
 import logo from "../assets/imagenes/logo.png";
+import reglas from "../../public/reglas.pdf";
 import "./css/EstilosComun.css";
 import "./css/InfoTorneo.css";
 
@@ -31,7 +32,7 @@ function InfoTorneo() {
                         <div className="card d-flex flex-column justify-content-center align-items-center">
                             <img src={logo} className="card-img-top" alt="Logo" />
                             <div className="card-body">
-                                <a target="_blank" href="/reglas.pdf" className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
+                                <a target="_blank" href={reglas} className="btn btn-secondary d-flex align-items-center justify-content-between gap-2 px-4 py-2 fs-5 fw-bold shadow-sm transition">
                                     <span>Descargar Reglas</span>
                                     <i className="bi bi-file-earmark-arrow-down fs-4"></i>
                                 </a>
