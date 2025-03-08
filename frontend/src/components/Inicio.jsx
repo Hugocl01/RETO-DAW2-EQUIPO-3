@@ -361,30 +361,23 @@ function Inicio() {
             <section className="py-5 bg-light">
                 <div className="container text-center">
                     <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>
-                    <div className="row justify-content-center gap-5">
+                    <div className="row justify-content-center">
                         {patrocinadores.length > 0 ? (
                             patrocinadores.map((patrocinador) => {
-                                // Buscar la imagen correspondiente
                                 const imagenPatrocinador = patrocinador.imagenes[0];
-
-                                // Construir la URL de la imagen si existe, o usar una imagen por defecto
                                 const urlImagen = imagenPatrocinador
                                     ? `${apiUrl}/${imagenPatrocinador.ruta}`.replace('/api/', '/storage')
                                     : defaultImagen;
 
                                 return (
-                                    <div key={patrocinador.id} className="col-12 col-sm-6 col-md-4 col-lg-3 p-3">
-                                        <div className="bg-white shadow-sm rounded d-flex justify-content-center align-items-center p-3">
-                                            <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
+                                    <div key={patrocinador.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                                        <div className="bg-white p-3 rounded shadow-sm text-center w-100 d-flex flex-column">
+                                            <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer" className="d-flex align-items-center justify-content-center flex-grow-1">
                                                 <img
                                                     src={urlImagen}
-                                                    className="img-fluid rounded"
+                                                    className="img-fluid"
                                                     alt={patrocinador.nombre}
-                                                    style={{
-                                                        maxHeight: '400px',
-                                                        objectFit: 'contain',
-                                                        width: '100%' // Ocupa el 100% del contenedor
-                                                    }}
+                                                    style={{ maxHeight: '124px', objectFit: 'contain' }}
                                                 />
                                             </a>
                                         </div>
