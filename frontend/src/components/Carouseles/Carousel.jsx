@@ -17,7 +17,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
  * @param {number} props.intervalo - Intervalo de cambio automático en milisegundos.
  * @returns {JSX.Element} Carrusel de elementos con opción de leer más.
  */
-function Carousel({ id, items, imagenes, intervalo }) {
+function Carousel({ id, items, intervalo }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemsPerSlide, setItemsPerSlide] = useState(3);
 
@@ -45,12 +45,6 @@ function Carousel({ id, items, imagenes, intervalo }) {
         groupedItems.push(items.slice(i, i + itemsPerSlide));
     }
 
-    // Se asegura de que cada item tenga la imagen correspondiente del array `imagenes`
-    const itemsConImagenes = items.map((item, index) => ({
-        ...item,
-        imagen: imagenes[index] || img2, // Asignación de imagen por defecto si no hay imagen
-    }));
-
     return (
         <div className="contenido-carousel">
             <div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
@@ -77,31 +71,30 @@ function Carousel({ id, items, imagenes, intervalo }) {
                                 <div className="row justify-content-center">
                                     {group.map((item, i) => {
                                         const itemIndex = index * itemsPerSlide + i; // Obtener el índice real
-                                        const itemConImagen = itemsConImagenes[itemIndex]; // Obtener item con imagen
-                                        return itemConImagen ? (
+                                        return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
                                                 <div className="card shadow-lg custom-card">
                                                     <img
-                                                        src={itemConImagen.imagen || img2}
+                                                        src={item.imagenes[0] || img2}
                                                         className="card-img-top"
-                                                        alt={itemConImagen?.titulo || "Sin título"}
+                                                        alt={item.titulo || "Sin título"}
                                                     />
                                                     <div className="card-body d-flex flex-column justify-content-between">
-                                                        <h4 className="card-title text-lowercase">{itemConImagen?.titulo || "Sin título"}</h4>
+                                                        <h4 className="card-title text-lowercase">{item?.titulo || "Sin título"}</h4>
                                                         <p className="card-text text-lowercase">
-                                                            {itemConImagen?.texto
-                                                                ? itemConImagen.texto.length > 160
-                                                                    ? `${itemConImagen.texto.substring(0, 150)}...`
-                                                                    : itemConImagen.texto
-                                                                : itemConImagen?.contenido
-                                                                    ? itemConImagen.contenido.length > 160
-                                                                        ? `${itemConImagen.contenido.substring(0, 150)}...`
-                                                                        : itemConImagen.contenido
+                                                            {item?.texto
+                                                                ? item.texto.length > 160
+                                                                    ? `${item.texto.substring(0, 150)}...`
+                                                                    : item.texto
+                                                                : item?.contenido
+                                                                    ? item.contenido.length > 150
+                                                                        ? `${item.contenido.substring(0, 150)}...`
+                                                                        : item.contenido
                                                                     : "No hay contenido disponible"}
                                                         </p>
                                                         <button
                                                             className="btn btn-success"
-                                                            onClick={() => setSelectedItem(itemConImagen)}
+                                                            onClick={() => setSelectedItem(item)}
                                                             data-bs-toggle="modal"
                                                             data-bs-target={`#leerMasModal_${id}`}
                                                         >
