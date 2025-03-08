@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../css/Carrusel.css";
 import "../css/EstilosComun.css";
 import img2 from "../../assets/imagenes/img2.png";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Definir la URL de la API y la imagen por defecto
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -81,27 +79,26 @@ function Carousel({ id, items, intervalo }) {
 
                                         return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
-                                                <div className="card shadow-lg custom-card">
+                                                <div className="card shadow-lg custom-card h-100"> {/* Añadir h-100 para igualar altura */}
                                                     <img
                                                         src={urlImagen}
                                                         className="card-img-top"
                                                         alt={item.titulo || "Sin título"}
+                                                        style={{ height: "150px", objectFit: "cover" }} // Reducir altura de la imagen
                                                     />
-                                                    <div className="card-body d-flex flex-column justify-content-between">
-                                                        <h4 className="card-title">{item?.titulo || "Sin título"}</h4>
-                                                        <p className="card-text">
-                                                            {item?.texto
-                                                                ? item.texto.length > 160
-                                                                    ? `${item.texto.substring(0, 150)}...`
-                                                                    : item.texto
-                                                                : item?.contenido
-                                                                    ? item.contenido.length > 150
-                                                                        ? `${item.contenido.substring(0, 150)}...`
-                                                                        : item.contenido
-                                                                    : "No hay contenido disponible"}
+                                                    <div className="card-body d-flex flex-column">
+                                                        <h4 className="card-title text-truncate">{item?.titulo || "Sin título"}</h4>
+                                                        <p className="card-text flex-grow-1" style={{
+                                                            display: "-webkit-box",
+                                                            WebkitLineClamp: 4, // Mostrar hasta 4 líneas de texto
+                                                            WebkitBoxOrient: "vertical",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                        }}>
+                                                            {item?.texto || item?.contenido || "No hay contenido disponible"}
                                                         </p>
                                                         <button
-                                                            className="btn btn-success"
+                                                            className="btn btn-success mt-auto"
                                                             onClick={() => setSelectedItem(item)}
                                                             data-bs-toggle="modal"
                                                             data-bs-target={`#leerMasModal_${id}`}

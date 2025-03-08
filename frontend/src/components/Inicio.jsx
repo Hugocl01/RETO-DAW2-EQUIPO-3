@@ -10,23 +10,6 @@ import defaultImagen from "../assets/imagenes/default.jpg";
 import "./css/Inicio.css";
 import "./css/EstilosComun.css";
 
-import entrenador from "../assets/imagenes/retos/entrenador.jpg";
-import daw from "../assets/imagenes/retos/daw.jpg";
-import coche from "../assets/imagenes/retos/coche.jpg";
-import gestionEmpresa from "../assets/imagenes/retos/gestionEmpresa.png";
-import marcador from "../assets/imagenes/retosIconos/marcador.png";
-import corazon from "../assets/imagenes/retosIconos/corazon.png";
-import masaje from "../assets/imagenes/retosIconos/masaje.png";
-import jabon from "../assets/imagenes/retosIconos/jabon.png";
-import termal from "../assets/imagenes/retosIconos/termal.png";
-import camara from "../assets/imagenes/retosIconos/camara.png";
-import sonido from "../assets/imagenes/retosIconos/sonido.png";
-import red from "../assets/imagenes/retosIconos/red.png";
-import servidor from "../assets/imagenes/retosIconos/servidor.png";
-import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
-import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
-import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
-import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
 import LogoFederacionCantabra from "../../src/assets/imagenes/Logos Colaboradores/Logo Federación Cantabra futbol.png";
 import LogoSedeTorrelavega from "../../src/assets/imagenes/Logos Colaboradores/LOGO SEDE TORRELAVEGA 1.png";
 import LogoBesaya from "../../src/assets/imagenes/Logos Colaboradores/Logo__Besaya.png";
@@ -123,11 +106,7 @@ function Inicio() {
             }
         };
         obtenerPatrocinadores();
-
-
     }, []);
-
-    console.log(patrocinadores);
 
     /**
      * Calcula el total de donaciones recaudadas.

@@ -78,22 +78,22 @@ class RetoSeeder extends Seeder
                 'estudio_id' => 13
             ],
             [
-                'titulo' => 'Reto merchandising de la liga',
+                'titulo' => 'Merchandising de la liga',
                 'texto' => 'Desde la familia profesional de Textil, Confección y Piel, el IES Besaya, a través de su ciclo Profesional Básico en Tapicería y Cortinaje, ha diseñado el reto de Merchandising. Este reto tiene la finalidad de diseñar y confeccionar productos de merchandising, como chapas, llaveros y gorras con los logos de la Liga, centros participantes y diseños exclusivos para la venta y recaudación de fondos destinados a nuestra ONG. La venta se realizará en el propio recinto del evento durante los días 12 y 13 de marzo. Para ello, se instalará un expositor-tienda dentro del propio recinto.',
                 'estudio_id' => 14
             ],
             [
-                'titulo' => 'Reto food truck',
+                'titulo' => 'Food truck',
                 'texto' => 'Desde la familia profesional de Hostelería y Turismo, el IES Besaya, a través de sus ciclos Profesionales Básico en Cocina y Restauración y Grado Medio en Servicios de Restauración, han diseñado el reto de Food Truck. Este reto tiene la finalidad de diseñar y producir bebidas isotónicas y barritas energéticas para la venta y recaudación de fondos destinados a nuestra ONG. La venta se realizará en el propio recinto del evento durante los días 12 y 13 de marzo. Para ello, se instalará una food truck en los aledaños del recinto.',
                 'estudio_id' => 15
             ],
             [
-                'titulo' => 'Reto diseño de logos, etiquetas y packaging',
+                'titulo' => 'Diseño de logos, etiquetas y packaging',
                 'texto' => 'Desde la familia profesional de Comercio y Marketing, el IES Besaya, a través de sus ciclos Grado Medio en Comercialización de Productos Alimentarios y Grado Superior en Transporte y Logística, han diseñado el reto de Logos, Etiquetas y Packaging. Este reto tiene la finalidad de diseñar el logo de la Liga para la sede de Torrelavega y las etiquetas, así como el packaging para los productos que se venderán a través del reto Food Truck.',
                 'estudio_id' => 16
             ],
             [
-                'titulo' => 'Reto Expo “Barriografía de la inclusión”',
+                'titulo' => 'Expo “Barriografía de la inclusión”',
                 'texto' => 'Desde la familia profesional de Servicios Socioculturales y a la Comunidad, el IES Besaya, a través de su ciclo Grado Superior en Integración Social, ha diseñado la exposición "Barriografía de la Inclusión". Esta exposición muestra cómo las cosas que vemos cambian dependiendo de los ojos que usemos para verlas, del tiempo que tomemos para observarlas y del lado de la calle donde nos situemos para hacerlo. Por lo tanto, es una experiencia de intervención socioeducativa basada en una exposición de fotografías realizadas por el alumnado de primer curso de Integración Social durante una salida por los barrios de Torrelavega.',
                 'estudio_id' => 17
             ],

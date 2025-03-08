@@ -1,5 +1,4 @@
 import "./css/Footer.css";
-import netkia from "../assets/imagenes/patrocinadores/netkia.png";
 
 /**
  * Componente de pie de página de la aplicación.
