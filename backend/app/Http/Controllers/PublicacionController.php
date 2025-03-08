@@ -18,17 +18,19 @@ class PublicacionController extends Controller
             'contenido',
             'publicacionable_id',
             'publicacionable_type'
-        )->get();
+        )
+            ->with('imagenes')  // Cargamos la relación 'imagenes'
+            ->get();
 
         if ($publicaciones->isEmpty()) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => 'No hay publicaciones registradas.'
             ], 404);
         }
 
         return response()->json([
-            'status'        => 'success',
+            'status' => 'success',
             'publicaciones' => PublicacionResource::collection($publicaciones)
         ], 200);
     }
@@ -36,11 +38,14 @@ class PublicacionController extends Controller
 
     public function show($publicacion)
     {
+        $publicacion = Publicacion::with('imagenes')->findOrFail($publicacion);
+
         return response()->json([
-            'status'      => 'success',
+            'status' => 'success',
             'publicacion' => new PublicacionResource($publicacion),
         ]);
     }
+
 
     public function store(PublicacionRequest $request)
     {
