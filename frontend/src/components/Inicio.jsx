@@ -358,13 +358,12 @@ function Inicio() {
                 </div>
             </section>
 
-            <section className="contenedorPatros py-5 bg-light">
-                <div className="patrocinadores container text-center">
+            <section className="py-5 bg-light">
+                <div className="container text-center">
                     <h1 className="mb-4 text-primary fw-bold">Patrocinadores</h1>
                     <div className="row justify-content-center gap-5">
                         {patrocinadores.length > 0 ? (
                             patrocinadores.map((patrocinador) => {
-
                                 // Buscar la imagen correspondiente
                                 const imagenPatrocinador = patrocinador.imagenes[0];
 
@@ -373,14 +372,13 @@ function Inicio() {
                                     ? `${apiUrl}/${imagenPatrocinador.ruta}`.replace('/api/', '/storage')
                                     : defaultImagen;
 
-
                                 return (
-                                    <div key={patrocinador.id} className="col-12 col-sm-6 col-md-4 col-lg-3 p-4">
-                                        <div className="bg-white p-3 shadow rounded d-flex justify-content-center align-items-center">
+                                    <div key={patrocinador.id} className="col-12 col-sm-6 col-md-4 col-lg-3 p-3">
+                                        <div className="bg-white shadow-sm rounded d-flex justify-content-center align-items-center p-3">
                                             <a href={patrocinador.landing_page} target="_blank" rel="noopener noreferrer">
                                                 <img
                                                     src={urlImagen}
-                                                    className="patrocinadorImg img-fluid rounded"
+                                                    className="img-fluid rounded"
                                                     alt={patrocinador.nombre}
                                                     style={{
                                                         maxHeight: '400px',
