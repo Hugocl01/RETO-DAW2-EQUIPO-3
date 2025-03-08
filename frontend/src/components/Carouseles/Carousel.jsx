@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../css/Carrusel.css";
 import "../css/EstilosComun.css";
-import img2 from "../../assets/imagenes/img2.png";
+import defaultImagen from "../../assets/imagenes/default.jpg";
 
 // Definir la URL de la API y la imagen por defecto
 const apiUrl = import.meta.env.VITE_API_URL;
-const defaultImagen = img2; // Usa la imagen por defecto que tengas
 
 /**
  * Función para sanitizar el contenido HTML (elimina etiquetas peligrosas como <script>).
@@ -92,15 +91,25 @@ function Carousel({ id, items, intervalo }) {
 
                                         return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
-                                                <div className="card shadow-lg custom-card h-100"> {/* Añadir h-100 para igualar altura */}
+                                                <div className="card shadow-lg custom-card h-100">
                                                     <img
                                                         src={urlImagen}
                                                         className="card-img-top"
                                                         alt={item.titulo || "Sin título"}
-                                                        style={{ height: "150px", objectFit: "cover" }} // Reducir altura de la imagen
+                                                        style={{ height: "150px", objectFit: "cover" }}
                                                     />
-                                                    <div className="card-body d-flex flex-column">
-                                                        <h4 className="card-title text-truncate">{item?.titulo || "Sin título"}</h4>
+                                                    <div className="card-body d-flex flex-column gap-3">
+                                                        <h4
+                                                            className="card-title"
+                                                            style={{
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 2, // Mostrar hasta 4 líneas de texto
+                                                                WebkitBoxOrient: "vertical",
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                            }}
+                                                        >
+                                                            {item?.titulo || "Sin título"}</h4>
                                                         {/* Renderizar el contenido HTML */}
                                                         <div
                                                             className="card-text flex-grow-1"
