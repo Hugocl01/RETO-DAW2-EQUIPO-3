@@ -19,6 +19,7 @@ class RetoResource extends JsonResource
             'titulo' => $this->titulo,
             'texto' => $this->texto,
             'estudio' => new EstudioResource($this->whenLoaded('estudio')),
+            'imagenes' => ImagenResource::collection($this->whenLoaded('imagenes')), // Devuelve un array de imágenes
         ];
     }
 }

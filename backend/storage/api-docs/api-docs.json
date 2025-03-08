@@ -1647,23 +1647,23 @@
                 ]
             }
         },
-        "/api/imagenes/modelo/{imagenable_type}": {
+        "/api/imagenes/{modelo}": {
             "get": {
                 "tags": [
                     "Imágenes"
                 ],
                 "summary": "Obtener imágenes por tipo de modelo",
                 "description": "Devuelve una lista de imágenes asociadas a un modelo específico.",
-                "operationId": "50532f3f0fa1c850c45f5c6e5dde991a",
+                "operationId": "bc7942665a49991ae9a8e70fe4f4775d",
                 "parameters": [
                     {
-                        "name": "imagenable_type",
+                        "name": "modelo",
                         "in": "path",
-                        "description": "Clase del modelo (ejemplo: App.Models.Reto)",
+                        "description": "Nombre del modelo (ejemplo: Reto)",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "App.Models.Reto"
+                            "example": "Reto"
                         }
                     }
                 ],
@@ -1703,6 +1703,26 @@
                                         "message": {
                                             "type": "string",
                                             "example": "No se encontraron imágenes para este imagenable_type"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Modelo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El modelo especificado no existe."
                                         }
                                     },
                                     "type": "object"
@@ -2737,7 +2757,7 @@
                     "Retos"
                 ],
                 "summary": "Obtener todos los retos",
-                "description": "Obtener todos los centros.",
+                "description": "Obtener todos los retos.",
                 "operationId": "3e455cca76ddb74214b0c9525defa05f",
                 "responses": {
                     "200": {
@@ -2817,7 +2837,7 @@
                     "Retos"
                 ],
                 "summary": "Obtener un reto por su ID",
-                "description": "Obtener un centro por su ID.",
+                "description": "Obtener un reto por su ID.",
                 "operationId": "771e4d85276179007813223400266dc9",
                 "parameters": [
                     {

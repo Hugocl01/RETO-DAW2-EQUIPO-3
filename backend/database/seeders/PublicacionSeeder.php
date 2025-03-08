@@ -23,7 +23,7 @@ class PublicacionSeeder extends Seeder
             'contenido' => '<p>Contenido de la publicación 1. Puede incluir HTML.</p>',
             'publicacionable_id' => 1,  // Se introsuce el id del objeto relacionado
             'publicacionable_type' => 'App\\Models\\Jugador', // Cambia 'App\\Models\\(Nombre del modelo relacionado)'
-                                                              // {Equipo, Partido, Patrocinador, Jugador, Ong, Pabellon, Reto}
+            // {Equipo, Partido, Patrocinador, Jugador, Ong, Pabellon, Reto}
             'portada' => true,
             'usuario_creador_id' => 1, // Suponiendo que el creador es el usuario con ID 1
             'created_at' => now(),
