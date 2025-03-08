@@ -222,6 +222,7 @@ class EquipoController extends Controller
      *     path="/api/equipos/{equipo}",
      *     summary="Actualizar un equipo existente",
      *     tags={"Equipos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="equipo",
      *         in="path",
@@ -282,6 +283,7 @@ class EquipoController extends Controller
      *     path="/api/equipos/{equipo}",
      *     summary="Eliminar un equipo",
      *     tags={"Equipos"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="equipo",
      *         in="path",

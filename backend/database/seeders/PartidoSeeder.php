@@ -10,6 +10,16 @@ class PartidoSeeder extends Seeder
 {
     public function run()
     {
+        //En caso de hacer los equipos de manera manual tendra que seguir este modelo
+        Partido::factory()->create([
+            'equipo_local_id'     => 2, //ID del equipo local / primer equipo
+            'equipo_visitante_id' => 1, //ID del equipo visitante / segundo equipo
+            'tipo'                => \App\Enums\TipoPartido::Clasificatorio,
+            'fecha'               => '2025-03-30', //Fecha en formato Y-m-d
+            'duracion'            => 10,  //Minutos que durara el partido
+            'pabellon_id'         => 1  //ID del pabellon donde se celebrara el partido
+        ]);
+
         // 1) Obtiene todos los equipos y los agrupa por 'grupo'
         $teamsByGroup = Equipo::all()->groupBy('grupo');
 
@@ -36,7 +46,7 @@ class PartidoSeeder extends Seeder
                         ]);
                     }
                 }
-            }
+            } 
         }
     }
 }

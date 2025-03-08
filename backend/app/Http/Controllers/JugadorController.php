@@ -101,6 +101,7 @@ class JugadorController extends Controller
      *     path="/api/jugadores/{jugador}",
      *     summary="Actualizar un jugador existente",
      *     tags={"Jugadores"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="jugador",
      *         in="path",

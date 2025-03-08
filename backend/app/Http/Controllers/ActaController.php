@@ -22,6 +22,7 @@ class ActaController extends Controller
      *     description="Crea una nueva acta y la almacena en la base de datos.",
      *     operationId="storeActa",
      *     tags={"Actas"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -62,6 +63,7 @@ class ActaController extends Controller
      *     description="Obtiene la información detallada de un acta específica.",
      *     operationId="showActa",
      *     tags={"Actas"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -96,6 +98,7 @@ class ActaController extends Controller
      *     description="Elimina un acta de la base de datos.",
      *     operationId="deleteActa",
      *     tags={"Actas"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

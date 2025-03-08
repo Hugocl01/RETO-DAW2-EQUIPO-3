@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import llamadas from "../../data/FuncionesCombobox";
 
+/**
+ * Función que obtiene la lista de centros desde sessionStorage o desde la API.
+ * Si los datos están en sessionStorage, los usa; si no, realiza una solicitud a la API.
+ * 
+ * @returns {Array} Lista de centros en formato [{ value, label }].
+ */
 const fetchCentros = async () => {
     try {
         const storedData = sessionStorage.getItem("centros");
@@ -20,6 +26,12 @@ const fetchCentros = async () => {
     }
 };
 
+/**
+ * Función que obtiene la lista de ciclos desde sessionStorage o desde la API.
+ * Si los datos están en sessionStorage, los usa; si no, realiza una solicitud a la API.
+ * 
+ * @returns {Array} Lista de ciclos en formato [{ value, label }].
+ */
 const fetchCiclos = async () => {
     try {
         const storedData = sessionStorage.getItem("ciclos");
@@ -38,14 +50,31 @@ const fetchCiclos = async () => {
     }
 };
 
+/**
+ * Componente que gestiona un formulario para crear o editar estudios.
+ * Permite seleccionar un centro, un ciclo y un curso, y luego guardar o cancelar los cambios.
+ * 
+ * @component
+ * 
+ * @param {Object} props - Las propiedades del componente.
+ * @param {Object} props.datosIniciales - Datos iniciales para la edición (si los hay).
+ * @param {function} props.onGuardar - Función que se ejecuta cuando se guarda el formulario.
+ * @param {function} props.onCancelar - Función que se ejecuta cuando se cancela el formulario.
+ * 
+ * @returns {React.Element} El componente del formulario para crear o editar un estudio.
+ */
 function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
+    // Estado para el formulario
     const [formData, setFormData] = useState({ centro_id: "", ciclo_id: "", curso: "" });
     const [centros, setCentros] = useState([]);
     const [ciclos, setCiclos] = useState([]);
     const [isInitialized, setIsInitialized] = useState(false); // Para evitar múltiples inicializaciones
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Llamadas a los hooks para las operaciones CRUD
     const { createItem, updateItem, fetchItems, loading, error } = useCrud({ nombre: "Estudios" });
 
+    // Efecto que obtiene centros y ciclos
     useEffect(() => {
         const obtenerCentros = async () => { setCentros(await fetchCentros()); };
         obtenerCentros();
@@ -54,6 +83,7 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
         obtenerCiclos();
     }, []);
 
+    // Efecto que inicializa el formulario si hay datos iniciales
     useEffect(() => {
         if (datosIniciales && centros.length > 0 && ciclos.length > 0 && !isInitialized) {
             const centroSeleccionado = centros.find(centro => centro.label === datosIniciales.centro);
@@ -67,11 +97,21 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
         }
     }, [datosIniciales, centros, ciclos, isInitialized]);
 
+    /**
+     * Maneja el cambio en los campos del formulario.
+     * 
+     * @param {Object} event - El evento de cambio.
+     */
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value.toString() });
     };
 
+    /**
+     * Maneja el envío del formulario. Guarda o actualiza los datos según el caso.
+     * 
+     * @param {Object} event - El evento de envío del formulario.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
@@ -89,6 +129,7 @@ function FormularioEstudios({ datosIniciales, onGuardar, onCancelar }) {
         }
     };
 
+    // Renderizado del formulario
     return (
         <form onSubmit={handleSubmit} className="container mt-4 p-4 border rounded shadow bg-light">
             <h2 className="mb-4 text-center">{datosIniciales ? 'Editar estudio' : 'Crear estudio'}</h2>

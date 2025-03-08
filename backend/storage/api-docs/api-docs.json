@@ -76,7 +76,12 @@
                     "422": {
                         "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/actas/{id}": {
@@ -113,7 +118,12 @@
                     "404": {
                         "description": "Acta no encontrada"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -141,7 +151,12 @@
                     "404": {
                         "description": "Acta no encontrada"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/centros": {
@@ -1000,7 +1015,12 @@
                     "404": {
                         "description": "Ciclo no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1044,7 +1064,12 @@
                     "404": {
                         "description": "Equipo no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/equipos": {
