@@ -1312,7 +1312,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1358,7 +1363,12 @@
                     "400": {
                         "description": "Error en la validación de datos"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/familias/{familia}": {
@@ -1420,7 +1430,12 @@
                     "404": {
                         "description": "Familia no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1464,7 +1479,12 @@
                     "404": {
                         "description": "Familia no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/familias": {
@@ -1618,6 +1638,97 @@
                     },
                     "404": {
                         "description": "Imagen no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/imagenes/{modelo}": {
+            "get": {
+                "tags": [
+                    "Imágenes"
+                ],
+                "summary": "Obtener imágenes por tipo de modelo",
+                "description": "Devuelve una lista de imágenes asociadas a un modelo específico.",
+                "operationId": "bc7942665a49991ae9a8e70fe4f4775d",
+                "parameters": [
+                    {
+                        "name": "modelo",
+                        "in": "path",
+                        "description": "Nombre del modelo (ejemplo: Reto)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Reto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de imágenes obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "imagenes": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ImagenResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron imágenes para este imagenable_type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron imágenes para este imagenable_type"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Modelo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El modelo especificado no existe."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1837,7 +1948,12 @@
                     "404": {
                         "description": "Jugador no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/jugadores": {
@@ -2338,13 +2454,188 @@
                 }
             }
         },
+        "/api/patrocinadores": {
+            "get": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Obtener todos los patrocinadores",
+                "description": "Display a listing of the resource.",
+                "operationId": "f4426c122de166085a16ffdbc2d80037",
+                "responses": {
+                    "200": {
+                        "description": "Lista de patrocinadores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "patrocinadores": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Patrocinador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Crear un nuevo patrocinador",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "89d7d3a6e75517c45838dd68ce0c5836",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patrocinador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patrocinador creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador creado Correctamente"
+                                        },
+                                        "patrocinador": {
+                                            "$ref": "#/components/schemas/Patrocinador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de los datos"
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            }
+        },
+        "/api/patrocinadores/{patrocinador}": {
+            "put": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Actualizar un patrocinador",
+                "description": "Update the specified resource in storage.",
+                "operationId": "ed5c710b3a5a9bd91243d38da1bef88f",
+                "parameters": [
+                    {
+                        "name": "patrocinador",
+                        "in": "path",
+                        "description": "ID del patrocinador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patrocinador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador actualizado correctamente"
+                                        },
+                                        "patrocinador": {
+                                            "$ref": "#/components/schemas/Patrocinador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de los datos"
+                    },
+                    "404": {
+                        "description": "Patrocinador no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Eliminar un patrocinador",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "d7b86b43694b5f06b043261d7812ebbe",
+                "parameters": [
+                    {
+                        "name": "patrocinador",
+                        "in": "path",
+                        "description": "ID del patrocinador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Patrocinador no encontrado"
+                    }
+                }
+            }
+        },
         "/api/lista/patrocinadores": {
             "get": {
                 "tags": [
                     "Patrocinadores"
                 ],
-                "summary": "Obtener todos los patrocinadores, pero solo los valores necesarios para el front",
-                "description": "Obtener todos los patrocinadores.",
+                "summary": "Obtener todos los patrocinadores con los valores necesarios para el front",
+                "description": "Obtener todos los patrocinadores, pero solo los valores necesarios para el front.",
                 "operationId": "d73532df363875a490c952fc424ba419",
                 "responses": {
                     "200": {
@@ -2635,13 +2926,198 @@
                 }
             }
         },
+        "/api/publicaciones": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener todas las publicaciones",
+                "description": "Obtener todas las publicaciones.",
+                "operationId": "a9c21f8c6e0b662b1bb2d7a99d16d562",
+                "responses": {
+                    "200": {
+                        "description": "Lista de publicaciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "publicaciones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Publicacion"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay publicaciones registradas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Crear una nueva publicación",
+                "description": "Crear una nueva publicación.",
+                "operationId": "005929fd2ed21c344c825ebde21a6991",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Publicacion"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Publicación creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Publicación creada correctamente"
+                                        },
+                                        "publicacion": {
+                                            "$ref": "#/components/schemas/Publicacion"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/publicaciones/{publicacion}": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener una publicación por su ID",
+                "description": "Obtener una publicación por su ID.",
+                "operationId": "1cc2ff86649d589d7354db64fcc67c27",
+                "parameters": [
+                    {
+                        "name": "publicacion",
+                        "in": "path",
+                        "description": "ID de la publicación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Publicación encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "publicacion": {
+                                            "$ref": "#/components/schemas/Publicacion"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Publicación no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Eliminar una publicación",
+                "description": "Eliminar una publicación.",
+                "operationId": "371aac2ad5c00641bccb7f4fd7a7fd17",
+                "parameters": [
+                    {
+                        "name": "publicacion",
+                        "in": "path",
+                        "description": "ID de la publicación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Publicación eliminada correctamente"
+                    },
+                    "404": {
+                        "description": "Publicación no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/publicaciones/modelos": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener los modelos asociados a las publicaciones",
+                "description": "Obtener los modelos asociados a las publicaciones.",
+                "operationId": "49d370c423f6af4fb419b2f0ab59f70d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de modelos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "modelos": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/retos": {
             "get": {
                 "tags": [
                     "Retos"
                 ],
                 "summary": "Obtener todos los retos",
-                "description": "Obtener todos los centros.",
+                "description": "Obtener todos los retos.",
                 "operationId": "3e455cca76ddb74214b0c9525defa05f",
                 "responses": {
                     "200": {
@@ -2721,7 +3197,7 @@
                     "Retos"
                 ],
                 "summary": "Obtener un reto por su ID",
-                "description": "Obtener un centro por su ID.",
+                "description": "Obtener un reto por su ID.",
                 "operationId": "771e4d85276179007813223400266dc9",
                 "parameters": [
                     {
@@ -3139,6 +3615,43 @@
     },
     "components": {
         "schemas": {
+            "ImagenResource": {
+                "title": "Imagen Resource",
+                "description": "Estructura de una imagen",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "imagen.jpg"
+                    },
+                    "ruta": {
+                        "type": "string",
+                        "example": "imagenes/patrocinadores/imagen.jpg"
+                    },
+                    "imagenable_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "imagenable_type": {
+                        "type": "string",
+                        "example": "App\\Models\\Reto"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-08T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-08T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
             "Acta": {
                 "title": "Acta",
                 "description": "Modelo de Acta",
@@ -3597,6 +4110,49 @@
                 },
                 "type": "object"
             },
+            "Publicacion": {
+                "required": [
+                    "id",
+                    "titulo",
+                    "contenido",
+                    "publicacionable_id",
+                    "publicacionable_type"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID de la publicación",
+                        "type": "integer"
+                    },
+                    "titulo": {
+                        "description": "Título de la publicación",
+                        "type": "string"
+                    },
+                    "contenido": {
+                        "description": "Contenido de la publicación",
+                        "type": "string"
+                    },
+                    "portada": {
+                        "description": "Indica si la publicación tiene portada (Si/No)",
+                        "type": "string"
+                    },
+                    "publicacionable_type": {
+                        "description": "Tipo de modelo relacionado con la publicación (Equipo, Partido, etc.)",
+                        "type": "string"
+                    },
+                    "publicacionable_id": {
+                        "description": "ID del modelo relacionado con la publicación",
+                        "type": "integer"
+                    },
+                    "imagenes": {
+                        "type": "array",
+                        "items": {
+                            "description": "URLs de las imágenes relacionadas con la publicación",
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "Reto": {
                 "title": "Reto",
                 "required": [
@@ -3742,8 +4298,16 @@
             "description": "Operaciones relacionadas con los partidos"
         },
         {
+            "name": "Patrocinadores",
+            "description": "Operaciones relacionadas con los patrocinadores"
+        },
+        {
             "name": "Perfiles",
             "description": "Operaciones relacionadas con los perfiles"
+        },
+        {
+            "name": "Publicaciones",
+            "description": "Operaciones relacionadas con las publicaciones"
         },
         {
             "name": "Retos",
@@ -3768,10 +4332,6 @@
         {
             "name": "Pabellones",
             "description": "Pabellones"
-        },
-        {
-            "name": "Patrocinadores",
-            "description": "Patrocinadores"
         }
     ]
 }

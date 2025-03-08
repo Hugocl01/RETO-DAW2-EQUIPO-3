@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "../css/Carrusel.css";
 import "../css/EstilosComun.css";
-import img2 from "../../assets/imagenes/img2.png";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import defaultImagen from "../../assets/imagenes/default.jpg";
+
+// Definir la URL de la API y la imagen por defecto
+const apiUrl = import.meta.env.VITE_API_URL;
+
+/**
+ * Función para sanitizar el contenido HTML (elimina etiquetas peligrosas como <script>).
+ * @param {string} html - El contenido HTML a sanitizar.
+ * @returns {string} - El contenido HTML sanitizado.
+ */
+function sanitizeHTML(html) {
+    return html.replace(/<script.*?>.*?<\/script>/gi, ""); // Elimina etiquetas <script>
+}
 
 /**
  * Componente de carrusel para mostrar elementos con imágenes configurables.
@@ -13,11 +23,10 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
  * @param {Object} props - Propiedades del componente.
  * @param {string} props.id - Identificador único para el carrusel.
  * @param {Array} props.items - Lista de elementos a mostrar en el carrusel.
- * @param {Array} props.imagenes - Array de imágenes que se asignarán a cada elemento de `items`.
  * @param {number} props.intervalo - Intervalo de cambio automático en milisegundos.
  * @returns {JSX.Element} Carrusel de elementos con opción de leer más.
  */
-function Carousel({ id, items, imagenes, intervalo }) {
+function Carousel({ id, items, intervalo }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemsPerSlide, setItemsPerSlide] = useState(3);
 
@@ -45,12 +54,6 @@ function Carousel({ id, items, imagenes, intervalo }) {
         groupedItems.push(items.slice(i, i + itemsPerSlide));
     }
 
-    // Se asegura de que cada item tenga la imagen correspondiente del array `imagenes`
-    const itemsConImagenes = items.map((item, index) => ({
-        ...item,
-        imagen: imagenes[index] || img2, // Asignación de imagen por defecto si no hay imagen
-    }));
-
     return (
         <div className="contenido-carousel">
             <div id={id} className="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval={intervalo}>
@@ -77,31 +80,51 @@ function Carousel({ id, items, imagenes, intervalo }) {
                                 <div className="row justify-content-center">
                                     {group.map((item, i) => {
                                         const itemIndex = index * itemsPerSlide + i; // Obtener el índice real
-                                        const itemConImagen = itemsConImagenes[itemIndex]; // Obtener item con imagen
-                                        return itemConImagen ? (
+                                        const imagenItem = item.imagenes[0];
+                                        const urlImagen = imagenItem
+                                            ? `${apiUrl}/${imagenItem.ruta}`.replace('/api/', '/storage')
+                                            : defaultImagen;
+
+                                        // Sanitizar el contenido HTML
+                                        const contenidoHTML = item?.texto || item?.contenido || "No hay contenido disponible";
+                                        const sanitizedContent = sanitizeHTML(contenidoHTML);
+
+                                        return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
-                                                <div className="card shadow-lg custom-card">
+                                                <div className="card shadow-lg custom-card h-100">
                                                     <img
-                                                        src={itemConImagen.imagen || img2}
+                                                        src={urlImagen}
                                                         className="card-img-top"
-                                                        alt={itemConImagen?.titulo || "Sin título"}
+                                                        alt={item.titulo || "Sin título"}
+                                                        style={{ height: "150px", objectFit: "cover" }}
                                                     />
-                                                    <div className="card-body d-flex flex-column justify-content-between">
-                                                        <h4 className="card-title text-lowercase">{itemConImagen?.titulo || "Sin título"}</h4>
-                                                        <p className="card-text text-lowercase">
-                                                            {itemConImagen?.texto
-                                                                ? itemConImagen.texto.length > 160
-                                                                    ? `${itemConImagen.texto.substring(0, 150)}...`
-                                                                    : itemConImagen.texto
-                                                                : itemConImagen?.contenido
-                                                                    ? itemConImagen.contenido.length > 160
-                                                                        ? `${itemConImagen.contenido.substring(0, 150)}...`
-                                                                        : itemConImagen.contenido
-                                                                    : "No hay contenido disponible"}
-                                                        </p>
+                                                    <div className="card-body d-flex flex-column gap-3">
+                                                        <h4
+                                                            className="card-title"
+                                                            style={{
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 2, // Mostrar hasta 4 líneas de texto
+                                                                WebkitBoxOrient: "vertical",
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                            }}
+                                                        >
+                                                            {item?.titulo || "Sin título"}</h4>
+                                                        {/* Renderizar el contenido HTML */}
+                                                        <div
+                                                            className="card-text flex-grow-1"
+                                                            style={{
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 4, // Mostrar hasta 4 líneas de texto
+                                                                WebkitBoxOrient: "vertical",
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                            }}
+                                                            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                                                        />
                                                         <button
-                                                            className="btn btn-success"
-                                                            onClick={() => setSelectedItem(itemConImagen)}
+                                                            className="btn btn-success mt-auto"
+                                                            onClick={() => setSelectedItem(item)}
                                                             data-bs-toggle="modal"
                                                             data-bs-target={`#leerMasModal_${id}`}
                                                         >
@@ -131,22 +154,32 @@ function Carousel({ id, items, imagenes, intervalo }) {
 
             {/* Modal de lectura ampliada */}
             <div className="modal fade" id={`leerMasModal_${id}`} tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-dialog-scrollable modal-lg"> {/* Añadir modal-dialog-scrollable */}
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title text-lowercase">{selectedItem ? selectedItem.titulo : "Título"}</h5>
+                            <h5 className="modal-title">{selectedItem ? selectedItem.titulo : "Título"}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {selectedItem ? (
                                 <>
+                                    {/* Construir la URL de la imagen para el modal */}
                                     <img
-                                        src={selectedItem.imagen || img2}
+                                        src={
+                                            selectedItem.imagenes && selectedItem.imagenes[0]
+                                                ? `${apiUrl}/${selectedItem.imagenes[0].ruta}`.replace('/api/', '/storage')
+                                                : defaultImagen
+                                        }
                                         className="img-fluid mb-3"
                                         alt={selectedItem.titulo || "Imagen"}
                                     />
-                                    <h4 className="card-title mb-4 text-lowercase">{selectedItem.titulo || "Sin título"}</h4>
-                                    <p className="text-lowercase">{selectedItem.texto || selectedItem.contenido}</p>
+                                    <h4 className="card-title mb-4">{selectedItem.titulo || "Sin título"}</h4>
+                                    {/* Renderizar el contenido HTML en el modal */}
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: sanitizeHTML(selectedItem.texto || selectedItem.contenido || "No hay contenido disponible"),
+                                        }}
+                                    />
                                 </>
                             ) : (
                                 <p>Cargando...</p>

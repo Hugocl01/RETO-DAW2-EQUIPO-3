@@ -1,5 +1,4 @@
 import "./css/Footer.css";
-import netkia from "../assets/imagenes/patrocinadores/netkia.png";
 
 /**
  * Componente de pie de página de la aplicación.
@@ -28,19 +27,19 @@ function Footer() {
                             </li>
                             <li>
                                 <i className="bi bi-geo-alt-fill me-2"></i>
-                                P.º de Julio Hauzeur, 59, 39300, Torrelavega, Cantabria
+                                <a target="_blank" className="text-body-secondary" href="https://maps.app.goo.gl/XKEKHT8WGQDVdJr47">
+                                    P.º de Julio Hauzeur, 59, 39300, Torrelavega, Cantabria
+                                </a>
                             </li>
-                        </ul>
-
-                        <ul className="w-100 nav col-md-4 d-flex justify-content-start align-items-center list-unstyled mt-3">
-                            <li className="ms-3">
+                            <li>
+                                <i className="bi bi-instagram me-2"></i>
                                 <a target="_blank" className="text-body-secondary" href="https://www.instagram.com/iesmiguelherreroligasolidaria/" aria-label="Instagram">
-                                    <i className="bi bi-instagram me-2"></i>
                                     Instagram
                                 </a>
                             </li>
                         </ul>
                     </div>
+
                     {/* La segunda columna ahora ocupa el 30% */}
                     <div className="col-md-4">
                         <p>Información</p>

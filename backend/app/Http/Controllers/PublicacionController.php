@@ -6,9 +6,40 @@ use App\Http\Requests\PublicacionRequest;
 use App\Http\Resources\PublicacionResource;
 use App\Models\Publicacion;
 
+/**
+ * @OA\Tag(
+ *     name="Publicaciones",
+ *     description="Operaciones relacionadas con las publicaciones"
+ * )
+ */
 class PublicacionController extends Controller
 {
-
+    /**
+     * Obtener todas las publicaciones.
+     *
+     * @OA\Get(
+     *     path="/api/publicaciones",
+     *     summary="Obtener todas las publicaciones",
+     *     tags={"Publicaciones"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de publicaciones",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="publicaciones",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Publicacion")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No hay publicaciones registradas"
+     *     )
+     * )
+     */
     public function index()
     {
         $publicaciones = Publicacion::select(
@@ -18,30 +49,95 @@ class PublicacionController extends Controller
             'contenido',
             'publicacionable_id',
             'publicacionable_type'
-        )->get();
+        )
+            ->with('imagenes')  // Cargamos la relación 'imagenes'
+            ->get();
 
         if ($publicaciones->isEmpty()) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => 'No hay publicaciones registradas.'
             ], 404);
         }
 
         return response()->json([
-            'status'        => 'success',
+            'status' => 'success',
             'publicaciones' => PublicacionResource::collection($publicaciones)
         ], 200);
     }
 
-
+    /**
+     * Obtener una publicación por su ID.
+     *
+     * @OA\Get(
+     *     path="/api/publicaciones/{publicacion}",
+     *     summary="Obtener una publicación por su ID",
+     *     tags={"Publicaciones"},
+     *     @OA\Parameter(
+     *         name="publicacion",
+     *         in="path",
+     *         description="ID de la publicación",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Publicación encontrada",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="publicacion",
+     *                 ref="#/components/schemas/Publicacion"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Publicación no encontrada"
+     *     )
+     * )
+     */
     public function show($publicacion)
     {
+        $publicacion = Publicacion::with('imagenes')->findOrFail($publicacion);
+
         return response()->json([
-            'status'      => 'success',
+            'status' => 'success',
             'publicacion' => new PublicacionResource($publicacion),
         ]);
     }
 
+    /**
+     * Crear una nueva publicación.
+     *
+     * @OA\Post(
+     *     path="/api/publicaciones",
+     *     summary="Crear una nueva publicación",
+     *     tags={"Publicaciones"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Publicacion")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Publicación creada correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Publicación creada correctamente"),
+     *             @OA\Property(
+     *                 property="publicacion",
+     *                 ref="#/components/schemas/Publicacion"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la validación de datos"
+     *     )
+     * )
+     */
     public function store(PublicacionRequest $request)
     {
         $validatedData = $request->validated();
@@ -90,13 +186,57 @@ class PublicacionController extends Controller
         ], 201);
     }
 
-
+    /**
+     * Eliminar una publicación.
+     *
+     * @OA\Delete(
+     *     path="/api/publicaciones/{publicacion}",
+     *     summary="Eliminar una publicación",
+     *     tags={"Publicaciones"},
+     *     @OA\Parameter(
+     *         name="publicacion",
+     *         in="path",
+     *         description="ID de la publicación",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Publicación eliminada correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Publicación no encontrada"
+     *     )
+     * )
+     */
     public function destroy(Publicacion $publicacion)
     {
         $publicacion->delete();
         return response()->json(null, 204);
     }
 
+    /**
+     * Obtener los modelos asociados a las publicaciones.
+     *
+     * @OA\Get(
+     *     path="/api/publicaciones/modelos",
+     *     summary="Obtener los modelos asociados a las publicaciones",
+     *     tags={"Publicaciones"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de modelos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="modelos",
+     *                 type="array",
+     *                 @OA\Items(type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getListaPublicacionModelos()
     {
         $modelos = Publicacion::getLista();

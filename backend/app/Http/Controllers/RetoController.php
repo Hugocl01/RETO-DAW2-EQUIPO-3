@@ -15,7 +15,7 @@ use App\Http\Resources\RetoResource;
 class RetoController extends Controller
 {
     /**
-     * Obtener todos los centros.
+     * Obtener todos los retos.
      *
      * @OA\Get(
      *     path="/api/retos",
@@ -38,10 +38,12 @@ class RetoController extends Controller
      */
     public function index()
     {
+        // Cargar los retos junto con las relaciones 'estudio' e 'imagenes'
         $retos = Reto::select('id', 'titulo', 'texto', 'estudio_id')
-                    ->with('estudio')
-                    ->get();
+            ->with('estudio', 'imagenes')  // Cargar tanto 'estudio' como 'imagenes'
+            ->get();
 
+        // Verificar si no hay retos
         if ($retos->isEmpty()) {
             return response()->json([
                 'status' => 'error',
@@ -49,6 +51,7 @@ class RetoController extends Controller
             ], 404);
         }
 
+        // Devolver la respuesta con los retos cargados y sus relaciones
         return response()->json([
             'status' => 'success',
             'retos' => RetoResource::collection($retos)
@@ -56,7 +59,7 @@ class RetoController extends Controller
     }
 
     /**
-     * Obtener un centro por su ID.
+     * Obtener un reto por su ID.
      *
      * @OA\Get(
      *     path="/api/retos/{reto}",
@@ -89,9 +92,13 @@ class RetoController extends Controller
      */
     public function show(Reto $reto)
     {
+        // Cargar las relaciones 'estudio' e 'imagenes' del reto
+        $reto->load('estudio', 'imagenes');
+
+        // Devolver la respuesta con el recurso
         return response()->json([
             'status' => 'success',
-            'reto' => new RetoResource($reto->load('estudio'))
+            'reto' => new RetoResource($reto)
         ], 200);
     }
 
