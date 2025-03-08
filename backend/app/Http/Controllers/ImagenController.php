@@ -91,7 +91,7 @@ class ImagenController extends Controller
 
         if (!class_exists($modelClass)) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => "El modelo {$model} no existe."
             ], 404);
         }
@@ -100,7 +100,7 @@ class ImagenController extends Controller
 
         if (!$entity) {
             return response()->json([
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => "No se encontró la entidad con ID {$id}."
             ], 404);
         }
@@ -114,14 +114,14 @@ class ImagenController extends Controller
 
         $imagen = $entity->imagenes()->create([
             'nombre' => $imagenFile->getClientOriginalName(),
-            'ruta'   => $rutaFichero,
+            'ruta' => $rutaFichero,
         ]);
 
         return response()->json([
-            'status'  => 'success',
+            'status' => 'success',
             'message' => "Foto de {$model} subida correctamente.",
-            'ruta'    => $rutaFichero,
-            'imagen'  => new ImagenResource($imagen),
+            'ruta' => $rutaFichero,
+            'imagen' => new ImagenResource($imagen),
         ], 201);
     }
 
@@ -163,4 +163,60 @@ class ImagenController extends Controller
             'message' => 'Imagen eliminada correctamente'
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/imagenes/modelo/{imagenable_type}",
+     *     summary="Obtener imágenes por tipo de modelo",
+     *     description="Devuelve una lista de imágenes asociadas a un modelo específico.",
+     *     tags={"Imágenes"},
+     *     @OA\Parameter(
+     *         name="imagenable_type",
+     *         in="path",
+     *         required=true,
+     *         description="Clase del modelo (ejemplo: App.Models.Reto)",
+     *         @OA\Schema(type="string", example="App.Models.Reto")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de imágenes obtenida exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="imagenes", type="array",
+     *                 @OA\Items(ref="#/components/schemas/ImagenResource")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron imágenes para este imagenable_type",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="No se encontraron imágenes para este imagenable_type")
+     *         )
+     *     )
+     * )
+     */
+    public function obtenerImagenesPorModelo($imagenable_type)
+    {
+        // Convertir "App.Models.Reto" en "App\Models\Reto"
+        $imagenable_type = str_replace('.', '\\', $imagenable_type);
+
+        $imagenes = Imagen::where('imagenable_type', $imagenable_type)->get();
+
+        if ($imagenes->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No se encontraron imágenes para este imagenable_type'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'imagenes' => ImagenResource::collection($imagenes)
+        ], 200);
+    }
+
 }

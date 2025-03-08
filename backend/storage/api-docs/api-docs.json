@@ -1312,7 +1312,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1358,7 +1363,12 @@
                     "400": {
                         "description": "Error en la validación de datos"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/familias/{familia}": {
@@ -1420,7 +1430,12 @@
                     "404": {
                         "description": "Familia no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1464,7 +1479,12 @@
                     "404": {
                         "description": "Familia no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/familias": {
@@ -1618,6 +1638,77 @@
                     },
                     "404": {
                         "description": "Imagen no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/imagenes/modelo/{imagenable_type}": {
+            "get": {
+                "tags": [
+                    "Imágenes"
+                ],
+                "summary": "Obtener imágenes por tipo de modelo",
+                "description": "Devuelve una lista de imágenes asociadas a un modelo específico.",
+                "operationId": "50532f3f0fa1c850c45f5c6e5dde991a",
+                "parameters": [
+                    {
+                        "name": "imagenable_type",
+                        "in": "path",
+                        "description": "Clase del modelo (ejemplo: App.Models.Reto)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "App.Models.Reto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de imágenes obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "imagenes": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ImagenResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron imágenes para este imagenable_type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron imágenes para este imagenable_type"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1837,7 +1928,12 @@
                     "404": {
                         "description": "Jugador no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lista/jugadores": {
@@ -3139,6 +3235,43 @@
     },
     "components": {
         "schemas": {
+            "ImagenResource": {
+                "title": "Imagen Resource",
+                "description": "Estructura de una imagen",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "imagen.jpg"
+                    },
+                    "ruta": {
+                        "type": "string",
+                        "example": "imagenes/patrocinadores/imagen.jpg"
+                    },
+                    "imagenable_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "imagenable_type": {
+                        "type": "string",
+                        "example": "App\\Models\\Reto"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-08T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-08T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
             "Acta": {
                 "title": "Acta",
                 "description": "Modelo de Acta",

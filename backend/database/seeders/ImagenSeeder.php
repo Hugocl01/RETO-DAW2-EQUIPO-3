@@ -55,7 +55,6 @@ class ImagenSeeder extends Seeder
         ];
 
         foreach ($imagenesRetos as $reto_estudio_id => $archivoImagen) {
-
             $reto = Reto::where('estudio_id', $reto_estudio_id)->first();
 
             if ($reto) {

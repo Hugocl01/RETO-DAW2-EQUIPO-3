@@ -57,6 +57,7 @@ Route::get('/clasificacion/grupo-a', [ClasificacionController::class, 'grupoA'])
 Route::get('/clasificacion/grupo-b', [ClasificacionController::class, 'grupoB']);
 
 
+Route::get('/imagenes/modelo/{imagenable_type}', [ImagenController::class, 'obtenerImagenesPorModelo']);
 
 // Funcionalidades de Inscripción
 Route::post('/set-password/{id}/{token}', [UsuarioController::class, 'setPassword']);
