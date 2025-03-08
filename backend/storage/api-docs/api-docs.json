@@ -2751,6 +2751,191 @@
                 }
             }
         },
+        "/api/publicaciones": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener todas las publicaciones",
+                "description": "Obtener todas las publicaciones.",
+                "operationId": "a9c21f8c6e0b662b1bb2d7a99d16d562",
+                "responses": {
+                    "200": {
+                        "description": "Lista de publicaciones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "publicaciones": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Publicacion"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay publicaciones registradas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Crear una nueva publicación",
+                "description": "Crear una nueva publicación.",
+                "operationId": "005929fd2ed21c344c825ebde21a6991",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Publicacion"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Publicación creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Publicación creada correctamente"
+                                        },
+                                        "publicacion": {
+                                            "$ref": "#/components/schemas/Publicacion"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/publicaciones/{publicacion}": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener una publicación por su ID",
+                "description": "Obtener una publicación por su ID.",
+                "operationId": "1cc2ff86649d589d7354db64fcc67c27",
+                "parameters": [
+                    {
+                        "name": "publicacion",
+                        "in": "path",
+                        "description": "ID de la publicación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Publicación encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "publicacion": {
+                                            "$ref": "#/components/schemas/Publicacion"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Publicación no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Eliminar una publicación",
+                "description": "Eliminar una publicación.",
+                "operationId": "371aac2ad5c00641bccb7f4fd7a7fd17",
+                "parameters": [
+                    {
+                        "name": "publicacion",
+                        "in": "path",
+                        "description": "ID de la publicación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Publicación eliminada correctamente"
+                    },
+                    "404": {
+                        "description": "Publicación no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/publicaciones/modelos": {
+            "get": {
+                "tags": [
+                    "Publicaciones"
+                ],
+                "summary": "Obtener los modelos asociados a las publicaciones",
+                "description": "Obtener los modelos asociados a las publicaciones.",
+                "operationId": "49d370c423f6af4fb419b2f0ab59f70d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de modelos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "modelos": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/retos": {
             "get": {
                 "tags": [
@@ -3750,6 +3935,49 @@
                 },
                 "type": "object"
             },
+            "Publicacion": {
+                "required": [
+                    "id",
+                    "titulo",
+                    "contenido",
+                    "publicacionable_id",
+                    "publicacionable_type"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID de la publicación",
+                        "type": "integer"
+                    },
+                    "titulo": {
+                        "description": "Título de la publicación",
+                        "type": "string"
+                    },
+                    "contenido": {
+                        "description": "Contenido de la publicación",
+                        "type": "string"
+                    },
+                    "portada": {
+                        "description": "Indica si la publicación tiene portada (Si/No)",
+                        "type": "string"
+                    },
+                    "publicacionable_type": {
+                        "description": "Tipo de modelo relacionado con la publicación (Equipo, Partido, etc.)",
+                        "type": "string"
+                    },
+                    "publicacionable_id": {
+                        "description": "ID del modelo relacionado con la publicación",
+                        "type": "integer"
+                    },
+                    "imagenes": {
+                        "type": "array",
+                        "items": {
+                            "description": "URLs de las imágenes relacionadas con la publicación",
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "Reto": {
                 "title": "Reto",
                 "required": [
@@ -3897,6 +4125,10 @@
         {
             "name": "Perfiles",
             "description": "Operaciones relacionadas con los perfiles"
+        },
+        {
+            "name": "Publicaciones",
+            "description": "Operaciones relacionadas con las publicaciones"
         },
         {
             "name": "Retos",
