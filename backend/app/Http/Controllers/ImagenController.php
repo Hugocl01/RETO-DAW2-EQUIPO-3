@@ -166,16 +166,16 @@ class ImagenController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/imagenes/modelo/{imagenable_type}",
+     *     path="/api/imagenes/{modelo}",
      *     summary="Obtener imágenes por tipo de modelo",
      *     description="Devuelve una lista de imágenes asociadas a un modelo específico.",
      *     tags={"Imágenes"},
      *     @OA\Parameter(
-     *         name="imagenable_type",
+     *         name="modelo",
      *         in="path",
      *         required=true,
-     *         description="Clase del modelo (ejemplo: App.Models.Reto)",
-     *         @OA\Schema(type="string", example="App.Models.Reto")
+     *         description="Nombre del modelo (ejemplo: Reto)",
+     *         @OA\Schema(type="string", example="Reto")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -199,10 +199,18 @@ class ImagenController extends Controller
      *     )
      * )
      */
-    public function obtenerImagenesPorModelo($imagenable_type)
+    public function obtenerImagenesPorModelo($modelo)
     {
-        // Convertir "App.Models.Reto" en "App\Models\Reto"
-        $imagenable_type = str_replace('.', '\\', $imagenable_type);
+        // Completar el nombre del modelo con el namespace 'App\Models\'
+        $imagenable_type = 'App\Models\\' . $modelo;
+
+        // Verificar si el modelo existe
+        if (!class_exists($imagenable_type)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'El modelo especificado no existe.'
+            ], 404);
+        }
 
         $imagenes = Imagen::where('imagenable_type', $imagenable_type)->get();
 
