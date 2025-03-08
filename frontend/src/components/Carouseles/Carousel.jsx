@@ -5,6 +5,10 @@ import img2 from "../../assets/imagenes/img2.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
+// Definir la URL de la API y la imagen por defecto
+const apiUrl = import.meta.env.VITE_API_URL;
+const defaultImagen = img2; // Usa la imagen por defecto que tengas
+
 /**
  * Componente de carrusel para mostrar elementos con imágenes configurables.
  *
@@ -13,7 +17,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
  * @param {Object} props - Propiedades del componente.
  * @param {string} props.id - Identificador único para el carrusel.
  * @param {Array} props.items - Lista de elementos a mostrar en el carrusel.
- * @param {Array} props.imagenes - Array de imágenes que se asignarán a cada elemento de `items`.
  * @param {number} props.intervalo - Intervalo de cambio automático en milisegundos.
  * @returns {JSX.Element} Carrusel de elementos con opción de leer más.
  */
@@ -71,11 +74,16 @@ function Carousel({ id, items, intervalo }) {
                                 <div className="row justify-content-center">
                                     {group.map((item, i) => {
                                         const itemIndex = index * itemsPerSlide + i; // Obtener el índice real
+                                        const imagenItem = item.imagenes[0];
+                                        const urlImagen = imagenItem
+                                            ? `${apiUrl}/${imagenItem.ruta}`.replace('/api/', '/storage')
+                                            : defaultImagen;
+
                                         return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
                                                 <div className="card shadow-lg custom-card">
                                                     <img
-                                                        src={item.imagenes[0] || img2}
+                                                        src={urlImagen}
                                                         className="card-img-top"
                                                         alt={item.titulo || "Sin título"}
                                                     />
@@ -134,7 +142,7 @@ function Carousel({ id, items, intervalo }) {
                             {selectedItem ? (
                                 <>
                                     <img
-                                        src={selectedItem.imagen || img2}
+                                        src={selectedItem.imagen || defaultImagen}
                                         className="img-fluid mb-3"
                                         alt={selectedItem.titulo || "Imagen"}
                                     />
