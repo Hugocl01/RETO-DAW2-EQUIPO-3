@@ -22,6 +22,7 @@ class FamiliaController extends Controller
      *     path="/api/familias",
      *     summary="Obtener todos los familias",
      *     tags={"Familias"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de familias",
@@ -61,6 +62,7 @@ class FamiliaController extends Controller
      *     path="/api/familias",
      *     summary="Crear un nuevo familia",
      *     tags={"Familias"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/Familia")
@@ -102,6 +104,7 @@ class FamiliaController extends Controller
      *     path="/api/familias/{familia}",
      *     summary="Actualizar un familiass existente",
      *     tags={"Familias"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="familia",
      *         in="path",
@@ -154,6 +157,7 @@ class FamiliaController extends Controller
      *     path="/api/familias/{familia}",
      *     summary="Eliminar un familia",
      *     tags={"Familias"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="familia",
      *         in="path",

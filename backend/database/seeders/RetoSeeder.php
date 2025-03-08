@@ -9,6 +9,8 @@ class RetoSeeder extends Seeder
 {
     public function run()
     {
+        //La forma en la que pongas el texto aqui se mostrara en la pantalla principal 
+        //es recomendable poner el texto en una linea
         $retos = [
             [
                 'titulo' => 'ENTRENADOR AUTOMATIZADO',
@@ -18,7 +20,7 @@ class RetoSeeder extends Seeder
                 EL ENTRENAMIENTO SE ACTIVARÁ UNA BALIZA Y SE INDICARÁN EN EL
                 VISUALIZADOR LOS VALORES CONSEGUIDOS. PARA PODER REALIZARLO EL CONTROL
                 DE LOS DATOS DADOS POR LOS SENSORES SE REALIZARÁ MEDIANTE UN AUTOMATA.',
-                'estudio_id' => 1
+                'estudio_id' => 1           //ID del estudio relacionado con el reto
             ],
             [
                 'titulo' => 'MARCADOR DEPORTIVO 4.0',

@@ -132,6 +132,7 @@ class ImagenController extends Controller
      *     description="Elimina una imagen de la base de datos y del almacenamiento.",
      *     operationId="deleteImagen",
      *     tags={"Imágenes"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

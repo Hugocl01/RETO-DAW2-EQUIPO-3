@@ -21,7 +21,7 @@ class AccionSeeder extends Seeder
             'Actas' => [
                 'show',
                 'store',
-                'delete',
+                'destroy'
             ],
             'Jugadores' => [
                 'index'

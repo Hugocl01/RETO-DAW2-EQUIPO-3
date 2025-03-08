@@ -84,7 +84,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('ability:Estudios.index,Estudios.show,Estudios.store,Estudios.update,Estudios.destroy');
     Route::get('/lista/estudios', [EstudioController::class, 'getListaEstudios']);
 
-    Route::apiResource('equipos', EquipoController::class)->except(['index', 'show', 'store']);
+    Route::apiResource('equipos', EquipoController::class)->except(['index', 'show', 'store'])
+        ->middleware('ability: Equipos.update,Equipos.destroy');
     Route::get('/lista/equipos', [EquipoController::class, 'getListaEquipos']);
 
     Route::apiResource('familias', FamiliaController::class)
@@ -142,8 +143,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('pabellones', PabellonController::class);
     Route::get('/lista/pabellones', [PabellonController::class, 'getListaPabellones']);
 
-    Route::apiResource('actas', ActaController::class)->only('store', 'show', 'delete')
-        ->middleware('ability:Actas.store,Actas.show,Actas.delete');
+    Route::apiResource('actas', ActaController::class)->only('store', 'show', 'destroy')
+        ->middleware('ability:Actas.store,Actas.show,Actas.destroy');
 
     Route::post('/comienzo-torneo', [TorneoController::class, 'comienzoTorneo'])->middleware('ability:Torneo.comienzoTorneo');
     Route::post('/reinicio-torneo', [TorneoController::class, 'reinicioTorneo'])->middleware('ability:Torneo.reinicioTorneo');
