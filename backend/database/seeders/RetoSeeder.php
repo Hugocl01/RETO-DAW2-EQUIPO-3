@@ -9,7 +9,7 @@ class RetoSeeder extends Seeder
 {
     public function run()
     {
-        //La forma en la que pongas el texto aqui se mostrara en la pantalla principal 
+        //La forma en la que pongas el texto aqui se mostrara en la pantalla principal
         //es recomendable poner el texto en una linea
         $retos = [
             [
@@ -81,10 +81,14 @@ class RetoSeeder extends Seeder
                     pudiendo conectarse a Internet a través de 5G o de la red del propio pabellón. Se configurará,
                     además, un equipo para la administración de dicha red.',
                 'estudio_id' => 9
-            ],[
+            ],
+            [
                 'titulo' => 'DISEÑO Y DESARROLLO WEB SEDE TORRELAVEGA',
-                'texto' => 'Desarrollo de una página web con información relativa a la liga solidaria FP centrada en la sede
-                    de Torrelavega. COMPLETAD VOSOTROS CON MÁS INFORMACIÓN.',
+                'texto' => 'El alumnado de segundo curso del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web del IES Miguel Herrero ha llevado a cabo el desarrollo de la página web oficial de la Liga Solidaria de FP. Este proyecto ha supuesto un reto real en el que los estudiantes han aplicado sus conocimientos en diseño y desarrollo web para crear una plataforma funcional y atractiva que servirá como punto central de información y gestión del torneo.
+                Este desafío no solo ha permitido a los alumnos consolidar los conocimientos adquiridos, dividiendo sus tareas entre servidor y cliente. En la parte del servidor, se ha desarrollado la lógica de negocio y el acceso a datos. Y, en la parte cliente, se han centrado en el diseño y desarrollo de la interfaz de usuario, creando una experiencia visual atractiva e intuitiva mediante tecnologías web reactivas. Junto con el uso de herramientas demandadas por el entorno profesional. Todo lo anterior ha tenido en cuenta los conocimientos demandados por el entorno profesional de la región.
+                La web final es el resultado de la combinación de las mejores propuestas presentadas por los equipos de trabajo, asegurando un producto de calidad y alineado con los objetivos de la Liga Solidaria de FP.
+                Con esta iniciativa, el IES Miguel Herrero refuerza su apuesta por el aprendizaje basado en proyectos y la formación práctica de su alumnado, preparando a los futuros profesionales del desarrollo web para los retos del mundo laboral.
+                ',
                 'estudio_id' => 10
             ],
             [
