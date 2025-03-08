@@ -88,8 +88,8 @@ function Carousel({ id, items, intervalo }) {
                                                         alt={item.titulo || "Sin título"}
                                                     />
                                                     <div className="card-body d-flex flex-column justify-content-between">
-                                                        <h4 className="card-title text-lowercase">{item?.titulo || "Sin título"}</h4>
-                                                        <p className="card-text text-lowercase">
+                                                        <h4 className="card-title">{item?.titulo || "Sin título"}</h4>
+                                                        <p className="card-text">
                                                             {item?.texto
                                                                 ? item.texto.length > 160
                                                                     ? `${item.texto.substring(0, 150)}...`
@@ -132,22 +132,29 @@ function Carousel({ id, items, intervalo }) {
 
             {/* Modal de lectura ampliada */}
             <div className="modal fade" id={`leerMasModal_${id}`} tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-dialog-scrollable modal-lg"> {/* Añadir modal-dialog-scrollable */}
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title text-lowercase">{selectedItem ? selectedItem.titulo : "Título"}</h5>
+                            <h5 className="modal-title">{selectedItem ? selectedItem.titulo : "Título"}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {selectedItem ? (
                                 <>
+                                    {/* Construir la URL de la imagen para el modal */}
                                     <img
-                                        src={selectedItem.imagen || defaultImagen}
+                                        src={
+                                            selectedItem.imagenes && selectedItem.imagenes[0]
+                                                ? `${apiUrl}/${selectedItem.imagenes[0].ruta}`.replace('/api/', '/storage')
+                                                : defaultImagen
+                                        }
                                         className="img-fluid mb-3"
                                         alt={selectedItem.titulo || "Imagen"}
                                     />
-                                    <h4 className="card-title mb-4 text-lowercase">{selectedItem.titulo || "Sin título"}</h4>
-                                    <p className="text-lowercase">{selectedItem.texto || selectedItem.contenido}</p>
+                                    <h4 className="card-title mb-4">{selectedItem.titulo || "Sin título"}</h4>
+                                    <div>
+                                        {selectedItem.texto || selectedItem.contenido}
+                                    </div>
                                 </>
                             ) : (
                                 <p>Cargando...</p>
