@@ -196,20 +196,29 @@ class ImagenController extends Controller
      *             @OA\Property(property="status", type="string", example="error"),
      *             @OA\Property(property="message", type="string", example="No se encontraron imágenes para este imagenable_type")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Modelo no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="El modelo especificado no existe.")
+     *         )
      *     )
      * )
      */
     public function obtenerImagenesPorModelo($modelo)
     {
-        // Completar el nombre del modelo con el namespace 'App\Models\'
+        // Completa el nombre del modelo con el namespace 'App\Models\'
         $imagenable_type = 'App\Models\\' . $modelo;
 
-        // Verificar si el modelo existe
+        // Verifica si el modelo existe
         if (!class_exists($imagenable_type)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'El modelo especificado no existe.'
-            ], 404);
+            ], 400);
         }
 
         $imagenes = Imagen::where('imagenable_type', $imagenable_type)->get();
