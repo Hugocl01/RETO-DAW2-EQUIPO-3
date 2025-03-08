@@ -2454,13 +2454,188 @@
                 }
             }
         },
+        "/api/patrocinadores": {
+            "get": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Obtener todos los patrocinadores",
+                "description": "Display a listing of the resource.",
+                "operationId": "f4426c122de166085a16ffdbc2d80037",
+                "responses": {
+                    "200": {
+                        "description": "Lista de patrocinadores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "patrocinadores": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Patrocinador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Crear un nuevo patrocinador",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "89d7d3a6e75517c45838dd68ce0c5836",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patrocinador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patrocinador creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador creado Correctamente"
+                                        },
+                                        "patrocinador": {
+                                            "$ref": "#/components/schemas/Patrocinador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de los datos"
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            }
+        },
+        "/api/patrocinadores/{patrocinador}": {
+            "put": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Actualizar un patrocinador",
+                "description": "Update the specified resource in storage.",
+                "operationId": "ed5c710b3a5a9bd91243d38da1bef88f",
+                "parameters": [
+                    {
+                        "name": "patrocinador",
+                        "in": "path",
+                        "description": "ID del patrocinador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patrocinador"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patrocinador actualizado correctamente"
+                                        },
+                                        "patrocinador": {
+                                            "$ref": "#/components/schemas/Patrocinador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de los datos"
+                    },
+                    "404": {
+                        "description": "Patrocinador no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Patrocinadores"
+                ],
+                "summary": "Eliminar un patrocinador",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "d7b86b43694b5f06b043261d7812ebbe",
+                "parameters": [
+                    {
+                        "name": "patrocinador",
+                        "in": "path",
+                        "description": "ID del patrocinador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patrocinador eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Patrocinador no encontrado"
+                    }
+                }
+            }
+        },
         "/api/lista/patrocinadores": {
             "get": {
                 "tags": [
                     "Patrocinadores"
                 ],
-                "summary": "Obtener todos los patrocinadores, pero solo los valores necesarios para el front",
-                "description": "Obtener todos los patrocinadores.",
+                "summary": "Obtener todos los patrocinadores con los valores necesarios para el front",
+                "description": "Obtener todos los patrocinadores, pero solo los valores necesarios para el front.",
                 "operationId": "d73532df363875a490c952fc424ba419",
                 "responses": {
                     "200": {
@@ -4123,6 +4298,10 @@
             "description": "Operaciones relacionadas con los partidos"
         },
         {
+            "name": "Patrocinadores",
+            "description": "Operaciones relacionadas con los patrocinadores"
+        },
+        {
             "name": "Perfiles",
             "description": "Operaciones relacionadas con los perfiles"
         },
@@ -4153,10 +4332,6 @@
         {
             "name": "Pabellones",
             "description": "Pabellones"
-        },
-        {
-            "name": "Patrocinadores",
-            "description": "Patrocinadores"
         }
     ]
 }

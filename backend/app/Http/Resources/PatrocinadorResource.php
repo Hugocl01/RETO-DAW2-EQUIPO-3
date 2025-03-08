@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ImagenResource;
 
 class PatrocinadorResource extends JsonResource
 {
@@ -15,10 +16,10 @@ class PatrocinadorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
+            'id' => $this->id,
             'nombre' => $this->nombre,
             'landing_page' => $this->landing_page,
-            'ruta'   => optional($this->imagen->first())->ruta // Evita error si no hay imagen
+            'imagenes' => ImagenResource::collection($this->whenLoaded('imagen')), // Devolvemos un array de imágenes
         ];
     }
 }
