@@ -8,6 +8,15 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const defaultImagen = img2; // Usa la imagen por defecto que tengas
 
 /**
+ * Función para sanitizar el contenido HTML (elimina etiquetas peligrosas como <script>).
+ * @param {string} html - El contenido HTML a sanitizar.
+ * @returns {string} - El contenido HTML sanitizado.
+ */
+function sanitizeHTML(html) {
+    return html.replace(/<script.*?>.*?<\/script>/gi, ""); // Elimina etiquetas <script>
+}
+
+/**
  * Componente de carrusel para mostrar elementos con imágenes configurables.
  *
  * @component
@@ -77,6 +86,10 @@ function Carousel({ id, items, intervalo }) {
                                             ? `${apiUrl}/${imagenItem.ruta}`.replace('/api/', '/storage')
                                             : defaultImagen;
 
+                                        // Sanitizar el contenido HTML
+                                        const contenidoHTML = item?.texto || item?.contenido || "No hay contenido disponible";
+                                        const sanitizedContent = sanitizeHTML(contenidoHTML);
+
                                         return item ? (
                                             <div key={i} className={`col-md-${12 / itemsPerSlide} d-flex justify-content-center`}>
                                                 <div className="card shadow-lg custom-card h-100"> {/* Añadir h-100 para igualar altura */}
@@ -88,15 +101,18 @@ function Carousel({ id, items, intervalo }) {
                                                     />
                                                     <div className="card-body d-flex flex-column">
                                                         <h4 className="card-title text-truncate">{item?.titulo || "Sin título"}</h4>
-                                                        <p className="card-text flex-grow-1" style={{
-                                                            display: "-webkit-box",
-                                                            WebkitLineClamp: 4, // Mostrar hasta 4 líneas de texto
-                                                            WebkitBoxOrient: "vertical",
-                                                            overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                        }}>
-                                                            {item?.texto || item?.contenido || "No hay contenido disponible"}
-                                                        </p>
+                                                        {/* Renderizar el contenido HTML */}
+                                                        <div
+                                                            className="card-text flex-grow-1"
+                                                            style={{
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 4, // Mostrar hasta 4 líneas de texto
+                                                                WebkitBoxOrient: "vertical",
+                                                                overflow: "hidden",
+                                                                textOverflow: "ellipsis",
+                                                            }}
+                                                            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                                                        />
                                                         <button
                                                             className="btn btn-success mt-auto"
                                                             onClick={() => setSelectedItem(item)}
@@ -149,9 +165,12 @@ function Carousel({ id, items, intervalo }) {
                                         alt={selectedItem.titulo || "Imagen"}
                                     />
                                     <h4 className="card-title mb-4">{selectedItem.titulo || "Sin título"}</h4>
-                                    <div>
-                                        {selectedItem.texto || selectedItem.contenido}
-                                    </div>
+                                    {/* Renderizar el contenido HTML en el modal */}
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: sanitizeHTML(selectedItem.texto || selectedItem.contenido || "No hay contenido disponible"),
+                                        }}
+                                    />
                                 </>
                             ) : (
                                 <p>Cargando...</p>
