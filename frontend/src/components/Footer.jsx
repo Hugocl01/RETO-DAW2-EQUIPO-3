@@ -27,7 +27,9 @@ function Footer() {
                             </li>
                             <li>
                                 <i className="bi bi-geo-alt-fill me-2"></i>
-                                P.º de Julio Hauzeur, 59, 39300, Torrelavega, Cantabria
+                                <a target="_blank" href="https://maps.app.goo.gl/XKEKHT8WGQDVdJr47">
+                                    P.º de Julio Hauzeur, 59, 39300, Torrelavega, Cantabria
+                                </a>
                             </li>
                         </ul>
 
