@@ -114,7 +114,7 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="jugadores/:id"
+            path="jugadores/:jugadorSlug"
             element={
               <Suspense fallback={<Spinner />}>
                 <DetalleJugadorPage />

@@ -204,7 +204,7 @@ function DetallesEquipoPage() {
                         className="col-12 col-sm-6 col-md-3 mb-4 d-flex justify-content-center align-items-center"
                         onClick={() => navegarDetalleJugador(jugador.slug)}
                       >
-                        <div className="jugador flip-card shadow-sm">
+                        <div className="jugador flip-card shadow-sm rounded">
                           <div className="flip-card-inner">
                             {/* Parte frontal de la carta (imagen) */}
                             <div className="flip-card-front">
@@ -215,7 +215,7 @@ function DetallesEquipoPage() {
                               />
                             </div>
                             {/* Parte posterior de la carta (nombre del jugador) */}
-                            <div className="nombre flip-card-back d-flex justify-content-center align-items-center">
+                            <div className="nombre flip-card-back d-flex justify-content-center align-items-center rounded">
                               <p>
                                 <strong>{jugador.nombre}</strong>
                               </p>
