@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/EquipoPage.css";
-import img1 from '../assets/imagenes/img1.jpg';
+import imagenDefault from "../assets/imagenes/default.jpg"; // Imagen por defecto
 
 /**
  * Componente para mostrar la información básica de un equipo.
@@ -13,6 +13,11 @@ import img1 from '../assets/imagenes/img1.jpg';
  * @returns {JSX.Element} Componente de equipo.
  */
 function Equipo({ equipoObtenido, fnNavegar }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const urlImagen = equipoObtenido.imagenes[0]
+    ? `${apiUrl}/${equipoObtenido.imagenes[0].ruta}`.replace('/api/', '/storage')
+    : imagenDefault;
   /**
    * Maneja el clic en la tarjeta del equipo para navegar a su vista detallada.
    */
@@ -25,7 +30,7 @@ function Equipo({ equipoObtenido, fnNavegar }) {
     <div className="col">
       <div className="card contEquipo shadow-sm m-2" onClick={handleClick} id="equipos">
         <img
-          src={img1}
+          src={urlImagen}
           alt={equipoObtenido.nombre}
           className="card-img-top"
           style={{ height: '250px', objectFit: 'cover' }} // Ajusta el tamaño de la imagen
