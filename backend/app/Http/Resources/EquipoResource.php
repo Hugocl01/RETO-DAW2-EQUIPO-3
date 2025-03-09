@@ -25,14 +25,8 @@ class EquipoResource extends JsonResource
                 'comentario' => $this->inscripcion->comentarios
             ],
             'stats'         => $this->statsEquipo(),
-            'Jugadores'     => $this->jugadores->map(function ($jugador) {
-                return [
-                    'id'     => $jugador->id,
-                    'slug'   => $jugador->slug,
-                    'nombre' => $jugador->nombre_completo,
-                ];
-            }),
-
+            'imagenes'      => ImagenResource::collection($this->whenLoaded('imagenes')),
+            'Jugadores'     => JugadorResource::collection($this->jugadores->load('imagenes')),
         ];
     }
 }

@@ -39,7 +39,9 @@ class JugadorController extends Controller
      */
     public function index(): JsonResponse
     {
-        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono', 'slug')->get();
+        $jugadores = Jugador::select('id', 'equipo_id', 'nombre_completo', 'capitan', 'estudio_id', 'dni', 'email', 'telefono', 'slug')
+            ->with('imagenes')
+            ->get();
 
         if ($jugadores->isEmpty()) {
             return response()->json([
@@ -86,11 +88,13 @@ class JugadorController extends Controller
      *     )
      * )
      */
-    public function show(Jugador $jugadore): JsonResponse
+    public function show(Jugador $jugador): JsonResponse
     {
+        $jugador->load('imagenes');
+
         return response()->json([
             'status' => 'success',
-            'jugador' => new JugadorResource($jugadore)
+            'jugador' => new JugadorResource($jugador)
         ], 200);
     }
 

@@ -50,7 +50,7 @@ class EquipoController extends Controller
      */
     public function index(): JsonResponse
     {
-        $equipos = Equipo::with(['centro', 'usuario', 'jugadores'])
+        $equipos = Equipo::with(['centro', 'usuario', 'jugadores', 'imagenes'])
             ->select('id', 'nombre', 'slug', 'centro_id', 'grupo', 'usuario_id')
             ->get();
 
@@ -102,6 +102,8 @@ class EquipoController extends Controller
      */
     public function show(Equipo $equipo): JsonResponse
     {
+        $equipo->load('imagenes');
+
         return response()->json([
             'status' => 'success',
             'equipo' => new EquipoResource($equipo)
