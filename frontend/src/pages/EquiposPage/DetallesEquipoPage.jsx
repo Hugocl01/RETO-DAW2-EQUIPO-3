@@ -58,7 +58,7 @@ function DetallesEquipoPage() {
     }
 
     window.scrollTo(0, 0);
-  }, [location.pathname, equipo]);  
+  }, [location.pathname, equipo]);
 
   if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
@@ -86,7 +86,7 @@ function DetallesEquipoPage() {
                 </h2>
                 <div className="mb-4">
                   <img
-                    src={equipo.imagen || imagenDefault}
+                    src={`${apiUrl}/${equipo.imagenes[0].ruta}`.replace('/api/', '/storage') || imagenDefault}
                     alt={`Imagen del equipo ${equipo.nombre}`}
                     className="img-fluid rounded-3 shadow-sm"
                   />
