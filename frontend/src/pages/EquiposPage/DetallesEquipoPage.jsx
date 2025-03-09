@@ -22,53 +22,43 @@ function DetallesEquipoPage() {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const nombreEquipo = location.pathname.split("/").pop();
+    const slugEquipo = location.pathname.split("/").pop();
 
-    const obtenerEquipo = async () => {
-      try {
-        const resultado = await fetchData(`equipos/${nombreEquipo}`);
-        if (resultado.status === "success") {
-          let arrayEquipo = JSON.parse(sessionStorage.getItem("equiposMostrados")) || [];
-          const equipoExistente = arrayEquipo.find((e) => e.nombre === resultado.equipo.nombre);
-
-          if (!equipoExistente) {
-            arrayEquipo.push(resultado.equipo);
-            sessionStorage.setItem("equiposMostrados", JSON.stringify(arrayEquipo));
-          }
-
-          setEquipo(resultado.equipo);
-        } else {
-          setError({
-            tipo: "error",
-            mensaje: "Hubo un problema al obtener el equipo.",
-          });
-        }
-      } catch (error) {
-        setError({
-          tipo: error.response?.status || error.name,
-          mensaje: error.response?.data?.message || "No existe el equipo.",
-        });
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    const obtenerEquipoSession =
-      JSON.parse(sessionStorage.getItem("equiposMostrados")) || [];
-
-    const equipoEnStorage = obtenerEquipoSession.find(
-      (e) => e.slug === nombreEquipo
-    );
+    // Verificar si el equipo ya está almacenado en el estado
+    const equipoEnStorage = equipo && equipo.slug === slugEquipo;
 
     if (equipoEnStorage) {
-      setEquipo(equipoEnStorage);
+      // Si el equipo ya está cargado, no es necesario hacer la llamada a la API
       setCargando(false);
     } else {
+      // Si el equipo no está en el estado, hacer la llamada a la API
+      const obtenerEquipo = async () => {
+        try {
+          const resultado = await fetchData(`equipos/${slugEquipo}`);
+          if (resultado.status === "success") {
+            // Actualizar el estado con los datos del equipo
+            setEquipo(resultado.equipo);
+          } else {
+            setError({
+              tipo: "error",
+              mensaje: "Hubo un problema al obtener el equipo.",
+            });
+          }
+        } catch (error) {
+          setError({
+            tipo: error.response?.status || error.name,
+            mensaje: error.response?.data?.message || "No existe el equipo.",
+          });
+        } finally {
+          setCargando(false);
+        }
+      };
+
       obtenerEquipo();
     }
 
     window.scrollTo(0, 0);
-  }, [location]);
+  }, [location.pathname, equipo]);  
 
   if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
