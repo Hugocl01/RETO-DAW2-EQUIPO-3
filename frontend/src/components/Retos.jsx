@@ -16,6 +16,7 @@ import camiseta from "../assets/imagenes/retosIconos/camiseta.png";
 import food_truck from "../assets/imagenes/retosIconos/food-truck.png";
 import lapiz from "../assets/imagenes/retosIconos/lapiz.png";
 import inclusion from "../assets/imagenes/retosIconos/inclusion.png";
+import imagenDefault from "../assets/imagenes/default.jpg"; // Imagen por defecto
 import fetchData from '../data/FetchData';
 
 // Lista de iconos para los retos
@@ -23,6 +24,8 @@ const iconos = [
     entrenador, marcador, corazon, masaje, jabon, termal, camara, sonido, red,
     pc, servidor, coche, grafico, camiseta, food_truck, lapiz, inclusion
 ];
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 /**
  * Componente `Retos` que muestra una lista de retos con sus detalles.
@@ -95,6 +98,30 @@ function Retos() {
                                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div className="modal-body">
+                                        {/* Imagen del reto */}
+                                        {reto.imagenes && reto.imagenes[0] ? (
+                                            <img
+                                                src={`${apiUrl}/${reto.imagenes[0].ruta}`.replace('/api/', '/storage')}
+                                                className="img-fluid mb-3 rounded"
+                                                alt={reto.titulo || "Imagen"}
+                                                style={{ maxHeight: "300px", objectFit: "cover", width: "100%" }}
+                                            />
+                                        ) : (
+                                            <img
+                                                src={imagenDefault}
+                                                className="img-fluid mb-3 rounded"
+                                                alt="Imagen por defecto"
+                                                style={{ maxHeight: "300px", objectFit: "cover", width: "100%" }}
+                                            />
+                                        )}
+
+                                        {/* Información adicional: Centro, ciclo y curso */}
+                                        <div className="mb-4">
+                                            <h5 className="mb-1">{reto.estudio.centro || "No disponible"}</h5>
+                                            <p className="mb-1">{reto.estudio.curso + 'º ' + reto.estudio.ciclo || "No disponible"}</p>
+                                        </div>
+
+                                        {/* Descripción del reto */}
                                         <div dangerouslySetInnerHTML={{ __html: reto.texto }} />
                                     </div>
                                     <div className="modal-footer">
