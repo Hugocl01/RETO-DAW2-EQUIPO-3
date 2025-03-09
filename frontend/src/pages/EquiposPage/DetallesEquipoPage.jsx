@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner.jsx";
 import "../../core/CSS/DetalleEquipoPage.css";
-import img1 from '../../assets/imagenes/img1.jpg';
-import messi from "../../assets/imagenes/messi.jpg";
+import imagenDefault from "../../assets/imagenes/default.jpg"; // Imagen por defecto
 import ErrorPage from "../ErrorPage.jsx";
 import fetchData from "../../data/FetchData.js";
 
@@ -15,10 +14,12 @@ import fetchData from "../../data/FetchData.js";
  */
 function DetallesEquipoPage() {
   const location = useLocation();
-  const [equipo, setEquipo] = useState();
+  const [equipo, setEquipo] = useState(null);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const navegar = useNavigate();
+
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   /**
    * Efecto que se ejecuta cuando cambia la ubicación (URL).
@@ -160,8 +161,8 @@ function DetallesEquipoPage() {
                 <div className="d-flex flex-column justify-content-center align-items-center">
                   <div>
                     <img
-                      src={img1}
-                      alt="imagenPatrocinador"
+                      src={equipo.imagen || imagenDefault}
+                      alt={`Imagen del equipo ${equipo.nombre}`}
                       className="img-fluid w-75"
                     />
                   </div>
@@ -191,32 +192,42 @@ function DetallesEquipoPage() {
                 </h2>
               </div>
               <div className="row d-flex flex-row flex-wrap justify-content-center align-items-center g-4">
-                {equipo.Jugadores.map((valor, index) => (
-                  <div
-                    key={index}
-                    className="col-12 col-sm-6 col-md-3 mb-4 d-flex justify-content-center align-items-center"
-                    onClick={() => navegarDetalleJugador(valor.slug)}
-                  >
-                    <div className="jugador flip-card shadow-sm">
-                      <div className="flip-card-inner">
-                        {/* Parte frontal de la carta (imagen) */}
-                        <div className="flip-card-front">
-                          <img
-                            src={messi} // Cambiar para cada jugador
-                            alt="imagenJugador"
-                            className="card-img-top img-fluid rounded"
-                          />
-                        </div>
-                        {/* Parte posterior de la carta (nombre del jugador) */}
-                        <div className="nombre flip-card-back d-flex justify-content-center align-items-center">
-                          <p>
-                            <strong>{valor.nombre}</strong>
-                          </p>
+                {equipo.Jugadores && equipo.Jugadores.length > 0 ? (
+                  equipo.Jugadores.map((jugador, index) => {
+                    const urlImagen = jugador.imagenes?.[0]
+                      ? `${apiUrl}/${jugador.imagenes[0].ruta}`.replace('/api/', '/storage')
+                      : imagenDefault;
+
+                    return (
+                      <div
+                        key={index}
+                        className="col-12 col-sm-6 col-md-3 mb-4 d-flex justify-content-center align-items-center"
+                        onClick={() => navegarDetalleJugador(jugador.slug)}
+                      >
+                        <div className="jugador flip-card shadow-sm">
+                          <div className="flip-card-inner">
+                            {/* Parte frontal de la carta (imagen) */}
+                            <div className="flip-card-front">
+                              <img
+                                src={urlImagen}
+                                alt={`Imagen de ${jugador.nombre}`}
+                                className="card-img-top img-fluid rounded"
+                              />
+                            </div>
+                            {/* Parte posterior de la carta (nombre del jugador) */}
+                            <div className="nombre flip-card-back d-flex justify-content-center align-items-center">
+                              <p>
+                                <strong>{jugador.nombre}</strong>
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  })
+                ) : (
+                  <p>No hay jugadores disponibles.</p>
+                )}
               </div>
             </div>
           </section>

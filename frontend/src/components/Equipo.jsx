@@ -18,6 +18,7 @@ function Equipo({ equipoObtenido, fnNavegar }) {
   const urlImagen = equipoObtenido.imagenes[0]
     ? `${apiUrl}/${equipoObtenido.imagenes[0].ruta}`.replace('/api/', '/storage')
     : imagenDefault;
+  
   /**
    * Maneja el clic en la tarjeta del equipo para navegar a su vista detallada.
    */
