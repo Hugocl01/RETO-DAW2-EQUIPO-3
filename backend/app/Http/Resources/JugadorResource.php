@@ -13,7 +13,7 @@ class JugadorResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre_completo,
             'slug' => $this->slug,
-            'equipo' => $this->equipo->nombre,
+            'equipo' => optional($this->equipo)->nombre, // Usamos optional para evitar error si 'equipo' es null
             'capitan' => $this->capitan,
             'estudio' => new EstudioResource($this->estudio),
             'dni' => $this->dni,

@@ -88,10 +88,23 @@ class JugadorController extends Controller
      *     )
      * )
      */
-    public function show(Jugador $jugador): JsonResponse
+    public function show($slug): JsonResponse
     {
-        $jugador->load('imagenes');
+        // Buscar el jugador usando el slug en lugar del ID
+        $jugador = Jugador::where('slug', $slug)->first();
 
+        // Verificar si se encontró el jugador
+        if (!$jugador) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Jugador no encontrado'
+            ], 404);
+        }
+
+        // Cargar las relaciones 'equipo' e 'imagenes' de forma eficiente
+        $jugador->load(['equipo', 'imagenes']);
+
+        // Devolver los datos del jugador con su recurso correspondiente
         return response()->json([
             'status' => 'success',
             'jugador' => new JugadorResource($jugador)
