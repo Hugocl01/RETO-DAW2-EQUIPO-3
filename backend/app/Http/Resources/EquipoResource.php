@@ -15,6 +15,7 @@ class EquipoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'            => $this->id,
             'nombre'        => $this->nombre,
             'slug'          => $this->slug,
             'centro'        => $this->centro?->nombre,
@@ -25,14 +26,8 @@ class EquipoResource extends JsonResource
                 'comentario' => $this->inscripcion->comentarios
             ],
             'stats'         => $this->statsEquipo(),
-            'Jugadores'     => $this->jugadores->map(function ($jugador) {
-                return [
-                    'id'     => $jugador->id,
-                    'slug'   => $jugador->slug,
-                    'nombre' => $jugador->nombre_completo,
-                ];
-            }),
-
+            'imagenes'      => ImagenResource::collection($this->whenLoaded('imagenes')),
+            'Jugadores'     => JugadorResource::collection($this->jugadores->load('imagenes')),
         ];
     }
 }

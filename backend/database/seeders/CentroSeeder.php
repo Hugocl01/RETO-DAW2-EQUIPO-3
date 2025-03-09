@@ -10,9 +10,9 @@ class CentroSeeder extends Seeder
     public function run()
     {
         DB::table('centros')->insert([
-            ['nombre' => 'IES Besaya', 'created_at' => now(), 'updated_at' => now()],
-            ['nombre' => 'IES Miguel Herrero Pereda', 'created_at' => now(), 'updated_at' => now()],
-            ['nombre' => 'IES Zapatón', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'IES Besaya', 'landing_page' => 'https://www.educantabria.es/web/ies-besaya', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'IES Miguel Herrero Pereda', 'landing_page' => 'https://www.educantabria.es/web/ies-miguel-herrero-pereda', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'IES Zapatón', 'landing_page' => 'https://www.ieszapaton.es/', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

@@ -113,7 +113,7 @@ function DetalleJugadorPage() {
    * Mientras cargue, muestro el spinner
    */
   if (cargando) {
-    return <Spinner></Spinner>;
+    return <Spinner />;
   }
 
   return (
@@ -129,50 +129,48 @@ function DetalleJugadorPage() {
               {/**
                * Columna para la información del jugador
                */}
-              <div className="col-md-6 d-flex flex-column justify-content-between align-items-center">
-                <h3 className="card-title text-center">Información Personal</h3>
-                {/* Nueva forma de mostrar si es capitán */}
-                {jugador.capitan === 1 && jugador.equipo && (
-                  <p className="card-text">
-                    <strong>Capitán del equipo</strong>
+              <div className="col-md-8">
+                <h3 className="card-title">Información Personal</h3>
 
-                    <span className="">{jugador.equipo.nombre}</span>
+                {/* Información básica */}
+                <p><strong>Nombre Completo: </strong>{jugador.nombre}</p>
+                <p><strong>Equipo: </strong>{jugador.equipo}</p>
+                
+                {/* Información del capitán */}
+                {jugador.capitan == "1" && jugador.equipo && (
+                  <p>
+                    <strong>Capitán del equipo: </strong>
+                    <span>{jugador.equipo}</span>
                   </p>
                 )}
-                <p className="card-text">
-                  <strong>Nombre Completo: </strong>
-                  {jugador.nombre}
-                </p>
 
-                <p className="card-text">
-                  <strong>Goles Marcados:</strong> {jugador.stats.goles}
-                </p>
-                <p className="card-text">
-                  <strong>Tarjetas Amarillas: </strong>{" "}
-                  {jugador.stats.tarjetas_amarillas}
-                </p>
+                {/* Estudio del jugador */}
+                {jugador.estudio && (
+                  <div>
+                    <h4>Estudios</h4>
+                    <p><strong>Centro: </strong>{jugador.estudio.centro}</p>
+                    <p><strong>Ciclo: </strong>{jugador.estudio.ciclo}</p>
+                    <p><strong>Curso: </strong>{jugador.estudio.curso + 'º'}</p>
+                  </div>
+                )}
 
-                <p className="card-text">
-                  <strong>Tarjetas Rojas: </strong>{" "}
-                  {jugador.stats.tarjetas_rojas}
-                </p>
+                {/* Estadísticas del jugador */}
+                <h4>Estadísticas</h4>
+                <p><strong>Goles Marcados: </strong>{jugador.stats.goles}</p>
+                <p><strong>Tarjetas Amarillas: </strong>{jugador.stats.tarjetas_amarillas}</p>
+                <p><strong>Tarjetas Rojas: </strong>{jugador.stats.tarjetas_rojas}</p>
+                <p><strong>Faltas: </strong>{jugador.stats.faltas}</p>
 
-                <p className="card-text">
-                  <strong>Email:</strong> {jugador.email}
-                </p>
-                <p className="card-text">
-                  <strong>Equipo:</strong> {jugador.equipo}
-                </p>
               </div>
               {/*
                * Columna para la foto del jugador
                */}
-              <div className="col-md-6">
+              <div className="col-md-4 d-flex justify-content-center">
                 <img
                   src={img1}
-                  alt={`${jugador.nombre} ${jugador.primer_apellido}`}
+                  alt={`${jugador.nombre}`}
                   className="img-fluid mb-3"
-                  style={{ maxWidth: "100%" }}
+                  style={{ maxWidth: "80%" }}
                 />
               </div>
             </div>

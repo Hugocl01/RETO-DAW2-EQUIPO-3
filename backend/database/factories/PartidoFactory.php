@@ -16,7 +16,6 @@ class PartidoFactory extends Factory
 
     public function definition()
     {
-
         return [
             'pabellon_id' => 1,
             'fecha' => $this->faker->date(),

@@ -13,28 +13,18 @@ const BaseLayout = lazy(() => import("../layouts/BaseLayout.jsx"));
 const InicioPage = lazy(() => import("../pages/InicioPage.jsx"));
 const ErrorPage = lazy(() => import("../pages/ErrorPage.jsx"));
 const EquiposPage = lazy(() => import("../pages/EquiposPage/EquiposPage.jsx"));
-const DetallesEquipoPage = lazy(() =>
-  import("../pages/EquiposPage/DetallesEquipoPage.jsx")
-);
-const PartidosPage = lazy(() =>
-  import("../pages/PartidosPage/PartidosPage.jsx")
-);
-const DetallePartidoPage = lazy(() =>
-  import("../pages/PartidosPage/DetallePartidoPage.jsx")
-);
+const DetallesEquipoPage = lazy(() => import("../pages/EquiposPage/DetallesEquipoPage.jsx"));
+const PartidosPage = lazy(() => import("../pages/PartidosPage/PartidosPage.jsx"));
+const DetallePartidoPage = lazy(() => import("../pages/PartidosPage/DetallePartidoPage.jsx"));
 const ClasificaciónPage = lazy(() => import("../pages/ClasificacionPage.jsx"));
 const OrganizacionPage = lazy(() => import("../pages/OrganizacionPage.jsx"));
 const RetoPage = lazy(() => import("../pages/RetoPage.jsx"));
 const GaleriaPage = lazy(() => import("../pages/GaleriaPage.jsx"));
 const InscribirsePage = lazy(() => import("../pages/InscribirsePage.jsx"));
 const SetPasswordPage = lazy(() => import("../pages/SetPasswordForm.jsx"));
-const AdministracionPage = lazy(() =>
-  import("../pages/AdministracionPage.jsx")
-);
+const AdministracionPage = lazy(() => import("../pages/AdministracionPage.jsx"));
 const EstadisticasPage = lazy(() => import("../pages/EstadisticasPage.jsx"));
-const DetalleJugadorPage = lazy(() =>
-  import("../pages/JugadoresPage/DetalleJugadorPage.jsx")
-);
+const DetalleJugadorPage = lazy(() => import("../pages/JugadoresPage/DetalleJugadorPage.jsx"));
 const RutaPrivada = lazy(() => import("../components/RutaPrivada.jsx"));
 
 /**
@@ -108,7 +98,7 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="equipos/:id"
+            path="equipos/:slug"
             element={
               <Suspense fallback={<Spinner />}>
                 <DetallesEquipoPage />
@@ -124,7 +114,7 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="jugadores/:id"
+            path="jugadores/:jugadorSlug"
             element={
               <Suspense fallback={<Spinner />}>
                 <DetalleJugadorPage />
