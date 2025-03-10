@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./css/Footer.css";
 
 /**
@@ -45,7 +46,7 @@ function Footer() {
                         <p>Información</p>
                         <ul className="list-unstyled">
                             <li>
-                                Política de privacidad
+                                <Link to="/politica-de-privacidad" className="text-body-secondary">Política de privacidad</Link>
                             </li>
                         </ul>
                     </div>

@@ -25,6 +25,7 @@ const SetPasswordPage = lazy(() => import("../pages/SetPasswordForm.jsx"));
 const AdministracionPage = lazy(() => import("../pages/AdministracionPage.jsx"));
 const EstadisticasPage = lazy(() => import("../pages/EstadisticasPage.jsx"));
 const DetalleJugadorPage = lazy(() => import("../pages/JugadoresPage/DetalleJugadorPage.jsx"));
+const PoliticaPage = lazy(() => import("../pages/PoliticaPage.jsx"));
 const RutaPrivada = lazy(() => import("../components/RutaPrivada.jsx"));
 
 /**
@@ -64,6 +65,15 @@ function AppEnrutador() {
           />
 
           {/* Otras páginas */}
+          <Route
+            path="politica-de-privacidad"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <PoliticaPage />
+              </Suspense>
+            }
+          />
+
           <Route
             path="equipos"
             element={
