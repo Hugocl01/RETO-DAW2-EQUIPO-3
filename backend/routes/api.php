@@ -118,10 +118,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/lista/publicaciones', [PublicacionController::class, 'getListaPublicacionModelos'])
         ->middleware('ability:Publicaciones.getListaPublicacionModelos');
 
-    Route::apiResource('imagenes', ImagenController::class)->except(['store', 'update','index'])
+    Route::apiResource('imagenes', ImagenController::class)->only('destroy')
         ->middleware('ability:Imagenes.destroy');
 
-    Route::post('imagenes/{model}/{id}/upload-foto', [ImagenController::class, 'uploadFoto'])
+    Route::post('imagenes/{model}/{id}', [ImagenController::class, 'uploadFoto'])
         ->middleware('ability:Imagenes.uploadFoto');
 
     Route::get('/lista/imagenes', [ImagenController::class, 'getListaImagenModelos'])

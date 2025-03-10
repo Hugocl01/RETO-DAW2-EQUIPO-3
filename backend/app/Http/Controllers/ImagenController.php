@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImagenRequest;
 use App\Http\Resources\ImagenResource;
 use App\Models\Imagen;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -47,41 +46,63 @@ class ImagenController extends Controller
      * @OA\Post(
      *     path="/api/imagenes/{model}/{id}",
      *     summary="Subir una imagen a un modelo específico",
-     *     description="Sube una imagen y la asocia a un modelo como `Patrocinador`, `Equipo`, etc.",
+     *     description="Sube una imagen y la asocia a un modelo, por ejemplo, 'Patrocinador' o 'Equipo'. La imagen se almacenará en la carpeta 'imagenes/{model}' dentro del almacenamiento público.",
      *     operationId="uploadFoto",
      *     tags={"Imágenes"},
+     *     security={{"BearerAuth": {}}},
      *     @OA\Parameter(
      *         name="model",
      *         in="path",
+     *         description="Nombre del modelo al que se le asociará la imagen (Ejemplo: 'Patrocinador'). Se usará en la ruta de almacenamiento en minúsculas.",
      *         required=true,
-     *         description="Nombre del modelo al que se le asociará la imagen (Ejemplo: 'Patrocinador')",
-     *         @OA\Schema(type="string", example="Patrocinador")
+     *         @OA\Schema(
+     *             type="string",
+     *             example="patrocinador"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         required=true,
      *         description="ID de la entidad del modelo",
-     *         @OA\Schema(type="integer", example=5)
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
      *     ),
      *     @OA\RequestBody(
      *         required=true,
+     *         description="Imagen a subir",
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 required={"imagen"},
-     *                 @OA\Property(property="imagen", type="string", format="binary")
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen a subir"
+     *                 )
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Imagen subida exitosamente",
-     *         @OA\JsonContent(ref="#/components/schemas/Imagen")
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Foto de patrocinador subida correctamente."),
+     *             @OA\Property(property="ruta", type="string", example="imagenes/patrocinador/imagen1.png"),
+     *             @OA\Property(property="imagen", ref="#/components/schemas/Imagen")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Modelo o entidad no encontrada"
+     *         description="Modelo o entidad no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="El modelo patrocinador no existe o no se encontró la entidad con ID 1.")
+     *         )
      *     )
      * )
      */
@@ -105,9 +126,8 @@ class ImagenController extends Controller
             ], 404);
         }
 
-        $subcarpeta = strtolower($model) . 's';
-        $fecha = date('Y/m/d');
-        $rutaCarpeta = "uploads/{$subcarpeta}/{$fecha}";
+        $subcarpeta = strtolower($model); // El nombre del modelo en minúscula
+        $rutaCarpeta = "imagenes/{$subcarpeta}"; // Nueva ruta
 
         $imagenFile = $request->file('imagen');
         $rutaFichero = $imagenFile->store($rutaCarpeta, 'public');
@@ -235,5 +255,4 @@ class ImagenController extends Controller
             'imagenes' => ImagenResource::collection($imagenes)
         ], 200);
     }
-
 }
