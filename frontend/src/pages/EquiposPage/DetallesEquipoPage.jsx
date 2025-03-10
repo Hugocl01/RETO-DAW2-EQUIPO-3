@@ -72,6 +72,8 @@ function DetallesEquipoPage() {
     navegar(`${location.pathname}/${slug}`);
   }
 
+  console.log(equipo)
+
   return (
     <>
       <title>Detalles del Equipo</title>
@@ -86,7 +88,11 @@ function DetallesEquipoPage() {
                 </h2>
                 <div className="mb-4">
                   <img
-                    src={`${apiUrl}/${equipo.imagenes[0].ruta}`.replace('/api/', '/storage') || imagenDefault}
+                    src={
+                      equipo.imagenes && equipo.imagenes.length > 0
+                        ? `${apiUrl}/${equipo.imagenes[0].ruta}`.replace('/api/', '/storage')
+                        : imagenDefault
+                    }
                     alt={`Imagen del equipo ${equipo.nombre}`}
                     className="img-fluid rounded-3 shadow-sm"
                   />
