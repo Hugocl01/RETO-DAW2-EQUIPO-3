@@ -121,11 +121,6 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/galeria" className={`nav-link px-2 link-body-emphasis ${isActive("/galeria")}`} id="elementoMenu">
-                  GALERÍA
-                </Link>
-              </li>
-              <li>
                 <Link to="/inscribirse" className={`nav-link px-2 link-body-emphasis ${isActive("/inscribirse")}`} id="elementoMenu">
                   INSCRIBIRSE
                 </Link>

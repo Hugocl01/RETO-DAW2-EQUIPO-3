@@ -162,14 +162,6 @@ function AppEnrutador() {
             }
           />
           <Route
-            path="galeria"
-            element={
-              <Suspense fallback={<Spinner />}>
-                <GaleriaPage />
-              </Suspense>
-            }
-          />
-          <Route
             path="inscribirse"
             element={
               <Suspense fallback={<Spinner />}>
