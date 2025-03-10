@@ -99,7 +99,7 @@ function Header() {
                 <ul className="dropdown-menu">
                   <li>
                     <Link to="/partidos" className="dropdown-item">
-                      RESULTADOS
+                      PARTIDOS
                     </Link>
                   </li>
                   <li>
