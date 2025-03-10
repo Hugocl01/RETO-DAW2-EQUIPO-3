@@ -5,7 +5,8 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import ErrorPage from "../ErrorPage";
 import fetchData from "../../data/FetchData";
-import img1 from '../../assets/imagenes/img1.jpg';
+import imagenDefault from "../../assets/imagenes/default.jpg"; // Imagen por defecto
+
 
 /**
  * Componente `DetalleJugadorPage` que muestra los detalles de un jugador, incluyendo su información personal y estadísticas.
@@ -17,7 +18,9 @@ function DetalleJugadorPage() {
   const [jugador, setJugador] = useState(null);
   const location = useLocation();
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   /**
    * Efecto que se ejecuta cuando cambia la ubicación (URL).
@@ -70,7 +73,7 @@ function DetalleJugadorPage() {
         }
       } catch (error) {
         setError({
-          tipo: error.response?.status || error.name,
+          tipo: error.response?.status || error.name || "error",
           mensaje: error.response?.data?.message || "No existe el jugador.",
         });
       } finally {
@@ -131,15 +134,15 @@ function DetalleJugadorPage() {
               {/**
                * Columna para la información del jugador
                */}
-              &lt;div className="col-md-8">
+              &lt;div className="col-md-6">
                 &lt;h3 className="card-title">Información Personal&lt;/h3>
 
                 {/* Información básica */}
                 &lt;p>&lt;strong>Nombre Completo: &lt;/strong>{jugador.nombre}&lt;/p>
                 &lt;p>&lt;strong>Equipo: &lt;/strong>{jugador.equipo}&lt;/p>
-                
+
                 {/* Información del capitán */}
-                {jugador.capitan == "1" &amp;&amp; jugador.equipo &amp;&amp; (
+                {jugador.capitan === "1" &amp;&amp; jugador.equipo &amp;&amp; (
                   &lt;p>
                     &lt;strong>Capitán del equipo: &lt;/strong>
                     &lt;span>{jugador.equipo}&lt;/span>
@@ -162,17 +165,26 @@ function DetalleJugadorPage() {
                 &lt;p>&lt;strong>Tarjetas Amarillas: &lt;/strong>{jugador.stats.tarjetas_amarillas}&lt;/p>
                 &lt;p>&lt;strong>Tarjetas Rojas: &lt;/strong>{jugador.stats.tarjetas_rojas}&lt;/p>
                 &lt;p>&lt;strong>Faltas: &lt;/strong>{jugador.stats.faltas}&lt;/p>
-
               &lt;/div>
+
               {/*
                * Columna para la foto del jugador
                */}
-              &lt;div className="col-md-4 d-flex justify-content-center">
+              &lt;div className="col-md-6 d-flex justify-content-center">
                 &lt;img
-                  src={img1}
+                  src={
+                    jugador.imagenes &amp;&amp; jugador.imagenes.length > 0
+                      ? `${apiUrl}/${jugador.imagenes[0].ruta}`.replace('/api/', '/storage')
+                      : imagenDefault
+                  }
                   alt={`${jugador.nombre}`}
-                  className="img-fluid mb-3"
-                  style={{ maxWidth: "80%" }}
+                  className="mb-3"
+                  style={{
+                    maxWidth: "100%", // Asegura que la imagen no sobrepase el contenedor
+                    height: "auto",   // Mantiene la relación de aspecto
+                    objectFit: "cover", // Asegura que la imagen cubra el contenedor sin deformarse
+                    borderRadius: "8px", // (opcional) Estilo adicional si deseas bordes redondeados
+                  }}
                 />
               &lt;/div>
             &lt;/div>
