@@ -10,6 +10,7 @@ use App\Models\Equipo;
 use App\Models\Usuario;
 use App\Models\Patrocinador;
 use App\Models\Reto;
+use App\Models\Publicacion;
 
 class ImagenSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class ImagenSeeder extends Seeder
         // O que la referencia al 'nombre' coincide con el que pusiste en tu PatrocinadorSeeder.
 
         // 1) Mapeo manual: 'nombrePatrocinador' => 'nombreDelArchivo'
+
         $imagenesPorPatrocinador = [
             'CEINOR' => 'ceinor-20.png',
             'DISGARSA' => 'disgarsa logo.png',
@@ -47,11 +49,13 @@ class ImagenSeeder extends Seeder
             }
         }
 
+
         // Imagenes de los retos
         // Los estudio_id estan en RetoSeeder.php
         // estudio_id => 'archivo'
         $imagenesRetos = [
-            '10' => 'retoDAW.jpg',
+            '17' => '17-OCA.jpeg',
+            '15' => 'foodtruck1.jpeg'
         ];
 
         foreach ($imagenesRetos as $reto_estudio_id => $archivoImagen) {
@@ -66,6 +70,25 @@ class ImagenSeeder extends Seeder
                 ]);
             }
         }
-    }
+        // Imagenes de publicaciones
+        // Los estudio_id estan en RetoSeeder.php
+        // estudio_id => 'archivo'
+        $imagenesPu = [
+            '1' => 'anuncio2.jpg'
 
+        ];
+
+        foreach ($imagenesPu as $publi_id => $archivoImagen) {
+            $publi = Publicacion::where('id', $publi_id)->first();
+
+            if ($publi) {
+                Imagen::create([
+                    'nombre' => $archivoImagen,
+                    'ruta' => "imagenes/publicaciones/$archivoImagen", // la carpeta en public/storage
+                    'imagenable_id' => $publi->id,
+                    'imagenable_type' => Publicacion::class,
+                ]);
+            }
+        }
+    }
 }

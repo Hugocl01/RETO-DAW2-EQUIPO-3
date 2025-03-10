@@ -21,10 +21,10 @@ class PublicacionSeeder extends Seeder
         */
 
         DB::table('publicaciones')->insert([
-            'titulo' => 'Publicación 1',
-            'contenido' => '<p>Contenido de la publicación 1. <strong>Puede incluir HTML.</strong></p>',
+            'titulo' => 'Comienza el Torneo Solidario',
+            'contenido' => '<p>Aquí tienes la información de los  <strong>Partidos</strong></p>',
             'publicacionable_id' => 1,  // Se introsuce el id del objeto relacionado
-            'publicacionable_type' => 'App\\Models\\Jugador', // Cambia 'App\\Models\\(Nombre del modelo relacionado)'
+            'publicacionable_type' => 'App\\Models\\Pabellon', // Cambia 'App\\Models\\(Nombre del modelo relacionado)'
             // {Equipo, Partido, Patrocinador, Jugador, Ong, Pabellon, Reto}
             'portada' => true,
             'usuario_creador_id' => 1, // Suponiendo que el creador es el usuario con ID 1

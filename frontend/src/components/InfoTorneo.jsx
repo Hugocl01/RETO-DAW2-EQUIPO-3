@@ -1,4 +1,4 @@
-import imagenPrueba from "../assets/imagenes/img1.jpg";
+import imagenPrueba from "../assets/imagenes/anuncio.jpg";
 import logo from "../assets/imagenes/logo.png";
 import reglas from "../../public/reglas.pdf";
 import "./css/EstilosComun.css";

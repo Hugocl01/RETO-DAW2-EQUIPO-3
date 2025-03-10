@@ -16,27 +16,31 @@ class EquipoSeeder extends Seeder
      */
     public function run(): void
     {
-        $centros = Centro::all()->pluck('id');
+       $centros = Centro::all()->pluck('id');
         $usuarios = Usuario::all()->pluck('id');
+        $c_besaya = Centro::find(1)->id;
+        $c_zapa=Centro::find(3)->id;
+        $c_miguel=Centro::find(2)->id;
+        $c_todo=Centro::find(4)->id;
 
         if ($centros->isEmpty()) {
             throw new \Exception("No hay centros disponibles en la base de datos.");
         }
 
         $equiposGrupoA = [
-            ['nombre' => 'Equipo A1', 'slug' => Str::slug('Equipo A1'), 'centro_id' => $centros->random(), 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo A2', 'slug' => Str::slug('Equipo A2'), 'centro_id' => $centros->random(), 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo A3', 'slug' => Str::slug('Equipo A3'), 'centro_id' => $centros->random(), 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo A4', 'slug' => Str::slug('Equipo A4'), 'centro_id' => $centros->random(), 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo A5', 'slug' => Str::slug('Equipo A5'), 'centro_id' => $centros->random(), 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Los Zapa-autómatas', 'slug' => Str::slug('Los Zapa-autómatas'), 'centro_id' => $c_zapa, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Los Acoples FC', 'slug' => Str::slug('Los Acoples FC'), 'centro_id' => $c_zapa, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Los Galácticos de Montepinar', 'slug' => Str::slug('Los Galácticos de Montepinar'), 'centro_id' => $c_miguel, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Leones de Carrocería FC', 'slug' => Str::slug('Leones de Carrocería FC'), 'centro_id' => $c_miguel, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Los Leones del Besaya', 'slug' => Str::slug('Los Leones del Besaya'), 'centro_id' => $c_besaya, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
         ];
 
         $equiposGrupoB = [
-            ['nombre' => 'Equipo B1', 'slug' => Str::slug('Equipo B1'), 'centro_id' => $centros->random(), 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo B2', 'slug' => Str::slug('Equipo B2'), 'centro_id' => $centros->random(), 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo B3', 'slug' => Str::slug('Equipo B3'), 'centro_id' => $centros->random(), 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo B4', 'slug' => Str::slug('Equipo B4'), 'centro_id' => $centros->random(), 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
-            ['nombre' => 'Equipo B5', 'slug' => Str::slug('Equipo B5'), 'centro_id' => $centros->random(), 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Grafcet FC', 'slug' => Str::slug('Grafcet FC'), 'centro_id' => $c_zapa, 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Oxido Cero', 'slug' => Str::slug('Oxido Cero'), 'centro_id' => $c_miguel, 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Xabineta', 'slug' => Str::slug('Xabineta'), 'centro_id' => $c_besaya, 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Te Miro y Te Integro', 'slug' => Str::slug('Te Miro y Te Integro'), 'centro_id' => $c_besaya, 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Equipo Olímpico', 'slug' => Str::slug('Equipo Olímpico'), 'centro_id' => $c_todo, 'grupo' => 'B', 'usuario_id' => $usuarios->random()],
         ];
 
         Equipo::insert(array_merge($equiposGrupoA, $equiposGrupoB));
