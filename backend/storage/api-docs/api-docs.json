@@ -1552,17 +1552,17 @@
                     "Imágenes"
                 ],
                 "summary": "Subir una imagen a un modelo específico",
-                "description": "Sube una imagen y la asocia a un modelo como `Patrocinador`, `Equipo`, etc.",
+                "description": "Sube una imagen y la asocia a un modelo, por ejemplo, 'Patrocinador' o 'Equipo'. La imagen se almacenará en la carpeta 'imagenes/{model}' dentro del almacenamiento público.",
                 "operationId": "uploadFoto",
                 "parameters": [
                     {
                         "name": "model",
                         "in": "path",
-                        "description": "Nombre del modelo al que se le asociará la imagen (Ejemplo: 'Patrocinador')",
+                        "description": "Nombre del modelo al que se le asociará la imagen (Ejemplo: 'Patrocinador'). Se usará en la ruta de almacenamiento en minúsculas.",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "Patrocinador"
+                            "example": "patrocinador"
                         }
                     },
                     {
@@ -1572,11 +1572,12 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "example": 5
+                            "example": 1
                         }
                     }
                 ],
                 "requestBody": {
+                    "description": "Imagen a subir",
                     "required": true,
                     "content": {
                         "multipart/form-data": {
@@ -1586,6 +1587,7 @@
                                 ],
                                 "properties": {
                                     "imagen": {
+                                        "description": "Archivo de imagen a subir",
                                         "type": "string",
                                         "format": "binary"
                                     }
@@ -1601,15 +1603,54 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Imagen"
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Foto de patrocinador subida correctamente."
+                                        },
+                                        "ruta": {
+                                            "type": "string",
+                                            "example": "imagenes/patrocinador/imagen1.png"
+                                        },
+                                        "imagen": {
+                                            "$ref": "#/components/schemas/Imagen"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Modelo o entidad no encontrada"
+                        "description": "Modelo o entidad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El modelo patrocinador no existe o no se encontró la entidad con ID 1."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/imagenes/{id}": {
