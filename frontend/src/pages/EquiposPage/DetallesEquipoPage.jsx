@@ -72,8 +72,6 @@ function DetallesEquipoPage() {
     navegar(`${location.pathname}/${slug}`);
   }
 
-  console.log(equipo)
-
   return (
     <>
       <title>Detalles del Equipo</title>
