@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner";
 import TablaPartidos from "../../components/Partidos/TablaPartidos";
-import ErrorPage from "../ErrorPage";
+import Error from "../../components/Error"
 import "../../core/CSS/PartidosPage.css";
 import "../../components/css/EstilosComun.css";
 import fetchData from "../../data/FetchData";
@@ -80,7 +80,12 @@ function PartidosPage() {
      * Si no hay datos, realizo la llamada a la api
      */
     if (obtenerPartidosSession) {
-      setPartidos(JSON.parse(obtenerPartidosSession));
+      const partidosSession = JSON.parse(obtenerPartidosSession);
+      if (partidosSession.length === 0) {
+        setError({ tipo: "NoData", mensaje: "No hay partidos disponibles" });
+      } else {
+        setPartidos(partidosSession);
+      }
       setCargando(false);
     } else {
       obtenerPartidos();
@@ -92,7 +97,7 @@ function PartidosPage() {
    * Enseño la página de error, cuando haya una página de error
    */
   if (error) {
-    return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
+    return <Error tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
   /**
@@ -118,6 +123,22 @@ function PartidosPage() {
     } else {
       setGrupos(valor);
     }
+  }
+
+  /**
+   * Si no hay partidos, mostramos un mensaje.
+   */
+  if (!partidos || partidos.length === 0) {
+    return (
+      <section className="container-fluid my-5 mx-auto w-75 min-vh-100">
+        <div className="row">
+          <h1 className="mx-auto w-auto text-center">Resultados</h1>
+        </div>
+        <section className="row mt-4">
+          <p className="text-center">No hay partidos disponibles en este momento.</p>
+        </section>
+      </section>
+    );
   }
 
   return (
@@ -157,17 +178,12 @@ function PartidosPage() {
           </div>
         </section>
 
-        {/**
-         * No se mostrará mientras no hayas seleccionado una opción válida
-         */}
         <section className="row">
-          <>
-            <TablaPartidos
-              tipo={opcionPartidos}
-              grupo={opcionGrupos}
-              partidos={partidos}
-            />
-          </>
+          <TablaPartidos
+            tipo={opcionPartidos}
+            grupo={opcionGrupos}
+            partidos={partidos}
+          />
         </section>
       </section>
     </>

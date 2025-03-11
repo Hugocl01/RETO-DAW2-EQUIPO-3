@@ -88,7 +88,11 @@ function DetallesEquipoPage() {
                 &lt;/h2>
                 &lt;div className="mb-4">
                   &lt;img
-                    src={`${apiUrl}/${equipo.imagenes[0].ruta}`.replace('/api/', '/storage') || imagenDefault}
+                    src={
+                      equipo.imagenes &amp;&amp; equipo.imagenes.length > 0
+                        ? `${apiUrl}/${equipo.imagenes[0].ruta}`.replace('/api/', '/storage')
+                        : imagenDefault
+                    }
                     alt={`Imagen del equipo ${equipo.nombre}`}
                     className="img-fluid rounded-3 shadow-sm"
                   />
