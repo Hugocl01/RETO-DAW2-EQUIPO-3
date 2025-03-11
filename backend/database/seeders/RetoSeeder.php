@@ -24,7 +24,7 @@ class RetoSeeder extends Seeder
             ],
             [
                 'titulo' => 'Monitorización cardiaca y aviso a emergencias',
-                'texto' => 'El sistema mide el ritmo cardíaco de un jugador y, si entraña riesgo para su salud, envía un WhatsApp al árbitro, al móvil o, en su defecto, a un smartwatch, y a urgencias para que pare el juego y se actúe en consecuencia. Si en las gradas un espectador sufre un paro cardíaco, disponemos de un pulsador que también activa todo este protocolo de emergencia, cumpliendo con la nueva normativa en los estadios.',
+                'texto' => 'El sistema mide el ritmo cardíaco de un juççgador y, si entraña riesgo para su salud, envía un WhatsApp al árbitro, al móvil o, en su defecto, a un smartwatch, y a urgencias para que pare el juego y se actúe en consecuencia. Si en las gradas un espectador sufre un paro cardíaco, disponemos de un pulsador que también activa todo este protocolo de emergencia, cumpliendo con la nueva normativa en los estadios.',
                 'estudio_id' => 3
             ],
             [

@@ -42,6 +42,17 @@ class PublicacionSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('publicaciones')->insert([
+            'titulo' => 'Compra nuestros jabones',
+            'contenido' => '<p>Esperamos que os guste <strong>nuestros diseños</strong></p>',
+            'publicacionable_id' => 5, // Otro ID de entidad relacionada
+            'publicacionable_type' => 'App\\Models\\Reto', // Tipo de modelo relacionado
+            'portada' => true,
+            'usuario_creador_id' => 2,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 /*
         DB::table('publicaciones')->insert([
             'titulo' => 'Publicación 3',

@@ -55,7 +55,12 @@ class ImagenSeeder extends Seeder
         // estudio_id => 'archivo'
         $imagenesRetos = [
             '17' => '17-OCA.jpeg',
-            '15' => 'foodtruck1.jpeg'
+            '15' => 'foodtruck1.jpeg',
+            '1'=>'entrenamiento1.jpg',
+            '5'=>'jabones.jpg',
+            '10'=>'web1.jpg',
+            '12'=>'vehiculo.jpg'
+
         ];
 
         foreach ($imagenesRetos as $reto_estudio_id => $archivoImagen) {
@@ -71,10 +76,12 @@ class ImagenSeeder extends Seeder
             }
         }
         // Imagenes de publicaciones
-        // Los estudio_id estan en RetoSeeder.php
+        // Los estudio_id estan en RetoSeeder.
         // estudio_id => 'archivo'
         $imagenesPu = [
-            '1' => 'anuncio2.jpg'
+            '1' => 'anuncio2.jpg',
+            '2' => '17-OCA.jpeg',
+            '3' =>'jabon.jpg'
 
         ];
 
