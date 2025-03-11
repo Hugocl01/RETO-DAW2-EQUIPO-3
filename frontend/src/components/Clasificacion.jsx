@@ -39,6 +39,7 @@ function Clasificacion() {
         cargarInformacion();
     }, []);
 
+    console.log(equiposA)
     // Muestra un spinner mientras se cargan los datos
     if (!equiposB.length && !equiposA.length) {
         return <Spinner />;

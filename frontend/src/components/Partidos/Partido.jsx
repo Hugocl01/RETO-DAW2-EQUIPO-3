@@ -46,7 +46,7 @@ function Partido({ tipo, objPartido, fnNavegar }) {
          * Muestro el tipo de partido si no es 'clasificatorio'
          */}
         {tipo !== "clasificatorio" && tipo !== "" ? <h4>{partido.tipo.toUpperCase()}</h4> : ""}
-        <h5 className="w-100 text-center m-0">{`Partido: ${partido["equipo local"].nombre} vs ${partido["equipo visitante"].nombre}`}</h5>
+        <h5 className="w-100 text-center m-0">{`${partido["equipo local"].nombre} vs ${partido["equipo visitante"].nombre}`}</h5>
       </div>
       <div
         id={collapseId}
