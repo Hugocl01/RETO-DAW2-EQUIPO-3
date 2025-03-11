@@ -9,6 +9,6 @@ class PatrocinadorEquipoSeeder extends Seeder
 {
     public function run()
     {
-        PatrocinadorEquipo::factory()->count(10)->create();
+       // PatrocinadorEquipo::factory()->count(10)->create();
     }
 }

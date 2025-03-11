@@ -33,16 +33,16 @@ class PublicacionSeeder extends Seeder
         ]);
 
         DB::table('publicaciones')->insert([
-            'titulo' => 'Publicación 2',
-            'contenido' => '<p>Contenido de la publicación 2. <strong>Puede incluir HTML.</strong></p>',
-            'publicacionable_id' => 2, // Otro ID de entidad relacionada
-            'publicacionable_type' => 'App\\Models\\Jugador', // Tipo de modelo relacionado
+            'titulo' => 'Juega con Nosotros',
+            'contenido' => '<p><strong>El juego de la OCA </strong> es un clásico juego de mesa que ha entretenido a generaciones de jugadores.</p>',
+            'publicacionable_id' => 17, // Otro ID de entidad relacionada
+            'publicacionable_type' => 'App\\Models\\Reto', // Tipo de modelo relacionado
             'portada' => true,
             'usuario_creador_id' => 2,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+/*
         DB::table('publicaciones')->insert([
             'titulo' => 'Publicación 3',
             'contenido' => '<p>Contenido de la publicación 3. <strong>Puede incluir HTML.</strong></p>',
@@ -86,5 +86,6 @@ class PublicacionSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        */
     }
 }

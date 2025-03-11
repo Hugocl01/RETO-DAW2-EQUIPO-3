@@ -44,11 +44,14 @@ class EquipoSeeder extends Seeder
         ];
 
         Equipo::insert(array_merge($equiposGrupoA, $equiposGrupoB));
-
+        /* que no genere los participantes
         Equipo::all()->each(function ($equipo) {
+
+
             Jugador::factory()->count(10)->create([
                 'equipo_id' => $equipo->id
             ]);
         });
+        */
     }
 }

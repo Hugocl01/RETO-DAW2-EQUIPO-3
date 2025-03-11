@@ -13,6 +13,11 @@ class DonacionesSeeder extends Seeder
      */
     public function run(): void
     {
-        Donacion::factory()->count(10)->create();
+        $donacion = new Donacion();
+        $donacion->ong_id = 1;
+        $donacion->kilos = 0;
+        $donacion->importe = 0;
+        $donacion->save();
+        $this->command->info('tabla donaciones inicializada');
     }
 }

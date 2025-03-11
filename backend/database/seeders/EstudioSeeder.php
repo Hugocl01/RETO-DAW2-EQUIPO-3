@@ -35,6 +35,27 @@ class EstudioSeeder extends Seeder
             ['centro_id' => 3, 'ciclo_id' => 12, 'curso' => 2],
             ['centro_id' => 3, 'ciclo_id' => 13, 'curso' => 2],
             ['centro_id' => 3, 'ciclo_id' => 14, 'curso' => 2],
+            // Todo
+            ['centro_id' => 4, 'ciclo_id' => 1, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 1, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 2, 'curso' => 1],
+
+            ['centro_id' => 4, 'ciclo_id' => 3, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 3, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 3, 'curso' => 1],
+
+            ['centro_id' => 4, 'ciclo_id' => 4, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 5, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 6, 'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 7, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 8, 'curso' => 1],
+
+            ['centro_id' => 4, 'ciclo_id' => 9, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 10,'curso' => 1],
+            ['centro_id' => 4, 'ciclo_id' => 11, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 12, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 13, 'curso' => 2],
+            ['centro_id' => 4, 'ciclo_id' => 14, 'curso' => 2]
         ];
 
         foreach ($estudios as $estudio) {

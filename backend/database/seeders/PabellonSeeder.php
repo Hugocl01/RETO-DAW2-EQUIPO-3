@@ -9,7 +9,10 @@ class PabellonSeeder extends Seeder
 {
     public function run()
     {
-        Pabellon::factory()->count(10)->create();
+        $pabellon = new Pabellon();
+        $pabellon->nombre = "Pabellón Municipal Habana Vieja";
+        $pabellon->direccion = "Calle Pintor Varela,Torrelavega";
+        $pabellon->save();
+        $this->command->info('tabla pabellones inicializada');
     }
 }
-
