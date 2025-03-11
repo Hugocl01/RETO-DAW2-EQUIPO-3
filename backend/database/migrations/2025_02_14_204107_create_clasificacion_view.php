@@ -49,7 +49,10 @@ return new class extends Migration
                         END
                     ) AS diferencia_goles
                 FROM equipos e
-                LEFT JOIN partidos p ON e.id = p.equipo_local_id OR e.id = p.equipo_visitante_id
+                LEFT JOIN partidos p
+                ON (e.id = p.equipo_local_id OR e.id = p.equipo_visitante_id)
+                AND p.goles_local IS NOT NULL
+                AND p.goles_visitante IS NOT NULL
                 WHERE e.grupo = 'A'
                 GROUP BY e.id, e.nombre
             )
@@ -97,7 +100,10 @@ return new class extends Migration
                         END
                     ) AS diferencia_goles
                 FROM equipos e
-                LEFT JOIN partidos p ON e.id = p.equipo_local_id OR e.id = p.equipo_visitante_id
+                LEFT JOIN partidos p
+                ON (e.id = p.equipo_local_id OR e.id = p.equipo_visitante_id)
+                AND p.goles_local IS NOT NULL
+                AND p.goles_visitante IS NOT NULL
                 WHERE e.grupo = 'B'
                 GROUP BY e.id, e.nombre
             )
