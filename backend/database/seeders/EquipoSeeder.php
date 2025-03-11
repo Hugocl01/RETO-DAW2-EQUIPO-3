@@ -28,7 +28,7 @@ class EquipoSeeder extends Seeder
         }
 
         $equiposGrupoA = [
-            ['nombre' => 'Los Zapa-autómatas', 'slug' => Str::slug('Los Zapa-autómatas'), 'centro_id' => $c_zapa, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
+            ['nombre' => 'Los Zapa-autómatas', 'slug' => Str::slug('Los Zapa-autómatas'), 'centro_id' => $c_zapa, 'grupo' => 'A', 'usuario_id' => 5],
             ['nombre' => 'Los Acoples FC', 'slug' => Str::slug('Los Acoples FC'), 'centro_id' => $c_zapa, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
             ['nombre' => 'Los Galácticos de Montepinar', 'slug' => Str::slug('Los Galácticos de Montepinar'), 'centro_id' => $c_miguel, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],
             ['nombre' => 'Leones de Carrocería FC', 'slug' => Str::slug('Leones de Carrocería FC'), 'centro_id' => $c_miguel, 'grupo' => 'A', 'usuario_id' => $usuarios->random()],

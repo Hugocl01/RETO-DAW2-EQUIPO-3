@@ -44,5 +44,14 @@ class UsuarioSeeder extends Seeder
             'usuario_creador_id' => 1,
             'perfil_id' => 4,
         ]);
+
+        // Entrenadores de los equipos
+        Usuario::create([
+            'nombre_completo' => 'Entrenador ejemplo',
+            'email' => 'entrenador@hotmail.es',
+            'password' => bcrypt('adminadmin'),
+            'usuario_creador_id' => 1,
+            'perfil_id' => 2, // !IMPORTANTE es el tipo de usuario para que sea entrenador = 2
+        ]);
     }
 }
