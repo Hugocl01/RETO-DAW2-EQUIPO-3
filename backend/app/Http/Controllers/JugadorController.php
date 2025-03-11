@@ -46,6 +46,7 @@ class JugadorController extends Controller
         if ($jugadores->isEmpty()) {
             return response()->json([
                 'status' => 'error',
+                'jugadores' => [],
                 'message' => 'No hay equipos registrados.'
             ], 404);
         }

@@ -7,23 +7,7 @@ import "../../components/css/Tabla.css";
 import ErrorPage from "../Error";
 import fetchData from "../../data/FetchData";
 
-/**
- * Componente para mostrar una tabla de jugadores con sus estadísticas.
- * Permite ordenar los jugadores por goles, tarjetas amarillas y tarjetas rojas, y filtrar por nombre.
- *
- * @component
- * @returns {JSX.Element} Componente de tabla de jugadores.
- */
 function TablaJugadores() {
-  /**
-   * Creo varios estados
-   * Estado para guardar la lista de jugadores
-   * Estado para guardar la página actual en la que se encuentra el usuario
-   * Estado para guardar el número de jugadores que hay en total
-   * Estado para cuando, esté cargando los datos de la api, aparezca un spinner
-   * Estado para guardar el orden de filtrado, con la columna afectada
-   * Estado para guardar el nombre del jugador que introduzco en el filtro
-   */
   const [jugadores, setJugadores] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalJugadores, setTotalJugadores] = useState(0);
@@ -33,29 +17,21 @@ function TablaJugadores() {
   const [error, setError] = useState();
   const navegar = useNavigate();
 
-  /**
-   * Número de jugadores a mostrar en cada página
-   */
   const jugadoresPorPagina = 10;
 
-  /**
-   * Se ejecutará en cuanto cargue la página
-   */
   useEffect(() => {
     const cargarJugadores = async () => {
       try {
         const resultado = await fetchData("jugadores");
-        if (resultado.status === "success") {
+        if (resultado.status === "success" && resultado.jugadores.length > 0) {
           sessionStorage.setItem("jugadores", JSON.stringify(resultado.jugadores));
-
           const jugadoresOrdenados = [...resultado.jugadores].sort(
             (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
           );
-
           setJugadores(jugadoresOrdenados);
           setTotalJugadores(jugadoresOrdenados.length);
         } else {
-          setError({ tipo: "error", mensaje: "Hubo un problema al obtener los jugadores." });
+          setJugadores([]);
         }
       } catch (error) {
         setError({
@@ -72,7 +48,6 @@ function TablaJugadores() {
       const jugadoresOrdenados = JSON.parse(jugadoresGuardados).sort(
         (equipoA, equipoB) => equipoB.stats.goles - equipoA.stats.goles
       );
-
       setJugadores(jugadoresOrdenados);
       setTotalJugadores(jugadoresOrdenados.length);
       setCargando(false);
@@ -83,107 +58,17 @@ function TablaJugadores() {
     window.scrollTo(0, 0);
   }, []);
 
-  /**
-   * Mientras cargue los datos, muestro el spinner
-   */
-
   if (cargando) {
     return <Spinner />;
   }
 
-  /**
-  * Enseño la página de error, cuando haya una página de error
-  */
   if (error) {
     return <ErrorPage tipo={error.tipo} mensaje={error.mensaje} />;
   }
 
-  /**
-   * Función para navegar a la vista detallada de un equipo.
-   *
-   * @param {string} slug - Identificador único del equipo.
-   */
-  function navegarDetalleEquipo(slug) {
-    navegar(`/estadisticas/${slug}`);
+  if (jugadores.length === 0) {
+    return <div className="alert alert-warning text-center">No hay jugadores disponibles.</div>;
   }
-
-  /**
-   * Función para navegar a la vista detallada de un jugador.
-   *
-   * @param {string} slug - Identificador único del jugador.
-   */
-  function navegarDetalleJugador(slug) {
-    navegar(`/estadisticas/${slug}`);
-  }
-
-  /**
-   * Función que obtiene los jugadores de cada página.
-   *
-   * @param {Array} jugadores - Lista de jugadores.
-   * @param {number} paginaActual - Página actual.
-   * @param {number} jugadoresPorPagina - Número de jugadores por página.
-   * @returns {Array} Jugadores de la página actual.
-   */
-  function obtenerJugadoresPaginados(jugadores, paginaActual, jugadoresPorPagina) {
-    const ultimoJugador = paginaActual * jugadoresPorPagina;
-    const primerJugador = ultimoJugador - jugadoresPorPagina;
-    return jugadores.slice(primerJugador, ultimoJugador);
-  }
-
-  /**
-   * Función que avanza a la siguiente página.
-   */
-  const siguientePagina = () => {
-    if (paginaActual < Math.ceil(totalJugadores / jugadoresPorPagina)) {
-      setPaginaActual(paginaActual + 1);
-    }
-  };
-
-  /**
-   * Función que retrocede a la página anterior.
-   */
-  const paginaAnterior = () => {
-    if (paginaActual > 1) {
-      setPaginaActual(paginaActual - 1);
-    }
-  };
-
-  /**
-   * Función que ordena los jugadores por un campo específico.
-   *
-   * @param {Object} e - Evento del clic.
-   */
-  function ordenarCampo(e) {
-    let campo = e.currentTarget.dataset.campo;
-    const direccion = orden.campo === campo && orden.direccion === "asc" ? "desc" : "asc";
-    setOrden({ campo, direccion });
-
-    const jugadoresOrdenados = [...jugadores].sort((a, b) => {
-      let valorA = a.stats[campo] || 0;
-      let valorB = b.stats[campo] || 0;
-      return direccion === "asc" ? valorA - valorB : valorB - valorA;
-    });
-
-    setJugadores(jugadoresOrdenados);
-    setPaginaActual(1);
-  }
-
-  /**
-   * Función manejadora para el cambio en el filtro de búsqueda.
-   *
-   * @param {Object} e - Evento del input.
-   */
-  function handlerChange(e) {
-    setFiltro(e.target.value.toLowerCase());
-    setPaginaActual(1);
-  }
-
-  /**
-   * Devuelve los jugadores que coinciden con el filtro de búsqueda.
-   */
-  const jugadoresFiltrados = jugadores.filter(jugador =>
-    jugador.nombre.toLowerCase().includes(filtro)
-  );
 
   return (
     <>
@@ -194,7 +79,7 @@ function TablaJugadores() {
               type="text"
               className="form-control"
               placeholder="Buscar por nombre..."
-              onChange={handlerChange}
+              onChange={(e) => setFiltro(e.target.value.toLowerCase())}
             />
           </div>
         </div>
@@ -202,25 +87,23 @@ function TablaJugadores() {
           <div className="col-5 col-md-6 text-center font-weight-bold cursor-pointer h5">
             <p>Nombre</p>
           </div>
-          <div className="col-3 col-md-2 text-center cursor-pointer h5" data-campo="goles" onClick={ordenarCampo}>
-            <p>Goles</p> {orden.campo === "goles" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          <div className="col-3 col-md-2 text-center cursor-pointer h5" data-campo="goles">
+            <p>Goles</p>
           </div>
-          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_amarillas" onClick={ordenarCampo}>
-            <p>Amarillas</p> {orden.campo === "tarjetas_amarillas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_amarillas">
+            <p>Amarillas</p>
           </div>
-          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas" onClick={ordenarCampo}>
-            <p>Rojas</p> {orden.campo === "tarjetas_rojas" ? (orden.direccion === "asc" ? "⬆" : "⬇") : ""}
+          <div className="col-2 col-md-2 text-center cursor-pointer h5" data-campo="tarjetas_rojas">
+            <p>Rojas</p>
           </div>
         </div>
-        {obtenerJugadoresPaginados(jugadoresFiltrados, paginaActual, jugadoresPorPagina).map(jugador => (
-          <Jugador key={jugador.slug} jugador={jugador} fnNavegarEquipo={navegarDetalleEquipo} fnNavegarJugador={navegarDetalleJugador} />
-        ))}
-        <Paginador
-          paginaActual={paginaActual}
-          totalPaginas={Math.ceil(jugadoresFiltrados.length / jugadoresPorPagina)}
-          siguientePagina={siguientePagina}
-          paginaAnterior={paginaAnterior}
-        />
+        {jugadores.length === 0 ? (
+          <div className="alert alert-warning text-center">No hay jugadores disponibles.</div>
+        ) : (
+          jugadores.map((jugador) => (
+            <Jugador key={jugador.slug} jugador={jugador} />
+          ))
+        )}
       </div>
     </>
   );
