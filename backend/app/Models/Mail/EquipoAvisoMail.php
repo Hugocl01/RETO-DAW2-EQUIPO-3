@@ -7,6 +7,16 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Inscripcion;
 
+/**
+ * @OA\Schema(
+ *   schema="EquipoAvisoMail",
+ *   type="object",
+ *   required={"inscripcion", "nuevo_estado"},
+ *   @OA\Property(property="inscripcion", type="object", ref="#/components/schemas/Inscripcion"),
+ *   @OA\Property(property="nuevo_estado", type="string"),
+ *   @OA\Property(property="token", type="string", nullable=true)
+ * )
+ */
 class EquipoAvisoMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -33,6 +43,6 @@ class EquipoAvisoMail extends Mailable
     public function build()
     {
         return $this->subject('Inscripción Aprobada')
-                    ->markdown('emails.aviso_aprobacion');
+            ->markdown('emails.aviso_aprobacion');
     }
 }

@@ -16,6 +16,10 @@ namespace App\Http\Controllers;
  *         url="http://localhost:8000/",
  *         description="Servidor de Desarrollo"
  *     ),
+ *     @OA\Server(
+ *         url="http://www.golesqueayudan.com",
+ *         description="Servidor de Producción"
+ *     ),
  *     @OA\Components(
  *         @OA\SecurityScheme(
  *             securityScheme="BearerAuth",
