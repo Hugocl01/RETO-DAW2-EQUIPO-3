@@ -198,7 +198,7 @@ function Header() {
       <div className="sidebar p-2" ref={sidenavRef} onClick={(e) => e.stopPropagation()}>
         <div className="flex-grow-0" id="logoSidebar">
           <Link to="/">
-            <img src="../src/assets/imagenes/logo.png" alt="Logo" />
+            <img src={logo} alt="Logo" />
           </Link>
         </div>
 
