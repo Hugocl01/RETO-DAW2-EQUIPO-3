@@ -49,8 +49,7 @@ function Inicio() {
         // Obtener las donaciones
         const obtenerDonaciones = async () => {
             try {
-                const respuesta = await fetch("/api/donaciones");
-                const data = await respuesta.json();
+                const data = await fetchData("donaciones");
                 if (data.status === "success") {
                     setDonaciones(data.donaciones);
                 }
@@ -63,8 +62,7 @@ function Inicio() {
         // Obtener publicaciones
         const obtenerPublicaciones = async () => {
             try {
-                const respuesta = await fetch("/api/publicaciones");
-                const data = await respuesta.json();
+                const data = await fetchData("publicaciones");
                 if (data.status === "success") {
                     const publicacionesPortada = data.publicaciones.filter(
                         (publicacion) =>
@@ -81,8 +79,7 @@ function Inicio() {
         // Obtener retos
         const obtenerRetos = async () => {
             try {
-                const respuesta = await fetch("/api/retos");
-                const data = await respuesta.json();
+                const data = await fetchData("retos");
                 if (data.status === "success") {
                     const retosValidos = data.retos.filter((reto) => reto && reto.texto);
                     setRetos(retosValidos);
@@ -96,8 +93,7 @@ function Inicio() {
         // Obtener patrocinadores
         const obtenerPatrocinadores = async () => {
             try {
-                const respuesta = await fetch("/api/patrocinadores");
-                const data = await respuesta.json();
+                const data = await fetchData("patrocinadores");
                 if (data.status === "success") {
                     setPatrocinadores(data.patrocinadores);
                 }
